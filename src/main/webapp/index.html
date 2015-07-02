@@ -18,6 +18,10 @@
     </style>
     <script src="http://js.arcgis.com/3.13/"></script> 
     <script> 
+	  dojoConfig = {
+	    	      locale: "en",
+	    	      parseOnLoad: true	    	     
+	    	    };     
       var map;
 
       require([ 
@@ -34,6 +38,7 @@
         "esri/InfoTemplate",         
         "esri/layers/LabelLayer",  
         "dojo/_base/Color",
+		"dojo/on",
         "dojo/domReady!",
         "dijit/layout/BorderContainer", 
         "dijit/layout/ContentPane"
@@ -41,7 +46,7 @@
       ], function( 
         Map, Scalebar, parser, Extent, FeatureLayer, 
         SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, InfoTemplate,   
-        LabelLayer, Color 
+        LabelLayer, Color, on
       ) 
       { 
 
@@ -53,10 +58,23 @@
           slider:false,
           showAttribution: false,
           logo:false
-        });
+        });		           
 
-         var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer")      
-        map.addLayer(dynamicMSLayer); 
+         var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer")  
+		
+        map.addLayer(dynamicMSLayer);
+		
+		  // Configure application manually by telling the API that the server supports CORS
+	    //esriConfig.defaults.io.corsEnabledServers.push("http://services.arcgisonline.com");
+		
+		map.on("load", function(){         
+          map.disableMapNavigation();
+          map.disableKeyboardNavigation();
+          map.disablePan();
+          map.disableRubberBandZoom();
+          map.disableScrollWheelZoom();
+        }); 
+				 
       }); 
     </script> 
   </head> 
@@ -100,4 +118,4 @@
          </div>
       </div>       
   </body>  
-</html>  
+</html>
