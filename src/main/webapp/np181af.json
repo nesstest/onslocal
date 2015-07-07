@@ -1,0 +1,65 @@
+{
+	"areas":[
+	{
+		"area": "W00008440",
+		"areacode": "OA11CD",
+		"areaname": "OA11NM",
+		"arealayername": "OA_2011_EW_BGC_V2",
+		"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
+		"envelope": "333070:189697:334303:190842",
+		"extcode": "W00008440",
+		"hierarchycode": "2011SOA",
+		"levelname": "OA",
+		"markerenvelope": "334060:0190564",
+		"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
+	}, {
+		"area": "Caerleon",
+		"areacode": "WD12CD",
+		"areaname": "WD12NM",
+		"arealayername": "WD_DEC_2012_GB_BGC",
+		"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
+		"envelope": "330818:188806:337513:192806",
+		"extcode": "W05000837",
+		"hierarchycode": "2012Admin",
+		"levelname": "WD",
+		"markerenvelope": "334060:0190564",
+		"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
+	}, {
+		"area": "Newport",
+		"areacode": "LAD11CD",
+		"areaname": "LAD11NM",
+		"arealayername": "LAD_DEC_2011_GB_BGC",
+		"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
+		"envelope": "322219:178654:344495:194846",
+		"extcode": "W06000022",
+		"hierarchycode": "2011SOA",
+		"levelname": "LAD",
+		"markerenvelope": "334060:0190564",
+		"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
+	}, {
+		"area": "Newport West",
+		"areacode": "PCON11CD",
+		"areaname": "PCON11NM",
+		"arealayername": "PCON_DEC_2011_GB_BGC",
+		"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
+		"envelope": "322219:178654:337509:192804",
+		"extcode": "W07000056",
+		"hierarchycode": "2011Elect",
+		"levelname": "PCON",
+		"markerenvelope": "334060:0190564",
+		"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
+	}, {
+		"area": "Wales",
+		"areacode": "CTRY11CD",
+		"areaname": "CTRY11NM",
+		"arealayername": "CTRY_DEC_2011_GB_BGC",
+		"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
+		"envelope": "146612:164586:355313:395984",
+		"extcode": "W92000004",
+		"hierarchycode": "2011SOA",
+		"levelname": "CTRY",
+		"markerenvelope": "334060:0190564",
+		"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
+	}
+]
+}

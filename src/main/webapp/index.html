@@ -9,38 +9,43 @@
      <!-- Latest minified and concatenated JS to go in head -->
      <script src="resources/javascript/header.min.js"></script>
      <!-- Latest minified and concatenated JS to go in the footer -->
-    <script src="resources/javascript/footer.min.js"></script>
-    <script type="text/javascript" src="po155rr.json"></script>
+     <script src="resources/javascript/footer.min.js"></script>
+     <script type="text/javascript" src="po155rr.json"></script>
      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>  
-     <script src="http://d3js.org/d3.v3.min.js"  charset="utf-8"></script>
-    <link rel="stylesheet" href="http://js.arcgis.com/3.13/js/esri/css/esri.css"> 
-    <link rel="stylesheet" href="http://js.arcgis.com/3.13/js/dojo/dijit/themes/claro/claro.css">    
-    <style>  
-      html, body { height: 100%; width: 100%; margin: 0; padding: 0; } 
-      #map{padding:0;} 
-    </style>
-    <script src="http://js.arcgis.com/3.13/"></script> 
-    
+     
+     <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css"> 
+     <link rel="stylesheet" href="http://js.arcgis.com/3.13/dijit/themes/claro/claro.css">      
+     <style>  
+       html, body { height: 100%; width: 100%; margin: 0; padding: 0; } 
+       #map{padding:0;} 
+     </style>
+     <script src="http://js.arcgis.com/3.13/"></script>     
    
     <script> 
+    
+    dojoConfig = {
+    		  locale: "en",
+    		  parseOnLoad: true	    	     
+    		 };
 	
 	var myParam = location.search.split('nav-search=')[1]
-	if (myParam == null) {
-	 pCode='uk.json';
- } else {
+	var pCode;
 	
-	  pCode = myParam.replace(/\s/g, '');
+	if (myParam == null) {
+	  pCode='uk.json';
+    } else {
+	  str = myParam.replace(/\+/g, '');
+	  //str = myParam.replace(new RegExp("\\+","g"),'');
+	  pCode  = str.replace(/\s/g, '');
 	  pCode = pCode.toLowerCase() + '.json';
- }
-	  
+	  alert(pCode);
+    }	  
 	  
 	  $(document).ready(function(){
 			$.getJSON(pCode, function(result){
-				details = result.areas[0].envelope +":"+ result.areas[0].area+":"+ result.areas[0].areaname+":"+ result.areas[0].arealayername;
-				dojoConfig = {
-	    	      locale: "en",
-	    	      parseOnLoad: true	    	     
-	    	    };     
+				alert(result.toSource());
+				details = result.areas[0].envelope +":"+ result.areas[0].area+":"+ result.areas[0].areaname+":"+ result.areas[0].arealayername+":"+ result.areas[0].markerenvelope;
+	
       var map;
 
       require([ 
@@ -58,6 +63,8 @@
         "esri/layers/LabelLayer",  
         "dojo/_base/Color",
 		"dojo/on",
+	    "esri/graphic",      
+		"esri/toolbars/navigation",
         "dojo/domReady!",
         "dijit/layout/BorderContainer", 
         "dijit/layout/ContentPane"
@@ -65,38 +72,77 @@
       ], function( 
         Map, Scalebar, parser, Extent, FeatureLayer, 
         SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, InfoTemplate,   
-        LabelLayer, Color, on
+        LabelLayer, Color, on, Graphic
       ) 
       { 
 
 			parser.parse(); 
 			detailsArray = details.split(":");
 			
-			var xmin_env = parseInt(detailsArray[0]);
-			var ymin_env = parseInt(detailsArray[1]);
-			var xmax_env = parseInt(detailsArray[2]);
-			var ymax_env = parseInt(detailsArray[3]);
-			var areaname = detailsArray[5];
+			var xmin_env      = parseInt(detailsArray[0]);
+			var ymin_env      = parseInt(detailsArray[1]);
+			var xmax_env      = parseInt(detailsArray[2]);
+			var ymax_env      = parseInt(detailsArray[3]);
+			var areaname      = detailsArray[5];
 			var arealayername = detailsArray[6];
+			var xCoord        = detailsArray[7];
+			alert(xCoord);
+			var yCoord        = detailsArray[8];
+			alert(yCoord);
 			
-			var diff = xmax_env-xmin_env
+			var uk = myParam;			
 			
-			newxmin  = xmin_env - (2 * diff);
+			if (uk == null) {
+				alert("uk");
+				var diff = xmax_env-xmin_env				
+				newxmin  = xmin_env - (2 * diff);	
+				
+				var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}}); 
+				
+				map = new Map("map", { 
+					extent: bbox,
+					slider:false,
+					showAttribution: false,
+					logo:false
+					});		           
+			}
+			else {
+				alert("not uk");
+				var bbox = new esri.geometry.Extent({xmin:xmin_env,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}}); 
+				map = new Map("map", { 
+					extent: bbox,
+					slider:true,
+					showAttribution: false,
+					logo:false
+					});		
+			}
 			
-			   
-			var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});              
-			map = new Map("map", { 
-				extent: bbox,
-				slider:false,
-				showAttribution: false,
-				logo:false
-				});		           
-
-			esriConfig.defaults.io.corsEnabledServers.push("https://mapping.statistics.gov.uk"); 
-			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer")      
+			esriConfig.defaults.io.corsEnabledServers.push("http://services.arcgisonline.com");
+			esriConfig.defaults.io.corsEnabledServers.push("https://mapping.statistics.gov.uk");
+			
+			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer")      
 			map.addLayer(dynamicMSLayer);         
-			map.setExtent(bbox.expand(1.1));     
-	  
+			map.setExtent(bbox.expand(1.1)); 
+			
+			if (uk == null){
+				
+			}
+			else{
+			  map.on("load", function(){		         
+			     var symbol = new esri.symbol.PictureMarkerSymbol({
+			         "angle": 0,
+			         "xoffset": 0,
+			         "yoffset": 12,
+			         "type": "esriPMS",
+			         "url": "resources/images/map-marker-128.png",
+			         "contentType": "image/png",
+			         "width": 24,
+			          "height": 24
+			        });	        
+			   	    map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));
+		 	    });				
+			}
+						
 			var defaultSymbol = new SimpleFillSymbol().setStyle(SimpleFillSymbol.STYLE_NULL); 
 			defaultSymbol.outline.setStyle(SimpleLineSymbol.STYLE_NULL); 
 	 
@@ -105,9 +151,11 @@
 		
 			//add symbol for each possible value 
 			renderer.addValue(detailsArray[4], 
-											new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.								                                                        SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0,0,0]), 2),
-											new dojo.Color([0,0,0,0.1])));  
-	
+					new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+		                    new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+		                    new Color([229,78,22]),2),new Color([229,78,22, 2])));  	  
+			
+			
 			var labelField = areaname;  
 
 			var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/MapServer/0", { 
@@ -119,12 +167,13 @@
 	
 			featureLayer.setRenderer(renderer); 
 			map.addLayer(featureLayer);
-			map.on("load", function(){         
-			map.disableMapNavigation();
-			map.disableKeyboardNavigation();
-			map.disablePan();
-			map.disableRubberBandZoom();
-			map.disableScrollWheelZoom();
+			
+			map.on("load", function(){ 				
+			  map.disableMapNavigation();
+			  map.disableKeyboardNavigation();
+			  map.disablePan();
+			  map.disableRubberBandZoom();
+			  map.disableScrollWheelZoom();
 			}); 
 		});
 	}); 
