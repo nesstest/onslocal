@@ -1,0 +1,19 @@
+{
+	"areas":[
+	{
+		"area": "UK",
+		"areacode": "OA11CD",
+		"areaname": "OA11NM",
+		"arealayername": "OA_2011_EW_BGC_V2",
+		"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
+		"envelope": "-72:5003:655605:1218558",
+		"extcode": "E00115783",
+		"hierarchycode": "2011SOA",
+		"hlevel1": 8,
+		"isdatasetpage": "false",
+		"isfromprofiles": "false",
+		"levelname": "OA",
+		"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
+	}
+]
+}

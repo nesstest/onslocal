@@ -5,11 +5,14 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"> 
     <title></title>
      <!-- Latest compiled and minified CSS to go in head -->
-     <link href="/resources/css/nessmain.css" rel="stylesheet" type="text/css">
+     <link href="resources/css/nessmain.css" rel="stylesheet" type="text/css">
      <!-- Latest minified and concatenated JS to go in head -->
-     <script src="/resources/javascript/header.min.js"></script>
+     <script src="resources/javascript/header.min.js"></script>
      <!-- Latest minified and concatenated JS to go in the footer -->
-    <script src="/resources/javascript/footer.min.js"></script>
+    <script src="resources/javascript/footer.min.js"></script>
+    <script type="text/javascript" src="po155rr.json"></script>
+     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>  
+     <script src="http://d3js.org/d3.v3.min.js"  charset="utf-8"></script>
     <link rel="stylesheet" href="http://js.arcgis.com/3.13/js/esri/css/esri.css"> 
     <link rel="stylesheet" href="http://js.arcgis.com/3.13/js/dojo/dijit/themes/claro/claro.css">    
     <style>  
@@ -17,8 +20,24 @@
       #map{padding:0;} 
     </style>
     <script src="http://js.arcgis.com/3.13/"></script> 
+    
+   
     <script> 
-	  dojoConfig = {
+	
+	var myParam = location.search.split('nav-search=')[1]
+	if (myParam == null) {
+	 pCode='uk.json';
+ } else {
+	
+	  pCode = myParam.replace(/\s/g, '');
+	  pCode = pCode.toLowerCase() + '.json';
+ }
+	  
+	  
+	  $(document).ready(function(){
+			$.getJSON(pCode, function(result){
+				details = result.areas[0].envelope +":"+ result.areas[0].area+":"+ result.areas[0].areaname+":"+ result.areas[0].arealayername;
+				dojoConfig = {
 	    	      locale: "en",
 	    	      parseOnLoad: true	    	     
 	    	    };     
@@ -50,32 +69,66 @@
       ) 
       { 
 
-        parser.parse(); 
+			parser.parse(); 
+			detailsArray = details.split(":");
+			
+			var xmin_env = parseInt(detailsArray[0]);
+			var ymin_env = parseInt(detailsArray[1]);
+			var xmax_env = parseInt(detailsArray[2]);
+			var ymax_env = parseInt(detailsArray[3]);
+			var areaname = detailsArray[5];
+			var arealayername = detailsArray[6];
+			
+			var diff = xmax_env-xmin_env
+			
+			newxmin  = xmin_env - (2 * diff);
+			
+			   
+			var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});              
+			map = new Map("map", { 
+				extent: bbox,
+				slider:false,
+				showAttribution: false,
+				logo:false
+				});		           
 
-        var bbox = new esri.geometry.Extent({xmin:-72,ymin:5003,xmax:655605,ymax:1218558 ,spatialReference:{wkid:27700}});         
-        map = new Map("map", { 
-          extent: bbox,
-          slider:false,
-          showAttribution: false,
-          logo:false
-        });		           
+			esriConfig.defaults.io.corsEnabledServers.push("https://mapping.statistics.gov.uk"); 
+			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer")      
+			map.addLayer(dynamicMSLayer);         
+			map.setExtent(bbox.expand(1.1));     
+	  
+			var defaultSymbol = new SimpleFillSymbol().setStyle(SimpleFillSymbol.STYLE_NULL); 
+			defaultSymbol.outline.setStyle(SimpleLineSymbol.STYLE_NULL); 
+	 
+			//create renderer 
+			var renderer = new UniqueValueRenderer(defaultSymbol, areaname); 
+		
+			//add symbol for each possible value 
+			renderer.addValue(detailsArray[4], 
+											new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.								                                                        SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0,0,0]), 2),
+											new dojo.Color([0,0,0,0.1])));  
+	
+			var labelField = areaname;  
 
-         var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer")  
-		
-        map.addLayer(dynamicMSLayer);
-		
-		  // Configure application manually by telling the API that the server supports CORS
-	    //esriConfig.defaults.io.corsEnabledServers.push("http://services.arcgisonline.com");
-		
-		map.on("load", function(){         
-          map.disableMapNavigation();
-          map.disableKeyboardNavigation();
-          map.disablePan();
-          map.disableRubberBandZoom();
-          map.disableScrollWheelZoom();
-        }); 
-				 
-      }); 
+			var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/MapServer/0", { 
+			infoTemplate: new InfoTemplate(" ", "$"+areaname+"}"), 
+			mode: FeatureLayer.SNAPSHOT, 
+			outFields: [labelField]
+		   });    
+		   
+	
+			featureLayer.setRenderer(renderer); 
+			map.addLayer(featureLayer);
+			map.on("load", function(){         
+			map.disableMapNavigation();
+			map.disableKeyboardNavigation();
+			map.disablePan();
+			map.disableRubberBandZoom();
+			map.disableScrollWheelZoom();
+			}); 
+		});
+	}); 
+}); 
     </script> 
   </head> 
   <body> 
@@ -83,40 +136,25 @@
         <div class="grid-wrap">
             <header>
               <div class="global-header__wrapper">        
-                   <a href="#"><img src="/resources/images/ons-logo.png" alt="Insert Logo Here" width="264" height="50" id="Insert_logo" style="background-color: #FFFFFF; display: block;" /></a>       
+                   <a href="#"><img src="resources/images/ons-logo.png" alt="Insert Logo Here" width="264" height="50" id="Insert_logo" style="background-color: #FFFFFF; display: block;" /></a>       
               </div>
             </header>
         
             <div class="slate--grey search-wrapper">
-              <div><a href="#"><img src="/resources/images/home_w.png" alt="" width="50" height="50" style="position:absolute; margin-left:20px; margin-top:5px;"></a>
+              <div><a href="#"><img src="resources/images/home_w.png" alt="" width="50" height="50" style="position:absolute; margin-left:20px; margin-top:5px;"></a>
               </div>  
               <form class="nav-search nav-search--hidden" id="searchBar">         
                 <div class="nav-search__container">
                   <label for="nav-search"></label>
                   <input type="search" class="nav-search__field" id="nav-search" name="nav-search" value="" placeholder="Search postcode or place name in England and Wales">
                 </div>
-                <button type="submit" class="btn btn--primary btn--nav-search" id="nav-search-submit"onclick="myFunction()">
+                <button type="submit" class="btn btn--primary btn--nav-search" id="nav-search-submit">
                   <span class="icon-search-1" role="presentation"></span>
                 </button>
                </form>
             </div> 
-            <script>
-              function myFunction() {
-                var pCode = document.getElementById("nav-search").value;
-                //remove space
-                pCode = pCode.replace(/\s/g, '');
-                        
-                //make string lower
-                pCode = pCode.toLowerCase();
-                
-                //get json file 		
-                
-            }
-            </script> 
-                 
             <div id="map"  style="height: 500px; margin-top:0px;"></div> 
          </div>
-      </div>      
-      <h2>Hello Steve....</h2> 
+      </div>       
   </body>  
-</html>
+</html>  
