@@ -1,6 +1,6 @@
 {
-	"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
-	"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72",
+    "copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
+    "token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72",
 	"areas": [
 		{
 			"OA": [
@@ -34,7 +34,7 @@
 					"area": "Fareham",
 					"areacode": "LAD11CD",
 					"areaname": "LAD11NM",
-					"arealayername": "LAD_DEC_2011_GB_BGC",
+					"arealayername": "LAD/LAD_DEC_2011_GB_BGC",
 					"envelope": "448760:101385:462605:111270",
 					"extcode": "E07000087",
 					"hierarchycode": "2011SOA",
@@ -47,7 +47,7 @@
 					"area": "South Central",
 					"areacode": "SHA06CD",
 					"areaname": "SHA06NM",
-					"arealayername": "SHA_DEC_2006_EN_BGC",
+					"arealayername": "SHA/SHA_DEC_2006_EN_BGC",
 					"envelope": "403095:75257:505705:256158",
 					"extcode": "Q38",
 					"hierarchycode": "2006Health",
@@ -60,7 +60,7 @@
 					"area": "Fareham",
 					"areacode": "PCON11CD",
 					"areaname": "PCON11NM",
-					"arealayername": "PCON_DEC_2011_GB_BGC",
+					"arealayername": "PCON/PCON_DEC_2011_GB_BGC",
 					"envelope": "448760:102224:462605:111270",
 					"extcode": "E14000699",
 					"hierarchycode": "2011Elect",
@@ -73,7 +73,7 @@
 					"area": "South East",
 					"areacode": "GOR10CD",
 					"areaname": "GOR10NM",
-					"arealayername": "GOR_DEC_2010_EN_BGC",
+					"arealayername": "GOR/GOR_DEC_2010_EN_BGC",
 					"envelope": "403095:75257:640171:256158",
 					"extcode": "E12000008",
 					"hierarchycode": "2011SOA",
@@ -86,7 +86,7 @@
 					"area": "England",
 					"areacode": "CTRY11CD",
 					"areaname": "CTRY11NM",
-					"arealayername": "CTRY_DEC_2011_GB_BGC",
+					"arealayername": "CTRY/CTRY_DEC_2011_GB_BGC",
 					"envelope": "82672:5338:655605:657534",
 					"extcode": "E92000001",
 					"hierarchycode": "2011SOA",
