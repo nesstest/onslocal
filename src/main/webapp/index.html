@@ -10,7 +10,7 @@
      <script src="resources/javascript/header.min.js"></script>
      <!-- Latest minified and concatenated JS to go in the footer -->
      <script src="resources/javascript/footer.min.js"></script>
-     <script type="text/javascript" src="po155rr.json"></script>
+     <script src="resources/javascript/map.js"></script>  
      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>  
      
      <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css"> 
@@ -18,167 +18,95 @@
      <style>  
        html, body { height: 100%; width: 100%; margin: 0; padding: 0; } 
        #map{padding:0;} 
+	   #innerDIV{position:absolute;z-index: 1; top:375px; left:25px; width:300px;} 
+	   #outerDIV{position:relative;} 
      </style>
      <script src="http://js.arcgis.com/3.13/"></script>     
    
-    <script> 
+     <script> 
     
-    dojoConfig = {
-    		  locale: "en",
-    		  parseOnLoad: true	    	     
-    		 };
-	
-	var myParam = location.search.split('nav-search=')[1]
-	var pCode;
-	
-	if (myParam == null) {
-	  pCode='uk.json';
-    } else {
-	  str = myParam.replace(/\+/g, '');
-	  //str = myParam.replace(new RegExp("\\+","g"),'');
-	  pCode  = str.replace(/\s/g, '');
-	  pCode = pCode.toLowerCase() + '.json';
-	  alert(pCode);
-    }	  
+	    // Read a user input postcode and return a boolean.
+	    function postcode_validate(postcode)
+	    {    	
+		    var regPostcode = /^([a-zA-Z]){1}([0-9][0-9]|[0-9]|[a-zA-Z][0-9][a-zA-Z]|[a-zA-Z][0-9][0-9]|[a-zA-Z][0-9]){1}([ ])([0-9][a-zA-z][a-zA-z]){1}$/;
+			
+		    if(regPostcode.test(postcode) == false)	 {	
+		    	return false;		    
+		    }
+		    else {
+		    	return true;
+			}
+		}
+	    
+	    // Read a page's GET URL variables and return them as an associative array.
+	    function getUrlVars()
+	    {
+	        var vars = [], hash;
+	        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+	        //hashes = decodeURI(window.location.href).replace(/[?&]+([^=&]+)=([^&]*)/gi;
+	        for(var i = 0; i < hashes.length; i++)
+	        {
+	            hash = hashes[i].split('=');
+	            vars.push(hash[0]);
+	            vars[hash[0]] = hash[1];
+	        }
+	        return vars;
+	    }    
 	  
-	  $(document).ready(function(){
-			$.getJSON(pCode, function(result){
-				alert(result.toSource());
-				details = result.areas[0].envelope +":"+ result.areas[0].area+":"+ result.areas[0].areaname+":"+ result.areas[0].arealayername+":"+ result.areas[0].markerenvelope;
-	
-      var map;
-
-      require([ 
-        "esri/map",  
-        "esri/dijit/Scalebar", 
-        "dojo/parser", 
-        "esri/geometry/Extent", 
-        "esri/layers/FeatureLayer",  
-        "esri/symbols/SimpleLineSymbol", 
-        "esri/symbols/SimpleFillSymbol", 
-        "esri/symbols/TextSymbol", 
-        "esri/renderers/SimpleRenderer", 
-        "esri/renderers/UniqueValueRenderer",  
-        "esri/InfoTemplate",         
-        "esri/layers/LabelLayer",  
-        "dojo/_base/Color",
-		"dojo/on",
-	    "esri/graphic",      
-		"esri/toolbars/navigation",
-        "dojo/domReady!",
-        "dijit/layout/BorderContainer", 
-        "dijit/layout/ContentPane"
-
-      ], function( 
-        Map, Scalebar, parser, Extent, FeatureLayer, 
-        SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, InfoTemplate,   
-        LabelLayer, Color, on, Graphic
-      ) 
-      { 
-
-			parser.parse(); 
-			detailsArray = details.split(":");
-			
-			var xmin_env      = parseInt(detailsArray[0]);
-			var ymin_env      = parseInt(detailsArray[1]);
-			var xmax_env      = parseInt(detailsArray[2]);
-			var ymax_env      = parseInt(detailsArray[3]);
-			var areaname      = detailsArray[5];
-			var arealayername = detailsArray[6];
-			var xCoord        = detailsArray[7];
-			alert(xCoord);
-			var yCoord        = detailsArray[8];
-			alert(yCoord);
-			
-			var uk = myParam;			
-			
-			if (uk == null) {
-				alert("uk");
-				var diff = xmax_env-xmin_env				
-				newxmin  = xmin_env - (2 * diff);	
-				
-				var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}}); 
-				
-				map = new Map("map", { 
-					extent: bbox,
-					slider:false,
-					showAttribution: false,
-					logo:false
-					});		           
-			}
-			else {
-				alert("not uk");
-				var bbox = new esri.geometry.Extent({xmin:xmin_env,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}}); 
-				map = new Map("map", { 
-					extent: bbox,
-					slider:true,
-					showAttribution: false,
-					logo:false
-					});		
-			}
-			
-			esriConfig.defaults.io.corsEnabledServers.push("http://services.arcgisonline.com");
-			esriConfig.defaults.io.corsEnabledServers.push("https://mapping.statistics.gov.uk");
-			
-			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer")      
-			map.addLayer(dynamicMSLayer);         
-			map.setExtent(bbox.expand(1.1)); 
-			
-			if (uk == null){
-				
-			}
-			else{
-			  map.on("load", function(){		         
-			     var symbol = new esri.symbol.PictureMarkerSymbol({
-			         "angle": 0,
-			         "xoffset": 0,
-			         "yoffset": 12,
-			         "type": "esriPMS",
-			         "url": "resources/images/map-marker-128.png",
-			         "contentType": "image/png",
-			         "width": 24,
-			          "height": 24
-			        });	        
-			   	    map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));
-		 	    });				
-			}
-						
-			var defaultSymbol = new SimpleFillSymbol().setStyle(SimpleFillSymbol.STYLE_NULL); 
-			defaultSymbol.outline.setStyle(SimpleLineSymbol.STYLE_NULL); 
-	 
-			//create renderer 
-			var renderer = new UniqueValueRenderer(defaultSymbol, areaname); 
+	    function getUrlParams() {
+	        var vars = {};
+	        parts = decodeURI(window.location.href).replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+	        vars[key] = value;
+	        });
+	        return vars;
+	    }
+	    
+	    var levelname;
+	    var postcode;
+	    
+	    //postcode = getUrlVars()["nav-search"];
+	    postcode =  getUrlParams()["nav-search"];
+	    
+	    //levelname = getUrlVars()["levelname"];
+	    levelname = getUrlParams()["levelname"];
+	  
+		var pCode;
+		if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
+		  jsonFile      ='uk.json';	
+	    } 
+		else {
+		  // identify json file	
+		  pCode         = postcode.replace(/\+/g, '');
+		  pCode         = pCode.replace(/\s/g, '');
+		  jsonFile      = pCode.toLowerCase() + '.json';
+		  
+		  // replace plus sign with space
+		  postcode = postcode.replace(/\+/g, ' ');
+		  //str = postcode.replace(new RegExp("\\+","g"),'');
+		 
+		  // To do - 
+		  // display error message if postcode invalid
+		  // validate & reformat postcode
+		  if(!postcode_validate(postcode))
+		  {
+			  // to do 
+			  //alert("error");
+		  }	
+		  if(postcode_validate(postcode))
+		  {
+			  // to do
+			  //alert("ok");
+		  }	  
+		  
+	    }	  
+		  
+		$(document).ready(function(){
+		  $.getJSON(jsonFile, function(result){
+	         createMap(result, postcode,levelname);
+		  }); 
+		}); 
 		
-			//add symbol for each possible value 
-			renderer.addValue(detailsArray[4], 
-					new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-		                    new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-		                    new Color([229,78,22]),2),new Color([229,78,22, 2])));  	  
-			
-			
-			var labelField = areaname;  
-
-			var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/MapServer/0", { 
-			infoTemplate: new InfoTemplate(" ", "$"+areaname+"}"), 
-			mode: FeatureLayer.SNAPSHOT, 
-			outFields: [labelField]
-		   });    
-		   
-	
-			featureLayer.setRenderer(renderer); 
-			map.addLayer(featureLayer);
-			
-			map.on("load", function(){ 				
-			  map.disableMapNavigation();
-			  map.disableKeyboardNavigation();
-			  map.disablePan();
-			  map.disableRubberBandZoom();
-			  map.disableScrollWheelZoom();
-			}); 
-		});
-	}); 
-}); 
-    </script> 
+	  </script> 
   </head> 
   <body> 
       <div class="wrapper panel--mar nav-panels">
@@ -189,8 +117,8 @@
               </div>
             </header>
         
-            <div class="slate--grey search-wrapper">
-              <div><a href="#"><img src="resources/images/home_w.png" alt="" width="50" height="50" style="position:absolute; margin-left:20px; margin-top:5px;"></a>
+            <div id="outerDIV" class="slate--grey search-wrapper">
+              <div><a href="index.html"><img src="resources/images/home_w.png" alt="" width="50" height="50" style="position:absolute; margin-left:20px; margin-top:10px;"></a>
               </div>  
               <form class="nav-search nav-search--hidden" id="searchBar">         
                 <div class="nav-search__container">
@@ -201,10 +129,10 @@
                   <span class="icon-search-1" role="presentation"></span>
                 </button>
                </form>
-            </div> 
+            </div>             	             
             <div id="map"  style="height: 500px; margin-top:0px;"></div> 
-         </div>
-      </div>  
-      <h2>Hello Sue....</h2>     
+            <div id="selArea1"></div>	            
+          </div>            
+         </div>        
   </body>  
 </html>  
