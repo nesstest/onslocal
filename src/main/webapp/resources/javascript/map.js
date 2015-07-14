@@ -28,10 +28,10 @@ function createMap(result, validpostCode, levelname){
 								  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
 			                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +postcode+'</strong></div>' +
 			                      '<div style="color: black; font-size:medium;">(Output area ' + result.areas[0].OA[0].area + ')<br><br><strong>Part of:</strong></div>' +
-			                      '<div style="font-size: small;"> - ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD">'+ result.areas[0].WD[0].area + ' </a>)' +
-		  		             	  '<br> - Local authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + '</a>)' + 
+			                      '<div style="font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD">'+ result.areas[0].WD[0].area + ' </a>)' +
+		  		             	  '<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + '</a>)' + 
 			                       regionText +
-			                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
+			                      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
 			                      '</div>' +
 			                      '</article></div>');	
 		}
@@ -42,7 +42,7 @@ function createMap(result, validpostCode, levelname){
 			  regionText = '<span style="display:none;"></span>';			  			 
 		  }
 		  else{
-			  regionText = '<br> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;		
+			  regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;		
 		  }
 		  
 		  // display map for level name
@@ -58,9 +58,9 @@ function createMap(result, validpostCode, levelname){
 					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
                       '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].WD[0].area+'</strong></div>' +
                       '<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
-                      '<div style="font-size: small;"> - Local authority (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + ' </a>)' +
+                      '<div style="font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + ' </a>)' +
 		              regionText +  
-                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
+                      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
                       '</div>' +
                       '</article></div>');	
 		  }
@@ -79,9 +79,9 @@ function createMap(result, validpostCode, levelname){
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
                       '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].LAD[0].area+'</strong></div>' +
-                      '<div style="color: black; font-size:medium;">(Local authority)<br><br><strong>Part of:</strong></div>' +
+                      '<div style="color: black; font-size:medium;">(Local Authority)<br><br><strong>Part of:</strong></div>' +
                       regionText + 
-                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
+                      '<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' +    
                       '</div>' +
                       '</article></div>');				
 		  }
@@ -100,7 +100,7 @@ function createMap(result, validpostCode, levelname){
 					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
                       '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].GOR[0].area+'</strong></div>' +
                       '<div style="color: black; font-size:medium;">(Region)<br><br><strong>Part of:</strong></div>' +
-                      '<div style="font-size: small;"> - National (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' +                      
+                      '<div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' +                      
                       '</div>' +
                       '</article></div>');				
 		  }
@@ -118,7 +118,7 @@ function createMap(result, validpostCode, levelname){
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
                       '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].CTRY[0].area+'</strong></div>' +
-                      '<div style="color: black; font-size:medium;">(National)<br><br></strong></div>' +                   
+                      '<div style="color: black; font-size:medium;">(Country)<br><br></strong></div>' +                   
                       '</div>' +
                       '</article></div>');				
 		  }	  
@@ -178,10 +178,10 @@ function createMap(result, validpostCode, levelname){
 			
 			var postcode      = validpostCode;	
 			
-			var diff = xmax_env-xmin_env;				
-			newxmin  = xmin_env - (2 * diff);					
-			var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
-			
+			//var diff = xmax_env-xmin_env;				
+			//newxmin  = xmin_env - (2 * diff);					
+			//var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
+		    var bbox = new esri.geometry.Extent({xmin:xmin_env,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
 			if (postcode == null || postcode.length == 0) {
 				map = new Map("map", { 
 					extent: bbox,
