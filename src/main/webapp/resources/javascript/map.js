@@ -174,14 +174,12 @@ function createMap(result, validpostCode, levelname){
 			var arealayername = detailsArray[6];
 			var xCoord        = detailsArray[7];
 			var yCoord        = detailsArray[8];
-			//$('#selArea').append(areacode);
 			
 			var postcode      = validpostCode;	
 			
-			//var diff = xmax_env-xmin_env;				
-			//newxmin  = xmin_env - (2 * diff);					
-			//var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
-		    var bbox = new esri.geometry.Extent({xmin:xmin_env,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
+			var diff = xmax_env-xmin_env;
+			newxmin  = xmin_env - diff;	
+			var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
 			if (postcode == null || postcode.length == 0) {
 				map = new Map("map", { 
 					extent: bbox,
@@ -228,7 +226,7 @@ function createMap(result, validpostCode, levelname){
 		   var defaultSymbol = new SimpleFillSymbol().setStyle(SimpleFillSymbol.STYLE_NULL); 
 		   defaultSymbol.outline.setStyle(SimpleLineSymbol.STYLE_NULL); 
 			 
-					//create renderer 
+			//create renderer 
 			var renderer = new UniqueValueRenderer(defaultSymbol, areacode); 
 			//add symbol for each possible value 
 			renderer.addValue(area, 
