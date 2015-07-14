@@ -135,6 +135,7 @@ function createMap(result, validpostCode, levelname){
 
 		require([    
 		"esri/map", 
+		"esri/dijit/HomeButton",
 		"esri/InfoTemplate",
 		"esri/dijit/Scalebar", 
 		"dojo/parser", 
@@ -156,7 +157,7 @@ function createMap(result, validpostCode, levelname){
 		"dijit/layout/ContentPane"
 		
 		  ], function( 
-		    Map, InfoTemplate, Scalebar, parser, Extent, FeatureLayer, 
+		    Map, HomeButton, InfoTemplate, Scalebar, parser, Extent, FeatureLayer, 
 		    SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, InfoTemplate,   
 		    LabelLayer, Color, on, dom, Graphic
 		  ) 
@@ -194,13 +195,17 @@ function createMap(result, validpostCode, levelname){
 					slider:true,
 					showAttribution: false,
 					logo:false
-					});		
+					});	
+				home = new HomeButton({
+					map: map
+				}, "HomeButton");
+				home.startup();
 			}
 			
 			esriConfig.defaults.io.corsEnabledServers.push("http://services.arcgisonline.com");
 			esriConfig.defaults.io.corsEnabledServers.push("https://mapping.statistics.gov.uk");
 			
-			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer")      
+			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
 			map.addLayer(dynamicMSLayer);         
 			map.setExtent(bbox.expand(1.1)); 
 		

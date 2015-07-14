@@ -20,6 +20,7 @@
        #map{padding:0;} 
 	   #innerDIV{position:absolute;z-index: 1; top:375px; left:25px; width:300px;} 
 	   #outerDIV{position:relative;} 
+	   #HomeButton {position: absolute;top: 250px;left: 14px;z-index: 50;}	   
      </style>
      <script src="http://js.arcgis.com/3.13/"></script>     
    
@@ -123,7 +124,9 @@
                 </script> 
                </form>
             </div>             	             
-            <div id="map"  style="height: 500px; margin-top:0px;"></div> 
+            <div id="map"  style="height: 500px; margin-top:0px;">
+               <div id="HomeButton"></div>
+            </div>             
             <div id="selArea1"></div>	            
           </div>            
          </div>        
