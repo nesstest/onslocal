@@ -1,13 +1,20 @@
 function createMap(result, validpostCode, levelname){
+	var regionText;	
+		
 	if (typeof levelname === 'undefined') {
 		if (typeof validpostCode === 'undefined') {
 		  // display UK map
-		 details = result.areas[0].envelope;	
-		 
-		// don't display orange text box		 
-		 
+		 details = result.areas[0].envelope;		 
 	    }
 		else {
+			 // if welsh postcode - no GOR
+			 if (validpostCode === "NP18 1AF"){
+			     regionText = '<span style="display:none;"></span>';			  			 
+			 }
+			 else{				 
+			    regionText = '<br> - Region (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;	
+			 }
+			
 			// display OA map
 			details = 	result.areas[0].OA[0].envelope +":"+ 
 						result.areas[0].OA[0].area+":"+ 
@@ -21,15 +28,23 @@ function createMap(result, validpostCode, levelname){
 								  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
 			                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +postcode+'</strong></div>' +
 			                      '<div style="color: black; font-size:medium;">(Output area ' + result.areas[0].OA[0].area + ')<br><br><strong>Part of:</strong></div>' +
-			                      '<div style="font-size: small;"> - ward (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=WD">'+ result.areas[0].WD[0].area + ' </a>)' +
-		  		             	  '<br> - Local authority (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + '</a>)' + 
-			                      '<br> - Region (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' +
-			                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
+			                      '<div style="font-size: small;"> - ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD">'+ result.areas[0].WD[0].area + ' </a>)' +
+		  		             	  '<br> - Local authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + '</a>)' + 
+			                       regionText +
+			                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
 			                      '</div>' +
-			                      '</article></div>');					              
+			                      '</article></div>');	
 		}
 	}	
-	else {		
+	else {
+		  // if welsh postcode - no GOR
+		  if (validpostCode === "NP18 1AF"){
+			  regionText = '<span style="display:none;"></span>';			  			 
+		  }
+		  else{
+			  regionText = '<br> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;		
+		  }
+		  
 		  // display map for level name
 		  if (levelname ==="WD"){
 			  details = 	result.areas[0].WD[0].envelope +":"+ 
@@ -43,9 +58,9 @@ function createMap(result, validpostCode, levelname){
 					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
                       '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].WD[0].area+'</strong></div>' +
                       '<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
-                      '<div style="font-size: small;"> - Local authority (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + ' </a>)' +
-		              '<br> - Region (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' + 
-                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
+                      '<div style="font-size: small;"> - Local authority (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + ' </a>)' +
+		              regionText +  
+                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
                       '</div>' +
                       '</article></div>');	
 		  }
@@ -65,14 +80,14 @@ function createMap(result, validpostCode, levelname){
 					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
                       '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].LAD[0].area+'</strong></div>' +
                       '<div style="color: black; font-size:medium;">(Local authority)<br><br><strong>Part of:</strong></div>' +
-                      '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + ' </a>)' +
-                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
+                      regionText + 
+                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
                       '</div>' +
                       '</article></div>');				
 		  }
 		  
 		  // display map for level name
-		  if (levelname ==="GOR"){			 
+		  if (levelname ==="GOR" && (validpostCode ==="PO15 5RR" || validpostCode ==="PO11 9DF")) {			 
 			  details = 	result.areas[0].GOR[0].envelope +":"+ 
 			            	result.areas[0].GOR[0].area+":"+ 
 						    result.areas[0].GOR[0].areaname+":"+ 
@@ -85,10 +100,11 @@ function createMap(result, validpostCode, levelname){
 					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
                       '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].GOR[0].area+'</strong></div>' +
                       '<div style="color: black; font-size:medium;">(Region)<br><br><strong>Part of:</strong></div>' +
-                      '<div style="font-size: small;"> - National (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' +                      
+                      '<div style="font-size: small;"> - National (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' +                      
                       '</div>' +
                       '</article></div>');				
 		  }
+		  
 		  // display map for level name
 		  if (levelname ==="CTRY"){			 
 			  details = 	result.areas[0].CTRY[0].envelope +":"+ 
