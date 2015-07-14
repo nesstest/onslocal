@@ -1,36 +1,7 @@
 function createTable(extcode, levelname){
 	$("#wibble").toggle();
 	
-	/*
- 		$('#statBox1').append('<article class="nav-panel nav-panel--stats sectioned"> <header class="nav-panel__header nav-panel__roomy"><h2 class="flush">Population</h2></header>' +
-		'<div class="nav-panel__roomy"><ul class="list--neutral"><li class="nav-panel__item"><dl><dt class="nav-panel__title">Total' +
-		'</dt><dd class="nav-panel__value"><div class="stat stat--small"><div class="stat__figure" id="sapede-all">' +
-        '</div><div class="stat__description">Mar 2014</div></div></dd></dl></li>' +
-        '<li class="nav-panel__item"><dl><dt class="nav-panel__title">Males</dt><dd class="nav-panel__value">' +
-        '<div class="stat stat--small"><div class="stat__figure" id="sapede-males"></div>' +
-        '<div class="stat__description">Jun 2014</div></div></dd></dl></li>' +
-        '<li class="nav-panel__item"><dl><dt class="nav-panel__title">' +
-        'Females</dt><dd class="nav-panel__value"><div class="stat stat--small">' +
-        '<div class="stat__figure" id="sapede-females"></div><div class="stat__description">Jun 2014' +
-        '</div></div></dd></dl></li></ul></div></article>');	
-
-		$('#statBox2').append('<article class="nav-panel nav-panel--stats sectioned"> <header class="nav-panel__header nav-panel__roomy"><h2 class="flush">Population</h2></header>' +
-		'<div class="nav-panel__roomy"><ul class="list--neutral"><li class="nav-panel__item"><dl><dt class="nav-panel__title">Total' +
-		'</dt><dd class="nav-panel__value"><div class="stat stat--small"><div class="stat__figure" id="sapede-all">' +
-        '</div><div class="stat__description">Mar 2014</div></div></dd></dl></li>' +
-        '<li class="nav-panel__item"><dl><dt class="nav-panel__title">Males</dt><dd class="nav-panel__value">' +
-        '<div class="stat stat--small"><div class="stat__figure" id="sapede-males"></div>' +
-        '<div class="stat__description">Jun 2014</div></div></dd></dl></li>' +
-        '<li class="nav-panel__item"><dl><dt class="nav-panel__title">' +
-        'Females</dt><dd class="nav-panel__value"><div class="stat stat--small">' +
-        '<div class="stat__figure" id="sapede-females"></div><div class="stat__description">Jun 2014' +
-        '</div></div></dd></dl></li></ul></div></article>');
-    */
-
-	
-	
-	
-	
+		
 	if (levelname =="WD")
 		{
 			var URL = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+extcode+"&jsontype=json-stat&totals=false&diff=2013";
