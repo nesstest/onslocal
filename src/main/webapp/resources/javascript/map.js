@@ -1,19 +1,73 @@
+function createTable(extcode, levelname){
+	$("#wibble").toggle();
+	
+	/*
+ 		$('#statBox1').append('<article class="nav-panel nav-panel--stats sectioned"> <header class="nav-panel__header nav-panel__roomy"><h2 class="flush">Population</h2></header>' +
+		'<div class="nav-panel__roomy"><ul class="list--neutral"><li class="nav-panel__item"><dl><dt class="nav-panel__title">Total' +
+		'</dt><dd class="nav-panel__value"><div class="stat stat--small"><div class="stat__figure" id="sapede-all">' +
+        '</div><div class="stat__description">Mar 2014</div></div></dd></dl></li>' +
+        '<li class="nav-panel__item"><dl><dt class="nav-panel__title">Males</dt><dd class="nav-panel__value">' +
+        '<div class="stat stat--small"><div class="stat__figure" id="sapede-males"></div>' +
+        '<div class="stat__description">Jun 2014</div></div></dd></dl></li>' +
+        '<li class="nav-panel__item"><dl><dt class="nav-panel__title">' +
+        'Females</dt><dd class="nav-panel__value"><div class="stat stat--small">' +
+        '<div class="stat__figure" id="sapede-females"></div><div class="stat__description">Jun 2014' +
+        '</div></div></dd></dl></li></ul></div></article>');	
+
+		$('#statBox2').append('<article class="nav-panel nav-panel--stats sectioned"> <header class="nav-panel__header nav-panel__roomy"><h2 class="flush">Population</h2></header>' +
+		'<div class="nav-panel__roomy"><ul class="list--neutral"><li class="nav-panel__item"><dl><dt class="nav-panel__title">Total' +
+		'</dt><dd class="nav-panel__value"><div class="stat stat--small"><div class="stat__figure" id="sapede-all">' +
+        '</div><div class="stat__description">Mar 2014</div></div></dd></dl></li>' +
+        '<li class="nav-panel__item"><dl><dt class="nav-panel__title">Males</dt><dd class="nav-panel__value">' +
+        '<div class="stat stat--small"><div class="stat__figure" id="sapede-males"></div>' +
+        '<div class="stat__description">Jun 2014</div></div></dd></dl></li>' +
+        '<li class="nav-panel__item"><dl><dt class="nav-panel__title">' +
+        'Females</dt><dd class="nav-panel__value"><div class="stat stat--small">' +
+        '<div class="stat__figure" id="sapede-females"></div><div class="stat__description">Jun 2014' +
+        '</div></div></dd></dl></li></ul></div></article>');
+    */
+
+	
+	
+	
+	
+	if (levelname =="WD")
+		{
+			var URL = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+extcode+"&jsontype=json-stat&totals=false&diff=2013";
+		}
+	else{
+			var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+"&jsontype=json-stat&totals=false&diff=2013";
+		}
+	var details;
+	//alert("in myFunction: " + extcode);	
+	
+	$(document).ready(function(){
+		$.getJSON(URL, function(result){
+			//alert("in function");
+			all = result["SAPEDE 2013"].value[0] ;
+			male = result["SAPEDE 2013"].value[1] ;
+			female = result["SAPEDE 2013"].value[2];
+			//var HTMLTable = "Total:"+all+"<br>Male:"+male+"<br>Female:"+female
+			//$('#postCodes').append(HTMLTable);
+			$('#sapede-all').append(all);
+			$('#sapede-males').append(male);
+			$('#sapede-females').append(female);
+			});	
+		});
+	
+}
+
+
 function createMap(result, validpostCode, levelname){
-	var regionText;	
-		
 	if (typeof levelname === 'undefined') {
 		if (typeof validpostCode === 'undefined') {
 		  // display UK map
-		 details = result.areas[0].envelope;		 
+		 details = result.areas[0].envelope;	
+		 
+		// don't display orange text box		 
+		 
 	    }
 		else {
-			 // if welsh postcode - no GOR
-			 if (validpostCode === "NP18 1AF"){
-			     regionText = '<span style="display:none;"></span>';			  			 
-			 }
-			 else{				 
-			    regionText = '<br> - Region (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;	
-			 }
 			
 			// display OA map
 			details = 	result.areas[0].OA[0].envelope +":"+ 
@@ -23,28 +77,22 @@ function createMap(result, validpostCode, levelname){
 			            result.areas[0].OA[0].markerenvelope+":"+
 			            result.areas[0].OA[0].levelname;
 			
+			createTable(result.areas[0].OA[0].extcode, levelname);
+			
 			// set orange info box details	
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 								  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
 			                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +postcode+'</strong></div>' +
 			                      '<div style="color: black; font-size:medium;">(Output area ' + result.areas[0].OA[0].area + ')<br><br><strong>Part of:</strong></div>' +
-			                      '<div style="font-size: small;"> - ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD">'+ result.areas[0].WD[0].area + ' </a>)' +
-		  		             	  '<br> - Local authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + '</a>)' + 
-			                       regionText +
-			                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
+			                      '<div style="font-size: small;"> - ward (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=WD">'+ result.areas[0].WD[0].area + ' </a>)' +
+		  		             	  '<br> - Local authority (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + '</a>)' + 
+			                      '<br> - Region (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' +
+			                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
 			                      '</div>' +
-			                      '</article></div>');	
+			                      '</article></div>');					              
 		}
 	}	
-	else {
-		  // if welsh postcode - no GOR
-		  if (validpostCode === "NP18 1AF"){
-			  regionText = '<span style="display:none;"></span>';			  			 
-		  }
-		  else{
-			  regionText = '<br> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;		
-		  }
-		  
+	else {		
 		  // display map for level name
 		  if (levelname ==="WD"){
 			  details = 	result.areas[0].WD[0].envelope +":"+ 
@@ -53,14 +101,16 @@ function createMap(result, validpostCode, levelname){
 							result.areas[0].WD[0].arealayername+":"+
 				            result.areas[0].WD[0].markerenvelope+":"+
 			                result.areas[0].WD[0].levelname;
+			  
+			  createTable(result.areas[0].WD[0].extcode, levelname);
 			  // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
                       '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].WD[0].area+'</strong></div>' +
                       '<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
-                      '<div style="font-size: small;"> - Local authority (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + ' </a>)' +
-		              regionText +  
-                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
+                      '<div style="font-size: small;"> - Local authority (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + ' </a>)' +
+		              '<br> - Region (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' + 
+                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
                       '</div>' +
                       '</article></div>');	
 		  }
@@ -75,19 +125,21 @@ function createMap(result, validpostCode, levelname){
 				            result.areas[0].LAD[0].markerenvelope+":"+
 			                result.areas[0].LAD[0].levelname;
 			  
+			  createTable(result.areas[0].LAD[0].extcode, levelname);
+			  
 		      // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
                       '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].LAD[0].area+'</strong></div>' +
                       '<div style="color: black; font-size:medium;">(Local authority)<br><br><strong>Part of:</strong></div>' +
-                      regionText + 
-                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
+                      '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + ' </a>)' +
+                      '<br> - National (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
                       '</div>' +
                       '</article></div>');				
 		  }
 		  
 		  // display map for level name
-		  if (levelname ==="GOR" && (validpostCode ==="PO15 5RR" || validpostCode ==="PO11 9DF")) {			 
+		  if (levelname ==="GOR"){			 
 			  details = 	result.areas[0].GOR[0].envelope +":"+ 
 			            	result.areas[0].GOR[0].area+":"+ 
 						    result.areas[0].GOR[0].areaname+":"+ 
@@ -95,16 +147,17 @@ function createMap(result, validpostCode, levelname){
 				            result.areas[0].GOR[0].markerenvelope+":"+
 			                result.areas[0].GOR[0].levelname;
 			  
+			  createTable(result.areas[0].GOR[0].extcode, levelname);
+			  
 		      // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
                       '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].GOR[0].area+'</strong></div>' +
                       '<div style="color: black; font-size:medium;">(Region)<br><br><strong>Part of:</strong></div>' +
-                      '<div style="font-size: small;"> - National (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' +                      
+                      '<div style="font-size: small;"> - National (<a style="color: light blue"; href="index.html?nav-search=PO15 5RR&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' +                      
                       '</div>' +
                       '</article></div>');				
 		  }
-		  
 		  // display map for level name
 		  if (levelname ==="CTRY"){			 
 			  details = 	result.areas[0].CTRY[0].envelope +":"+ 
@@ -113,6 +166,8 @@ function createMap(result, validpostCode, levelname){
 							result.areas[0].CTRY[0].arealayername+":"+
 				            result.areas[0].CTRY[0].markerenvelope+":"+
 			                result.areas[0].CTRY[0].levelname;
+			  
+			  createTable(result.areas[0].CTRY[0].extcode, levelname);
 			  
 		      // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +

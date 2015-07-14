@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"> 
     <title></title>
      <!-- Latest compiled and minified CSS to go in head -->
-     <link href="resources/css/nessmain.css" rel="stylesheet" type="text/css">
+     <link href="dist/css/main.css" rel="stylesheet" type="text/css">
      <!-- Latest minified and concatenated JS to go in head -->
      <script src="resources/javascript/header.min.js"></script>
      <!-- Latest minified and concatenated JS to go in the footer -->
@@ -73,12 +73,14 @@
 		var pCode;
 		if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
 		  jsonFile      ='uk.json';	
+		  
 	    } 
 		else {
 		  // identify json file	
 		  pCode         = postcode.replace(/\+/g, '');
 		  pCode         = pCode.replace(/\s/g, '');
 		  jsonFile      = pCode.toLowerCase() + '.json';
+		 
 		  
 		  // replace plus sign with space
 		  postcode = postcode.replace(/\+/g, ' ');
@@ -102,7 +104,8 @@
 		  
 		$(document).ready(function(){
 		  $.getJSON(jsonFile, function(result){
-	         createMap(result, postcode,levelname);
+	         createMap(result,postcode,levelname);
+	        
 		  }); 
 		}); 
 		
@@ -132,8 +135,65 @@
             </div>             	             
             <div id="map"  style="height: 500px; margin-top:0px;"></div> 
             <div id="selArea1"></div>	            
-          </div>            
-         </div>        
-         <h2>Hello Phil....</h2>
+          </div>    
+          <div id="topStat">
+          <div  id="statBox1" style="width:48%; float:left"></div>  
+          <div  id="statBox2" style="width:48%"></div>  
+          </div>
+          
+      
+      </div> 
+      <div id="wibble"  style="display: none;">
+      <article class="wrapper">
+	    <div class="grid-wrap panel panel--separated--bottom">
+	        <header>
+	            <h2>Population</h2>
+	        </header>
+	        <div class="grid-col desktop-grid-one-half">
+	            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+	                <dt class="grid-col desktop-grid-one-half">
+	                    <h3 class="stat__figure delta">
+	                        <a href="#">Total</a>
+	                    </h3>
+	                </dt>
+	                <dd class="grid-col desktop-grid-one-half flush">
+	                    <div class="stat__figure delta" id="sapede-all">
+	                        <span class="stat__description">Mar 2014</span>
+	                    </div>
+	                </dd>
+	            </dl>
+	            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
+	                <dt class="grid-col desktop-grid-one-half">
+	                    <h3 class="stat__figure delta">
+	                        <a href="#">Males</a>
+	                    </h3>
+	                </dt>
+	                <dd class="grid-col desktop-grid-one-half flush">
+	                    <div class="stat__figure delta" id="sapede-males">
+	                        <span class="stat__description">Mar 2014</span>
+	                    </div>
+	                </dd>
+	            </dl>
+	            <dl class="grid-wrap panel flush--top flush--bottom">
+	                <dt class="grid-col desktop-grid-one-half">
+	                    <h3 class="stat__figure delta">
+	                        <a href="#">Females</a>
+	                    </h3>
+	                </dt>
+	                <dd class="grid-col desktop-grid-one-half flush">
+	                    <div class="stat__figure delta" id="sapede-females">
+	                        <span class="stat__description">Mar 2014</span>
+	                    </div>
+	                </dd>
+	            </dl>
+	        </div>
+	        <div class="grid-col desktop-grid-one-half">
+	            <img src="http://placehold.it/875x400&amp;text=Chart+goes+here" alt="Chart title" width="auto" height="230">
+	            </div>
+	        </div>
+	    </article>
+	    </div>
+          
+                
   </body>  
 </html>  
