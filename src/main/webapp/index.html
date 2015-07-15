@@ -12,6 +12,7 @@
      <!-- Latest minified and concatenated JS to go in the footer -->
      <script src="resources/javascript/footer.min.js"></script>
      <script src="resources/javascript/map.js"></script>  
+     
      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>  
      
      <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css"> 
@@ -22,6 +23,8 @@
 	   #innerDIV{position:absolute;z-index: 1; top:375px; left:25px; width:300px;} 
 	   #outerDIV{position:relative;} 
      </style>
+     <script src="./dist/js/footer.js"></script>
+		<script src="resources/javascript/charts.js"></script>
      <script src="http://js.arcgis.com/3.13/"></script>     
    
      <script> 
@@ -196,13 +199,17 @@
 	                </dd>
 	            </dl>
 	        </div>
-	        <div class="grid-col desktop-grid-one-half">
-	            <img src="http://placehold.it/875x400&amp;text=Chart+goes+here" alt="Chart title" width="auto" height="230">
+	        <div class="grid-col desktop-grid-one-half" data-chart="pyramid">
 	            </div>
 	        </div>
 	    </article>
-	    </div>
+	    
+		
           
+	    </div>
+	    
+	    
+	
                 
   </body>  
 </html>  
