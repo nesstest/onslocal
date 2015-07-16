@@ -24,7 +24,7 @@
 	   #outerDIV{position:relative;} 
      </style>
      <script src="./dist/js/footer.js"></script>
-		<script src="resources/javascript/charts.js"></script>
+	 <script src="resources/javascript/charts.js"></script>
      <script src="http://js.arcgis.com/3.13/"></script>     
    
      <script> 
@@ -110,6 +110,7 @@
 		  $.getJSON(jsonFile, function(result){
 	         createMap(result,postcode,levelname);
 	        
+	        
 		  }); 
 		}); 
 		
@@ -150,10 +151,10 @@
       <div id="wibble"  style="display: none;">
       <article class="wrapper">
 	    <div class="grid-wrap panel panel--separated--bottom">
-	        <header>
+	       <div class="grid-col desktop-grid-one-half">
+	         <header>
 	            <h2>Population</h2>
 	        </header>
-	        <div class="grid-col desktop-grid-one-half">
 	            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
 	                <dt class="grid-col desktop-grid-one-half">
 	                    <h3 class="stat__figure delta">
@@ -199,7 +200,8 @@
 	                </dd>
 	            </dl>
 	        </div>
-	        <div class="grid-col desktop-grid-one-half" data-chart="pyramid">
+	        <div class="grid-col desktop-grid-one-half" data-chart="pyramid" style="width:450px">
+	        <script> createChart();</script>
 	            </div>
 	        </div>
 	    </article>

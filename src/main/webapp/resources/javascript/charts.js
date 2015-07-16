@@ -2,7 +2,7 @@
  * File to invoke pattern library JS demos
  */
 
-$(document).ready(function(e) {
+function createChart() {
 
   var options;
   var data;
@@ -89,6 +89,6 @@ $(document).ready(function(e) {
     }
 
   });
-});
+};
 
 
