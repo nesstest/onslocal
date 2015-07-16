@@ -1,20 +1,17 @@
 {
 	"areas":[
-	{
-		"area": "UK",
-		"areacode": "OA11CD",
-		"areaname": "OA11NM",
-		"arealayername": "OA_2011_EW_BGC_V2",
-		"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
-		"envelope": "-72:5003:655605:1218558",
-		"extcode": "E00115783",
-		"hierarchycode": "2011SOA",
-		"hlevel1": 8,
-		"isdatasetpage": "false",
-		"isfromprofiles": "false",
-		"levelname": "OA",
-		"markerenvelope": "000000:0000000",
-		"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
-	}
-]
+	           {		
+		            "area": "UK",
+					"areacode": "CTRY11CD",
+					"areaname": "CTRY11NM",
+					"arealayername": "CTRY/CTRY_DEC_2011_GB_BGC",
+					"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
+					"envelope": "82672:5338:655605:657534",
+					"extcode": "E92000001",
+					"hierarchycode": "2011SOA",
+					"levelname": "CTRY",
+					"markerenvelope": "000000:0000000",
+		            "token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
+	          }
+            ]
 }

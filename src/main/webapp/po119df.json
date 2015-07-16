@@ -2,100 +2,102 @@
 	"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
 	"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72",
 	"areas": [
-					{
-						"OA": [				
-									{
-										"area": "E00116582",
-										"areacode": "OA11CD",
-										"areaname": "OA11NM",
-										"arealayername": "OA/OA_2011_EW_BGC_V2",
-										"envelope": "471402:99506:472222:100155",
-										"extcode": "E00116582",
-										"hierarchycode": "2011SOA",
-										"levelname": "OA",
-										"markerenvelope": "471950:0099688"
-									}	
-								],	
-					  "WD": [						
-									 {
-										"area": "Hayling West",
-										"areacode": "WD12CD",
-										"areaname": "WD12NM",
-										"arealayername": "WD/WD_DEC_2012_GB_BGC",
-										"envelope": "468789:98615:472640:104221",
-										"extcode": "E05004574",
-										"hierarchycode": "2012Admin",
-										"levelname": "WD",
-										"markerenvelope": "471950:0099688"
-									}
-								],
-					 "LAD": [								
-									{
-										"area": "Havant",
-										"areacode": "LAD11CD",
-										"areaname": "LAD11NM",
-										"arealayername": "LAD/LAD_DEC_2011_GB_BGC",
-										"envelope": "466605:98001:475647:112699",
-										"extcode": "E07000090",
-										"hierarchycode": "2011SOA",
-										"levelname": "LAD",
-										"markerenvelope": "471950:0099688"
-									}	
-								],	
-					"SHA": [								
-									{
-										"area": "South Central",
-										"areacode": "SHA06CD",
-										"areaname": "SHA06NM",
-										"arealayername": "SHA/SHA_DEC_2006_EN_BGC",
-										"envelope": "403095:89690:488767:165381",
-										"extcode": "Q38",
-										"hierarchycode": "2006Health",
-										"levelname": "SHA",
-										"markerenvelope": "471950:0099688"
-									}
-								],
-									 
-				  "PCON": [	
-									{
-										"area": "Havant",
-										"areacode": "PCON11CD",
-										"areaname": "PCON11NM",
-										"arealayername": "PCON/PCON_DEC_2011_GB_BGC",
-										"envelope": "466605:98001:475647:111136",
-										"extcode": "E14000736",
-										"hierarchycode": "2011Elect",
-										"levelname": "PCON",
-										"markerenvelope": "471950:0099688"
-									}	
-								],	
-					"GOR": [		
-								   {
-										"area": "South East",
-										"areacode": "GOR10CD",
-										"areaname": "GOR10NM",
-										"arealayername": "GOR/GOR_DEC_2010_EN_BGC",
-										"envelope": "403095:75257:640171:256158",
-										"extcode": "E12000008",
-										"hierarchycode": "2011SOA",
-										"levelname": "GOR",
-										"markerenvelope": "471950:0099688"
-									}	
-								],	
-					"CTRY": [	
-								   {
-										"area": "England",
-										"areacode": "CTRY11CD",
-										"areaname": "CTRY11NM",
-										"arealayername": "CTRY/CTRY_DEC_2011_GB_BGC",
-										"envelope": "82672:5338:655605:657534",
-										"extcode": "E92000001",
-										"hierarchycode": "2011SOA",
-										"levelname": "CTRY",
-										"markerenvelope": "471950:0099688"
-									}
-									
-								]
-				} 
-            ]              
+		{
+			"OA": [
+				{
+					"area": "E00116582",
+					"areacode": "OA11CD",
+					"areaname": "OA11NM",
+					"arealayername": "OA/OA_2011_EW_BGC_V2",
+					"envelope": "471402:99506:472222:100155",
+					"extcode": "E00116582",
+					"hierarchycode": "2011SOA",
+					"levelname": "OA",
+					"markerenvelope": "471950:0099688"
+				}
+			],
+			"WD": [
+				{
+					"area": "Hayling West",
+					"areacode": "WD12CD",
+					"areaname": "WD12NM",
+					"arealayername": "WD/WD_DEC_2012_GB_BGC",
+					"envelope": "468789:98615:472640:104221",
+					"extcode": "E05004574",
+					"hierarchycode": "2012Admin",
+					"levelname": "WD",
+					"markerenvelope": "471950:0099688",
+					"childarealist": "E00116574,E00116576,E00116577,E00116572,E00116578,E00116574,E00116583,E00116580,E00116581,E00116584,E00116582,E00116579,E00116590,E00116585,E00116573,E00116586,E00116587,E00116592,E00116593,E00116594,E00116575,E00116591,E00116589,E00116588,E00116595,E00116598,E00116599,E00116597,E00116596,E00116571"
+				}
+			],
+			"LAD": [
+				{
+					"area": "Havant",
+					"areacode": "LAD11CD",
+					"areaname": "LAD11NM",
+					"arealayername": "LAD/LAD_DEC_2011_GB_BGC",
+					"envelope": "466605:98001:475647:112699",
+					"extcode": "E07000090",
+					"hierarchycode": "2011SOA",
+					"levelname": "LAD",
+					"markerenvelope": "471950:0099688",
+					"childarealist": "E05004572,E05004570,E05004579,E05004577,E05004566,E05004578,E05004567,E05004575,E05004568,E05004569,E05004576,E05004571,E05004573,E05004574"	 
+				}
+			],
+			"SHA": [
+				{
+					"area": "South Central",
+					"areacode": "SHA06CD",
+					"areaname": "SHA06NM",
+					"arealayername": "SHA/SHA_DEC_2006_EN_BGC",
+					"envelope": "403095:89690:488767:165381",
+					"extcode": "Q38",
+					"hierarchycode": "2006Health",
+					"levelname": "SHA",
+					"markerenvelope": "471950:0099688"
+				}
+			],
+			"PCON": [
+				{
+					"area": "Havant",
+					"areacode": "PCON11CD",
+					"areaname": "PCON11NM",
+					"arealayername": "PCON/PCON_DEC_2011_GB_BGC",
+					"envelope": "466605:98001:475647:111136",
+					"extcode": "E14000736",
+					"hierarchycode": "2011Elect",
+					"levelname": "PCON",
+					"markerenvelope": "471950:0099688"
+				}
+			],
+			"GOR": [
+				{
+					"area": "South East",
+					"areacode": "GOR10CD",
+					"areaname": "GOR10NM",
+					"arealayername": "GOR/GOR_DEC_2010_EN_BGC",
+					"envelope": "403095:75257:640171:256158",
+					"extcode": "E12000008",
+					"hierarchycode": "2011SOA",
+					"levelname": "GOR",
+					"markerenvelope": "471950:0099688",
+					"childarealist": "E06000042,E07000004,E07000177,E07000181,E07000178,E07000180,E07000179,E07000007,E07000005,E07000006,E07000084,E07000089,E07000092,E07000209,E07000217,E07000207,E07000213,E07000212,E07000093,E07000094,E07000086,E07000091,E07000085,E07000088,E07000090,E07000225,E07000224,E07000229,E07000223,E07000065,E07000063,E07000061,E07000062,E07000064,E07000112,E07000105,E07000108,E07000106,E07000113,E07000110,E07000114,E07000115,E07000109,E07000107,E07000111,E07000215,E07000228,E07000226,E07000211,E07000210,E07000216,E06000039,E06000040,E06000041,E06000036,E06000038,E06000039,E06000037,E06000045,E06000039,E06000044,E06000046,E06000043,E06000035" 
+				}
+			],
+			"CTRY": [
+				{
+					"area": "England",
+					"areacode": "CTRY11CD",
+					"areaname": "CTRY11NM",
+					"arealayername": "CTRY/CTRY_DEC_2011_GB_BGC",
+					"envelope": "82672:5338:655605:657534",
+					"extcode": "E92000001",
+					"hierarchycode": "2011SOA",
+					"levelname": "CTRY",
+					"markerenvelope": "471950:0099688",
+					"childarealist": "E12000001,E12000002,E12000003,E12000004,E12000005,E12000006,E12000007,E12000008,E12000009"
+				}
+			]
+		}
+	]
 }
