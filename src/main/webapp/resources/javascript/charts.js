@@ -71,7 +71,7 @@ function createChart() {
           tooltip: {
             shared: false,
             formatter: function () {
-              return ONS.charts.textTooltipFormatter(this.series.name + ', age ' + this.point.category, 'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0));
+              return (this.series.name + ', age ' + this.point.category + 'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0));
             }
           },
           plotOptions: {
