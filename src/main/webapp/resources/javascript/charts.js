@@ -2,39 +2,43 @@
  * File to invoke pattern library JS demos
  */
 
-function createChart() {
+function createChart(m_0_4,m_5_9,m_10_14,m_15_19,m_20_24,m_25_29,m_30_34,m_35_39,m_40_44,m_45_49,m_50_54,m_55_59,m_60_64,m_65_69,m_70_74,m_75_79,m_80_84,m_85_89,m_90,f_0_4,f_5_9,f_10_14,f_15_19,f_20_24,f_25_29,f_30_34,f_35_39,f_40_44,f_45_49,f_50_54,f_55_59,f_60_64,f_65_69,f_70_74,f_75_79,f_80_84,f_85_89,f_90 ) {
 
   var options;
   var data;
-
+ 
   /*
    * Create an example chart for the time-series page
    */
   $('[data-chart]').each(function() {
 
     var chart = $(this);
-
+    
+    var maxValue = Math.max(m_0_4,m_5_9,m_10_14,m_15_19,m_20_24,m_25_29,m_30_34,m_35_39,m_40_44,m_45_49,m_50_54,m_55_59,m_60_64,m_65_69,m_70_74,m_75_79,m_80_84,m_85_89,m_90,f_0_4,f_5_9,f_10_14,f_15_19,f_20_24,f_25_29,f_30_34,f_35_39,f_40_44,f_45_49,f_50_54,f_55_59,f_60_64,f_65_69,f_70_74,f_75_79,f_80_84,f_85_89,f_90);
+   
+    
+    
     switch ( chart.data("chart") ) {
      case 'pyramid':
-
         data = {
+    		 
 
-          series: [
-            {
-              name: 'Female',
-              data: [-1951153, -1776769, -1745043, -1913324, -2140693, -2165760, -2130739, -2027676, -2313633, -2372899, -2137943, -1864375, -1848213, -1719021, -1305796, -1118131, -896135, -590364, -372291]
-            },
-            {
-              name: 'Male',
-              data: [2045247, 1864230, 1831322, 2013226, 2191539, 2152085, 2109169, 2008678, 2253651, 2312799, 2097878, 1819823, 1776207, 1626032, 1170152, 928768, 637528, 335580, 141158]
-            }
+    		 series: [
+    		            {
+    		              name: 'Female',
+    		              data: [-parseInt(f_0_4),-parseInt(f_5_9),-parseInt(f_10_14),-parseInt(f_15_19),-parseInt(f_20_24),-parseInt(f_25_29),-parseInt(f_30_34),-parseInt(f_35_39),-parseInt(f_40_44),-parseInt(f_45_49),-parseInt(f_50_54),-parseInt(f_55_59),-parseInt(f_60_64),-parseInt(f_65_69),-parseInt(f_70_74),-parseInt(f_75_79),-parseInt(f_80_84),-parseInt(f_85_89),-parseInt(f_90) ]
+    		            },
+    		            {
+    		              name: 'Male',
+    		             data: [parseInt(m_0_4),parseInt(m_5_9),parseInt(m_10_14),parseInt(m_15_19),parseInt(m_20_24),parseInt(m_25_29),parseInt(m_30_34),parseInt(m_35_39),parseInt(m_40_44),parseInt(m_45_49),parseInt(m_50_54),parseInt(m_55_59),parseInt(m_60_64),parseInt(m_65_69),parseInt(m_70_74),parseInt(m_75_79),parseInt(m_80_84),parseInt(m_85_89),parseInt(m_90)]
+    		            }
 
           ],
           xAxis: {
-            categories: ['0-4', '5-9', '10-14', '15-19',
-              '20-24', '25-29', '30-34', '35-39', '40-44',
-              '45-49', '50-54', '55-59', '60-64', '65-69',
-              '70-74', '75-79', '80-84', '85-89', '90 +']
+        	  categories: ['0-4', '5-9', '10-14', '15-19',
+        	               '20-24', '25-29', '30-34', '35-39', '40-44',
+        	               '45-49', '50-54', '55-59', '60-64', '65-69',
+        	               '70-74', '75-79', '80-84', '85-89', '90 +']
           }
         };
 
@@ -60,18 +64,20 @@ function createChart() {
             },
             labels: {
               formatter: function () {
-                return (Math.abs(this.value) / 1000000) + 'M';
+                return (Math.abs(this.value));
               }
             },
-            min: -2500000,
-            max: 2500000,
+            
+            
+            min: -parseInt(maxValue),
+            max: parseInt(maxValue),
             gridZIndex: 4,
             gridLineColor: '#F9F9F9'
           },
           tooltip: {
             shared: false,
             formatter: function () {
-              return (this.series.name + ', age ' + this.point.category + 'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0));
+              return ('<b>' + this.series.name + ':</b> age ' + this.point.category + '<br><b>Population:</b> ' + Highcharts.numberFormat(Math.abs(this.point.y), 0));
             }
           },
           plotOptions: {
