@@ -10,7 +10,9 @@
      <script src="resources/javascript/header.min.js"></script>
      <!-- Latest minified and concatenated JS to go in the footer -->
      <script src="resources/javascript/footer.min.js"></script>
-     <script src="resources/javascript/map.js"></script>  
+     <script src="resources/javascript/map.js"></script> 
+     <script src="resources/javascript/highlightMap.js"></script>  
+     <script src="resources/javascript/hoverMap.js"></script>
      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>  
      
      <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css"> 
@@ -69,14 +71,13 @@
 	        return vars;
 	    }
 	    
-	    var levelname;
-	    var postcode;
-	    
-	    //postcode = getUrlVars()["nav-search"];
-	    postcode =  getUrlParams()["nav-search"];
-	    
-	    //levelname = getUrlVars()["levelname"];
-	    levelname = getUrlParams()["levelname"];
+	    // get parameters from url	    
+	    var levelname, childname;
+	    var postcode;	   
+	   
+	    postcode =  getUrlParams()["nav-search"];	    
+	    levelname = getUrlParams()["levelname"];	    
+	    childname = getUrlParams()["childname"];
 	  
 		var pCode;
 		if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
@@ -93,7 +94,7 @@
 		  
 		$(document).ready(function(){
 		  $.getJSON(jsonFile, function(result){
-	         createMap(result, postcode,levelname);
+	         createMap(result, postcode,levelname,childname);
 		  }); 
 		}); 
 		
