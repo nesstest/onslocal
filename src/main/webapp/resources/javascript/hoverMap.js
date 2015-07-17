@@ -1,5 +1,4 @@
-function hoverMap(result, validpostCode, levelname, childname){	
-	alert("in hoverMap");
+function hoverMap(details, validpostCode, levelname, childname){
     dojoConfig = {
        locale: "en",
        parseOnLoad: true	    	     
@@ -51,8 +50,20 @@ function hoverMap(result, validpostCode, levelname, childname){
 			var arealayername = detailsArray[6];
 			var xCoord        = detailsArray[7];
 			var yCoord        = detailsArray[8];
-			var childAreaList = detailsArray[9];
+			var parentLevelName = detailsArray[9];
 			
+			var childarealist = detailsArray[10];			
+			var childcode     = detailsArray[11];
+			var childarea     = detailsArray[12];			
+			var childareaname = detailsArray[13];
+			
+			var childlayername     = detailsArray[14];
+			
+			// markerenvelope not required
+			var childLevelName = detailsArray[15];
+			
+		   // var reformList    = childarealist.replace(/,/g, "','");		   
+		   // var childAreaDef       = childcode  + " = '" + reformList + "'";	
 			
 			var postcode      = validpostCode;	
 			
@@ -125,7 +136,16 @@ function hoverMap(result, validpostCode, levelname, childname){
 				infoTemplate: infoTemplate,
 				mode: FeatureLayer.SNAPSHOT, 
 				outFields: [labelField]
-			 });    			   
+			 });
+			
+			// child details
+			var featureChildLayer1 = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+childLayerName+"/MapServer/0", { 
+				infoTemplate: infoTemplate,
+				mode: FeatureLayer.SNAPSHOT, 
+				outFields: [childName]
+			 });
+			
+		    
 			
 			featureLayer.setRenderer(renderer); 
 			//featureLayer.infoTemplate.setContent(templateContent);
