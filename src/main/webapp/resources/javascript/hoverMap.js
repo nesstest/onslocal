@@ -23,10 +23,7 @@ function hoverMap(details, validpostCode, levelname, childname){
 		"esri/layers/LabelLayer",  
 		"dojo/_base/Color",
 		"dojo/on",
-		"dojo/dom",
-		"esri/graphic",
-		"esri/tasks/query",
-	    "esri/tasks/QueryTask",
+		"dojo/dom",		
 		"dojo/domReady!",
 		"dijit/layout/BorderContainer", 
 		"dijit/layout/ContentPane"
@@ -34,7 +31,7 @@ function hoverMap(details, validpostCode, levelname, childname){
 		  ], function( 
 		    Map, HomeButton, InfoTemplate, Scalebar, parser, Extent, FeatureLayer, 
 		    SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, InfoTemplate,   
-		    LabelLayer, Color, on, dom, Graphic, Query, QueryTask
+		    LabelLayer, Color, on, dom
 		  ) 
 		  { 
 		
@@ -46,25 +43,23 @@ function hoverMap(details, validpostCode, levelname, childname){
 			var xmax_env      = parseInt(detailsArray[2]);
 			var ymax_env      = parseInt(detailsArray[3]);
 			var area          = detailsArray[4];
-			var areacode      = detailsArray[5];
+			var areaname      = detailsArray[5];
 			var arealayername = detailsArray[6];
-			var xCoord        = detailsArray[7];
-			var yCoord        = detailsArray[8];
+			
 			var parentLevelName = detailsArray[9];
+			var areacode      = detailsArray[10];					
+			var childarealist = detailsArray[11];
+			var extcode       = detailsArray[12];
 			
-			var childarealist = detailsArray[10];			
-			var childcode     = detailsArray[11];
-			var childarea     = detailsArray[12];			
-			var childareaname = detailsArray[13];
+			var childcode     = detailsArray[13];
+			var childarea     = detailsArray[14];			
+			var childareaname = detailsArray[15];			
+			var childlayername  = detailsArray[16];			
+			var childLevelName = detailsArray[17];
 			
-			var childlayername     = detailsArray[14];
-			
-			// markerenvelope not required
-			var childLevelName = detailsArray[15];
-			
-		   // var reformList    = childarealist.replace(/,/g, "','");		   
-		   // var childAreaDef       = childcode  + " = '" + reformList + "'";	
-			
+		    var reformList    = childarealist.replace(/,/g, "','");	
+		    var childAreaDef  = childcode + " IN ('" + reformList + "')";    
+		
 			var postcode      = validpostCode;	
 			
 			var diff = xmax_env-xmin_env;
@@ -94,62 +89,49 @@ function hoverMap(details, validpostCode, levelname, childname){
 			esriConfig.defaults.io.corsEnabledServers.push("http://services.arcgisonline.com");
 			esriConfig.defaults.io.corsEnabledServers.push("https://mapping.statistics.gov.uk");
 			
+			// parent layer
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
-			map.addLayer(dynamicMSLayer);         
-			map.setExtent(bbox.expand(1.1)); 
-		
-			if (postcode == null || postcode.length == 0){
-				
-			}
-			else{
-			 map.on("load", function(){		         
-				 var symbol = new esri.symbol.PictureMarkerSymbol({
-			     "angle": 0,
-			     "xoffset": 0,
-			     "yoffset": 12,
-			     "type": "esriPMS",
-			     "url": "resources/images/map-marker-128.png",
-			     "contentType": "image/png",
-			     "width": 24,
-			     "height": 24
-			  });	        
-				 map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));
-		    });				
-		   }
-								
-		   var defaultSymbol = new SimpleFillSymbol().setStyle(SimpleFillSymbol.STYLE_NULL); 
-		   defaultSymbol.outline.setStyle(SimpleLineSymbol.STYLE_NULL); 
-			 
-			//create renderer 
-			var renderer = new UniqueValueRenderer(defaultSymbol, areacode); 
-			//add symbol for each possible value 
-			renderer.addValue(area, 
-					new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-			                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-			                new Color([229,78,22]),2),new Color([229,78,22, 0.2])));  	  
+			map.addLayer(dynamicMSLayer);  
 			
-			var infoTemplate = new InfoTemplate();
-			infoTemplate.setTitle("Area:" );
-			infoTemplate.setContent("content to go here");
+			map.setExtent(bbox.expand(1.1)); 
+				
+		//	var infoTemplate = new InfoTemplate();
+		//	infoTemplate.setTitle("Area:" );
+		//	infoTemplate.setContent("content to go here");
+			var parentAreaDef       = areacode  + " = '" + extcode + "'";				
+			
 			var labelField = areacode; 			
-			var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/MapServer/0", { 
-				infoTemplate: infoTemplate,
+			var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/FeatureServer/0", { 
+				//infoTemplate: infoTemplate,				
 				mode: FeatureLayer.SNAPSHOT, 
 				outFields: [labelField]
 			 });
-			
+						
 			// child details
-			var featureChildLayer1 = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+childLayerName+"/MapServer/0", { 
-				infoTemplate: infoTemplate,
+			var featureChildLayer1 = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+childlayername+"/FeatureServer/0", { 
+		//		infoTemplate: infoTemplate,				
 				mode: FeatureLayer.SNAPSHOT, 
-				outFields: [childName]
-			 });
+				outFields: [childcode]
+			 });						
 			
-		    
+			var parentMapSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                                  new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                                  new Color([229,78,22]),2),new Color([229,78,22, 0.2]));  	  		
 			
-			featureLayer.setRenderer(renderer); 
+			var defaultSymbol   = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                                  new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                                  new Color([229,78,22]),2),new Color([229,78,22, 0.2]));  	
+           
+            
+            featureChildLayer1.setDefinitionExpression(childAreaDef);
+	        featureChildLayer1.setRenderer(new SimpleRenderer(defaultSymbol)); 
+	         
+	        featureLayer.setDefinitionExpression(parentAreaDef);		   	                    	     
+	        featureLayer.setRenderer(new SimpleRenderer(parentMapSymbol));			
+						
 			//featureLayer.infoTemplate.setContent(templateContent);
-			map.addLayer(featureLayer);		
+		   
+			map.addLayers([featureLayer, featureChildLayer1]);	
 			
 			map.on("load", function(){ 				
 			   map.disableMapNavigation();
