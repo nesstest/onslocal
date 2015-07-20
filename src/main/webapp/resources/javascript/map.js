@@ -42,11 +42,11 @@ function createMap(result, validpostCode, levelname, childname){
 		  // if welsh postcode - no GOR
 		  if (validpostCode === "NP18 1AF"){
 			  regionText      = '<span style="display:none;"></span>';	
-			  regionDrillText = '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD&amp;childname=WD"> - Local Authority </a></div>';	
+			  regionDrillText = '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=LAD"> - Local Authority </a></div>';	
 		  }
 		  else{
 			  regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;
-			  regionDrillText  = '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=GOR&amp;childname=LAD"> - Region </a></div>';
+			  regionDrillText  = '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> - Region </a></div>';
 		  }		  	  
 		  
 		  // display map for level name - populate parent & child details
@@ -57,7 +57,9 @@ function createMap(result, validpostCode, levelname, childname){
 							result.areas[0].WD[0].arealayername+":"+
 				            result.areas[0].WD[0].markerenvelope+":"+
 			                result.areas[0].WD[0].levelname +":"+
-			                result.areas[0].WD[0].childarealist +":"+
+			                result.areas[0].WD[0].areacode+":"+ 
+			                result.areas[0].WD[0].childarealist +":"+	
+			                result.areas[0].WD[0].extcode +":"+	 
 			                result.areas[0].OA[0].areacode +":"+
 			                result.areas[0].OA[0].area+":"+ 
 						    result.areas[0].OA[0].areaname+":"+ 
@@ -86,8 +88,10 @@ function createMap(result, validpostCode, levelname, childname){
 						    result.areas[0].LAD[0].areaname+":"+ 
 							result.areas[0].LAD[0].arealayername+":"+
 				            result.areas[0].LAD[0].markerenvelope+":"+
-			                result.areas[0].LAD[0].levelname;
-			                result.areas[0].LAD[0].childarealist; 
+			                result.areas[0].LAD[0].levelname+":"+
+			                result.areas[0].LAD[0].areacode +":"+
+			                result.areas[0].LAD[0].childarealist+":"+
+			                result.areas[0].LAD[0].extcode +":"+	
 						    result.areas[0].WD[0].areacode +":"+
 				            result.areas[0].WD[0].area+":"+ 
 						    result.areas[0].WD[0].areaname+":"+ 
@@ -115,8 +119,10 @@ function createMap(result, validpostCode, levelname, childname){
 						    result.areas[0].GOR[0].areaname+":"+ 
 							result.areas[0].GOR[0].arealayername+":"+
 				            result.areas[0].GOR[0].markerenvelope+":"+
-			                result.areas[0].GOR[0].levelname;
-			                result.areas[0].GOR[0].childarealist;
+			                result.areas[0].GOR[0].levelname+":"+
+			                result.areas[0].GOR[0].areacode +":"+
+			                result.areas[0].GOR[0].childarealist+":"+
+			                result.areas[0].GOR[0].extcode+":"+
 						    result.areas[0].LAD[0].areacode +":"+
 				            result.areas[0].LAD[0].area+":"+ 
 						    result.areas[0].LAD[0].areaname+":"+ 
@@ -138,28 +144,32 @@ function createMap(result, validpostCode, levelname, childname){
 		  
 		  // display map for level name - populate parent & child details
 		  if (levelname ==="CTRY"){	
-			  if (validpostCode ==="PO15 5RR" || validpostCode ==="PO11 9DF") {
+			  if (validpostCode ==="PO15 5RR" || validpostCode ==="PO11 9DF") {				
 				  details = 	result.areas[0].CTRY[0].envelope +":"+ 
 				            	result.areas[0].CTRY[0].area+":"+ 
 							    result.areas[0].CTRY[0].areaname+":"+ 
 								result.areas[0].CTRY[0].arealayername+":"+
 					            result.areas[0].CTRY[0].markerenvelope+":"+
-				                result.areas[0].CTRY[0].levelname;
-				                result.areas[0].CTRY[0].childarealist; 
+				                result.areas[0].CTRY[0].levelname+":"+
+				                result.areas[0].CTRY[0].areacode +":"+
+				                result.areas[0].CTRY[0].childarealist+":"+
+				                result.areas[0].CTRY[0].extcode+":"+
 							    result.areas[0].GOR[0].areacode +":"+
 					            result.areas[0].GOR[0].area+":"+ 
 							    result.areas[0].GOR[0].areaname+":"+ 
 								result.areas[0].GOR[0].arealayername+":"+
 					            result.areas[0].GOR[0].levelname;
 			  }
-			  else {
+			  else {				 
 				  details = 	result.areas[0].CTRY[0].envelope +":"+ 
 				            	result.areas[0].CTRY[0].area+":"+ 
 							    result.areas[0].CTRY[0].areaname+":"+ 
 								result.areas[0].CTRY[0].arealayername+":"+
 					            result.areas[0].CTRY[0].markerenvelope+":"+
-				                result.areas[0].CTRY[0].levelname;
-				                result.areas[0].CTRY[0].childarealist; 
+				                result.areas[0].CTRY[0].levelname+":"+
+				                result.areas[0].CTRY[0].areacode +":"+
+				                result.areas[0].CTRY[0].childarealist+":"+
+				                result.areas[0].CTRY[0].extcode+":"+
 				                result.areas[0].LAD[0].areacode +":"+
 					            result.areas[0].LAD[0].area+":"+ 
 							    result.areas[0].LAD[0].areaname+":"+ 
