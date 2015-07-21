@@ -1,25 +1,26 @@
 function createTable(extcode, levelname){
-	$("#wibble").toggle();
+	$("#tableChart").toggle();
 	
 		
 	if (levelname =="WD")
 		{
-			var URL = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+extcode+"&jsontype=json-stat&totals=false&diff=2013";
+		//call WDA API 	for administrative level Data
+		var URL = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+extcode+"&jsontype=json-stat&totals=false&diff=2013";
 		}
 	else{
-			var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+"&jsontype=json-stat&totals=false&diff=2013";
+		//call WDA API for Statistical level Data
+		var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+"&jsontype=json-stat&totals=false&diff=2013";
 		}
 	var details;
-	//alert("in myFunction: " + extcode);	
+	
 	
 	$(document).ready(function(){
 		$.getJSON(URL, function(result){
-			//alert("in function");
+			
 			all = result["SAPEDE 2013"].value[0] ;
 			male = result["SAPEDE 2013"].value[1] ;
 			female = result["SAPEDE 2013"].value[2];
-			//var HTMLTable = "Total:"+all+"<br>Male:"+male+"<br>Female:"+female
-			//$('#postCodes').append(HTMLTable);
+			
 			$('#sapede-all').append(all);
 			$('#sapede-males').append(male);
 			$('#sapede-females').append(female);
@@ -28,7 +29,7 @@ function createTable(extcode, levelname){
 	
 	$(document).ready(function(){
 		$.getJSON(URL, function(result){
-			//alert("in function");
+			//create variable for each age range grouping MALES
 			m_0_4 = result["SAPEDE 2013"].value[4] + result["SAPEDE 2013"].value[7] + result["SAPEDE 2013"].value[10] + result["SAPEDE 2013"].value[13] + result["SAPEDE 2013"].value[16];
 			m_5_9 = result["SAPEDE 2013"].value[19] + result["SAPEDE 2013"].value[22] + result["SAPEDE 2013"].value[25] + result["SAPEDE 2013"].value[28] + result["SAPEDE 2013"].value[31];
 			m_10_14 = result["SAPEDE 2013"].value[34]+ result["SAPEDE 2013"].value[37] + result["SAPEDE 2013"].value[40] + result["SAPEDE 2013"].value[43] + result["SAPEDE 2013"].value[46];
@@ -49,7 +50,7 @@ function createTable(extcode, levelname){
 			m_85_89 = result["SAPEDE 2013"].value[259] + result["SAPEDE 2013"].value[262] + result["SAPEDE 2013"].value[265] + result["SAPEDE 2013"].value[268] + result["SAPEDE 2013"].value[271];
 			m_90 = result["SAPEDE 2013"].value[274];
 
-			
+			//create variable for each age range grouping FEMALES
 			f_0_4 = result["SAPEDE 2013"].value[5] + result["SAPEDE 2013"].value[8] + result["SAPEDE 2013"].value[11] + result["SAPEDE 2013"].value[14] + result["SAPEDE 2013"].value[17];
 			f_5_9 = result["SAPEDE 2013"].value[20] + result["SAPEDE 2013"].value[23] + result["SAPEDE 2013"].value[26] + result["SAPEDE 2013"].value[29] + result["SAPEDE 2013"].value[32];
 			f_10_14 = result["SAPEDE 2013"].value[35]+ result["SAPEDE 2013"].value[38] + result["SAPEDE 2013"].value[41] + result["SAPEDE 2013"].value[44] + result["SAPEDE 2013"].value[47];
@@ -101,6 +102,7 @@ function createMap(result, validpostCode, levelname){
 			            result.areas[0].OA[0].markerenvelope+":"+
 			            result.areas[0].OA[0].levelname;
 			
+			//Call createTable for OA
 			createTable(result.areas[0].OA[0].extcode, levelname);
 			
 			// set orange info box details	
@@ -126,6 +128,7 @@ function createMap(result, validpostCode, levelname){
 				            result.areas[0].WD[0].markerenvelope+":"+
 			                result.areas[0].WD[0].levelname;
 			  
+			//Call createTable for WARD
 			  createTable(result.areas[0].WD[0].extcode, levelname);
 			  // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -149,6 +152,7 @@ function createMap(result, validpostCode, levelname){
 				            result.areas[0].LAD[0].markerenvelope+":"+
 			                result.areas[0].LAD[0].levelname;
 			  
+			//Call createTable for Local Authority
 			  createTable(result.areas[0].LAD[0].extcode, levelname);
 			  
 		      // set orange info box details	
@@ -171,6 +175,7 @@ function createMap(result, validpostCode, levelname){
 				            result.areas[0].GOR[0].markerenvelope+":"+
 			                result.areas[0].GOR[0].levelname;
 			  
+			//Call createTable for GOR
 			  createTable(result.areas[0].GOR[0].extcode, levelname);
 			  
 		      // set orange info box details	
@@ -191,6 +196,7 @@ function createMap(result, validpostCode, levelname){
 				            result.areas[0].CTRY[0].markerenvelope+":"+
 			                result.areas[0].CTRY[0].levelname;
 			  
+			//Call createTable for Country
 			  createTable(result.areas[0].CTRY[0].extcode, levelname);
 			  
 		      // set orange info box details	
