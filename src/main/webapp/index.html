@@ -15,14 +15,16 @@
      <script src="resources/javascript/hoverMap.js"></script>
      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>  
      
-     <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css"> 
-     <link rel="stylesheet" href="http://js.arcgis.com/3.13/dijit/themes/claro/claro.css">      
+     <link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css"> 
+     <link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/claro/claro.css">
+     <link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/tundra/tundra.css">      
      <style>  
        html, body { height: 100%; width: 100%; margin: 0; padding: 0; } 
        #map{padding:0;} 
 	   #innerDIV{position:absolute;z-index: 1; top:375px; left:25px; width:300px;} 
 	   #outerDIV{position:relative;} 
-	   #HomeButton {position: absolute;top: 250px;left: 14px;z-index: 50;}	   
+	   #HomeButton {position: absolute;top: 250px;left: 14px;z-index: 50;}	
+	   
      </style>
      <script src="http://js.arcgis.com/3.13/"></script>     
    
@@ -100,7 +102,7 @@
 		
 	  </script> 
   </head> 
-  <body> 
+  <body class="tundra"> 
       <div class="wrapper panel--mar nav-panels">
         <div class="grid-wrap">
             <header>
@@ -125,8 +127,8 @@
                 </script> 
                </form>
             </div>             	             
-            <div id="map"  style="height: 500px; margin-top:0px;">
-               <div id="HomeButton"></div>
+            <div id="map" style="height: 500px; margin-top:0px;">
+               <div id="HomeButton"></div>             
             </div>             
             <div id="selArea1"></div>	            
           </div>            

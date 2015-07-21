@@ -23,7 +23,14 @@ function hoverMap(details, validpostCode, levelname, childname){
 		"esri/layers/LabelLayer",  
 		"dojo/_base/Color",
 		"dojo/on",
-		"dojo/dom",		
+		"dojo/dom",
+		"esri/graphic", 
+		"esri/lang",
+		"dojo/number", 
+		"dojo/dom-style", 
+        "dijit/TooltipDialog", 
+        "dijit/popup",
+        "dojo/query",
 		"dojo/domReady!",
 		"dijit/layout/BorderContainer", 
 		"dijit/layout/ContentPane"
@@ -31,7 +38,7 @@ function hoverMap(details, validpostCode, levelname, childname){
 		  ], function( 
 		    Map, HomeButton, InfoTemplate, Scalebar, parser, Extent, FeatureLayer, 
 		    SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, InfoTemplate,   
-		    LabelLayer, Color, on, dom
+		    LabelLayer, Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, query
 		  ) 
 		  { 
 		
@@ -47,15 +54,15 @@ function hoverMap(details, validpostCode, levelname, childname){
 			var arealayername = detailsArray[6];
 			
 			var parentLevelName = detailsArray[9];
-			var areacode      = detailsArray[10];					
-			var childarealist = detailsArray[11];
-			var extcode       = detailsArray[12];
+			var areacode        = detailsArray[10];					
+			var childarealist   = detailsArray[11];
+			var extcode         = detailsArray[12];
 			
-			var childcode     = detailsArray[13];
-			var childarea     = detailsArray[14];			
-			var childareaname = detailsArray[15];			
+			var childcode       = detailsArray[13];
+			var childarea       = detailsArray[14];	
+			var childareaname   = detailsArray[15];			
 			var childlayername  = detailsArray[16];			
-			var childLevelName = detailsArray[17];
+			var childLevelName  = detailsArray[17];
 			
 		    var reformList    = childarealist.replace(/,/g, "','");	
 		    var childAreaDef  = childcode + " IN ('" + reformList + "')";    
@@ -109,9 +116,10 @@ function hoverMap(details, validpostCode, levelname, childname){
 						
 			// child details
 			var featureChildLayer1 = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+childlayername+"/FeatureServer/0", { 
-		//		infoTemplate: infoTemplate,				
+		   //		infoTemplate: infoTemplate,				
 				mode: FeatureLayer.SNAPSHOT, 
-				outFields: [childcode]
+				outFields: [childcode, childareaname]
+				
 			 });						
 			
 			var parentMapSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
@@ -133,12 +141,58 @@ function hoverMap(details, validpostCode, levelname, childname){
 		   
 			map.addLayers([featureLayer, featureChildLayer1]);	
 			
+		    map.infoWindow.resize(245,125);
+		    
+		    dialog = new TooltipDialog({
+		       id: "tooltipDialog",
+		       style: "position:  absolute; width: auto; font: normal normal normal 10pt Helvetica;z-index:100;"
+		    });
+		    dialog.startup();
+		    
+		    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
+		          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 3), 
+		            new Color([229,78,22,0.45])
+		     );
+		    
+	        //listen for when the onMouseOver event fires on the countiesGraphicsLayer
+	        //when fired, create a new graphic with the geometry from the event.graphic and add it to the maps graphics layer
+		    var t;
+		    featureChildLayer1.on("mouse-over", function(evt){
+	         
+	          if (childLevelName === "OA") {
+	        	   t = "<b>${"+ childcode + "}</b>";
+	          }
+	          else {
+	        	   t = "<b>${"+ childareaname + "}</b>";
+	          }	  
+	          
+	          var content = esriLang.substitute(evt.graphic.attributes,t);
+	          var highlightGraphic = new Graphic(evt.graphic.geometry,highlightSymbol);
+	          map.graphics.add(highlightGraphic);
+	          
+	          dialog.setContent(content);
+
+	          domStyle.set(dialog.domNode, "opacity", 0.85);	         
+	          dijitPopup.open({
+	            popup: dialog, 
+	            x: evt.pageX,
+	            y: evt.pageY
+	          });
+	        });
+	    
+	        function closeDialog() {
+	          map.graphics.clear();
+	          dijitPopup.close(dialog);
+	        } 
+			
 			map.on("load", function(){ 				
 			   map.disableMapNavigation();
 			   map.disableKeyboardNavigation();
 			   map.disablePan();
 			   map.disableRubberBandZoom();
 			   map.disableScrollWheelZoom();
+			   map.graphics.enableMouseEvents();
+		       map.graphics.on("mouse-out", closeDialog);
 		   }); 
 		});		
 	}	
