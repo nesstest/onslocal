@@ -29,7 +29,8 @@ function hoverMap(details, validpostCode, levelname, childname){
 		"dojo/number", 
 		"dojo/dom-style", 
         "dijit/TooltipDialog", 
-        "dijit/popup", 
+        "dijit/popup",
+        "dojo/query",
 		"dojo/domReady!",
 		"dijit/layout/BorderContainer", 
 		"dijit/layout/ContentPane"
@@ -37,7 +38,7 @@ function hoverMap(details, validpostCode, levelname, childname){
 		  ], function( 
 		    Map, HomeButton, InfoTemplate, Scalebar, parser, Extent, FeatureLayer, 
 		    SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, InfoTemplate,   
-		    LabelLayer, Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup
+		    LabelLayer, Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, query
 		  ) 
 		  { 
 		
@@ -149,7 +150,7 @@ function hoverMap(details, validpostCode, levelname, childname){
 		    dialog.startup();
 		    
 		    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
-		          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 4), 
+		          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 3), 
 		            new Color([229,78,22,0.45])
 		     );
 		    
