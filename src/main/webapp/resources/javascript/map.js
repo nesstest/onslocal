@@ -18,13 +18,12 @@ function createMap(result, validpostCode, levelname, childname){
 			// display OA map
 			details = 	result.areas[0].OA[0].envelope +":"+ 
 						result.areas[0].OA[0].area+":"+ 
-					 	result.areas[0].OA[0].areacode+":"+ 
+					 	result.areas[0].OA[0].areaname+":"+ 					 
 						result.areas[0].OA[0].arealayername+":"+
 			            result.areas[0].OA[0].markerenvelope+":"+
-			            result.areas[0].OA[0].levelname;
-			
-			childcode =  result.areas[0].OA[0].areacode;
-			
+			            result.areas[0].OA[0].levelname+":"+
+			            result.areas[0].OA[0].areacode;
+						
 			// set orange info box details	
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 								  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
@@ -42,14 +41,14 @@ function createMap(result, validpostCode, levelname, childname){
 		  // if welsh postcode - no GOR
 		  if (validpostCode === "NP18 1AF"){
 			  regionText      = '<span style="display:none;"></span>';	
-			  regionDrillText = '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=LAD"> - Local Authority </a></div>';	
+			  regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>';	
 		  }
 		  else{
 			  regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;
-			  regionDrillText  = '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> - Region </a></div>';
+			  regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
 		  }		  	  
 		  
-		  // display map for level name - populate parent & child details
+		  // display map for level name - populate grandparent, parent & child details
 		  if (levelname ==="WD"){
 			  details = 	result.areas[0].WD[0].envelope +":"+ 
 			            	result.areas[0].WD[0].area+":"+ 
@@ -65,6 +64,8 @@ function createMap(result, validpostCode, levelname, childname){
 						    result.areas[0].OA[0].areaname+":"+ 
 							result.areas[0].OA[0].arealayername+":"+
 			                result.areas[0].OA[0].levelname;
+			               
+			                
 			  
 			  // set orange part of box & drill down details
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -76,12 +77,12 @@ function createMap(result, validpostCode, levelname, childname){
                       '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
                       '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
                       '<div style="font-size: small;">' + 
-                      '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD&amp;childname=OA"> - Output area </a></div>' +
+                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD&amp;childname=OA"> Output area </a></div>' +
                       '</div>' +
                       '</article></div>');	
 		  }
 	
-		  // display map for level name - populate parent & child details
+		  // display map for level name - populate grandparent, parent & child details
 		  if (levelname ==="LAD"){			 
 			  details = 	result.areas[0].LAD[0].envelope +":"+ 
 			            	result.areas[0].LAD[0].area+":"+ 
@@ -96,7 +97,7 @@ function createMap(result, validpostCode, levelname, childname){
 				            result.areas[0].WD[0].area+":"+ 
 						    result.areas[0].WD[0].areaname+":"+ 
 							result.areas[0].WD[0].arealayername+":"+
-				            result.areas[0].WD[0].levelname;
+				            result.areas[0].WD[0].levelname;			               
 			  
 		      // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -107,7 +108,7 @@ function createMap(result, validpostCode, levelname, childname){
                       '<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' + 
                       '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
                       '<div style="font-size: small;">' + 
-                      '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD&amp;childname=WD"> - Ward </a></div>' +
+                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD&amp;childname=WD"> Ward </a></div>' +
                       '</div>' +
                       '</article></div>');				
 		  }
@@ -128,6 +129,7 @@ function createMap(result, validpostCode, levelname, childname){
 						    result.areas[0].LAD[0].areaname+":"+ 
 							result.areas[0].LAD[0].arealayername+":"+
 				            result.areas[0].LAD[0].levelname;
+			                
 			  
 		      // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -137,7 +139,7 @@ function createMap(result, validpostCode, levelname, childname){
                       '<div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' + 
                       '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
                       '<div style="font-size: small;">' + 
-                      '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=GOR&amp;childname=LAD"> - Local Authority </a></div>' +
+                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=GOR&amp;childname=LAD"> Local Authority </a></div>' +
                       '</div>' +
                       '</article></div>');				
 		  }
@@ -193,11 +195,10 @@ function createMap(result, validpostCode, levelname, childname){
 	}
 	// call highlight map
 	if (typeof childname === 'undefined') {
-		highlightMap(result, validpostCode, levelname);
+		highlightMap(details, validpostCode);
 	}
 	// call hover map
 	else {
 		 hoverMap(details, validpostCode);
 	}	
-}	
-	
+}

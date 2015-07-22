@@ -1,4 +1,4 @@
-function hoverMap(details, validpostCode, levelname, childname){
+function hoverMap(details, validpostCode){
     dojoConfig = {
        locale: "en",
        parseOnLoad: true	    	     
@@ -100,23 +100,18 @@ function hoverMap(details, validpostCode, levelname, childname){
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
 			map.addLayer(dynamicMSLayer);  
 			
-			map.setExtent(bbox.expand(1.1)); 
-				
-		//	var infoTemplate = new InfoTemplate();
-		//	infoTemplate.setTitle("Area:" );
-		//	infoTemplate.setContent("content to go here");
+			map.setExtent(bbox.expand(1.1)); 				
+		
 			var parentAreaDef       = areacode  + " = '" + extcode + "'";				
 			
 			var labelField = areacode; 			
-			var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/FeatureServer/0", { 
-				//infoTemplate: infoTemplate,				
+			var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/FeatureServer/0", { 							
 				mode: FeatureLayer.SNAPSHOT, 
 				outFields: [labelField]
 			 });
 						
 			// child details
-			var featureChildLayer1 = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+childlayername+"/FeatureServer/0", { 
-		   //		infoTemplate: infoTemplate,				
+			var featureChildLayer1 = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+childlayername+"/FeatureServer/0", { 				
 				mode: FeatureLayer.SNAPSHOT, 
 				outFields: [childcode, childareaname]
 				
@@ -136,8 +131,6 @@ function hoverMap(details, validpostCode, levelname, childname){
 	         
 	        featureLayer.setDefinitionExpression(parentAreaDef);		   	                    	     
 	        featureLayer.setRenderer(new SimpleRenderer(parentMapSymbol));			
-						
-			//featureLayer.infoTemplate.setContent(templateContent);
 		   
 			map.addLayers([featureLayer, featureChildLayer1]);	
 			
@@ -158,7 +151,7 @@ function hoverMap(details, validpostCode, levelname, childname){
 	        //when fired, create a new graphic with the geometry from the event.graphic and add it to the maps graphics layer
 		    var t;
 		    featureChildLayer1.on("mouse-over", function(evt){
-	         
+		      map.setMapCursor("pointer"); 
 	          if (childLevelName === "OA") {
 	        	   t = "<b>${"+ childcode + "}</b>";
 	          }
@@ -172,7 +165,8 @@ function hoverMap(details, validpostCode, levelname, childname){
 	          
 	          dialog.setContent(content);
 
-	          domStyle.set(dialog.domNode, "opacity", 0.85);	         
+	          domStyle.set(dialog.domNode, "opacity", 0.85);
+	         
 	          dijitPopup.open({
 	            popup: dialog, 
 	            x: evt.pageX,
@@ -182,6 +176,7 @@ function hoverMap(details, validpostCode, levelname, childname){
 	    
 	        function closeDialog() {
 	          map.graphics.clear();
+	          map.setMapCursor("default"); 
 	          dijitPopup.close(dialog);
 	        } 
 			
