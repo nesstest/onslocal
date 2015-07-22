@@ -111,12 +111,11 @@ function highlightMap(details, validpostCode){
 		   
 		   var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                    new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                   new Color([229,78,22]),2),new Color([0,0,0,0]));  
+                   new Color([229,78,22]),1),new Color([0,0,0,0]));  
 		   
 		   var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
-			          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 3), 
+			          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
 			          new Color([229,78,22,0.1]));
-			 
 			
 		    var outcode;
 		    if (levelname === "OA") {
