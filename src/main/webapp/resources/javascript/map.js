@@ -33,7 +33,7 @@ function createMap(result, validpostCode, levelname, childname){
 								  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
 			                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +postcode+'</strong></div>' +
 			                      '<div style="color: black; font-size:medium;">(Output area ' + result.areas[0].OA[0].area + ')<br><br><strong>Part of:</strong></div>' +
-			                      '<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD">'+ result.areas[0].WD[0].area + ' </a>)' +
+			                      '<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD">'+ result.areas[0].WD[0].area + '</a>)' +
 		  		             	  '<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + '</a>)' + 
 			                       regionText +
 			                      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
