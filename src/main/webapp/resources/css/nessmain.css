@@ -1238,7 +1238,8 @@ body {
   background: #fff; }
 
 html, body {
-  height: 100%; }
+  height: 100%;
+  overflow: auto !important; }
 
 body, button, input, select, textarea {
   font-family: "open-sans-n4", "open-sans", sans-serif; }
@@ -1321,7 +1322,7 @@ img {
   content: '\e80f'; }
 
 .icon-search-1:before {
-   content: '\e810'; }
+  content: '\e810'; }
 
 .icon-popup:before {
   content: '\e811'; }
@@ -1569,6 +1570,7 @@ img {
 .clear-both {
   clear: both !important; }
 
+
 .text-left {
   text-align: left !important; }
 
@@ -1587,6 +1589,17 @@ img {
 
 .no-border {
   border: none !important; }
+
+.full-width {
+  width: 100%; }
+
+.no-padding {
+  padding: 0 !important; }
+
+/* misc bits */
+.prototype-banner {
+  background: #FF9933;
+  padding: 10px 0px; }
 
 /* ======================================================
    A standard wrapping block to limit the width of blocks - this allows for full width elements
@@ -2487,8 +2500,8 @@ h4, .gamma, .list--table__item__header {
 
 @media screen and (min-width: 38em) {
   h1, .alpha {
-    font-size: 42px;
-    font-size: 4.2rem;
+    font-size: 32px;
+    font-size: 3.2rem;
     line-height: 1.07143; } }
 
 @media screen and (min-width: 38em) {
@@ -2525,7 +2538,8 @@ h4, .gamma, .list--table__item__header {
 
 a {
   color: #0054aa;
-  text-decoration: none; }
+  text-decoration: none;
+  word-wrap: break-word; }
   a:visited {
     color: #004890; }
   a:hover, a:focus {
@@ -2861,8 +2875,7 @@ address {
 
 .chart-area__footer {
   float: right;
-  margin-top: 10px;
-  margin-top: 1rem; }
+  /*margin-top: 1rem;*/ }
   .chart-area__footer .btn {
     margin-top: 5px;
     margin-top: 0.5rem;
@@ -2870,11 +2883,11 @@ address {
     margin-bottom: 0.5rem; }
 
 .chart-area__footer__label, .chart-area__footer__actions {
-  display: inline-block; }
+  display: inline-block;
+  margin-right: 20px;
+  margin-right: 2rem; }
 
 .chart-area__footer__label {
-  margin-right: 20px;
-  margin-right: 2rem;
   font-family: "open-sans-n7", "open-sans", sans-serif; }
 
 .footnote:target, .footnote-body:target {
@@ -2936,8 +2949,8 @@ address {
         height: 5rem; } }
 
 .global-header {
-  border-top: 5px solid #b2bb1c;
-  border-top: 0.5rem solid #b2bb1c; }
+  border-top: 5px solid transparent;
+  border-top: 0.5rem solid transparent; }
 
 .global-header__wrapper {
   position: relative;
@@ -2948,8 +2961,8 @@ address {
   margin: 0 auto 0.5rem; }
   @media screen and (min-width: 50em) {
     .global-header__wrapper {
-      padding: 20px 10px 10px;
-      padding: 2rem 1rem 1rem; } }
+      padding: 20px 20px 10px 20px;
+      padding: 2rem 2rem 1rem 2rem; } }
 
 .global-header__top-nav {
   margin-right: 20px;
@@ -2979,8 +2992,8 @@ address {
       display: block;
       position: absolute;
       top: 50%;
-      right: 10px;
-      right: 1rem;
+      right: 20px;
+      right: 2rem;
       -webkit-transform: translateY(-50%);
           -ms-transform: translateY(-50%);
               transform: translateY(-50%); } }
@@ -3845,6 +3858,9 @@ lesser , applied styles
       margin-top: 8px;
       margin-top: 0.8rem; } }
 
+.list--table__item__body--chart {
+  width: 100%; }
+
 .list--table__item__body--update {
   width: 100%; }
 
@@ -3913,7 +3929,7 @@ lesser , applied styles
   .list--table__item__body--stat {
     min-height: 55px;
     min-height: 5.5rem; }
-  .list--table__item__body--update {
+  .list--table__item__body--chart {
     min-height: 45px;
     min-height: 4.5rem; } }
 
@@ -3924,10 +3940,10 @@ lesser , applied styles
     width: 87.5%; } }
 
 @media screen and (min-width: 28em) {
-  .list--table__item__body--update {
+  .list--table__item__body--chart {
     width: 45%; }
   .list--table__item__body--stat {
-    width: 55%; } }
+    width: auto; } }
 
 @media screen and (min-width: 36em) {
   .list--table-header {
@@ -3938,14 +3954,14 @@ lesser , applied styles
     padding: 15px;
     padding: 1.5rem; }
   .list--table__item__body--stat {
-    width: 45%;
+    width: auto;
     min-height: 55px;
     min-height: 5.5rem; }
-  .list--table__item__body--update {
+  .list--table__item__body--chart {
     width: 45%;
     min-height: 45px;
     min-height: 4.5rem; }
-    .list--table__item__body--update dd + dt {
+    .list--table__item__body--chart dd + dt {
       clear: both; }
   .list--table--cushy .list--table__item {
     padding: 10px 15px;
@@ -3979,17 +3995,17 @@ lesser , applied styles
     padding: 2rem; } }
 
 @media screen and (min-width: 42em) {
-  .list--table__item__body--update {
+  .list--table__item__body--chart {
     float: left;
-    width: 100%;
+    width: 50%;
     min-height: 35px;
     min-height: 3.5rem; }
-    .list--table__item__body--update dd + dt {
+    .list--table__item__body--chart dd + dt {
       clear: none; }
   .list--table__item__body--stat {
     float: left;
-    width: 30%;
-    margin-bottom: -1em; }
+    width: auto;
+    /*margin-bottom: -1em; */ }
   .list--table__item__body--caption {
     float: left;
     width: 65%; }
@@ -4016,11 +4032,16 @@ lesser , applied styles
       padding-right: 2rem; }
       .js .list--table--complex .list--table__item__body--select-all {
         display: block; }
-  .list--table__item__body--update {
-    width: 25%; }
+  .list--table__item__body--chart {
+    width: 20%;
+    min-width: 90px;
+    min-width: 9rem; }
   .list--table__item__body--stat {
-    width: 25%;
-    padding-right: 2.5%; }
+    width: auto;
+    padding-right: 3%;
+    min-width: 175px;
+    min-width: 17.5rem;
+    margin-bottom: 0; }
   .list--table__item__body--select {
     width: 3.5%;
     text-align: center; }
@@ -4036,30 +4057,35 @@ lesser , applied styles
     max-width: 80%; } }
 
 @media screen and (min-width: 52em) {
-  .list--table__item__body--update, .list--table__item__body--stat {
-    width: 25%;
+  .list--table__item__body--chart {
+    width: 20%;
     padding-right: 0; }
+  .list--table__item__body--stat {
+    /*width: 25%;*/
+    padding-right: 3%; }
   .list--table__item__body--caption {
-    width: 42.5%; } }
+    width: 40%; } }
 
 @media screen and (min-width: 56.5em) {
-  .list--table--complex .list--table__body, .list--table--complex .list--table__footer {
-    padding: 15px 25px;
-    padding: 1.5rem 2.5rem; }
-  .list--table--complex .list--table__item__body--select-all {
-    padding-right: 32px;
-    padding-right: 3.2rem; }
-  .list--table--complex .list--table__item__body--update {
-    min-width: 200px;
-    min-width: 20rem; }
-  .list--table--complex .list--table__item__body--stat {
-    width: 25%;
-    padding-right: 5%; }
-  .list--table--complex .list--table__item__body--select {
-    width: 0.5%; }
-  .list--table--complex .list--table__item__body--caption {
-    width: 50%;
-    padding-right: 7.5%; } }
+  .list--table--complex {
+    /*.list--table__item__body--chart {
+      min-width: 11.5rem;
+    }*/ }
+    .list--table--complex .list--table__body, .list--table--complex .list--table__footer {
+      padding: 15px 25px;
+      padding: 1.5rem 2.5rem; }
+    .list--table--complex .list--table__item__body--select-all {
+      padding-right: 32px;
+      padding-right: 3.2rem; }
+    .list--table--complex .list--table__item__body--stat {
+      min-width: 185px;
+      min-width: 18.5rem;
+      padding-right: 3%; }
+    .list--table--complex .list--table__item__body--select {
+      width: 0.5%; }
+    .list--table--complex .list--table__item__body--caption {
+      width: 42.5%;
+      padding-right: 3%; } }
 
 .lozenge {
   display: inline-block;
@@ -4519,10 +4545,10 @@ lesser , applied styles
   color: #b2bb1c; }
 
 .nav-search {
-	padding: 5px;
-	padding: 0.5rem;
-	background-color: #757575;
-}
+  position: relative;
+  padding: 5px;
+  padding: 0.5rem;
+  background-color: #757575; }
   .nav-search .nav-search__field {
     padding: 5px 10px;
     padding: 0.5rem 1rem;
@@ -4641,8 +4667,8 @@ lesser , applied styles
   .nav--primary {
     display: table;
     width: 100%;
-    padding: 0 10px;
-    padding: 0 1rem; }
+    padding: 0 20px;
+    padding: 0 2rem; }
     .nav--primary a {
       padding: 12px 15px;
       padding: 1.25rem 1.5rem;
@@ -4906,6 +4932,16 @@ lesser , applied styles
       margin-bottom: 60px;
       margin-bottom: 6rem; } }
 
+@media screen and (max-width: 38em) {
+  .panel--mobile-mar, .panel--mobile-top-mar {
+    margin-top: 30px;
+    margin-top: 3rem; } }
+
+@media screen and (max-width: 38em) {
+  .panel--mobile-mar, .panel--mobile-bottom-mar {
+    margin-bottom: 30px;
+    margin-bottom: 3rem; } }
+
 .slate {
   background-color: #eeefed; }
   .slate:after {
@@ -4920,10 +4956,15 @@ lesser , applied styles
     bottom: -5px;
     bottom: -0.5rem;
     background-color: transparent; }
-  @media screen and (min-width: 56em) {
-    .slate:after {
-      max-width: 912px;
-      max-width: 91.2rem; } }
+    @media screen and (min-width: 62em) {
+      .slate:after {
+        left: 0;
+        right: 0;
+        max-width: 912px;
+        max-width: 91.2rem;
+        position: relative;
+        bottom: -15px;
+        bottom: -1.5rem; } }
   .slate p.page-header__title {
     color: #757575; }
 
@@ -5120,8 +5161,8 @@ $SPLIT
 
 .stat__figure {
   font-family: "open-sans-n7", "open-sans", sans-serif;
-  font-size: 39px;
-  font-size: 3.9rem; }
+  font-size: 24px;
+  font-size: 2.4rem; }
 
 .stat__figure--home {
   font-family: "open-sans-n7", "open-sans", sans-serif;
@@ -5129,7 +5170,10 @@ $SPLIT
   font-size: 2.4rem; }
 
 .stat__image--home {
-  width: 50%; }
+  width: 85%; }
+  @media screen and (min-width: 28em) {
+    .stat__image--home {
+      width: 40%; } }
   @media screen and (min-width: 50em) {
     .stat__image--home {
       position: absolute;
@@ -5142,16 +5186,25 @@ $SPLIT
   height: 300px;
   position: relative;
   padding: 0 10px; }
+  .stat__wrap--home dl, .stat__wrap--home dt, .stat__wrap--home dd {
+    margin: 0; }
 
 .stat__figure__unit {
   /*---------------------
     Offset number so it appears visually closer to the stat figure.
     @TODO: Fix magic number
   */
-  margin-left: -7px;
-  margin-left: -0.7rem;
-  font-size: 22px;
-  font-size: 2.2rem;
+  /* margin-left: -.7rem; 
+  Breaking timeseries boxes on T3
+  */
+  font-size: 20px;
+  font-size: 2rem;
+  vertical-align: baseline; }
+
+.stat__figure__preunit {
+  margin-right: -6px;
+  font-size: 20px;
+  font-size: 2rem;
   vertical-align: baseline; }
 
 .stat__description {
@@ -5761,6 +5814,9 @@ table actions
   * {
     color: #000 !important;
     /* Black prints faster: h5bp.com/s */
+    overflow: initial !important;
+    width: auto !important;
+    height: auto !important;
     text-shadow: none !important;
     background: transparent !important;
     box-shadow: none !important; }
@@ -5777,10 +5833,10 @@ table actions
       word-wrap: break-word; }
     article abbr[title]:after, .print-links abbr[title]:after {
       content: " (" attr(title) ")"; }
-    article a[href^="https://"]:after, article a[href^="http://"]:after, .print-links a[href^="https://"]:after, .print-links a[href^="http://"]:after {
+    article a[href^="https://"]:after, article a[href^="http://"]:after, article a[href^="www."]:after, .print-links a[href^="https://"]:after, .print-links a[href^="http://"]:after, .print-links a[href^="www."]:after {
       content: " (" attr(href) ")";
       word-wrap: break-word; }
-    article abbr[title^="https://"]:after, article abbr[title^="http://"]:after, .print-links abbr[title^="https://"]:after, .print-links abbr[title^="http://"]:after {
+    article abbr[title^="https://"]:after, article abbr[title^="http://"]:after, article abbr[title^="www."]:after, .print-links abbr[title^="https://"]:after, .print-links abbr[title^="http://"]:after, .print-links abbr[title^="www."]:after {
       content: " (" attr(title) ")"; }
     article .ir a:after, article a[href^="javascript:"]:after, article a[href^="#"]:after, article a[href^="mailto:"]:after, .print-links .ir a:after, .print-links a[href^="javascript:"]:after, .print-links a[href^="#"]:after, .print-links a[href^="mailto:"]:after {
       content: ""; }
@@ -5790,8 +5846,9 @@ table actions
   thead {
     display: table-header-group;
     /* h5bp.com/t */ }
-  tr, img, .box {
-    page-break-inside: avoid; }
+  tr, img, .box, section {
+    page-break-inside: avoid;
+    position: relative; }
   img {
     max-width: 100% !important; }
   p, h2, h3 {
@@ -5800,4 +5857,9 @@ table actions
   h2, h3 {
     page-break-after: avoid; }
   .accordion__content {
-    display: block !important; } }
+    display: block !important; }
+  .print__break-before {
+    page-break-before: always; }
+  .print__break-after {
+    page-break-after: always; } }
+
