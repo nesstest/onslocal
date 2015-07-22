@@ -6,27 +6,31 @@
     <title></title>
      <!-- Latest compiled and minified CSS to go in head -->
      <link href="resources/css/nessmain.css" rel="stylesheet" type="text/css">
+     <link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css"> 
+     <link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/claro/claro.css">
+     <link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/tundra/tundra.css">   
+     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
      <!-- Latest minified and concatenated JS to go in head -->
      <script src="resources/javascript/header.min.js"></script>
      <!-- Latest minified and concatenated JS to go in the footer -->
-     <script src="resources/javascript/footer.min.js"></script>
+     <script src="resources/javascript/footer.min.js"></script>      
      <script src="resources/javascript/map.js"></script> 
      <script src="resources/javascript/highlightMap.js"></script>  
      <script src="resources/javascript/hoverMap.js"></script>
-     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>  
-     
-     <link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css"> 
-     <link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/claro/claro.css">
-     <link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/tundra/tundra.css">      
+     <script src="resources/javascript/charts.js"></script>
+     <script src="resources/javascript/createTable.js"></script>
+    
+     <script src="http://js.arcgis.com/3.14/"></script> 
+     <script src="resources/javascript/footer.js"></script>  
+       
      <style>  
        html, body { height: 100%; width: 100%; margin: 0; padding: 0; } 
        #map{padding:0;} 
 	   #innerDIV{position:absolute;z-index: 1; top:375px; left:25px; width:300px;} 
 	   #outerDIV{position:relative;} 
-	   #HomeButton {position: absolute;top: 250px;left: 14px;z-index: 50;}	
-	   
+	   #HomeButton {position: absolute;top: 250px;left: 14px;z-index: 50;}		   
      </style>
-     <script src="http://js.arcgis.com/3.13/"></script>     
+    
    
      <script> 
      
@@ -104,34 +108,100 @@
   </head> 
   <body class="tundra"> 
       <div class="wrapper panel--mar nav-panels">
-        <div class="grid-wrap">
-            <header>
-              <div class="global-header__wrapper">        
-                   <a href="#"><img src="resources/images/ons-logo.png" alt="Insert Logo Here" width="264" height="50" id="Insert_logo" style="background-color: #FFFFFF; display: block;" /></a>       
-              </div>
-            </header>
-        
-            <div id="outerDIV" class="slate--grey search-wrapper">
-              <div><a href="index.html"><img src="resources/images/home_w.png" alt="" width="50" height="50" style="position:absolute; margin-left:20px; margin-top:10px;"></a>
-              </div>  
-              <form class="nav-search nav-search--hidden" id="searchBar">         
-                <div class="nav-search__container">
-                  <label for="nav-search"></label>
-                  <input type="search" class="nav-search__field" id="nav-search" name="nav-search" value="" placeholder="Search postcode or place name in England and Wales">
-                </div>
-                <button type="submit" class="btn btn--primary btn--nav-search" id="nav-search-submit">
-                  <span class="icon-search-1" role="presentation"></span>
-                </button>
-                <script>  
-                  $('#nav-search').attr('placeholder',postcode);                   
-                </script> 
-               </form>
-            </div>             	             
-            <div id="map" style="height: 500px; margin-top:0px;">
-               <div id="HomeButton"></div>             
-            </div>             
-            <div id="selArea1"></div>	            
-          </div>            
+	        <div class="grid-wrap">
+	            <header>
+	              <div class="global-header__wrapper">        
+	                   <a href="#"><img src="resources/images/ons-logo.png" alt="Insert Logo Here" width="264" height="50" id="Insert_logo" style="background-color: #FFFFFF; display: block;" /></a>       
+	              </div>
+	            </header>
+	        
+	            <div id="outerDIV" class="slate--grey search-wrapper">
+		              <div><a href="index.html"><img src="resources/images/home_w.png" alt="" width="50" height="50" style="position:absolute; margin-left:20px; margin-top:10px;"></a>
+		              </div>  
+		              <form class="nav-search nav-search--hidden" id="searchBar">         
+			                <div class="nav-search__container">
+			                  <label for="nav-search"></label>
+			                  <input type="search" class="nav-search__field" id="nav-search" name="nav-search" value="" placeholder="Search postcode or place name in England and Wales">
+			                </div>
+			                <button type="submit" class="btn btn--primary btn--nav-search" id="nav-search-submit">
+			                  <span class="icon-search-1" role="presentation"></span>
+			                </button>
+			                <script>  
+			                  $('#nav-search').attr('placeholder',postcode);                   
+			                </script> 
+		               </form>
+	            </div> 
+	                        	             
+	            <div id="map" style="height: 500px; margin-top:0px;">
+	               <div id="HomeButton"></div>             
+	            </div> 
+	                        
+	            <div id="selArea1"></div>
+	            	            
+          </div> 
+          
+          <div id="topStat">
+	          <div  id="statBox1" style="width:48%; float:left"></div>  
+	          <div  id="statBox2" style="width:48%"></div>  
+          </div>
+          
+          
+          <div id="tableChart"  style="display: none;">
+		      <article class="wrapper">
+			    <div class="grid-wrap panel panel--separated--bottom">
+			       <div class="grid-col desktop-grid-one-half">
+				         <header>
+				            <h2>Population</h2>
+				        </header>
+			            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+			                <dt class="grid-col desktop-grid-one-half">
+			                    <h3 class="stat__figure delta">
+			                        <a href="#">Total</a>
+			                    </h3>
+			                </dt>
+			                <dd class="grid-col desktop-grid-one-half flush">
+			                    <div class="stat__figure delta" id="sapede-all">
+			                    </div>
+			                    <div class="stat__figure delta">
+			                        <span class="stat__description">Mar 2014</span>
+			                    </div>
+			                </dd>
+			            </dl>
+			            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
+			                <dt class="grid-col desktop-grid-one-half">
+			                    <h3 class="stat__figure delta">
+			                        <a href="#">Males</a>
+			                    </h3>
+			                </dt>
+			                <dd class="grid-col desktop-grid-one-half flush">
+			                    <div class="stat__figure delta" id="sapede-males">
+			                       
+			                    </div>
+			                    <div class="stat__figure delta">
+			                        <span class="stat__description">Mar 2014</span>
+			                    </div>
+			                </dd>
+			            </dl>
+			            <dl class="grid-wrap panel flush--top flush--bottom">
+			                <dt class="grid-col desktop-grid-one-half">
+			                    <h3 class="stat__figure delta">
+			                        <a href="#">Females</a>
+			                    </h3>
+			                </dt>
+			                <dd class="grid-col desktop-grid-one-half flush">
+			                    <div class="stat__figure delta" id="sapede-females">
+			                      
+			                    </div>
+			                    <div class="stat__figure delta">
+			                        <span class="stat__description">Mar 2014</span>
+			                    </div>
+			                </dd>
+			            </dl>
+			        </div>
+			        <div class="grid-col desktop-grid-one-half" data-chart="pyramid" style="width:450px"></div>
+			    </div>
+			  </article>          
+	       </div>                     
          </div>        
   </body>  
 </html>  
