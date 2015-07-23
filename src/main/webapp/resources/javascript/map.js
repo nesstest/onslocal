@@ -1,10 +1,11 @@
-function createMap(result, validpostCode, levelname, childname){	
+function createMap(result, validpostCode, levelname, childname){		
+	
 	var regionText,regionDrillText, childcode, childarealist ;	
 		
 	if (typeof levelname === 'undefined') {
 		if (typeof validpostCode === 'undefined') {
 		  // display UK map
-		 details = result.areas[0].envelope;		 
+		 details = result.areas[0].envelope;		
 	    }
 		else {
 			 // if welsh postcode - no GOR
@@ -205,12 +206,31 @@ function createMap(result, validpostCode, levelname, childname){
 		  }	  
 		  
 	}
-	// call highlight map
-	if (typeof childname === 'undefined') {
-		highlightMap(details, validpostCode);
+	
+	if (typeof levelname === 'undefined') {
+		if (typeof validpostCode === 'undefined') {
+		  // display UK map		 
+		 ukMap(details);		
+	   } 
+		else{
+			// call highlight map
+			  if (typeof childname === 'undefined') {				 
+				  highlightMap(details, validpostCode);
+			  }
+			  // call hover map
+			  else {				 
+				 hoverMap(details, validpostCode);
+			  }	
+		}
 	}
-	// call hover map
-	else {
+	else {	
+	// call highlight map
+	  if (typeof childname === 'undefined') {
+		   highlightMap(details, validpostCode);
+	  }
+	  // call hover map
+	  else {		 
 		 hoverMap(details, validpostCode);
-	}	
+	  }	
+	}
 }
