@@ -32,19 +32,19 @@ function createChart(m_0_4,m_5_9,m_10_14,m_15_19,m_20_24,m_25_29,m_30_34,m_35_39
 
     		 series: [
     		            {
-    		              name: 'Female',
-    		              data: [-parseInt(f_0_4),-parseInt(f_5_9),-parseInt(f_10_14),-parseInt(f_15_19),
-    		                     -parseInt(f_20_24),-parseInt(f_25_29),-parseInt(f_30_34),-parseInt(f_35_39),-parseInt(f_40_44),
-    		                     -parseInt(f_45_49),-parseInt(f_50_54),-parseInt(f_55_59),-parseInt(f_60_64),-parseInt(f_65_69),
-    		                     -parseInt(f_70_74),-parseInt(f_75_79),-parseInt(f_80_84),-parseInt(f_85_89),-parseInt(f_90) ]
-    		            },
-    		            {
     		              name: 'Male',
-    		             data: [parseInt(m_0_4),parseInt(m_5_9),parseInt(m_10_14),parseInt(m_15_19),
-    		                    parseInt(m_20_24),parseInt(m_25_29),parseInt(m_30_34),parseInt(m_35_39),parseInt(m_40_44),
-    		                    parseInt(m_45_49),parseInt(m_50_54),parseInt(m_55_59),parseInt(m_60_64),parseInt(m_65_69),
-    		                    parseInt(m_70_74),parseInt(m_75_79),parseInt(m_80_84),parseInt(m_85_89),parseInt(m_90)]
+    		             data: [-parseInt(m_0_4),-parseInt(m_5_9),-parseInt(m_10_14),-parseInt(m_15_19),
+    		                    -parseInt(m_20_24),-parseInt(m_25_29),-parseInt(m_30_34),-parseInt(m_35_39),-parseInt(m_40_44),
+    		                    -parseInt(m_45_49),-parseInt(m_50_54),-parseInt(m_55_59),-parseInt(m_60_64),-parseInt(m_65_69),
+    		                    -parseInt(m_70_74),-parseInt(m_75_79),-parseInt(m_80_84),-parseInt(m_85_89),-parseInt(m_90)]
+    		            },{
+    		              name: 'Female',
+    		              data: [parseInt(f_0_4),parseInt(f_5_9),parseInt(f_10_14),parseInt(f_15_19),
+    		                     parseInt(f_20_24),parseInt(f_25_29),parseInt(f_30_34),parseInt(f_35_39),parseInt(f_40_44),
+    		                     parseInt(f_45_49),parseInt(f_50_54),parseInt(f_55_59),parseInt(f_60_64),parseInt(f_65_69),
+    		                     parseInt(f_70_74),parseInt(f_75_79),parseInt(f_80_84),parseInt(f_85_89),parseInt(f_90) ]
     		            }
+    		            
 
           ],
           xAxis: {
