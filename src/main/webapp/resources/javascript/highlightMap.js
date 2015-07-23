@@ -3,8 +3,8 @@ function highlightMap(details, validpostCode){
        locale: "en",
        parseOnLoad: true	    	     
      };		
-	
-        var map;
+	        
+       var map;
 
 		require([    
 		"esri/map", 
@@ -85,6 +85,8 @@ function highlightMap(details, validpostCode){
 			
 			esriConfig.defaults.io.corsEnabledServers.push("http://services.arcgisonline.com");
 			esriConfig.defaults.io.corsEnabledServers.push("https://mapping.statistics.gov.uk");
+			esriConfig.defaults.io.corsEnabledServers.push("http://js.arcgis.com");			
+			esriConfig.defaults.io.corsEnabledServers.push("http://ajax.googleapis.com");	
 			
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
 			map.addLayer(dynamicMSLayer);         
@@ -110,12 +112,12 @@ function highlightMap(details, validpostCode){
 		   }			
 		   
 		   var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                   new Color([229,78,22]),1),new Color([0,0,0,0]));  
+                 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                 new Color([229,78,22]),1),new Color([0,0,0,0]));  
 		   
 		   var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
-			          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
-			          new Color([229,78,22,0.1]));
+			     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
+			     new Color([229,78,22,0.1]));
 			
 		    var outcode;
 		    if (levelname === "OA") {
@@ -148,7 +150,7 @@ function highlightMap(details, validpostCode){
 		       id: "tooltipDialog",
 		       style: "position:  absolute; width: auto; font: normal normal normal 10pt Helvetica;z-index:100;"
 		    });
-		    dialog.startup();		    
+		    dialog.startup();	    
 		  
 		 
 		    
