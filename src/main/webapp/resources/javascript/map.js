@@ -1,4 +1,5 @@
-function createMap(result, validpostCode, levelname, childname){	
+function createMap(result, validpostCode, levelname, childname){		
+	
 	var regionText,regionDrillText, childcode, childarealist ;	
 		
 	if (typeof levelname === 'undefined') {
@@ -205,19 +206,30 @@ function createMap(result, validpostCode, levelname, childname){
 		  }	  
 		  
 	}
+	
 	if (typeof levelname === 'undefined') {
 		if (typeof validpostCode === 'undefined') {
 		  // display UK map		 
-		 ukMap(details);
+		 ukMap(details);		
 	   } 
+		else{
+			// call highlight map
+			  if (typeof childname === 'undefined') {				 
+				  highlightMap(details, validpostCode);
+			  }
+			  // call hover map
+			  else {				 
+				 hoverMap(details, validpostCode);
+			  }	
+		}
 	}
 	else {	
 	// call highlight map
 	  if (typeof childname === 'undefined') {
-		  highlightMap(details, validpostCode);
+		   highlightMap(details, validpostCode);
 	  }
 	  // call hover map
-	  else {
+	  else {		 
 		 hoverMap(details, validpostCode);
 	  }	
 	}

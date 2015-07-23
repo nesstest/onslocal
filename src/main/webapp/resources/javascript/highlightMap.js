@@ -1,4 +1,5 @@
-function highlightMap(details, validpostCode){
+function highlightMap(details, validpostCode){	
+	
     dojoConfig = {
        locale: "en",
        parseOnLoad: true	    	     
@@ -8,9 +9,7 @@ function highlightMap(details, validpostCode){
 
 		require([    
 		"esri/map", 
-		"esri/dijit/HomeButton",
-		"esri/InfoTemplate",
-		"esri/dijit/Scalebar", 
+		"esri/dijit/HomeButton",		
 		"dojo/parser", 
 		"esri/geometry/Extent", 
 		"esri/layers/FeatureLayer",  
@@ -18,9 +17,7 @@ function highlightMap(details, validpostCode){
 		"esri/symbols/SimpleFillSymbol", 
 		"esri/symbols/TextSymbol", 
 		"esri/renderers/SimpleRenderer", 
-		"esri/renderers/UniqueValueRenderer",  
-		"esri/InfoTemplate",         
-		"esri/layers/LabelLayer",  
+		"esri/renderers/UniqueValueRenderer",		
 		"dojo/_base/Color",
 		"dojo/on",
 		"dojo/dom",
@@ -31,14 +28,11 @@ function highlightMap(details, validpostCode){
         "dijit/TooltipDialog", 
         "dijit/popup",
         "dojo/query",
-		"dojo/domReady!",
-		"dijit/layout/BorderContainer", 
-		"dijit/layout/ContentPane"
+		"dojo/domReady!"		
 		
 		  ], function( 
-		    Map, HomeButton, InfoTemplate, Scalebar, parser, Extent, FeatureLayer, 
-		    SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, InfoTemplate,   
-		    LabelLayer, Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, query
+		    Map, HomeButton, parser, Extent, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, 
+		    Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, query
 		  ) 
 		  { 
 		
@@ -62,26 +56,17 @@ function highlightMap(details, validpostCode){
 			var diff = xmax_env-xmin_env;
 			newxmin  = xmin_env - diff;	
 			var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
-			if (postcode == null || postcode.length == 0) {
-				map = new Map("map", { 
-					extent: bbox,
-					slider:false,
-					showAttribution: false,
-					logo:false
-					});		           
-			}
-			else {
-				map = new Map("map", { 
-					extent: bbox,
-					slider:true,
-					showAttribution: false,
-					logo:false
-					});	
-				home = new HomeButton({
-					map: map
-				}, "HomeButton");
-				home.startup();
-			}
+			map = new Map("map", { 
+			   extent: bbox,
+			   slider:true,
+			   showAttribution: false,
+			   logo:false
+			});	
+			
+			home = new HomeButton({
+				map: map
+			}, "HomeButton");
+			home.startup();			
 			
 			esriConfig.defaults.io.corsEnabledServers.push("http://services.arcgisonline.com");
 			esriConfig.defaults.io.corsEnabledServers.push("https://mapping.statistics.gov.uk");
@@ -90,26 +75,22 @@ function highlightMap(details, validpostCode){
 			
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
 			map.addLayer(dynamicMSLayer);         
-			map.setExtent(bbox.expand(1.1)); 
-		
-			if (postcode == null || postcode.length == 0){
-				
-			}
-			else{
-			 map.on("load", function(){		         
-				 var symbol = new esri.symbol.PictureMarkerSymbol({
-			     "angle": 0,
-			     "xoffset": 0,
-			     "yoffset": 12,
-			     "type": "esriPMS",
-			     "url": "resources/images/map-marker-128.png",
-			     "contentType": "image/png",
-			     "width": 24,
-			     "height": 24
-			  });	        
+			map.setExtent(bbox.expand(1.1)); 		
+			
+			map.on("load", function(){		         
+			    var symbol = new esri.symbol.PictureMarkerSymbol({
+			    "angle": 0,
+			    "xoffset": 0,
+			    "yoffset": 12,
+			    "type": "esriPMS",
+			    "url": "resources/images/map-marker-128.png",
+			    "contentType": "image/png",
+			    "width": 24,
+			    "height": 24
+			 });	        
 				 map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));
-		    });				
-		   }			
+		   });				
+					
 		   
 		   var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                  new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
@@ -117,29 +98,31 @@ function highlightMap(details, validpostCode){
 		   
 		   var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
 			     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
-			     new Color([229,78,22,0.1]));
-			
-		    var outcode;
-		    if (levelname === "OA") {
-		    	outcode = areacode;
+			     new Color([229,78,22,0.1]));		
+		
+		    if (levelname === "OA") {		    	
+		    	var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/MapServer/0", { 				
+					mode: FeatureLayer.SNAPSHOT, 
+					outFields: [areacode]
+				});
+		    	//create renderer 
+				var renderer = new UniqueValueRenderer(defaultSymbol, areacode);
 		    }
-		    else{
-		    	outcode = areaname;
+		    else{			    	
+		    	var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/MapServer/0", { 				
+					mode: FeatureLayer.SNAPSHOT, 
+					outFields: [areaname]
+				});
+		    	//create renderer 
+				var renderer = new UniqueValueRenderer(defaultSymbol, areaname);
 		    }
 		    
-		    //create renderer 
-			var renderer = new UniqueValueRenderer(defaultSymbol, outcode);
-			
-			//add symbol for each possible value 
+		    //add symbol for each possible value 
 			renderer.addValue(area, 
 			   new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
 			   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-			   new Color([229,78,22]),2),new Color([229,78,22, 0.45])));		
-			
-			var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/MapServer/0", { 				
-				mode: FeatureLayer.SNAPSHOT, 
-				outFields: [areacode, areaname]
-			});    			   
+			   new Color([229,78,22]),2),new Color([229,78,22, 0.45])));			
+		
 			featureLayer.setRenderer(renderer); 		
 			
 			map.addLayer(featureLayer);	
@@ -150,23 +133,20 @@ function highlightMap(details, validpostCode){
 		       id: "tooltipDialog",
 		       style: "position:  absolute; width: auto; font: normal normal normal 10pt Helvetica;z-index:100;"
 		    });
-		    dialog.startup();	    
-		  
-		 
+		    dialog.startup();		 
 		    
 	        //listen for when the onMouseOver event fires on the countiesGraphicsLayer
-	        //when fired, create a new graphic with the geometry from the event.graphic and add it to the maps graphics layer
+	        //when fired, create a new graphic with the geometry from the event.graphic and add it to the maps graphics layer		   
 		    var t;
 		    featureLayer.on("mouse-over", function(evt){
-		      map.setMapCursor("pointer"); 
+		      map.setMapCursor("pointer");		      
 		      
 	          if (levelname === "OA") {
 	        	   t = "<b>${"+ areacode + "}</b>";
 	          }
 	          else {
 	        	   t = "<b>${"+ areaname + "}</b>";
-	          }	 
-	          
+	          }	 	          
 	          
 	          var content = esriLang.substitute(evt.graphic.attributes,t);
 	          var highlightGraphic = new Graphic(evt.graphic.geometry,highlightSymbol);	         

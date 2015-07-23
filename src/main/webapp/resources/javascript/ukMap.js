@@ -1,5 +1,6 @@
 function ukMap(details){
-		
+	
+	alert("ukmap");
 	dojoConfig = {
 		       locale: "en",
 		       parseOnLoad: true	    	     

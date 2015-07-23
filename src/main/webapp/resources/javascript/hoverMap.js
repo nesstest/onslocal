@@ -8,19 +8,14 @@ function hoverMap(details, validpostCode){
 
 		require([    
 		"esri/map", 
-		"esri/dijit/HomeButton",
-		"esri/InfoTemplate",
-		"esri/dijit/Scalebar", 
+		"esri/dijit/HomeButton",		
 		"dojo/parser", 
 		"esri/geometry/Extent", 
 		"esri/layers/FeatureLayer",  
 		"esri/symbols/SimpleLineSymbol", 
 		"esri/symbols/SimpleFillSymbol", 
 		"esri/symbols/TextSymbol", 
-		"esri/renderers/SimpleRenderer", 
-		"esri/renderers/UniqueValueRenderer",  
-		"esri/InfoTemplate",         
-		"esri/layers/LabelLayer",  
+		"esri/renderers/SimpleRenderer",		 
 		"dojo/_base/Color",
 		"dojo/on",
 		"dojo/dom",
@@ -31,14 +26,11 @@ function hoverMap(details, validpostCode){
         "dijit/TooltipDialog", 
         "dijit/popup",
         "dojo/query",
-		"dojo/domReady!",
-		"dijit/layout/BorderContainer", 
-		"dijit/layout/ContentPane"
-		
+		"dojo/domReady!"		
 		  ], function( 
-		    Map, HomeButton, InfoTemplate, Scalebar, parser, Extent, FeatureLayer, 
-		    SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, InfoTemplate,   
-		    LabelLayer, Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, query
+		    Map, HomeButton, parser, Extent, FeatureLayer, 
+		    SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, Color, on, dom, Graphic, 
+		    esriLang, number, domStyle, TooltipDialog, dijitPopup, query
 		  ) 
 		  { 
 		
@@ -72,29 +64,23 @@ function hoverMap(details, validpostCode){
 			var diff = xmax_env-xmin_env;
 			newxmin  = xmin_env - diff;	
 			var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
-			if (postcode == null || postcode.length == 0) {
-				map = new Map("map", { 
-					extent: bbox,
-					slider:false,
-					showAttribution: false,
-					logo:false
-					});		           
-			}
-			else {
-				map = new Map("map", { 
-					extent: bbox,
-					slider:true,
-					showAttribution: false,
-					logo:false
-					});	
-				home = new HomeButton({
-					map: map
-				}, "HomeButton");
-				home.startup();
-			}
 			
+			map = new Map("map", { 
+			  extent: bbox,
+		 	  slider:true,
+			  showAttribution: false,
+			  logo:false
+			});	
+				
+			home = new HomeButton({
+			  map: map
+			}, "HomeButton");
+			home.startup();
+						
 			esriConfig.defaults.io.corsEnabledServers.push("http://services.arcgisonline.com");
 			esriConfig.defaults.io.corsEnabledServers.push("https://mapping.statistics.gov.uk");
+			esriConfig.defaults.io.corsEnabledServers.push("http://js.arcgis.com");			
+			esriConfig.defaults.io.corsEnabledServers.push("http://ajax.googleapis.com");
 			
 			// parent layer
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
