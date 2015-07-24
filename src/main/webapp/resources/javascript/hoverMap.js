@@ -174,6 +174,7 @@ function hoverMap(details, validpostCode){
 			   map.enableScrollWheelZoom();
 			   map.graphics.enableMouseEvents();
 		       map.graphics.on("mouse-out", closeDialog);
+		       map.on("mouse-drag-end", closeDialog);
 		   }); 
 		});		
 	}	

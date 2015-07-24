@@ -60,7 +60,8 @@ function highlightMap(details, validpostCode){
 			   extent: bbox,
 			   slider:true,
 			   showAttribution: false,
-			   logo:false
+			   logo:false,
+			   smartNavigation: false
 			});	
 			
 			home = new HomeButton({
@@ -181,13 +182,14 @@ function highlightMap(details, validpostCode){
 	        } 
 			
 	        map.on("load", function(){ 				
-			   map.enableMapNavigation();
+			   map.disableMapNavigation();
 			   map.disableKeyboardNavigation();
 			   map.enablePan();
 			   map.disableRubberBandZoom();
 			   map.enableScrollWheelZoom();
 			   map.graphics.enableMouseEvents();
 		       map.graphics.on("mouse-out", closeDialog);
+		       map.on("mouse-drag-end", closeDialog);
 		   }); 
 		});		
 	}
