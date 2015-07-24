@@ -166,12 +166,12 @@ function hoverMap(details, validpostCode){
 	          dijitPopup.close(dialog);
 	        } 
 			
-			map.on("load", function(){ 				
-			   map.disableMapNavigation();
+	        map.on("load", function(){ 				
+			   map.enableMapNavigation();
 			   map.disableKeyboardNavigation();
-			   map.disablePan();
+			   map.enablePan();
 			   map.disableRubberBandZoom();
-			   map.disableScrollWheelZoom();
+			   map.enableScrollWheelZoom();
 			   map.graphics.enableMouseEvents();
 		       map.graphics.on("mouse-out", closeDialog);
 		   }); 

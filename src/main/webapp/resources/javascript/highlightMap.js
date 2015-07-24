@@ -180,14 +180,14 @@ function highlightMap(details, validpostCode){
 			  map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));			   			
 	        } 
 			
-			map.on("load", function(){ 				
-			   map.disableMapNavigation();
+	        map.on("load", function(){ 				
+			   map.enableMapNavigation();
 			   map.disableKeyboardNavigation();
-			   map.disablePan();
+			   map.enablePan();
 			   map.disableRubberBandZoom();
-			   map.disableScrollWheelZoom();
+			   map.enableScrollWheelZoom();
 			   map.graphics.enableMouseEvents();
-			   map.graphics.on("mouse-out", closeDialog);			 
+		       map.graphics.on("mouse-out", closeDialog);
 		   }); 
 		});		
-	}	
+	}
