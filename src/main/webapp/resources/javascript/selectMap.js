@@ -1,4 +1,16 @@
-function highlightMap(details, validpostCode){	
+function selectMap(queryExtent,extCode,arealayername,areacode,areaname){	
+	alert("selectMap");
+	
+	var extent = queryExtent;
+	alert("extent" + extent.toSource());
+	var extCode = extCode;
+	alert("extCode" + extCode);
+	var arealayername = arealayername;
+	alert("arealayername" + arealayername);
+	var areacode = areacode;
+	alert("areacode" + areacode);
+	var areaname = areaname;
+	alert("areaname" + areaname);
 	
     dojoConfig = {
        locale: "en",
@@ -26,34 +38,17 @@ function highlightMap(details, validpostCode){
 		"dojo/number", 
 		"dojo/dom-style", 
         "dijit/TooltipDialog", 
-        "dijit/popup",
-        "esri/tasks/query",
-        "esri/tasks/QueryTask",
+        "dijit/popup",       
 		"dojo/domReady!"		
 		
 		  ], function( 
 		    Map, HomeButton, parser, Extent, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, 
-		    Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, Query, QueryTask
+		    Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup
 		  ) 
 		  { 
 		
 			var queryTask, query;
 			parser.parse(); 
-			detailsArray = details.split(":");
-		
-			var xmin_env      = parseInt(detailsArray[0]);
-			var ymin_env      = parseInt(detailsArray[1]);
-			var xmax_env      = parseInt(detailsArray[2]);
-			var ymax_env      = parseInt(detailsArray[3]);
-			var area          = detailsArray[4];
-			var areaname      = detailsArray[5];
-			var arealayername = detailsArray[6];
-			var xCoord        = detailsArray[7];
-			var yCoord        = detailsArray[8];
-			var levelname     = detailsArray[9];
-			var areacode      = detailsArray[10];		
-						
-			var postcode      = validpostCode;	
 			
 			var diff = xmax_env-xmin_env;
 			newxmin  = xmin_env - diff;	
@@ -78,28 +73,13 @@ function highlightMap(details, validpostCode){
 			
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
 			map.addLayer(dynamicMSLayer);         
-			map.setExtent(bbox.expand(1.1)); 		
-			
-			map.on("load", function(){		         
-			    var symbol = new esri.symbol.PictureMarkerSymbol({
-			    "angle": 0,
-			    "xoffset": 0,
-			    "yoffset": 12,
-			    "type": "esriPMS",
-			    "url": "resources/images/map-marker-128.png",
-			    "contentType": "image/png",
-			    "width": 24,
-			    "height": 24
-			 });	        
-				 map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));
-		   });				
-					
+			map.setExtent(bbox.expand(1.1)); 					
 		   
-		   var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+		    var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                  new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                  new Color([229,78,22]),1),new Color([0,0,0,0]));  
 		   
-		   var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
+		    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
 			     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
 			     new Color([229,78,22,0.1]));		
 		
@@ -161,53 +141,6 @@ function highlightMap(details, validpostCode){
 	            y: evt.pageY
 	          });
 	        });
-	    
-	        function closeDialog() {
-	          map.graphics.clear();
-	          map.setMapCursor("default"); 
-	          dijitPopup.close(dialog);
-	          var symbol = new esri.symbol.PictureMarkerSymbol({
-				 "angle": 0,
-				 "xoffset": 0,
-				 "yoffset": 12,
-				 "type": "esriPMS",
-				 "url": "resources/images/map-marker-128.png",
-				 "contentType": "image/png",
-				 "width": 24,
-				 "height": 24
-			  });	        
-			  map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));			   			
-	        } 
-	        
-	        var myClick = map.on("click", executeQueryTask);
-	        var myDblclick = on(map, "dbl-click", executeQueryTask);
-	        
-	        function executeQueryTask(evt){	 
-	        	
-        	  queryTask = new QueryTask(dynamicLayer);
-        	
-        	  query = new Query();	        	
-        	  query.returnGeometry = true;
-        	  query.outFields = [areacode];
-        	  query.geometry = evt.mapPoint;
-        	  var tol = map.extent.getWidth()/map.width * 5;
-	          var x = evt.mapPoint.x;
-	          var y = evt.mapPoint.y;
-	          var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
-	        	
-	          alert(queryExtent.toSource());
-        	  alert("geom" + query.geometry.toSource());
-        	 
-        	  queryTask.execute(query,showResults);	
-        	
-        	  function showResults(featureSet){        		
-        		var resultFeatures = featureSet.features;
-        		for (var i=0, il=resultFeatures.length; i<il; i++){
-        			extCode = resultFeatures[i].attributes[areacode];         			
-        		}        		 
-            	 selectMap(queryExtent,extCode,arealayername,areacode,areaname);
-	          }        
-	        }
 			
 	        map.on("load", function(){ 				
 			   map.disableMapNavigation();
