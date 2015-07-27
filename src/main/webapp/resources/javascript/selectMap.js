@@ -1,16 +1,6 @@
-function selectMap(queryExtent,extCode,arealayername,areacode,areaname){	
-	alert("selectMap");
-	
-	var extent = queryExtent;
-	alert("extent" + extent.toSource());
-	var extCode = extCode;
-	alert("extCode" + extCode);
-	var arealayername = arealayername;
-	alert("arealayername" + arealayername);
-	var areacode = areacode;
-	alert("areacode" + areacode);
-	var areaname = areaname;
-	alert("areaname" + areaname);
+function selectMap(queryExtent,extCode,arealayername,areacode,areaname,levelname){	
+	alert("selectMap");	
+	alert("levelname" + levelname);
 	
     dojoConfig = {
        locale: "en",
@@ -46,13 +36,12 @@ function selectMap(queryExtent,extCode,arealayername,areacode,areaname){
 		    Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup
 		  ) 
 		  { 
-		
-			var queryTask, query;
 			parser.parse(); 
 			
-			var diff = xmax_env-xmin_env;
-			newxmin  = xmin_env - diff;	
-			var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
+			var diff = queryExtent.xmax-queryExtent.xmin;
+			newxmin  = queryExtent.xmin - diff;	
+			var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:queryExtent.ymin,xmax:queryExtent.xmax,ymax:queryExtent.ymax,spatialReference:{wkid:27700}});
+			alert(bbox.toSource());
 			map = new Map("map", { 
 			   extent: bbox,
 			   slider:true,
@@ -60,11 +49,12 @@ function selectMap(queryExtent,extCode,arealayername,areacode,areaname){
 			   logo:false,
 			   smartNavigation: false
 			});	
-			
+			alert("before home button");
 			home = new HomeButton({
 				map: map
 			}, "HomeButton");
-			home.startup();			
+			home.startup();	
+			alert("after home button");
 			
 			esriConfig.defaults.io.corsEnabledServers.push("http://services.arcgisonline.com");
 			esriConfig.defaults.io.corsEnabledServers.push("https://mapping.statistics.gov.uk");
@@ -72,8 +62,8 @@ function selectMap(queryExtent,extCode,arealayername,areacode,areaname){
 			esriConfig.defaults.io.corsEnabledServers.push("http://ajax.googleapis.com");	
 			
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
-			map.addLayer(dynamicMSLayer);         
-			map.setExtent(bbox.expand(1.1)); 					
+			map.addLayer(dynamicMSLayer);
+			map.setExtent(bbox.expand(1.1)); 
 		   
 		    var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                  new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
@@ -81,8 +71,8 @@ function selectMap(queryExtent,extCode,arealayername,areacode,areaname){
 		   
 		    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
 			     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
-			     new Color([229,78,22,0.1]));		
-		
+			     new Color([229,78,22,0.1]));	
+		    
 		    if (levelname === "OA") {
 		    	var dynamicLayer = "https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/featureServer/0";
 		    	var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areacode]});

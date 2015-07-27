@@ -193,11 +193,7 @@ function highlightMap(details, validpostCode){
         	  var tol = map.extent.getWidth()/map.width * 5;
 	          var x = evt.mapPoint.x;
 	          var y = evt.mapPoint.y;
-	          var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
-	        	
-	          alert(queryExtent.toSource());
-        	  alert("geom" + query.geometry.toSource());
-        	 
+	          var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference); 
         	  queryTask.execute(query,showResults);	
         	
         	  function showResults(featureSet){        		
@@ -205,7 +201,7 @@ function highlightMap(details, validpostCode){
         		for (var i=0, il=resultFeatures.length; i<il; i++){
         			extCode = resultFeatures[i].attributes[areacode];         			
         		}        		 
-            	 selectMap(queryExtent,extCode,arealayername,areacode,areaname);
+            	 selectMap(queryExtent,extCode,arealayername,areacode,areaname,levelname);
 	          }        
 	        }
 			
