@@ -1,4 +1,25 @@
-function selectMap(queryExtent,extCode,arealayername,areacode,areaname,levelname){	
+function selectMap(queryExtent,name,arealayername,areacode,areaname,levelname){	
+	
+	alert("in select map");
+	//document.location.reload(true);
+	
+	createPartOfBox(queryExtent,name,arealayername,areacode,areaname,levelname);
+	
+	function createPartOfBox(queryExtent,name,arealayername,areacode,areaname,levelname){	
+						
+		//Call createTable for OA
+		//createTable(result.areas[0].OA[0].extcode, levelname);
+							
+		// set orange info box details	
+		$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
+							  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
+		                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +name+'</strong></div>' +
+		                      '<div style="color: black; font-size:medium;">(Output area ' + name + ')</div></div>');
+		
+	 }
+	
+	
+	
 	alert("selectMap");	
 	alert("levelname" + levelname);
 	

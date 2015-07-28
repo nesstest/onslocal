@@ -194,14 +194,19 @@ function highlightMap(details, validpostCode){
 	          var x = evt.mapPoint.x;
 	          var y = evt.mapPoint.y;
 	          var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference); 
+	          //map.graphics.clear();
         	  queryTask.execute(query,showResults);	
         	
         	  function showResults(featureSet){        		
         		var resultFeatures = featureSet.features;
         		for (var i=0, il=resultFeatures.length; i<il; i++){
-        			extCode = resultFeatures[i].attributes[areacode];         			
-        		}        		 
-            	 selectMap(queryExtent,extCode,arealayername,areacode,areaname,levelname);
+        			name = resultFeatures[i].attributes[areacode]; 
+        			//extcode = resultFeatures[i].attributes[areacode];        			
+        		}
+        		//location.href = location.href + "&select=true";
+        		//mapForm.queryExtent.value = JSON.stringify(queryExtent);
+        		//mapForm.submit();
+        		selectMap(queryExtent,name,arealayername,areacode,areaname,levelname);            	 
 	          }        
 	        }
 			
