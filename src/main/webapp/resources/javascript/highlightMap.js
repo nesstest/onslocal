@@ -33,7 +33,7 @@ function highlightMap(details, validpostCode){
 		
 		  ], function( 
 		    Map, HomeButton, parser, Extent, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, 
-		    Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, Query, QueryTask
+		    Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, Query, QueryTask, query
 		  ) 
 		  { 
 		
@@ -166,6 +166,7 @@ function highlightMap(details, validpostCode){
 	          map.graphics.clear();
 	          map.setMapCursor("default"); 
 	          dijitPopup.close(dialog);
+	          
 	          var symbol = new esri.symbol.PictureMarkerSymbol({
 				 "angle": 0,
 				 "xoffset": 0,
@@ -177,37 +178,34 @@ function highlightMap(details, validpostCode){
 				 "height": 24
 			  });	        
 			  map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));			   			
-	        } 
+	        } 	        
+	      
+	        var selectionSymbol =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
+				 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
+				 new Color([229,78,22,5]));
 	        
-	        var myClick = map.on("click", executeQueryTask);
-	        var myDblclick = on(map, "dbl-click", executeQueryTask);
+	        featureLayer.setSelectionSymbol(selectionSymbol),
+	        dojo.connect(featureLayer, "onSelectonComplete", clearHighligtArea);
 	        
-	        function executeQueryTask(evt){	 
-	        	
-        	  queryTask = new QueryTask(dynamicLayer);
-        	
-        	  query = new Query();	        	
-        	  query.returnGeometry = true;
-        	  query.outFields = [areacode];
-        	  query.geometry = evt.mapPoint;
+	        function clearHighligtArea(){		      
+		       var renderer = new UniqueValueRenderer(defaultSymbol, areacode);
+		       featureLayer.setRenderer(renderer);			
+			   map.addLayer(featureLayer);			   
+		     }
+	        
+	         var myClick = map.on("click", executeQueryTask);
+		     var myDblclick = on(map, "dbl-click", executeQueryTask);	     
+	       	        
+	        function executeQueryTask(evt){	        	
+	          clearHighligtArea();
+	          var selectionQuery = new esri.tasks.Query();
         	  var tol = map.extent.getWidth()/map.width * 5;
 	          var x = evt.mapPoint.x;
 	          var y = evt.mapPoint.y;
-	          var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference); 
-	          //map.graphics.clear();
-        	  queryTask.execute(query,showResults);	
-        	
-        	  function showResults(featureSet){        		
-        		var resultFeatures = featureSet.features;
-        		for (var i=0, il=resultFeatures.length; i<il; i++){
-        			name = resultFeatures[i].attributes[areacode]; 
-        			//extcode = resultFeatures[i].attributes[areacode];        			
-        		}
-        		//location.href = location.href + "&select=true";
-        		//mapForm.queryExtent.value = JSON.stringify(queryExtent);
-        		//mapForm.submit();
-        		selectMap(queryExtent,name,arealayername,areacode,areaname,levelname);            	 
-	          }        
+	          var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
+	          selectionQuery.geometry = queryExtent;
+	          featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW); 
+	          featureLayer.refresh();
 	        }
 			
 	        map.on("load", function(){ 				
