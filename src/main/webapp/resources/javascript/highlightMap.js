@@ -214,47 +214,40 @@ function highlightMap(details, validpostCode){
 	            var resultFeatures = features;
 	  	        for(var i=0, il=resultFeatures.length; i<il; i++){
 	  	      	  area = resultFeatures[i].attributes[areacode];	  	       	  
-	  	       	}     
+	  	       	}
+	  	        executeTask(x,y);
 	          }); 
+	          
+	          function executeTask(x,y){
+	        	  alert("bbbbbb");
+	        	 var queryTask1 = new QueryTask("https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2012_GB_BGC/FeatureServer/0");
+	        	 var query1 = new Query();
+	        	 query1.outSpatialReference = {wkid:27700};
+	        	 query1.outFields = ([areacode,areaname]);
+	        	 alert("dkdkdkrrururu" + query1.outFields);
+	        	 query1.returnGeometry = true;
+	        	 query1.geometry = x,y;
+	        	  
+	        	 queryTask1.execute(query1,showResults)
+	        	  
+	        	 function showResults(featureSet){
+	        		 alert("dkdkfkffkfk");
+	        	    var resultFeatures = featureSet.features;
+	        		for(var i=0, il=resultFeatures.length; i<il; i++){
+	   	  	      	  area = resultFeatures[i].attributes[areacode];
+	   	  	      	  name = resultFeatures[i].attributes[areaname];
+	   	  	      	  alert("name" + name);
+	   	  	      	  alert("area" + area);
+	   	  	       	}     
+	        	 }  
+	          }
 	          createPartOfBox(area,x,y);
 	          featureLayer.refresh();
-	        }
+	        }          
 	         
 	       function createPartOfBox(area,x,y){	        	
     		//Call createTable for OA
-    		//createTable(result.areas[0].OA[0].extcode, levelname); 
-	    	   
-	    	var ward = "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2012_GB_BGC/FeatureServer/0/query?where=&objectIds=&time=&geometry="+ x + "%2C" + y + "&geometryType=esriGeometryPoint&inSR=27700&spatialRel=esriSpatialRelWithin&relationParam=&outFields=WD12NM%2CWD12CD&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=27700&gdbVersion=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&f=pjson&token=&callback=myMethod";  
-    		alert("ward" + ward);
-    		
-    		function getData(url, num){
-    			var callbackFunc;
-    			if(num == 1){
-    				callbackFunc = "callback";
-    				{
-    				else{
-    					callbackFunc = "callback;"
-    				}
-    				return $.ajax({
-    					dataType: "jsonp",
-    					url: ward,
-    					cach:false,
-    					jsonpCallback: callbackFunc,
-    					sucess: callbackFunc
-    				});
-    				}
-    				
-    				function myMethod(response){
-    		    		alert("h");
-    		    			//if(response.features.length > 0){
-    		    			//	outputarea = response.features[0].attributes.[areacode];
-    		    			//	name = response.features[0].attributes.[areaname];
-    		    			//	alert("outputarea" + outputarea);
-    		    	    	//}    			
-    		    		}
-    			}
-    		}   		
-    		
+    		//createTable(result.areas[0].OA[0].extcode, levelname);    		
 	    	
     		// set orange info box details    		
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
