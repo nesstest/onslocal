@@ -182,7 +182,7 @@ function highlightMap(details, validpostCode){
 	      
 	        var selectionSymbol =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
 				 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
-				 new Color([229,78,22,5]));
+				 new Color([229,78,22,0.5]));
 	        
 	        featureLayer.setSelectionSymbol(selectionSymbol),
 	        dojo.connect(featureLayer, "onSelectonComplete", clearHighligtArea);
@@ -196,17 +196,77 @@ function highlightMap(details, validpostCode){
 	         var myClick = map.on("click", executeQueryTask);
 		     var myDblclick = on(map, "dbl-click", executeQueryTask);	     
 	       	        
-	        function executeQueryTask(evt){	        	
-	          clearHighligtArea();
-	          var selectionQuery = new esri.tasks.Query();
+	         function executeQueryTask(evt){	        	
+	          clearHighligtArea();	          
+	          var selectionQuery = new esri.tasks.Query();	          
         	  var tol = map.extent.getWidth()/map.width * 5;
 	          var x = evt.mapPoint.x;
+	          alert("x = " + x);
 	          var y = evt.mapPoint.y;
+	          alert("y = " + y);
 	          var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
 	          selectionQuery.geometry = queryExtent;
-	          featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW); 
+	          
+	          featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
+	          //zoom to the selected feature
+	            var selectionExtent = features[0].geometry.getExtent().expand(2.0);
+		        map.setExtent(selectionExtent);		  
+	            var resultFeatures = features;
+	  	        for(var i=0, il=resultFeatures.length; i<il; i++){
+	  	      	  area = resultFeatures[i].attributes[areacode];	  	       	  
+	  	       	}     
+	          }); 
+	          createPartOfBox(area,x,y);
 	          featureLayer.refresh();
 	        }
+	         
+	       function createPartOfBox(area,x,y){	        	
+    		//Call createTable for OA
+    		//createTable(result.areas[0].OA[0].extcode, levelname); 
+	    	   
+	    	var ward = "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2012_GB_BGC/FeatureServer/0/query?where=&objectIds=&time=&geometry="+ x + "%2C" + y + "&geometryType=esriGeometryPoint&inSR=27700&spatialRel=esriSpatialRelWithin&relationParam=&outFields=WD12NM%2CWD12CD&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=27700&gdbVersion=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&f=pjson&token=&callback=myMethod";  
+    		alert("ward" + ward);
+    		
+    		function getData(url, num){
+    			var callbackFunc;
+    			if(num == 1){
+    				callbackFunc = "callback";
+    				{
+    				else{
+    					callbackFunc = "callback;"
+    				}
+    				return $.ajax({
+    					dataType: "jsonp",
+    					url: ward,
+    					cach:false,
+    					jsonpCallback: callbackFunc,
+    					sucess: callbackFunc
+    				});
+    				}
+    				
+    				function myMethod(response){
+    		    		alert("h");
+    		    			//if(response.features.length > 0){
+    		    			//	outputarea = response.features[0].attributes.[areacode];
+    		    			//	name = response.features[0].attributes.[areaname];
+    		    			//	alert("outputarea" + outputarea);
+    		    	    	//}    			
+    		    		}
+    			}
+    		}   		
+    		
+	    	
+    		// set orange info box details    		
+			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
+				  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
+			      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
+			      '<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
+			      '<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD"></a>)' +
+		  	   	  '<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD"></a>)' + 
+			       +
+			      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+  + '</a>)</div>' + 
+			      '</div>' + '</article></div>');
+	        } 
 			
 	        map.on("load", function(){ 				
 			   map.disableMapNavigation();
