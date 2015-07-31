@@ -34,8 +34,7 @@
      </style>
     
    
-     <script> 
-     alert("in index html");
+     <script>     
 	    // Read a user input postcode and strip of plus signs,
 	    // convert to uppercase and reformat if necessary
 	    function  postcode_reformat(postcode) {
@@ -77,23 +76,16 @@
 	        vars[key] = value;
 	        });
 	        return vars;
-	    }
-	    
+	    }	    
 	    
 	    // get parameters from url	    
 	    var levelname, childname;
-	    var postcode;
-	   // Boolean select;
+	    var postcode;	  
 	   
 	    postcode =  getUrlParams()["nav-search"];	    
 	    levelname = getUrlParams()["levelname"];	    
 	    childname = getUrlParams()["childname"];
-	  //  select =  getUrlParams()["select"];	
 	    
-	  //  if(select){
-	 //   	selectMap();
-	 //   }
-	  
 		var pCode;
 		if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
 		  jsonFile      ='uk.json';	

@@ -191,61 +191,78 @@ function highlightMap(details, validpostCode){
 		       var renderer = new UniqueValueRenderer(defaultSymbol, areacode);
 		       featureLayer.setRenderer(renderer);			
 			   map.addLayer(featureLayer);			   
-		     }
+		     }         
 	        
 	         var myClick = map.on("click", executeQueryTask);
 		     var myDblclick = on(map, "dbl-click", executeQueryTask);	     
 	       	        
 	         function executeQueryTask(evt){	        	
-	          clearHighligtArea();	          
+	          clearHighligtArea();
+	          
 	          var selectionQuery = new esri.tasks.Query();	          
         	  var tol = map.extent.getWidth()/map.width * 5;
-	          var x = evt.mapPoint.x;
-	          alert("x = " + x);
-	          var y = evt.mapPoint.y;
-	          alert("y = " + y);
+	          var x = evt.mapPoint.x;	          
+	          var y = evt.mapPoint.y;	        
 	          var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
 	          selectionQuery.geometry = queryExtent;
 	          
 	          featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
-	          //zoom to the selected feature
-	            var selectionExtent = features[0].geometry.getExtent().expand(2.0);
+	            //zoom to the selected feature
+	            var selectionExtent = features[0].geometry.getExtent().expand(1.1);
 		        map.setExtent(selectionExtent);		  
 	            var resultFeatures = features;
 	  	        for(var i=0, il=resultFeatures.length; i<il; i++){
 	  	      	  area = resultFeatures[i].attributes[areacode];	  	       	  
 	  	       	}
-	  	        executeTask(x,y);
-	          }); 
+	  	        layerInfo(evt);
+	           }); 
 	          
-	          function executeTask(x,y){
-	        	  alert("bbbbbb");
-	        	 var queryTask1 = new QueryTask("https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2012_GB_BGC/FeatureServer/0");
+	            function layerInfo(evt){
+		            $(document).ready(function(){
+		  		      $.getJSON('layers.json', function(result){
+		  		    	  alert("in the result");
+		  		    	 for(var i=0, il=result.layers.length; i<il; i++){
+		  		    		 if(result.layers[i].areacode = areacode, ++i){
+		  		    			for(var x=i++, xl=result.layers.length; x<xl; x++){
+		  		    				alert("in for loop 2");
+		  		    				var ac = result.layers[x].areacode;
+		  		    				var an = result.layers[x].areaname;
+		  		    				var ln = result.layers[x].arealayername;
+		  		    				executeLayerDetails(ac,an,ln);
+		  		    			}  		    			
+		  		    		 }
+		  		    		 break;
+					  	 }      
+		  		    }); 
+		  		 });
+	            }   
+		            
+	        	 function executeLayerDetails(ac,an,ln){
+	        		 alert("ac= " + ac + "an= " + an + "ln" + ln);
+	        	 var queryTask1 = new QueryTask("https://mapping.statistics.gov.uk/arcgis/rest/services/" + ln +"/FeatureServer/0");
 	        	 var query1 = new Query();
 	        	 query1.outSpatialReference = {wkid:27700};
-	        	 query1.outFields = ([areacode,areaname]);
-	        	 alert("dkdkdkrrururu" + query1.outFields);
+	        	 query1.outFields = [ac,an];	        	
 	        	 query1.returnGeometry = true;
-	        	 query1.geometry = x,y;
+	        	 query1.geometry =evt.mapPoint;
 	        	  
 	        	 queryTask1.execute(query1,showResults)
 	        	  
-	        	 function showResults(featureSet){
-	        		 alert("dkdkfkffkfk");
+	        	 function showResults(featureSet){	        		
 	        	    var resultFeatures = featureSet.features;
 	        		for(var i=0, il=resultFeatures.length; i<il; i++){
-	   	  	      	  area = resultFeatures[i].attributes[areacode];
-	   	  	      	  name = resultFeatures[i].attributes[areaname];
-	   	  	      	  alert("name" + name);
-	   	  	      	  alert("area" + area);
+	   	  	      	  area = resultFeatures[i].attributes[ac];
+	   	  	      	  name = resultFeatures[i].attributes[an];	   	  	      	
 	   	  	       	}     
 	        	 }  
 	          }
-	          createPartOfBox(area,x,y);
+	          createPartOfBox(area,name);
 	          featureLayer.refresh();
 	        }          
 	         
-	       function createPartOfBox(area,x,y){	        	
+	       function createPartOfBox(area,name){	
+	    	   alert("area" + area);
+	    	   alert("name" + name);
     		//Call createTable for OA
     		//createTable(result.areas[0].OA[0].extcode, levelname);    		
 	    	
