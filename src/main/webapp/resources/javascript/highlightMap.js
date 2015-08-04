@@ -6,6 +6,8 @@ function highlightMap(details, validpostCode){
      };		
 	        
        var map;
+    // create an array boxdetails
+	     var boxDetails = [];
 
 		require([    
 		"esri/map", 
@@ -185,86 +187,107 @@ function highlightMap(details, validpostCode){
 				 new Color([229,78,22,0.5]));
 	        
 	        featureLayer.setSelectionSymbol(selectionSymbol),
-	        dojo.connect(featureLayer, "onSelectonComplete", clearHighligtArea);
+	        dojo.connect(featureLayer, "onSelectonComplete", clearHighlightArea);
 	        
-	        function clearHighligtArea(){		      
+	        function clearHighlightArea(){		      
 		       var renderer = new UniqueValueRenderer(defaultSymbol, areacode);
 		       featureLayer.setRenderer(renderer);			
 			   map.addLayer(featureLayer);			   
 		     }         
 	        
 	         var myClick = map.on("click", executeQueryTask);
-		     var myDblclick = on(map, "dbl-click", executeQueryTask);	     
+		     var myDblclick = on(map, "dbl-click", executeQueryTask);	
+		     
 	       	        
 	         function executeQueryTask(evt){	        	
-	          clearHighligtArea();
-	          
-	          var selectionQuery = new esri.tasks.Query();	          
-        	  var tol = map.extent.getWidth()/map.width * 5;
-	          var x = evt.mapPoint.x;	          
-	          var y = evt.mapPoint.y;	        
-	          var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
-	          selectionQuery.geometry = queryExtent;
-	          
-	          featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
-	            //zoom to the selected feature
-	            var selectionExtent = features[0].geometry.getExtent().expand(1.1);
-		        map.setExtent(selectionExtent);		  
-	            var resultFeatures = features;
-	  	        for(var i=0, il=resultFeatures.length; i<il; i++){
-	  	      	  area = resultFeatures[i].attributes[areacode];	  	       	  
-	  	       	}
-	  	        layerInfo(evt);
+			   clearHighlightArea();
+			  
+			   var selectionQuery = new esri.tasks.Query();	          
+			   var tol = map.extent.getWidth()/map.width * 5;
+			   var x = evt.mapPoint.x;	          
+			   var y = evt.mapPoint.y;	        
+			   var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
+			   selectionQuery.geometry = queryExtent;
+			  
+			   featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
+				 //zoom to the selected feature
+				 var selectionExtent = features[0].geometry.getExtent().expand(1.1);
+				 map.setExtent(selectionExtent);		  
+				 var resultFeatures = features;
+				 for(var i=0, il=resultFeatures.length; i<il; i++){
+				   area = resultFeatures[i].attributes[areacode];	  	       	  
+				 }
+                 // get falls within details to populate orange box 
+                 layerInfo(evt);
 	           }); 
 	          
-	            function layerInfo(evt){
-		            $(document).ready(function(){
-		  		      $.getJSON('layers.json', function(result){
-		  		    	  alert("in the result");
-		  		    	 for(var i=0, il=result.layers.length; i<il; i++){
-		  		    		 if(result.layers[i].areacode = areacode, ++i){
-		  		    			for(var x=i++, xl=result.layers.length; x<xl; x++){
-		  		    				alert("in for loop 2");
-		  		    				var ac = result.layers[x].areacode;
-		  		    				var an = result.layers[x].areaname;
-		  		    				var ln = result.layers[x].arealayername;
-		  		    				executeLayerDetails(ac,an,ln);
-		  		    			}  		    			
-		  		    		 }
-		  		    		 break;
-					  	 }      
-		  		    }); 
-		  		 });
-	            }   
+	           function boxDetail(area,areacode,levelname){
+	        	   this.area         = area;
+	        	   this.areacode     = areacode;
+	        	   this.levelname    = levelname;
+	           }
+	          
+	           function layerInfo(evt){	        
+		           $(document).ready(function(){
+		  		     $.getJSON('layers.json', function(result){
+			  	    	 for(var i=0, il=result.layers.length; i<il; i++){	  	    		
+			  	    		 
+			  		   		 if(result.layers[i].areacode = areacode, ++i){
+			  		   			for(var x=i++, xl=result.layers.length; x<xl; x++){
+			  		    			executeLayerDetails(result.layers[x].areacode,result.layers[x].areaname,result.layers[x].arealayername,result.layers[x].levelname);
+			  		    		}  	
+			  		   		
+			  		    	 }
+			  		   	alert("break" + boxDetails.toSource());
+			  		    	 break;
+			  		    	 
+					 	 } // for loop     
+		  		   }); // json
+		  		 }); // ready
+	            } // layerInfo
 		            
-	        	 function executeLayerDetails(ac,an,ln){
-	        		 alert("ac= " + ac + "an= " + an + "ln" + ln);
-	        	 var queryTask1 = new QueryTask("https://mapping.statistics.gov.uk/arcgis/rest/services/" + ln +"/FeatureServer/0");
-	        	 var query1 = new Query();
-	        	 query1.outSpatialReference = {wkid:27700};
-	        	 query1.outFields = [ac,an];	        	
-	        	 query1.returnGeometry = true;
-	        	 query1.geometry =evt.mapPoint;
-	        	  
-	        	 queryTask1.execute(query1,showResults)
-	        	  
-	        	 function showResults(featureSet){	        		
-	        	    var resultFeatures = featureSet.features;
-	        		for(var i=0, il=resultFeatures.length; i<il; i++){
-	   	  	      	  area = resultFeatures[i].attributes[ac];
-	   	  	      	  name = resultFeatures[i].attributes[an];	   	  	      	
-	   	  	       	}     
-	        	 }  
-	          }
-	          createPartOfBox(area,name);
-	          featureLayer.refresh();
-	        }          
+	        	function executeLayerDetails(ac,an,aln,ln){
+		        	var queryTask1 = new QueryTask("https://mapping.statistics.gov.uk/arcgis/rest/services/" + aln +"/FeatureServer/0");
+		        	var query1 = new Query();
+		        	query1.outSpatialReference = {wkid:27700};
+		        	query1.outFields = [ac,an];	        	
+		            query1.returnGeometry = true;
+		            query1.geometry = evt.mapPoint;
+		          
+		            queryTask1.execute(query1,showResults)
+		        	  
+		        	function showResults(featureSet){	        		
+		        	    var resultFeatures = featureSet.features;
+		        	    	        	    
+		        		for(var i=0, il=resultFeatures.length; i<il; i++){
+		        			// add objects to the box details array	
+		        			boxDetails.push(new boxDetail(resultFeatures[i].attributes[an],resultFeatures[i].attributes[ac],ln));        		 
+		   	 
+		        			//alert(boxDetails.toSource());
+		        		} // for loop 	
+		        		
+		            } //showResults	
+		            //alert(boxDetails.toSource());
+	            } // executeLayerDetails
+	        	
+	        	//alert(boxDetails.toSource());
+	         createPartOfBox(boxDetails);
+	          //  featureLayer.refresh();
+	        }  //  executeQueryTask       
 	         
-	       function createPartOfBox(area,name){	
-	    	   alert("area" + area);
-	    	   alert("name" + name);
-    		//Call createTable for OA
-    		//createTable(result.areas[0].OA[0].extcode, levelname);    		
+	       function createPartOfBox(boxDetails){
+	    	//   
+	    	//   alert("ssssss = " + boxDetails[i].area.toSource()); 
+	    	// for(var i=0; i< boxDetails.length; i++){	
+	    	//	 
+	    	//	 alert(boxDetails);
+	    	// }
+	    	   
+    	   
+		    	   alert("arcreatePartOfBoxea");
+		    	 //  alert("name" + name);
+	    		//Call createTable for OA
+	    		//createTable(result.areas[0].OA[0].extcode, levelname);    		
 	    	
     		// set orange info box details    		
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
