@@ -6,7 +6,7 @@ function highlightMap(details, validpostCode){
      };		
 	        
        var map;
-
+	     
 		require([    
 		"esri/map", 
 		"esri/dijit/HomeButton",		
@@ -27,15 +27,17 @@ function highlightMap(details, validpostCode){
 		"dojo/dom-style", 
         "dijit/TooltipDialog", 
         "dijit/popup",
-        "dojo/query",
+        "esri/tasks/query",
+        "esri/tasks/QueryTask",
 		"dojo/domReady!"		
 		
 		  ], function( 
 		    Map, HomeButton, parser, Extent, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, 
-		    Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, query
+		    Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, Query, QueryTask, query
 		  ) 
 		  { 
-		
+
+			var queryTask, query;
 			parser.parse(); 
 			detailsArray = details.split(":");
 		
@@ -101,19 +103,15 @@ function highlightMap(details, validpostCode){
 			     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
 			     new Color([229,78,22,0.1]));		
 		
-		    if (levelname === "OA") {		    	
-		    	var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/MapServer/0", { 				
-					mode: FeatureLayer.SNAPSHOT, 
-					outFields: [areacode]
-				});
+		    if (levelname === "OA") {
+		    	var dynamicLayer = "https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/featureServer/0";
+		    	var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areacode]});
 		    	//create renderer 
 				var renderer = new UniqueValueRenderer(defaultSymbol, areacode);
 		    }
 		    else{			    	
-		    	var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/MapServer/0", { 				
-					mode: FeatureLayer.SNAPSHOT, 
-					outFields: [areaname]
-				});
+		    	var dynamicLayer = "https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/featureServer/0";
+		    	var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areaname]});
 		    	//create renderer 
 				var renderer = new UniqueValueRenderer(defaultSymbol, areaname);
 		    }
@@ -162,12 +160,40 @@ function highlightMap(details, validpostCode){
 	            x: evt.pageX,
 	            y: evt.pageY
 	          });
-	        });
-	    
-	        function closeDialog() {
+	        });	        
+	      
+	        var selectionSymbol =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
+				 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
+				 new Color([229,78,22,0.5]));
+	        
+	        featureLayer.setSelectionSymbol(selectionSymbol),
+	        dojo.connect(featureLayer, "onSelectonComplete", clearHighlightArea);
+	        
+	        var myClick = map.on("click", executeQueryTask);
+		    var myDblclick = on(map, "dbl-click", executeQueryTask);	
+		     
+		    map.on("load", function(){ 				
+			   map.disableMapNavigation();
+			   map.disableKeyboardNavigation();
+			   map.enablePan();
+			   map.disableRubberBandZoom();
+			   map.enableScrollWheelZoom();
+			   map.graphics.enableMouseEvents();
+		       map.graphics.on("mouse-out", closeDialog);
+			   map.on("mouse-drag-end", closeDialog);
+	        }); 
+	       
+	       function clearHighlightArea(){		      
+		       var renderer = new UniqueValueRenderer(defaultSymbol, areacode);
+		       featureLayer.setRenderer(renderer);			
+			   map.addLayer(featureLayer);			   
+		   } 
+	       
+	       function closeDialog() {
 	          map.graphics.clear();
 	          map.setMapCursor("default"); 
 	          dijitPopup.close(dialog);
+	          
 	          var symbol = new esri.symbol.PictureMarkerSymbol({
 				 "angle": 0,
 				 "xoffset": 0,
@@ -179,17 +205,33 @@ function highlightMap(details, validpostCode){
 				 "height": 24
 			  });	        
 			  map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));			   			
-	        } 
-			
-	        map.on("load", function(){ 				
-			   map.disableMapNavigation();
-			   map.disableKeyboardNavigation();
-			   map.enablePan();
-			   map.disableRubberBandZoom();
-			   map.enableScrollWheelZoom();
-			   map.graphics.enableMouseEvents();
-		       map.graphics.on("mouse-out", closeDialog);
-		       map.on("mouse-drag-end", closeDialog);
-		   }); 
-		});		
+		    } 	
+	       
+	       function executeQueryTask(evt){
+	    	   
+			   clearHighlightArea();
+			  
+			   var selectionQuery = new esri.tasks.Query();	          
+			   var tol = map.extent.getWidth()/map.width * 5;
+			   var x = evt.mapPoint.x;	          
+			   var y = evt.mapPoint.y;	        
+			   var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
+			   selectionQuery.geometry = queryExtent;
+			  
+			   featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
+				 //zoom to the selected feature
+				 var selectionExtent = features[0].geometry.getExtent().expand(1.1);
+				 map.setExtent(selectionExtent);		  
+				 var resultFeatures = features;
+				 
+				 for(var i=0, il=resultFeatures.length; i<il; i++){
+				   area = resultFeatures[i].attributes[areacode];	  	       	  
+				 }
+               
+              });
+				
+		   }  //  executeQueryTask 
+	       
+		});	
+		
 	}
