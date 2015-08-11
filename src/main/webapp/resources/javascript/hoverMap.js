@@ -15,7 +15,8 @@ function hoverMap(details, validpostCode){
 		"esri/symbols/SimpleLineSymbol", 
 		"esri/symbols/SimpleFillSymbol", 
 		"esri/symbols/TextSymbol", 
-		"esri/renderers/SimpleRenderer",		 
+		"esri/renderers/SimpleRenderer",
+		"esri/renderers/UniqueValueRenderer",	
 		"dojo/_base/Color",
 		"dojo/on",
 		"dojo/dom",
@@ -24,17 +25,19 @@ function hoverMap(details, validpostCode){
 		"dojo/number", 
 		"dojo/dom-style", 
         "dijit/TooltipDialog", 
-        "dijit/popup",
-        "dojo/query",
+        "dijit/popup",       
+        "esri/tasks/query",
+        "esri/tasks/QueryTask",
 		"dojo/domReady!"		
 		  ], function( 
 		    Map, HomeButton, parser, Extent, FeatureLayer, 
-		    SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, Color, on, dom, Graphic, 
-		    esriLang, number, domStyle, TooltipDialog, dijitPopup, query
+		    SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, Color, on, dom, Graphic, 
+		    esriLang, number, domStyle, TooltipDialog, dijitPopup, query, QueryTask
 		  ) 
 		  { 
 		
-			parser.parse(); 
+			parser.parse();
+			var queryTask, query;
 			detailsArray = details.split(":");
 			
 			var xmin_env      = parseInt(detailsArray[0]);
@@ -107,9 +110,13 @@ function hoverMap(details, validpostCode){
                                   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                                   new Color([229,78,22]),2),new Color([229,78,22, 0.2]));  	  		
 			
-			var defaultSymbol   = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+			var defaultSymbol  =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                                   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                                  new Color([229,78,22]),2),new Color([229,78,22, 0.2]));  	
+                                  new Color([229,78,22]),2),new Color([229,78,22, 0.2])); 
+			
+			var defaultSymbol1 =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+								  new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+	                              new Color([229,78,22]),1),new Color([0,0,0,0])); 
            
             
             featureChildLayer1.setDefinitionExpression(childAreaDef);
@@ -128,10 +135,14 @@ function hoverMap(details, validpostCode){
 		    });
 		    dialog.startup();
 		    
+		   // var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
+		   //       new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 3), 
+		   //         new Color([229,78,22,0.45])
+		  //   );
+		    
 		    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
-		          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 3), 
-		            new Color([229,78,22,0.45])
-		     );
+				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
+				new Color([229,78,22,0.1]));	
 		    
 	        //listen for when the onMouseOver event fires on the countiesGraphicsLayer
 	        //when fired, create a new graphic with the geometry from the event.graphic and add it to the maps graphics layer
@@ -159,12 +170,28 @@ function hoverMap(details, validpostCode){
 	            y: evt.pageY
 	          });
 	        });
+		    
+		    var selectionSymbol =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
+				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
+				new Color([229,78,22,0.5]));
+		        
+		    featureChildLayer1.setSelectionSymbol(selectionSymbol),
+		    dojo.connect(featureChildLayer1, "onSelectonComplete", clearHighlightArea);
+		        
+		    var myClick = map.on("click", executeQueryTask);
+			var myDblclick = on(map, "dbl-click", executeQueryTask);	
 	    
 	        function closeDialog() {
 	          map.graphics.clear();
 	          map.setMapCursor("default"); 
 	          dijitPopup.close(dialog);
 	        } 
+	        
+	        function clearHighlightArea(){		      
+			   var renderer = new UniqueValueRenderer(defaultSymbol1, childcode);
+			   featureChildLayer1.setRenderer(renderer);			
+			   map.addLayer(featureChildLayer1);			   
+			} 
 			
 	        map.on("load", function(){ 				
 			   map.enableMapNavigation();
@@ -175,6 +202,29 @@ function hoverMap(details, validpostCode){
 			   map.graphics.enableMouseEvents();
 		       map.graphics.on("mouse-out", closeDialog);
 		       map.on("mouse-drag-end", closeDialog);
-		   }); 
+		    }); 
+	        
+	        function executeQueryTask(evt){
+		    	   
+			   clearHighlightArea();
+			  
+			   var selectionQuery = new esri.tasks.Query();	          
+			   var tol = map.extent.getWidth()/map.width * 5;
+			   var x = evt.mapPoint.x;	          
+			   var y = evt.mapPoint.y;	        
+			   var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
+			   selectionQuery.geometry = queryExtent;
+			  
+			   featureChildLayer1.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
+				 //zoom to the selected feature
+				 var selectionExtent = features[0].geometry.getExtent().expand(1.1);
+				 map.setExtent(selectionExtent);		  
+				 var resultFeatures = features;
+				 
+				 for(var i=0, il=resultFeatures.length; i<il; i++){
+				   area = resultFeatures[i].attributes[childcode];	  	       	  
+				 }
+              });
+		   }  //  executeQueryTask 
 		});		
 	}	
