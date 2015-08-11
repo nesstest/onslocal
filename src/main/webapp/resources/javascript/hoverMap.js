@@ -135,10 +135,14 @@ function hoverMap(details, validpostCode){
 		    });
 		    dialog.startup();
 		    
+		   // var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
+		   //       new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 3), 
+		   //         new Color([229,78,22,0.45])
+		  //   );
+		    
 		    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
-		          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 3), 
-		            new Color([229,78,22,0.45])
-		     );
+				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
+				new Color([229,78,22,0.1]));	
 		    
 	        //listen for when the onMouseOver event fires on the countiesGraphicsLayer
 	        //when fired, create a new graphic with the geometry from the event.graphic and add it to the maps graphics layer
