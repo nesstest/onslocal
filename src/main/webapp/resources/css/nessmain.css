@@ -2288,7 +2288,7 @@ textarea {
   .desktop-grid-pull-full-width, .lt-ie8 .desktop-grid-pull-full-width {
     left: -100%; }
   .desktop-grid-one-half, .desktop-grid-set-one-half .desktop-grid-col {
-    width: 50%; }
+    width: 47%; }
     .lt-ie8 .desktop-grid-one-half, .lt-ie8 .desktop-grid-set-one-half .desktop-grid-col {
       width: 47.75%; }
   .desktop-grid-push-one-half, .lt-ie8 .desktop-grid-push-one-half {
