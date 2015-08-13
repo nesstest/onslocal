@@ -27,6 +27,7 @@ function createMap(result, validpostCode, levelname, childname){
 			
 			//Call createTable for OA
 			createTable(result.areas[0].OA[0].extcode, levelname);
+			createReligion(result.areas[0].OA[0].extcode, levelname);
 
 						
 			// set orange info box details	
@@ -72,6 +73,7 @@ function createMap(result, validpostCode, levelname, childname){
 			  
 			  //Call createTable for WARD
 			  createTable(result.areas[0].WD[0].extcode, levelname);
+			  createReligion(result.areas[0].WD[0].extcode, levelname);
 			  
 			  // set orange part of box & drill down details
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -106,7 +108,8 @@ function createMap(result, validpostCode, levelname, childname){
 				            result.areas[0].WD[0].levelname;
 			  
 			  //Call createTable for Local Authority
-			  createTable(result.areas[0].LAD[0].extcode, levelname); 			  
+			  createTable(result.areas[0].LAD[0].extcode, levelname); 
+			  createReligion(result.areas[0].LAD[0].extcode, levelname); 
 			  
 		      // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -140,7 +143,8 @@ function createMap(result, validpostCode, levelname, childname){
 				            result.areas[0].LAD[0].levelname;
 			  
 			 //Call createTable for GOR
-			 createTable(result.areas[0].GOR[0].extcode, levelname);			                
+			 createTable(result.areas[0].GOR[0].extcode, levelname);
+			 createReligion(result.areas[0].GOR[0].extcode, levelname); 
 			  
 		      // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -192,6 +196,7 @@ function createMap(result, validpostCode, levelname, childname){
 				  
 			  //Call createTable for Country
 			  createTable(result.areas[0].CTRY[0].extcode, levelname);
+			  createReligion(result.areas[0].CTRY[0].extcode, levelname);
 			  
 		      // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +

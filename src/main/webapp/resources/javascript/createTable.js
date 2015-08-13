@@ -77,3 +77,42 @@ function createTable(extcode, levelname){
 		    });	
 		});
 }
+
+function createReligion(extcode, levelname){
+	$("#religionChart").toggle();
+	
+		
+	if (levelname =="WD")
+		{
+		//call WDA API 	for administrative level Data
+		var URL = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+extcode+
+		"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121&dm/CL_0000163=CI_0001887";
+		}
+	else{
+		//call WDA API for Statistical level Data
+		var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+
+		"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121&dm/CL_0000163=CI_0001887";
+	}
+	
+	
+	$(document).ready(function(){
+		$.getJSON(URL, function(result){	
+			
+			
+			all        = result["LC2107EW"].value[0] ;
+			christian  = result["LC2107EW"].value[1] ;
+			muslim     = result["LC2107EW"].value[5];
+			buddhist   = result["LC2107EW"].value[2];
+			sikh       = result["LC2107EW"].value[6];
+			other      = result["LC2107EW"].value[7];
+			
+			$('#lc2107ew-all').append(all);
+			$('#lc2107ew-christian').append(christian);
+			$('#lc2107ew-muslim').append(muslim);
+			$('#lc2107ew-buddhist').append(buddhist);
+			$('#lc2107ew-sikh').append(sikh);
+			$('#lc2107ew-other').append(other);
+		});	
+	});		
+}
+
