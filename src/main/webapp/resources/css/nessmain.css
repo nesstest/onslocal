@@ -5870,6 +5870,8 @@ margin: 0px;
 margin-left: 10px;
 list-style-type: none;
 font-family: sans-serif;
+border-bottom: 1px solid rgb(90, 90, 90);
+background: rgb(240, 240, 240); 
 }
 
 #Tabs ul li {
@@ -5885,29 +5887,23 @@ text-align: center;
 display: block;
 margin-left: 6px;
 padding-left: 10px;
-padding-right: 10px; 
-background: rgb(240, 240, 240);
+padding-right: 10px;
 z-index: 9999;
-border-bottom: 1px solid rgb(90, 90, 90);
 height: 30px;
 width: 150px;
 color: #5A5A5A;
 text-decoration: none;
 }
 
-#Tabs ul li a:hover {
+#Tabs ul li a a:hover {
 text-decoration: none; /*  a very simple effect when hovering the mouse on tab*/
-background-color: #fff;
-border-left: 1px solid rgb(222, 223, 220);
-border-top: 1px solid rgb(222, 223, 220);
-border-right: 1px solid rgb(222, 223, 220);
 }
 
-.current, #Tabs ul li a:active {
+.current, #Tabs ul li a a:active {
+ clear: both;	
  border-left: 1px solid rgb(90, 90, 90);
  border-top: 1px solid rgb(90, 90, 90); 
- border-right: 1px solid rgb(90, 90, 90);
- border-bottom: none;
+ border-right: 1px solid rgb(90, 90, 90); 
  background-color: #fff; 
 }
 
