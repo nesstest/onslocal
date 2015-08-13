@@ -21,9 +21,9 @@ function createTable(extcode, levelname){
 			male = result["SAPEDE 2013"].value[1] ;
 			female = result["SAPEDE 2013"].value[2];
 			
-			$('#sapede-all').append(all);
-			$('#sapede-males').append(male);
-			$('#sapede-females').append(female);
+			$('#sapede-all').append(commaSeparateNumber(all));
+			$('#sapede-males').append(commaSeparateNumber(male));
+			$('#sapede-females').append(commaSeparateNumber(female));
 			});	
 		});
 	
@@ -96,8 +96,7 @@ function createReligion(extcode, levelname){
 	
 	
 	$(document).ready(function(){
-		$.getJSON(URL, function(result){	
-			
+		$.getJSON(URL, function(result){
 			
 			all        = result["LC2107EW"].value[0] ;
 			christian  = result["LC2107EW"].value[1] ;
@@ -106,13 +105,19 @@ function createReligion(extcode, levelname){
 			sikh       = result["LC2107EW"].value[6];
 			other      = result["LC2107EW"].value[7];
 			
-			$('#lc2107ew-all').append(all);
-			$('#lc2107ew-christian').append(christian);
-			$('#lc2107ew-muslim').append(muslim);
-			$('#lc2107ew-buddhist').append(buddhist);
-			$('#lc2107ew-sikh').append(sikh);
-			$('#lc2107ew-other').append(other);
+			$('#lc2107ew-all').append(commaSeparateNumber(all));
+			$('#lc2107ew-christian').append(commaSeparateNumber(christian));
+			$('#lc2107ew-muslim').append(commaSeparateNumber(muslim));
+			$('#lc2107ew-buddhist').append(commaSeparateNumber(buddhist));
+			$('#lc2107ew-sikh').append(commaSeparateNumber(sikh));
+			$('#lc2107ew-other').append(commaSeparateNumber(other));
 		});	
 	});		
 }
 
+function commaSeparateNumber(val){
+    while (/(\d+)(\d{3})/.test(val.toString())){
+      val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+    }
+    return val;
+ }
