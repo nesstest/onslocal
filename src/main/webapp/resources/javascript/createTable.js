@@ -118,7 +118,7 @@ function createReligion(extcode, levelname){
 function commaSeparateNumber(val){
 	
 	 if (val >= 1000000) {
-        val =  (val / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        val =  (val / 1000000).toFixed(1).replace(/\.0$/, '') + 'm';
      }
 	 else
 	 {
