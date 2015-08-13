@@ -116,8 +116,18 @@ function createReligion(extcode, levelname){
 }
 
 function commaSeparateNumber(val){
-    while (/(\d+)(\d{3})/.test(val.toString())){
-      val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
-    }
-    return val;
+	
+	 if (val >= 1000000) {
+        val =  (val / 1000000).toFixed(1).replace(/\.0$/, '') + 'm';
+     }
+	 else
+	 {
+		 while (/(\d+)(\d{3})/.test(val.toString())){
+			 val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+		 }
+	 }
+   return val;
  }
+
+
+
