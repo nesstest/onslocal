@@ -8,6 +8,7 @@ function createMap(result, validpostCode, levelname, childname){
 		 details = result.areas[0].envelope;		
 	    }
 		else {
+			$("#Tabs").toggle(); //display tabs for data content
 			 // if welsh postcode - no GOR
 			 if (validpostCode === "NP18 1AF"){
 			     regionText = '<span style="display:none;"></span>';			  			 
