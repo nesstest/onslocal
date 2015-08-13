@@ -20,6 +20,7 @@
      <script src="resources/javascript/charts.js"></script>
      <script src="resources/javascript/createTable.js"></script>
      <script src="resources/javascript/ukMap.js"></script>
+     <script src="resources/javascript/selectMap.js"></script>     
     
      <script src="http://js.arcgis.com/3.14/"></script> 
      <script src="resources/javascript/footer.js"></script>  
@@ -33,8 +34,7 @@
      </style>
     
    
-     <script> 
-     
+     <script>     
 	    // Read a user input postcode and strip of plus signs,
 	    // convert to uppercase and reformat if necessary
 	    function  postcode_reformat(postcode) {
@@ -76,16 +76,16 @@
 	        vars[key] = value;
 	        });
 	        return vars;
-	    }
+	    }	    
 	    
 	    // get parameters from url	    
 	    var levelname, childname;
-	    var postcode;	   
+	    var postcode;	  
 	   
 	    postcode =  getUrlParams()["nav-search"];	    
 	    levelname = getUrlParams()["levelname"];	    
 	    childname = getUrlParams()["childname"];
-	  
+	    
 		var pCode;
 		if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
 		  jsonFile      ='uk.json';	
@@ -105,9 +105,24 @@
 		  }); 
 		}); 
 		
-	  </script> 
+	  </script>	  
+	 
+	  <script type="text/javascript">
+	   function tab(tab) {
+	     document.getElementById('tab1').style.display = 'none';
+	     document.getElementById('tab2').style.display = 'none';
+	     document.getElementById('li_tab1').setAttribute("class", "");
+	     document.getElementById('li_tab2').setAttribute("class", "");
+	     document.getElementById(tab).style.display = 'block';
+	     document.getElementById('li_'+ tab).setAttribute("class", "active");
+	   }
+	  </script>
+	  
   </head> 
   <body class="tundra"> 
+    <form id="mapForm" name="mapForm">
+      <input type="hidden" name="queryExtent" value=""/>
+    </form>      
       <div class="wrapper panel--mar nav-panels">
 	        <div class="grid-wrap">
 	            <header>
@@ -135,74 +150,178 @@
 	                        	             
 	            <div id="map" style="height: 500px; margin-top:0px;">
 	               <div id="HomeButton"></div>             
-	            </div> 
-	                        
-	            <div id="selArea1"></div>
-	            	            
-          </div> 
+	            </div>	                        
+	            <div id="selArea1"></div>	            	            
+          </div>          
           
-          <div id="topStat">
-	          <div  id="statBox1" style="width:48%; float:left"></div>  
-	          <div  id="statBox2" style="width:48%"></div>  
-          </div>
-          
-          
-          <div id="tableChart"  style="display: none;">
-		      <article class="wrapper">
-			    <div class="grid-wrap panel panel--separated--bottom">
-			       <div class="grid-col desktop-grid-one-half">
-				         <header>
-				            <h2>Population</h2>
-				        </header>
-			            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
-			                <dt class="grid-col desktop-grid-one-half">
-			                    <h3 class="stat__figure delta">
-			                        <a href="#">Total</a>
-			                    </h3>
-			                </dt>
-			                <dd class="grid-col desktop-grid-one-half flush">
-			                    <div class="stat__figure delta" id="sapede-all">
-			                    </div>
-			                    <div class="stat__figure delta">
-			                        <span class="stat__description">Mar 2014</span>
-			                    </div>
-			                </dd>
-			            </dl>
-			            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
-			                <dt class="grid-col desktop-grid-one-half">
-			                    <h3 class="stat__figure delta">
-			                        <a href="#">Males</a>
-			                    </h3>
-			                </dt>
-			                <dd class="grid-col desktop-grid-one-half flush">
-			                    <div class="stat__figure delta" id="sapede-males">
-			                       
-			                    </div>
-			                    <div class="stat__figure delta">
-			                        <span class="stat__description">Mar 2014</span>
-			                    </div>
-			                </dd>
-			            </dl>
-			            <dl class="grid-wrap panel flush--top flush--bottom">
-			                <dt class="grid-col desktop-grid-one-half">
-			                    <h3 class="stat__figure delta">
-			                        <a href="#">Females</a>
-			                    </h3>
-			                </dt>
-			                <dd class="grid-col desktop-grid-one-half flush">
-			                    <div class="stat__figure delta" id="sapede-females">
-			                      
-			                    </div>
-			                    <div class="stat__figure delta">
-			                        <span class="stat__description">Mar 2014</span>
-			                    </div>
-			                </dd>
-			            </dl>
-			        </div>
-			        <div class="grid-col desktop-grid-one-half" data-chart="pyramid" style="width:450px"></div>
+          <div id="Tabs">
+             <ul>
+			  	<li id="li_tab1" onclick="tab('tab1')"><a>Population</a></li>
+				<li id="li_tab2" onclick="tab('tab2')"><a>Religion</a></li>
+				
+			 </ul>
+			 <div id="Content_Area">
+				<div id="tab1">				 
+				   <div id="tableChart"  style="display: none;">
+				      <article class="wrapper">
+					    <div class="grid-wrap panel panel--separated--bottom">
+					       <div class="grid-col desktop-grid-one-half">
+						         <header>
+						            <h2>Population</h2>
+						        </header>
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Total</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="sapede-all">
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">Mar 2014</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Males</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="sapede-males">
+					                       
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">Mar 2014</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            <dl class="grid-wrap panel flush--top flush--bottom">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Females</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="sapede-females">
+					                      
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">Mar 2014</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					        </div>
+					        <div class="grid-col desktop-grid-one-half" data-chart="pyramid" style="width:450px"></div>
+					    </div>
+					  </article>          
+	              </div>                 
 			    </div>
-			  </article>          
-	       </div>                     
+			    <div id="tab2" style="display: none;"> 
+				    <div id="religionChart"  style="display: none;">
+				      <article class="wrapper">
+					    <div class="grid-wrap panel panel--separated--bottom">
+					       <div class="grid-col desktop-grid-one-half">
+						         <header>
+						            <h2>Religion</h2>
+						        </header>
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Total</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="lc2107ew-all">
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">2011</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Christian</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="lc2107ew-christian">
+					                       
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">2011</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            <dl class="grid-wrap panel flush--top flush--bottom">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Muslim</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="lc2107ew-muslim">
+					                      
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">2011</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Buddhist</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="lc2107ew-buddhist">
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">2011</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Sikh</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="lc2107ew-sikh">
+					                       
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">2011</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            <dl class="grid-wrap panel flush--top flush--bottom">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Other</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="lc2107ew-other">
+					                      
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">2011</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					        </div>
+					    </div>
+					  </article>
+			    </div>
+		    </div> 
+	     </div>    
+          
          </div>        
   </body>  
 </html>  
