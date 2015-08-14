@@ -141,66 +141,66 @@ function createBarChart(var1, var2, var3, var4, var5) {
 			
 			
 		 options = {
-					  chart: {
-					    type: 'column'
-					  },
-					  title: {
-					    text: 'Religion in England and Wales 2011'
-					  },
-					  yAxis: {
-					    min: 0,
-					    title: {
-					      text: null
-					    },
-					    stackLabels: {
-					      enabled: true,
-					      formatter: function () {
-					        if (this.total === null || this.total === undefined) {
-					            return '<i>N/A</i>';
-					        } else {
-					            return '';
-					        }
-					      }
-					    }
-					  },
-					  legend: {
-					    backgroundColor: '#666666',
-					    shadow: false
-					  },
-					  tooltip: {
-					    shared: false,
-					    formatter: function () {
-					      return ONS.charts.textTooltipFormatter(this.x, this.series.name + ': ' + this.y + '<br/>' + 'Total: ' + this.point.stackTotal);
-					    }
-					  },
-					  plotOptions: {
-					    column: {
-					      stacking: 'normal',
-					      dataLabels: {}
-					    },
-					    bar: {}
-					  }
-					};
-	
-					$.extend(true, options, data);
-	
-					chart.highcharts(options);
-	
-					/*
-					 * Ensure that on page resize the chart is changed from vertical
-					 * to horizontal.
-					 */
-					window.onresize = function(event) {
-					  ONS.charts.stackedResize($('[data-chart]'), options);
-					};
-	
-					/*
-					 * Trigger resize
-					 */
-					ONS.charts.stackedResize($('[data-chart]'), options);
-					
-					break;
-	    }			
+		   chart: {
+		     type: 'column'
+		   },
+		   title: {
+		     text: 'Religion in England and Wales 2011'
+		   },
+		   yAxis: {
+		     min: 0,
+		     title: {
+		       text: null
+		     },
+		     stackLabels: {
+		       enabled: true,
+		       formatter: function () {
+		         if (this.total === null || this.total === undefined) {
+		             return '<i>N/A</i>';
+		         } else {
+		             return '';
+		         }
+		       }
+		     }
+		   },
+		   legend: {
+		     backgroundColor: '#666666',
+		     shadow: false
+		   },
+		   tooltip: {
+		     shared: false,
+		     formatter: function () {
+		     return (this.x, 'Count: ' + this.y + '<br/>');
+		     }
+		   },
+		   plotOptions: {
+		     column: {
+		       stacking: 'normal',
+		       dataLabels: {}
+		     },
+		     bar: {}
+		   }
+		 };
+		
+		 $.extend(true, options, data);
+		
+		 chart.highcharts(options);
+		
+		 /*
+		  * Ensure that on page resize the chart is changed from vertical
+		  * to horizontal.
+		  */
+		 window.onresize = function(event) {
+		   ONS.charts.stackedResize($('[data-chart]'), options);
+		 };
+		
+		 /*
+		  * Trigger resize
+		  */
+		 ONS.charts.stackedResize($('[data-chart]'), options);
+		
+		 break;
+	     }			
 	 })				
 }		
 
