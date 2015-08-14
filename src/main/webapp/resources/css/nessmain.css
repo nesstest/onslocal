@@ -5896,7 +5896,8 @@ table actions
   color: #5A5A5A;
   margin-top: 8px;
   padding-top: 8px;
-  text-align: center;     
+  text-align: center; 
+  cursor:pointer;        
 }
 
 #Tabs li:hover, #Tabs li:hover a {
