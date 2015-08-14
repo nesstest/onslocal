@@ -111,6 +111,8 @@ function createReligion(extcode, levelname){
 			$('#lc2107ew-buddhist').append(commaSeparateNumber(buddhist));
 			$('#lc2107ew-sikh').append(commaSeparateNumber(sikh));
 			$('#lc2107ew-other').append(commaSeparateNumber(other));
+			
+			createBarChart(christian, muslim, buddhist, sikh, other);
 		});	
 	});		
 }
@@ -128,6 +130,3 @@ function commaSeparateNumber(val){
 	 }
    return val;
  }
-
-
-

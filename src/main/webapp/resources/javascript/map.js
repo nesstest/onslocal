@@ -8,6 +8,7 @@ function createMap(result, validpostCode, levelname, childname){
 		 details = result.areas[0].envelope;		
 	    }
 		else {
+			
 			 // if welsh postcode - no GOR
 			 if (validpostCode === "NP18 1AF"){
 			     regionText = '<span style="display:none;"></span>';			  			 
@@ -25,9 +26,12 @@ function createMap(result, validpostCode, levelname, childname){
 			            result.areas[0].OA[0].levelname+":"+
 			            result.areas[0].OA[0].areacode;
 			
+			$("#Tabs").toggle(); //display tabs for data content
+			
 			//Call createTable for OA
 			createTable(result.areas[0].OA[0].extcode, levelname);
 			createReligion(result.areas[0].OA[0].extcode, levelname);
+			
 
 						
 			// set orange info box details	
@@ -71,6 +75,8 @@ function createMap(result, validpostCode, levelname, childname){
 							result.areas[0].OA[0].arealayername+":"+
 			                result.areas[0].OA[0].levelname;
 			  
+			  $("#Tabs").toggle(); //display tabs for data content
+			  
 			  //Call createTable for WARD
 			  createTable(result.areas[0].WD[0].extcode, levelname);
 			  createReligion(result.areas[0].WD[0].extcode, levelname);
@@ -107,6 +113,8 @@ function createMap(result, validpostCode, levelname, childname){
 							result.areas[0].WD[0].arealayername+":"+
 				            result.areas[0].WD[0].levelname;
 			  
+			  $("#Tabs").toggle(); //display tabs for data content
+			  
 			  //Call createTable for Local Authority
 			  createTable(result.areas[0].LAD[0].extcode, levelname); 
 			  createReligion(result.areas[0].LAD[0].extcode, levelname); 
@@ -141,6 +149,8 @@ function createMap(result, validpostCode, levelname, childname){
 						    result.areas[0].LAD[0].areaname+":"+ 
 							result.areas[0].LAD[0].arealayername+":"+
 				            result.areas[0].LAD[0].levelname;
+			  
+			 $("#Tabs").toggle(); //display tabs for data content
 			  
 			 //Call createTable for GOR
 			 createTable(result.areas[0].GOR[0].extcode, levelname);
@@ -193,6 +203,8 @@ function createMap(result, validpostCode, levelname, childname){
 								result.areas[0].LAD[0].arealayername+":"+
 					            result.areas[0].LAD[0].levelname;
 			  }
+			  
+			  $("#Tabs").toggle(); //display tabs for data content
 				  
 			  //Call createTable for Country
 			  createTable(result.areas[0].CTRY[0].extcode, levelname);

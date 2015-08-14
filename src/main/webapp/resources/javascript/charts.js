@@ -10,7 +10,7 @@ function createChart(m_0_4,m_5_9,m_10_14,m_15_19,m_20_24,m_25_29,m_30_34,m_35_39
   /*
    * Create an example chart for the time-series page
    */
-  $('[data-chart]').each(function() {
+  $('#population-pyramid').each(function() {
 
     var chart = $(this);
     
@@ -108,4 +108,98 @@ function createChart(m_0_4,m_5_9,m_10_14,m_15_19,m_20_24,m_25_29,m_30_34,m_35_39
     }
 
   });
-};
+}
+
+function createBarChart(var1, var2, var3, var4, var5) { 
+	
+	
+	 var options;
+	 var data;
+	 
+	  /*
+	   * Create an example chart for the time-series page
+	   */
+	  $('#religion-bar').each(function() {
+
+	    var chart = $(this);
+	    
+	    switch ( chart.data("chart") ) {
+	      case 'stacked-bar':	    		
+	
+          data = {
+			  xAxis: {
+			    categories: ["Christian", "Muslim", "Buddhist", "Sikh", "Other"]
+			  },
+			  series: [
+				           {
+				               name: 'Religion',
+				               data: [christian, muslim, buddhist, sikh, other]
+				           },
+			          ] // series
+		  }; // data
+			
+			
+			
+		 options = {
+		   chart: {
+		     type: 'column'
+		   },
+		   title: {
+		     text: 'Religion in England and Wales 2011'
+		   },
+		   yAxis: {
+		     min: 0,
+		     title: {
+		       text: null
+		     },
+		     stackLabels: {
+		       enabled: true,
+		       formatter: function () {
+		         if (this.total === null || this.total === undefined) {
+		             return '<i>N/A</i>';
+		         } else {
+		             return '';
+		         }
+		       }
+		     }
+		   },
+		   legend: {
+		     backgroundColor: '#666666',
+		     shadow: false
+		   },
+		   tooltip: {
+		     shared: false,
+		     formatter: function () {
+		     return (this.x, 'Count: ' + this.y + '<br/>');
+		     }
+		   },
+		   plotOptions: {
+		     column: {
+		       stacking: 'normal',
+		       dataLabels: {}
+		     },
+		     bar: {}
+		   }
+		 };
+		
+		 $.extend(true, options, data);
+		
+		 chart.highcharts(options);
+		
+		 /*
+		  * Ensure that on page resize the chart is changed from vertical
+		  * to horizontal.
+		  */
+		 window.onresize = function(event) {
+		   ONS.charts.stackedResize($('[data-chart]'), options);
+		 };
+		
+		 /*
+		  * Trigger resize
+		  */
+		 ONS.charts.stackedResize($('[data-chart]'), options);
+		
+		 break;
+	     }			
+	 })				
+}
