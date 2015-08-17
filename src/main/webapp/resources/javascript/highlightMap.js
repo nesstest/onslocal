@@ -207,29 +207,74 @@ function highlightMap(details, validpostCode){
 			  map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));			   			
 		    } 	
 	       
-	       function executeQueryTask(evt){
+            function executeQueryTask(evt){
 	    	   
 			   clearHighlightArea();
 			  
 			   var selectionQuery = new esri.tasks.Query();	          
 			   var tol = map.extent.getWidth()/map.width * 5;
 			   var x = evt.mapPoint.x;	          
-			   var y = evt.mapPoint.y;	        
-			   var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
-			   selectionQuery.geometry = queryExtent;
+			   var y = evt.mapPoint.y;	 
+			   var wardUrl =  "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2012_GB_BGC/FeatureServer/0/query?where=&geometry=" +
+			          x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=WD12NM&returnGeometry=false&outSR=27700&f=pjson" ;
 			  
-			   featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
-				 //zoom to the selected feature
-				 var selectionExtent = features[0].geometry.getExtent().expand(1.1);
-				 map.setExtent(selectionExtent);		  
-				 var resultFeatures = features;
-				 
-				 for(var i=0, il=resultFeatures.length; i<il; i++){
-				   area = resultFeatures[i].attributes[areacode];	  	       	  
-				 }
-               
-              });
-				
+			   var laUrl   =  "https://mapping.statistics.gov.uk/arcgis/rest/services/LAD/LAD_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
+		              x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=LAD11NM&returnGeometry=false&outSR=27700&f=pjson" ;
+			   var gorUrl =  "https://mapping.statistics.gov.uk/arcgis/rest/services/GOR/GOR_DEC_2010_EN_BGC/FeatureServer/0/query?where=&geometry=" +
+		          x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=GOR10NM&returnGeometry=false&outSR=27700&f=pjson" ;
+		       var ctryUrl   =  "https://mapping.statistics.gov.uk/arcgis/rest/services/CTRY/CTRY_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
+	              x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=CTRY11NM&returnGeometry=false&outSR=27700&f=pjson" ;
+			
+		       $(document).ready(function(){
+			     $.getJSON(wardUrl, function(result) {
+			       wardName = result.features[0].attributes.WD12NM; 
+			     }); //getJSON			   
+		       }); // document 
+		      
+		       $(document).ready(function(){
+				  $.getJSON(laUrl, function(result) {
+				    	laName = result.features[0].attributes.LAD11NM; 
+				  }); //getJSON				   
+			   }); // document 
+
+		       $(document).ready(function(){
+				  $.getJSON(gorUrl, function(result) {
+					    gorName = result.features[0].attributes.GOR10NM; 
+				  }); //getJSON				   
+			   }); // document 
+		       
+		       $(document).ready(function(){
+				  $.getJSON(ctryUrl, function(result) {
+					    ctryName = result.features[0].attributes.CTRY11NM; 
+					    
+					    var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
+						   selectionQuery.geometry = queryExtent;
+						  
+						   featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
+							 //zoom to the selected feature
+							 var selectionExtent = features[0].geometry.getExtent().expand(1.1);
+							 map.setExtent(selectionExtent);		  
+							 var resultFeatures = features;
+							 
+							 for(var i=0, il=resultFeatures.length; i<il; i++){
+							   area = resultFeatures[i].attributes[areacode];	  	       	  
+							 }
+			               
+			              });
+					    
+					 // set orange info box details    		
+						$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
+							  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
+						      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
+						      '<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
+						      '<div style="margin-top:5px;font-size: small;"> - Ward (' + wardName + '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD"></a>)' +
+					  	   	  '<br> - Local Authority (' + laName + '<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD"></a>)' + 
+					  	   	  '<br> - Region (' + gorName + '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=GOR"></a>)' +
+						      '<br> - Country (' + ctryName + ' <a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY"></a>)</div>' + 
+						      '</div>' + '</article></div>');
+				  }); //getJSON				   
+			   }); // document 			 
+			    
 		   }  //  executeQueryTask 
 	       
 		});	
