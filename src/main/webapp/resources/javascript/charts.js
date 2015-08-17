@@ -198,20 +198,7 @@ function createBarChart(var1, var2, var3, var4, var5) {
 		
 		 $.extend(true, options, data);
 		
-		 chart.highcharts(options);
-		
-		 /*
-		  * Ensure that on page resize the chart is changed from vertical
-		  * to horizontal.
-		  */
-		 window.onresize = function(event) {
-		   ONS.charts.stackedResize($('[data-chart]'), options);
-		 };
-		
-		 /*
-		  * Trigger resize
-		  */
-		 ONS.charts.stackedResize($('[data-chart]'), options);
+		 chart.highcharts(options);	
 		
 		 break;
 	     }			
