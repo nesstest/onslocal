@@ -192,6 +192,13 @@ function hoverMap(details, validpostCode){
 			   featureChildLayer1.setRenderer(renderer);			
 			   map.addLayer(featureChildLayer1);			   
 			} 
+	        
+	        featureChildLayer1.on("mouse-out", function(evt) {
+	    	   //close the map dialog box after 1000 ms
+	    	   setTimeout(function () {  
+		    	   dijitPopup.close(dialog);
+	    	   }, 1000);	    	   
+		     });
 			
 	        map.on("load", function(){ 				
 			   map.enableMapNavigation();

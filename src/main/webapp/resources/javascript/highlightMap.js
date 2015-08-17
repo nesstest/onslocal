@@ -24,7 +24,8 @@ function highlightMap(details, validpostCode){
 		"esri/graphic",		
 		"esri/lang",
 		"dojo/number", 
-		"dojo/dom-style", 
+		"dojo/dom-style",
+		"dojo/query",
         "dijit/TooltipDialog", 
         "dijit/popup",
         "esri/tasks/query",
@@ -33,7 +34,7 @@ function highlightMap(details, validpostCode){
 		
 		  ], function( 
 		    Map, HomeButton, parser, Extent, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, 
-		    Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, Query, QueryTask, query
+		    Color, on, dom, Graphic, esriLang, number, domStyle, query, TooltipDialog, dijitPopup, Query, QueryTask 
 		  ) 
 		  { 
 
@@ -181,13 +182,21 @@ function highlightMap(details, validpostCode){
 			   map.graphics.enableMouseEvents();
 		       map.graphics.on("mouse-out", closeDialog);
 			   map.on("mouse-drag-end", closeDialog);
-	        }); 
+	        }); 		   
+		    	
 	       
 	       function clearHighlightArea(){		      
 		       var renderer = new UniqueValueRenderer(defaultSymbol, areacode);
 		       featureLayer.setRenderer(renderer);			
 			   map.addLayer(featureLayer);			   
 		   } 
+	       
+	       featureLayer.on("mouse-out", function(evt) {
+	    	   //close the map dialog box after 1000 ms
+	    	   setTimeout(function () {  
+		    	   dijitPopup.close(dialog);
+	    	   }, 1000);	    	   
+	       });
 	       
 	       function closeDialog() {
 	          map.graphics.clear();
@@ -205,7 +214,7 @@ function highlightMap(details, validpostCode){
 				 "height": 24
 			  });	        
 			  map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));			   			
-		    } 	
+		    } 		           
 	       
             function executeQueryTask(evt){
 	    	   

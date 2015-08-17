@@ -2958,7 +2958,9 @@ address {
   padding: 10px 10px 0;
   padding: 1rem 1rem 0;
   margin: 0 auto 5px;
-  margin: 0 auto 0.5rem; }
+  margin: 0 auto 0.5rem;
+  background-image: url(../images/alpha.png);
+  background-repeat: repeat;}
   @media screen and (min-width: 50em) {
     .global-header__wrapper {
       padding: 20px 20px 10px 20px;
@@ -5870,7 +5872,7 @@ table actions
   padding-top: 5px; 
   list-style-type: none;	
   line-height:normal; 
-  font-family: sans-serif;   
+  font-family: sans-serif; 
 }
 
 #Tabs ul {
@@ -5897,7 +5899,7 @@ table actions
   margin-top: 8px;
   padding-top: 8px;
   text-align: center; 
-  cursor:pointer;    
+  cursor:pointer;        
 }
 
 #Tabs li:hover, #Tabs li:hover a {

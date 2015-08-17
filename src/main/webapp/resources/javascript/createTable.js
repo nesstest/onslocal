@@ -130,6 +130,3 @@ function commaSeparateNumber(val){
 	 }
    return val;
  }
-
-
-
