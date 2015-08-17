@@ -2,6 +2,20 @@
  * File to invoke pattern library JS demos
  */
 
+function commaSeparateNumber(val){
+	
+	 if (val >= 1000000) {
+        val =  (val / 1000000).toFixed(1).replace(/\.0$/, '') + 'm';
+     }
+	 else
+	 {
+		 while (/(\d+)(\d{3})/.test(val.toString())){
+			 val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+		 }
+	 }
+   return val;
+ }
+
 function createChart(m_0_4,m_5_9,m_10_14,m_15_19,m_20_24,m_25_29,m_30_34,m_35_39,m_40_44,m_45_49,m_50_54,m_55_59,m_60_64,m_65_69,m_70_74,m_75_79,m_80_84,m_85_89,m_90,f_0_4,f_5_9,f_10_14,f_15_19,f_20_24,f_25_29,f_30_34,f_35_39,f_40_44,f_45_49,f_50_54,f_55_59,f_60_64,f_65_69,f_70_74,f_75_79,f_80_84,f_85_89,f_90 ) {
 
   var options;
@@ -90,7 +104,7 @@ function createChart(m_0_4,m_5_9,m_10_14,m_15_19,m_20_24,m_25_29,m_30_34,m_35_39
           tooltip: {
             shared: false,
             formatter: function () {
-              return ('<b>' + this.series.name + ':</b> age ' + this.point.category + '<br><b>Population:</b> ' + Highcharts.numberFormat(Math.abs(this.point.y), 0));
+              return ('<b>' + this.series.name + ':</b> age ' + this.point.category + '<br><b>Population:</b> ' + commaSeparateNumber(Math.abs(this.point.y), 0));
             }
           },
           plotOptions: {
@@ -170,7 +184,7 @@ function createBarChart(var1, var2, var3, var4, var5) {
 		   tooltip: {
 		     shared: false,
 		     formatter: function () {
-		     return (this.x, 'Count: ' + this.y + '<br/>');
+		     return (this.x, 'Count: ' + commaSeparateNumber(this.y) + '<br/>');
 		     }
 		   },
 		   plotOptions: {
