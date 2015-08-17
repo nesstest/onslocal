@@ -189,6 +189,13 @@ function highlightMap(details, validpostCode){
 			   map.addLayer(featureLayer);			   
 		   } 
 	       
+	       featureLayer.on("mouse-out", function(evt) {
+	    	   //close the map dialog box after 1000 ms
+	    	   setTimeout(function () {  
+		    	   dijitPopup.close(dialog);
+	    	   }, 1000);	    	   
+	       });
+	       
 	       function closeDialog() {
 	          map.graphics.clear();
 	          map.setMapCursor("default"); 
