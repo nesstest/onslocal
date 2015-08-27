@@ -12,16 +12,16 @@
      <link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/tundra/tundra.css">   
      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
      <!-- Latest minified and concatenated JS to go in head -->
-     <script src="resources/javascript/header.min.js"></script>
      <!-- Latest minified and concatenated JS to go in the footer -->
-     <script src="resources/javascript/footer.min.js"></script>      
+     <script src="resources/javascript/footer.js"></script>  
+     <script src="resources/javascript/header.js"></script>      
      <script src="resources/javascript/map.js"></script> 
      <script src="resources/javascript/highlightMap.js"></script>  
      <script src="resources/javascript/hoverMap.js"></script>
      <script src="resources/javascript/charts.js"></script>
      <script src="resources/javascript/createTable.js"></script>
      <script src="resources/javascript/ukMap.js"></script>    
-     <script src="resources/javascript/footer.js"></script>  
+
      
      <script defer src="http://js.arcgis.com/3.14/"></script> 
     
@@ -142,9 +142,7 @@
 		
 		$(".show-more").on('click', function() {
 			var originalValueText = $("#detail-text").text();
-			var originalValueArrow = $("#detail-arrow").text();
-		    $("#detail-text").text(originalValueText == "More Detail" ? "Less Detail" : "More Detail" );
-		    $("#detail-arrow").text(originalValueArrow == "\u25BD" ? "\u25B3" : "\u25BD" );
+			$("#detail-text").text(originalValueText == "More Detail" ? "Less Detail" : "More Detail" );
 		    $("#tables").toggle();
 		});
 		
@@ -363,13 +361,14 @@
 	      </div>    
 	     </div>
        </div>  
-       <div id="additional-data" style="display: none;">
-			<div class="show-more">
-            	<p id="detail-text" class="alignleft">More Detail</p>
-            	<p id="detail-arrow" class="alignright">&#9661;</p>
-        	</div>
-        	<div class="show-tables" id="tables" style="display: none;"><img alt="dancing elephant for Janice" src="resources/images/dancing_elephant.gif"></div>
-			<div class="bottom-border"></div>
-		</div>         
+      		 
+                <div id="additional-data" class="accordion is-collapsed show-more" style="display: none;">
+                  <h2 id="detail-text" class="accordion__title delta" aria-controls="content-3">More Detail</h2>
+                  <div id="content-3" class="accordion__content" aria-labelledby="sc-3">
+                    <div class="show-tables" id="tables" style="display: none;"><img alt="dancing elephant for Janice" src="resources/images/dancing_elephant.gif"></div>
+			      </div>
+                </div>
+             
+             
   </body>  
 </html>  
