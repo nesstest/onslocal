@@ -6,6 +6,7 @@
     <title></title>
      <!-- Latest compiled and minified CSS to go in head -->
      <link href="resources/css/nessmain.css" rel="stylesheet" type="text/css">
+     <link href="resources/css/showmore.css" rel="stylesheet" type="text/css">
      <link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css"> 
      <link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/claro/claro.css">
      <link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/tundra/tundra.css">   
@@ -132,6 +133,24 @@
 	    	//}
 	   }
 	  </script>
+	  
+	  <!-- SHOW MORE JS -->
+	  <script type='text/javascript'>//<![CDATA[
+		$(window).load(function(){
+		var $text = $('.text'),
+		    i = 0;
+		
+		$(".show-more").on('click', function() {
+			var originalValueText = $("#detail-text").text();
+			var originalValueArrow = $("#detail-arrow").text();
+		    $("#detail-text").text(originalValueText == "More Detail" ? "Less Detail" : "More Detail" );
+		    $("#detail-arrow").text(originalValueArrow == "\u25BD" ? "\u25B3" : "\u25BD" );
+		    $("#tables").toggle();
+		});
+		
+		});//]]> 
+		
+		</script>
 	  
   </head> 
   <body class="tundra"> 
@@ -343,6 +362,14 @@
 	         </header>
 	      </div>    
 	     </div>
-       </div>        
+       </div>  
+       <div id="additional-data" style="display: none;">
+			<div class="show-more">
+            	<p id="detail-text" class="alignleft">More Detail</p>
+            	<p id="detail-arrow" class="alignright">&#9661;</p>
+        	</div>
+        	<div class="show-tables" id="tables" style="display: none;"><img alt="dancing elephant for Janice" src="resources/images/dancing_elephant.gif"></div>
+			<div class="bottom-border"></div>
+		</div>         
   </body>  
 </html>  

@@ -1,6 +1,7 @@
 function createTable(extcode, levelname){
 	$("#tableChart").toggle();
-	
+	$("#additional-data").toggle();
+		
 		
 	if (levelname =="WD")
 		{
