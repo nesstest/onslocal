@@ -24,8 +24,7 @@ function highlightMap(details, validpostCode){
 		"esri/graphic",		
 		"esri/lang",
 		"dojo/number", 
-		"dojo/dom-style",
-		"dojo/query",
+		"dojo/dom-style", 
         "dijit/TooltipDialog", 
         "dijit/popup",
         "esri/tasks/query",
@@ -34,7 +33,7 @@ function highlightMap(details, validpostCode){
 		
 		  ], function( 
 		    Map, HomeButton, parser, Extent, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, 
-		    Color, on, dom, Graphic, esriLang, number, domStyle, query, TooltipDialog, dijitPopup, Query, QueryTask 
+		    Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, Query, QueryTask, query
 		  ) 
 		  { 
 
@@ -55,7 +54,8 @@ function highlightMap(details, validpostCode){
 			var areacode      = detailsArray[10];		
 						
 			var postcode      = validpostCode;	
-			
+			var polygon ;
+			var selected = false;
 			var diff = xmax_env-xmin_env;
 			newxmin  = xmin_env - diff;	
 			var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
@@ -79,53 +79,39 @@ function highlightMap(details, validpostCode){
 			
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
 			map.addLayer(dynamicMSLayer);         
-			map.setExtent(bbox.expand(1.1)); 		
+			map.setExtent(bbox.expand(1.1)); 
 			
-			map.on("load", function(){		         
-			    var symbol = new esri.symbol.PictureMarkerSymbol({
-			    "angle": 0,
-			    "xoffset": 0,
-			    "yoffset": 12,
-			    "type": "esriPMS",
-			    "url": "resources/images/map-marker-128.png",
-			    "contentType": "image/png",
-			    "width": 24,
-			    "height": 24
-			 });	        
-				 map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));
-		   });				
-					
-		   
+		   var selArea;			
+	       var renderer = new UniqueValueRenderer();
+	       
 		   var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                  new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                  new Color([229,78,22]),1),new Color([0,0,0,0]));  
 		   
 		   var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
 			     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
-			     new Color([229,78,22,0.1]));		
-		
+			     new Color([229,78,22,0.1]));  
+		   
+		   var selSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+				   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+						   new Color([229,78,22]),2),new Color([229,78,22, 0.45]));		   
+          
+		    var dynamicLayer = "https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/featureServer/0";
+		  
 		    if (levelname === "OA") {
-		    	var dynamicLayer = "https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/featureServer/0";
+		    	
 		    	var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areacode]});
 		    	//create renderer 
-				var renderer = new UniqueValueRenderer(defaultSymbol, areacode);
+		    	renderer = new UniqueValueRenderer(defaultSymbol, areacode);
 		    }
-		    else{			    	
-		    	var dynamicLayer = "https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/featureServer/0";
+		    else{
 		    	var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areaname]});
 		    	//create renderer 
-				var renderer = new UniqueValueRenderer(defaultSymbol, areaname);
+		    	renderer = new UniqueValueRenderer(defaultSymbol, areaname);
 		    }
-		    
-		    //add symbol for each possible value 
-			renderer.addValue(area, 
-			   new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-			   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-			   new Color([229,78,22]),2),new Color([229,78,22, 0.45])));			
 		
-			featureLayer.setRenderer(renderer); 		
-			
-			map.addLayer(featureLayer);	
+			featureLayer.setRenderer(renderer); 
+			map.addLayer(featureLayer);				
 			
 			map.infoWindow.resize(245,125);
 		    
@@ -148,9 +134,8 @@ function highlightMap(details, validpostCode){
 	        	   t = "<b>${"+ areaname + "}</b>";
 	          }	 	          
 	          
-	          var content = esriLang.substitute(evt.graphic.attributes,t);
-	          var highlightGraphic = new Graphic(evt.graphic.geometry,highlightSymbol);	         
-	          map.graphics.add(highlightGraphic);
+	          var content = esriLang.substitute(evt.graphic.attributes,t);         
+	          map.graphics.add(new Graphic(evt.graphic.geometry,highlightSymbol));
 	          
 	          dialog.setContent(content);
 
@@ -161,14 +146,13 @@ function highlightMap(details, validpostCode){
 	            x: evt.pageX,
 	            y: evt.pageY
 	          });
-	        });	        
+	        });	 
 	      
 	        var selectionSymbol =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
 				 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
 				 new Color([229,78,22,0.5]));
 	        
-	        featureLayer.setSelectionSymbol(selectionSymbol),
-	        dojo.connect(featureLayer, "onSelectonComplete", clearHighlightArea);
+	        featureLayer.setSelectionSymbol(selectionSymbol);
 	        
 	        var myClick = map.on("click", executeQueryTask);
 		    var myDblclick = on(map, "dbl-click", executeQueryTask);	
@@ -182,13 +166,39 @@ function highlightMap(details, validpostCode){
 			   map.graphics.enableMouseEvents();
 		       map.graphics.on("mouse-out", closeDialog);
 			   map.on("mouse-drag-end", closeDialog);
-	        }); 		   
-		    	
+			   map.graphics.on("click", closeDialog);
+			   var query = new Query();
+			   if (levelname === "OA") {				   
+				   query.where = areacode +  "='" + area + "'";
+			   }
+			   else{
+				   query.where = areaname +  "='" + area + "'";
+			   }
+			   query.returnGeometry = true;
+
+			   featureLayer.queryFeatures(query, function (featureSet){			    	
+			     polygon = featureSet.features[0].geometry;
+			     map.graphics.add(new Graphic(polygon, selSymbol));
+			     
+			     var symbol = new esri.symbol.PictureMarkerSymbol({
+					    "angle": 0,
+					    "xoffset": 0,
+					    "yoffset": 12,
+					    "type": "esriPMS",
+					    "url": "resources/images/map-marker-128.png",
+					    "contentType": "image/png",
+					    "width": 24,
+					    "height": 24
+					 });	        
+					 map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));
+			   });			    
+	       }); 
 	       
-	       function clearHighlightArea(){		      
-		       var renderer = new UniqueValueRenderer(defaultSymbol, areacode);
-		       featureLayer.setRenderer(renderer);			
-			   map.addLayer(featureLayer);			   
+	       function clearHighlightArea(){
+	    	   map.graphics.clear(polygon, selSymbol);
+	    	   renderer = new UniqueValueRenderer(defaultSymbol, areacode);
+	    	   featureLayer.setRenderer(renderer);
+			   map.addLayer(featureLayer);
 		   } 
 	       
 	       featureLayer.on("mouse-out", function(evt) {
@@ -198,8 +208,8 @@ function highlightMap(details, validpostCode){
 	    	   }, 1000);	    	   
 	       });
 	       
-	       function closeDialog() {
-	          map.graphics.clear();
+	       function closeDialog() {	    	   
+	          map.graphics.clear(highlightSymbol);
 	          map.setMapCursor("default"); 
 	          dijitPopup.close(dialog);
 	          
@@ -212,78 +222,34 @@ function highlightMap(details, validpostCode){
 				 "contentType": "image/png",
 				 "width": 24,
 				 "height": 24
-			  });	        
-			  map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));			   			
-		    } 		           
+			  });
+	          
+	          if(!selected){	      
+	        	  map.graphics.add(new Graphic(polygon, selSymbol));	        	 
+	          }
+	          
+	          map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));	      
+	       } 
 	       
-            function executeQueryTask(evt){
-	    	   
-			   clearHighlightArea();
-			  
+	       function executeQueryTask(evt){
+	    	   selected = true;    	  
 			   var selectionQuery = new esri.tasks.Query();	          
 			   var tol = map.extent.getWidth()/map.width * 5;
 			   var x = evt.mapPoint.x;	          
-			   var y = evt.mapPoint.y;	 
-			   var wardUrl =  "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2012_GB_BGC/FeatureServer/0/query?where=&geometry=" +
-			          x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=WD12NM&returnGeometry=false&outSR=27700&f=pjson" ;
-			  
-			   var laUrl   =  "https://mapping.statistics.gov.uk/arcgis/rest/services/LAD/LAD_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
-		              x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=LAD11NM&returnGeometry=false&outSR=27700&f=pjson" ;
-			   var gorUrl =  "https://mapping.statistics.gov.uk/arcgis/rest/services/GOR/GOR_DEC_2010_EN_BGC/FeatureServer/0/query?where=&geometry=" +
-		          x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=GOR10NM&returnGeometry=false&outSR=27700&f=pjson" ;
-		       var ctryUrl   =  "https://mapping.statistics.gov.uk/arcgis/rest/services/CTRY/CTRY_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
-	              x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=CTRY11NM&returnGeometry=false&outSR=27700&f=pjson" ;
-			
-		       $(document).ready(function(){
-			     $.getJSON(wardUrl, function(result) {
-			       wardName = result.features[0].attributes.WD12NM; 
-			     }); //getJSON			   
-		       }); // document 
-		      
-		       $(document).ready(function(){
-				  $.getJSON(laUrl, function(result) {
-				    	laName = result.features[0].attributes.LAD11NM; 
-				  }); //getJSON				   
-			   }); // document 
-
-		       $(document).ready(function(){
-				  $.getJSON(gorUrl, function(result) {
-					    gorName = result.features[0].attributes.GOR10NM; 
-				  }); //getJSON				   
-			   }); // document 
-		       
-		       $(document).ready(function(){
-				  $.getJSON(ctryUrl, function(result) {
-					    ctryName = result.features[0].attributes.CTRY11NM; 
-					    
-					    var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
-						   selectionQuery.geometry = queryExtent;
-						  
-						   featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
-							 //zoom to the selected feature
-							 var selectionExtent = features[0].geometry.getExtent().expand(1.1);
-							 map.setExtent(selectionExtent);		  
-							 var resultFeatures = features;
-							 
-							 for(var i=0, il=resultFeatures.length; i<il; i++){
-							   area = resultFeatures[i].attributes[areacode];	  	       	  
-							 }
-			               
-			              });
-					    
-					 // set orange info box details    		
-						$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
-							  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
-						      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
-						      '<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
-						      '<div style="margin-top:5px;font-size: small;"> - Ward (' + wardName + '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD"></a>)' +
-					  	   	  '<br> - Local Authority (' + laName + '<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD"></a>)' + 
-					  	   	  '<br> - Region (' + gorName + '<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=GOR"></a>)' +
-						      '<br> - Country (' + ctryName + ' <a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY"></a>)</div>' + 
-						      '</div>' + '</article></div>');
-				  }); //getJSON				   
-			   }); // document 			 
-			    
+			   var y = evt.mapPoint.y;	        
+			   var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
+			   selectionQuery.geometry = queryExtent;
+			   //featureLayer.setSelectionSymbol(selectionSymbol);
+			   featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
+				
+				 var resultFeatures = features;
+				 
+				 for(var i=0, il=resultFeatures.length; i<il; i++){
+				   selArea = resultFeatures[i].attributes[areacode];	
+				 }
+               
+               });
+	    	
 		   }  //  executeQueryTask 
 	       
 		});	
