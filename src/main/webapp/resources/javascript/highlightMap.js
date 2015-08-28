@@ -79,9 +79,8 @@ function highlightMap(details, validpostCode){
 			
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
 			map.addLayer(dynamicMSLayer);         
-			map.setExtent(bbox.expand(1.1)); 
-			
-		   var selArea;			
+			map.setExtent(bbox.expand(1.1)); 			
+		  	
 	       var renderer = new UniqueValueRenderer();
 	       
 		   var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
@@ -199,6 +198,17 @@ function highlightMap(details, validpostCode){
 	    	   renderer = new UniqueValueRenderer(defaultSymbol, areacode);
 	    	   featureLayer.setRenderer(renderer);
 			   map.addLayer(featureLayer);
+			   var symbol = new esri.symbol.PictureMarkerSymbol({
+				  "angle": 0,
+				  "xoffset": 0,
+				  "yoffset": 12,
+				  "type": "esriPMS",
+				  "url": "resources/images/map-marker-128.png",
+				  "contentType": "image/png",
+				  "width": 24,
+				  "height": 24
+			 });	        
+			 map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));
 		   } 
 	       
 	       featureLayer.on("mouse-out", function(evt) {
@@ -226,26 +236,25 @@ function highlightMap(details, validpostCode){
 	          
 	          if(!selected){	      
 	        	  map.graphics.add(new Graphic(polygon, selSymbol));	        	 
-	          }
-	          
+	          }	          
 	          map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));	      
 	       } 
 	       
 	       function executeQueryTask(evt){
-	    	   selected = true;    	  
+	    	   selected = true;
+	    	   clearHighlightArea();
 			   var selectionQuery = new esri.tasks.Query();	          
 			   var tol = map.extent.getWidth()/map.width * 5;
 			   var x = evt.mapPoint.x;	          
 			   var y = evt.mapPoint.y;	        
 			   var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
-			   selectionQuery.geometry = queryExtent;
-			   //featureLayer.setSelectionSymbol(selectionSymbol);
+			   selectionQuery.geometry = queryExtent;			  
 			   featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
 				
 				 var resultFeatures = features;
 				 
 				 for(var i=0, il=resultFeatures.length; i<il; i++){
-				   selArea = resultFeatures[i].attributes[areacode];	
+				   area = resultFeatures[i].attributes[areacode];	
 				 }
                
                });
