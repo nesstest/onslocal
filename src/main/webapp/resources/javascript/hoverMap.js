@@ -122,11 +122,7 @@ function hoverMap(details, validpostCode){
 			
 			var defaultSymbol  =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                                   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                                  new Color([229,78,22]),2),new Color([229,78,22, 0.2])); 
-			
-			var defaultSymbol1 =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-								  new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-	                              new Color([229,78,22]),1),new Color([0,0,0,0])); 
+                                  new Color([229,78,22]),2),new Color([229,78,22, 0.2])); 		
            
             
             featureChildLayer1.setDefinitionExpression(childAreaDef);
@@ -143,16 +139,11 @@ function hoverMap(details, validpostCode){
 		       id: "tooltipDialog",
 		       style: "position:  absolute; width: auto; font: normal normal normal 10pt Helvetica;z-index:100;"
 		    });
-		    dialog.startup();
-		    
-		   // var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
-		   //       new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 3), 
-		   //         new Color([229,78,22,0.45])
-		  //   );
+		    dialog.startup();		 
 		    
 		    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
 				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
-				new Color([229,78,22,0.1]));	
+				new Color([229,78,22,0.2]));	
 		    
 	        //listen for when the onMouseOver event fires on the countiesGraphicsLayer
 	        //when fired, create a new graphic with the geometry from the event.graphic and add it to the maps graphics layer
@@ -198,7 +189,7 @@ function hoverMap(details, validpostCode){
 	        } 
 	        
 	        function clearHighlightArea(){
-			   var renderer = new UniqueValueRenderer(defaultSymbol1, childcode);
+			   var renderer = new UniqueValueRenderer(defaultSymbol, childcode);
 			   featureChildLayer1.setRenderer(renderer);
 			   map.addLayer(featureChildLayer1);
 			} 
