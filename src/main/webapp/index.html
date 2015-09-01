@@ -21,8 +21,7 @@
      <script src="resources/javascript/charts.js"></script>
      <script src="resources/javascript/createTable.js"></script>
      <script src="resources/javascript/ukMap.js"></script>    
-
-     
+     <script src="resources/javascript/download.js"></script>    
      <script defer src="http://js.arcgis.com/3.14/"></script> 
     
        
@@ -38,6 +37,10 @@
      <script>     
 	    // Read a user input postcode and strip of plus signs,
 	    // convert to uppercase and reformat if necessary
+	    
+	    //declare global var and set to home tab
+	    var current_tab = "tab1";
+	    
 	    function  postcode_reformat(postcode) {
 	       // strip + sign from postcode string & convert to uppercase
     	   postcode                     = postcode.replace(/\+/g, '');
@@ -117,7 +120,8 @@
 	     document.getElementById('li_tab2').setAttribute("class", "");
 	     document.getElementById('li_tab3').setAttribute("class", "");
 	     document.getElementById(tab).style.display = 'block';	    
-	     document.getElementById('li_'+ tab).setAttribute("class", "current");	   
+	     document.getElementById('li_'+ tab).setAttribute("class", "current");
+	     current_tab = tab;
 	  //   testerFunction();
 	  
 	  //   function testerFunction(tab) {
@@ -362,12 +366,12 @@
 	     </div>
        </div>  
       		 
-                <section id="additional-data" class="accordion is-collapsed show-more" style="display: none;">
+                <div id="additional-data" class="accordion is-collapsed show-more" style="display: none;">
                   <h2 id="detail-text" class="accordion__title delta" aria-controls="content-0">More Detail</h2>
                   <div id="content-3" class="accordion__content" aria-labelledby="sc-0">
                     
 				</div>						
-			</section>
+			</div>
 			
 			
 			<div class="show-tables" id="tables" style="display: none;">
@@ -442,10 +446,10 @@
 						
 						
 						
-						<div class="download_btn" onClick="window.location='http://data.statistics.gov.uk/ons/datasets/xls/XLS_SAPEDE_2011STATH_2013_1_2013_EN.zip'">.XLSX (12KB) 
+						<div class="download_btn" onClick="download(current_tab, 'xlsx')">.XLSX (12KB) 
 							<span class="icon icon-download" role="presentation"></span>
 						</div>
-						<div class="download_btn" onClick="window.location='http://data.statistics.gov.uk/ons/datasets/csv/CSV_SAPEDE_2011STATH_2013_1_2013_EN.zip'">.CSV (3KB) 
+						<div class="download_btn" onClick="download(current_tab, 'csv')">.CSV (3KB) 
 							<span class="icon icon-download" role="presentation"></span>
 						</div>
 						
@@ -524,10 +528,10 @@
 							<p class="tablesubsubtitle">Download contents: population by sex; multiple geographies</p>
 						</div>
 						
-						<div class="download_btn" onClick="window.location='http://data.statistics.gov.uk/ons/datasets/xls/XLS_SAPEDE_2011STATH_2013_1_2013_EN.zip'">.XLSX (12KB) 
+							<div class="download_btn" onClick="download(current_tab, 'xlsx')">.XLSX (12KB) 
 							<span class="icon icon-download" role="presentation"></span>
 						</div>
-						<div class="download_btn" onClick="window.location='http://data.statistics.gov.uk/ons/datasets/csv/CSV_SAPEDE_2011STATH_2013_1_2013_EN.zip'">.CSV (3KB) 
+						<div class="download_btn" onClick="download(current_tab, 'csv')">.CSV (3KB) 
 							<span class="icon icon-download" role="presentation"></span>
 						</div>
 						<br>
@@ -604,10 +608,10 @@
 							<p class="tablesubsubtitle">Download contents: population by sex; multiple geographies</p>
 						</div>
 						
-						<div class="download_btn" onClick="window.location='http://data.statistics.gov.uk/ons/datasets/xls/XLS_SAPEDE_2011STATH_2013_1_2013_EN.zip'">.XLSX (12KB) 
+						<div class="download_btn" onClick="download(current_tab, 'xlsx')">.XLSX (12KB) 
 							<span class="icon icon-download" role="presentation"></span>
 						</div>
-						<div class="download_btn" onClick="window.location='http://data.statistics.gov.uk/ons/datasets/csv/CSV_SAPEDE_2011STATH_2013_1_2013_EN.zip'">.CSV (3KB) 
+						<div class="download_btn" onClick="download(current_tab, 'csv')">.CSV (3KB) 
 							<span class="icon icon-download" role="presentation"></span>
 						</div>
 						<br>
