@@ -271,6 +271,7 @@ function highlightMap(details, validpostCode){
 									      wardName = result.features[0].attributes.WD12NM;
 									      
 									      if (ctryName === 'England') {	
+									    	  
 										    $(document).ready(function(){											 
 											   $.getJSON(gorUrl, function(result) {
 											     gorName = result.features[0].attributes.GOR10NM; 											    
@@ -291,8 +292,10 @@ function highlightMap(details, validpostCode){
 													    
 													   regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ gorName + '</a>)' ;
 													   regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
-													    
-													   if (levelname === "OA") {    
+													  
+													   $('#selArea1').empty();
+													   
+													   if (levelname === "OA") {  														
 													     // set orange info box details    		
 													     $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 													       '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
@@ -369,7 +372,7 @@ function highlightMap(details, validpostCode){
 										        }); //  $(document)
 											   } //if (ctryName === 'England')
 											   
-											   if (ctryName === 'Wales') {	
+											   if (ctryName === 'Wales') {
 										    	 $(document).ready(function(){
 												    var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
 													selectionQuery.geometry = queryExtent;													  
@@ -387,6 +390,9 @@ function highlightMap(details, validpostCode){
 												    
 												   regionText      = '<span style="display:none;"></span>';	
 												   regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>'
+												   
+												   $('#selArea1').empty();
+												   
 												   if (levelname === "OA") {    
 													   // set orange info box details    		
 													   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
