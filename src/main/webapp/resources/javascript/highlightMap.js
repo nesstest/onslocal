@@ -246,21 +246,213 @@ function highlightMap(details, validpostCode){
 			   var selectionQuery = new esri.tasks.Query();	          
 			   var tol = map.extent.getWidth()/map.width * 5;
 			   var x = evt.mapPoint.x;	          
-			   var y = evt.mapPoint.y;	        
-			   var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
-			   selectionQuery.geometry = queryExtent;			  
-			   featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
+			   var y = evt.mapPoint.y;
+
+			   // get layer info for area clicked
+			   var wardUrl =  "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2012_GB_BGC/FeatureServer/0/query?where=&geometry=" +
+                               x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=WD12NM&returnGeometry=false&outSR=27700&f=pjson" ;			  
+			   var laUrl   =  "https://mapping.statistics.gov.uk/arcgis/rest/services/LAD/LAD_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
+				               x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=LAD11NM&returnGeometry=false&outSR=27700&f=pjson" ;
+			   var gorUrl  =  "https://mapping.statistics.gov.uk/arcgis/rest/services/GOR/GOR_DEC_2010_EN_BGC/FeatureServer/0/query?where=&geometry=" +
+				              x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=GOR10NM&returnGeometry=false&outSR=27700&f=pjson" ;
+			   var ctryUrl =  "https://mapping.statistics.gov.uk/arcgis/rest/services/CTRY/CTRY_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
+				              x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=CTRY11NM&returnGeometry=false&outSR=27700&f=pjson" ;
 				
-				 var resultFeatures = features;
-				 
-				 for(var i=0, il=resultFeatures.length; i<il; i++){
-				   area = resultFeatures[i].attributes[areacode];	
-				 }
-               
-               });
-	    	
-		   }  //  executeQueryTask 
-	       
-		});	
-		
+			   $(document).ready(function(){
+				 $.getJSON(ctryUrl, function(result) {
+				   ctryName = result.features[0].attributes.CTRY11NM; 
+				   
+				   $(document).ready(function(){
+						  $.getJSON(laUrl, function(result) {
+						    	laName = result.features[0].attributes.LAD11NM;
+						    	
+						    	  $(document).ready(function(){
+						    		  $.getJSON(wardUrl, function(result) {
+									      wardName = result.features[0].attributes.WD12NM;
+									      
+									      if (ctryName === 'England') {	
+										    $(document).ready(function(){											 
+											   $.getJSON(gorUrl, function(result) {
+											     gorName = result.features[0].attributes.GOR10NM; 											    
+											    	 $(document).ready(function(){
+													    var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
+														selectionQuery.geometry = queryExtent;														  
+													    featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){																  
+														  var resultFeatures = features;														
+														  for(var i=0, il=resultFeatures.length; i<il; i++){
+															if (levelname === "OA") {     
+														  	  area = resultFeatures[i].attributes[areacode];
+															}
+														    else {
+														      area = resultFeatures[i].attributes[areaname];
+														    }	 	          
+														  }														 
+										               }); //  featureLayer.selectFeatures	
+													    
+													   regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ gorName + '</a>)' ;
+													   regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
+													    
+													   if (levelname === "OA") {    
+													     // set orange info box details    		
+													     $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
+													       '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
+														   '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
+														   '<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
+														   '<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD">' + wardName + '</a>)' +
+														   '<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD">' + laName + '</a>)' + 
+														   regionText +
+													       '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">' + ctryName + '</a>)</div>' + 
+													       '</div>' + '</article></div>');
+													   } //	levelname === "OA"  
+														   
+													   if (levelname ==="WD"){
+														   // set orange info box details    		
+														   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
+																  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
+															      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
+															      '<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
+															      '<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD">'  + laName + '</a>)' +
+															      regionText + 
+														  	      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ ctryName + '</a>)</div>' + 
+											                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
+											                      '<div style="font-size: small;">' + 
+											                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD&amp;childname=OA"> Output area </a></div>' +
+											                      '</div>' +
+											                      '</article></div>');						   
+													   } //	levelname === "WD" 
+														   
+									                   if (levelname ==="LAD"){
+									                	   // set orange info box details    		
+														   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
+																  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
+															      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
+															      '<div style="color: black; font-size:medium;">(Local Authority)<br><br><strong>Part of:</strong></div>' +
+															      regionText + 
+															      '<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ ctryName + ' </a>)</div>' + 
+											                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
+											                      '<div style="font-size: small;">' + 
+											                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD&amp;childname=WD"> Ward </a></div>' +
+											                      '</div>' +
+											                      '</article></div>');				   
+													   } //	levelname === "LAD"									                   
+										                  
+									                   if (levelname ==="GOR"){
+									                	   // set orange info box details    		
+														   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
+																  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
+															      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
+															      '<div style="color: black; font-size:medium;">(Region)<br><br><strong>Part of:</strong></div>' +
+															      '<div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ ctryName +  ' </a>)</div>' + 
+											                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
+											                      '<div style="font-size: small;">' + 
+											                      regionDrillText +
+											                      '</div>' +
+											                      '</article></div>');							   
+													   } //	levelname === "GOR" 
+														   
+									                   if (levelname ==="CTRY"){
+									                	   // set orange info box details	
+									         			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
+									         					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
+									                               '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
+									                               '<div style="color: black; font-size:medium;">(Country)<br><br></strong></div>' +  
+									                               '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
+									                               '<div style="font-size: small;">' + 
+									                               regionDrillText +
+									                               '</div>' +
+									         			           '</article></div>');	
+													   } //	levelname === "CTRY" 
+													    
+											       }); //  $(document)
+											     }); //  getJSON(gorUrl	
+											  
+										        }); //  $(document)
+											   } //if (ctryName === 'England')
+											   
+											   if (ctryName === 'Wales') {	
+										    	 $(document).ready(function(){
+												    var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
+													selectionQuery.geometry = queryExtent;													  
+												    featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){															  
+													    var resultFeatures = features;														
+													    for(var i=0, il=resultFeatures.length; i<il; i++){
+														  if (levelname === "OA") {     
+													        area = resultFeatures[i].attributes[areacode];
+														  }
+														  else {
+													        area = resultFeatures[i].attributes[areaname];
+													      }	 	          
+													    }														 
+									               }); //  featureLayer.selectFeatures
+												    
+												   regionText      = '<span style="display:none;"></span>';	
+												   regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>'
+												   if (levelname === "OA") {    
+													   // set orange info box details    		
+													   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
+															  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
+														      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
+														      '<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
+														      '<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD">' + wardName + '</a>)' +
+													  	   	  '<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD">' + laName + '</a>)' + 
+													  	      regionText +
+														      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">' + ctryName + '</a>)</div>' + 
+														      '</div>' + '</article></div>');
+												   } //	levelname === "OA"  
+												   
+												   if (levelname ==="WD"){
+													   // set orange info box details    		
+													   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
+															  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
+														      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
+														      '<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
+														      '<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD">'  + laName + '</a>)' +
+														      regionText + 
+													  	      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ ctryName + '</a>)</div>' + 
+										                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
+										                      '<div style="font-size: small;">' + 
+										                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD&amp;childname=OA"> Output area </a></div>' +
+										                      '</div>' +
+										                      '</article></div>');						   
+												   } //	levelname === "WD" 
+												   
+								                   if (levelname ==="LAD"){
+								                	   // set orange info box details    		
+													   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
+															  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
+														      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
+														      '<div style="color: black; font-size:medium;">(Local Authority)<br><br><strong>Part of:</strong></div>' +
+														      regionText + 
+														      '<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ ctryName + ' </a>)</div>' + 
+										                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
+										                      '<div style="font-size: small;">' + 
+										                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD&amp;childname=WD"> Ward </a></div>' +
+										                      '</div>' +
+										                      '</article></div>');				   
+												   } //	levelname === "LAD"	
+												   
+								                   if (levelname ==="CTRY"){
+								                	   // set orange info box details	
+								         			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
+								         					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
+								                               '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
+								                               '<div style="color: black; font-size:medium;">(Country)<br><br></strong></div>' +  
+								                               '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
+								                               '<div style="font-size: small;">' + 
+								                               regionDrillText +
+								                               '</div>' +
+								         			           '</article></div>');	
+												   } //	levelname === "CTRY"
+										    	 
+										    	 }); //  $(document)													    	 
+											  }	//  if (ctryName === 'Wales'
+										 
+								    }); //getJSON wardUrl							    		  
+							   }); // document 						    	  
+						  }); //getJSON	laUrl				   
+					   }); // document 				   
+				    }); //getJSON ctyUrl			   
+			      }); // document				
+		     }  //  executeQueryTask 
+		});			
 	}
