@@ -91,20 +91,30 @@ function hoverMap(details, validpostCode){
 			
 			map.setExtent(bbox.expand(1.1)); 				
 		
-			var parentAreaDef       = areacode  + " = '" + extcode + "'";				
+			var parentAreaDef       = areacode  + " = '" + extcode + "'";	
 			
-			var labelField = areacode; 			
+			var labelField = areacode; 
 			var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/FeatureServer/0", { 							
 				mode: FeatureLayer.SNAPSHOT, 
 				outFields: [labelField]
 			 });
-						
-			// child details
-			var featureChildLayer1 = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+childlayername+"/FeatureServer/0", { 				
-				mode: FeatureLayer.SNAPSHOT, 
-				outFields: [childcode, childareaname]
-				
-			 });						
+			
+			if (childLevelName === "OA") {
+				// OA child details
+				var featureChildLayer1 = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+childlayername+"/FeatureServer/0", { 				
+					mode: FeatureLayer.SNAPSHOT, 
+					outFields: [childcode]
+					
+				 });						
+			}
+			else {
+				// al  other levels of  child details
+				var featureChildLayer1 = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+childlayername+"/FeatureServer/0", { 				
+					mode: FeatureLayer.SNAPSHOT, 
+					outFields: [childcode, childareaname]
+					
+				 });		
+			}
 			
 			var parentMapSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                                   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
@@ -123,7 +133,7 @@ function hoverMap(details, validpostCode){
 	        featureChildLayer1.setRenderer(new SimpleRenderer(defaultSymbol)); 
 	         
 	        featureLayer.setDefinitionExpression(parentAreaDef);		   	                    	     
-	        featureLayer.setRenderer(new SimpleRenderer(parentMapSymbol));			
+	        featureLayer.setRenderer(new SimpleRenderer(parentMapSymbol));	
 		   
 			map.addLayers([featureLayer, featureChildLayer1]);	
 			
@@ -175,8 +185,8 @@ function hoverMap(details, validpostCode){
 				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
 				new Color([229,78,22,0.5]));
 		        
-		    featureChildLayer1.setSelectionSymbol(selectionSymbol),
-		    dojo.connect(featureChildLayer1, "onSelectonComplete", clearHighlightArea);
+		    featureChildLayer1.setSelectionSymbol(selectionSymbol);
+		    featureChildLayer1.on("selection-complete", clearHighlightArea);
 		        
 		    var myClick = map.on("click", executeQueryTask);
 			var myDblclick = on(map, "dbl-click", executeQueryTask);	
@@ -187,10 +197,10 @@ function hoverMap(details, validpostCode){
 	          dijitPopup.close(dialog);
 	        } 
 	        
-	        function clearHighlightArea(){		      
+	        function clearHighlightArea(){
 			   var renderer = new UniqueValueRenderer(defaultSymbol1, childcode);
-			   featureChildLayer1.setRenderer(renderer);			
-			   map.addLayer(featureChildLayer1);			   
+			   featureChildLayer1.setRenderer(renderer);
+			   map.addLayer(featureChildLayer1);
 			} 
 	        
 	        featureChildLayer1.on("mouse-out", function(evt) {
@@ -200,7 +210,7 @@ function hoverMap(details, validpostCode){
 	    	   }, 1000);	    	   
 		     });
 			
-	        map.on("load", function(){ 				
+	        map.on("load", function(){ 
 			   map.enableMapNavigation();
 			   map.disableKeyboardNavigation();
 			   map.enablePan();
@@ -223,9 +233,6 @@ function hoverMap(details, validpostCode){
 			   selectionQuery.geometry = queryExtent;
 			  
 			   featureChildLayer1.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){
-				 //zoom to the selected feature
-				 var selectionExtent = features[0].geometry.getExtent().expand(1.1);
-				 map.setExtent(selectionExtent);		  
 				 var resultFeatures = features;
 				 
 				 for(var i=0, il=resultFeatures.length; i<il; i++){
