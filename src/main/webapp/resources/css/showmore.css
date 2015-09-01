@@ -138,5 +138,6 @@ padding-bottom:5px;
     font: 15px arial, sans-serif;
     float: right;
     position: relative;
+    cursor: pointer;
 }
 
