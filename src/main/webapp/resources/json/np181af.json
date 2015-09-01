@@ -1,58 +1,76 @@
-[
-	{
-		"area": "W00008440",
-		"areacode": "OA11CD",
-		"areaname": "OA11NM",
-		"arealayername": "OA_2011_EW_BGC_V2",
-		"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
-		"envelope": "333070:189697:334303:190842",
-		"extcode": "W00008440",
-		"hierarchycode": "2011SOA",
-		"levelname": "OA",
-		"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
-	}, {
-		"area": "Caerleon",
-		"areacode": "WD12CD",
-		"areaname": "WD12NM",
-		"arealayername": "WD_DEC_2012_GB_BGC",
-		"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
-		"envelope": "330818:188806:337513:192806",
-		"extcode": "W05000837",
-		"hierarchycode": "2012Admin",
-		"levelname": "WD",
-		"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
-	}, {
-		"area": "Newport",
-		"areacode": "LAD11CD",
-		"areaname": "LAD11NM",
-		"arealayername": "LAD_DEC_2011_GB_BGC",
-		"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
-		"envelope": "322219:178654:344495:194846",
-		"extcode": "W06000022",
-		"hierarchycode": "2011SOA",
-		"levelname": "LAD",
-		"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
-	}, {
-		"area": "Newport West",
-		"areacode": "PCON11CD",
-		"areaname": "PCON11NM",
-		"arealayername": "PCON_DEC_2011_GB_BGC",
-		"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
-		"envelope": "322219:178654:337509:192804",
-		"extcode": "W07000056",
-		"hierarchycode": "2011Elect",
-		"levelname": "PCON",
-		"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
-	}, {
-		"area": "Wales",
-		"areacode": "CTRY11CD",
-		"areaname": "CTRY11NM",
-		"arealayername": "CTRY_DEC_2011_GB_BGC",
-		"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
-		"envelope": "146612:164586:355313:395984",
-		"extcode": "W92000004",
-		"hierarchycode": "2011SOA",
-		"levelname": "CTRY",
-		"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72"
-	}
-]
+{
+	"copyright": "© Crown copyright and database rights 2015 Ordnance Survey 100019153",
+	"token": "v10Mt2FA_Yg1JNhlz4d6CZMICjt8p9rPBZCjvk5ZUghp4SnS4z8QqyWHnkQkFU72",
+	"areas": [
+		{
+			"OA": [
+				{
+					"area": "W00008440",
+					"areacode": "OA11CD",
+					"areaname": "OA11NM",
+					"arealayername": "OA/OA_2011_EW_BGC_V2",
+					"envelope": "333070:189697:334303:190842",
+					"extcode": "W00008440",
+					"hierarchycode": "2011SOA",
+					"levelname": "OA",
+					"markerenvelope": "334060:0190564"
+				}
+			],
+			"WD": [
+				{
+					"area": "Caerleon",
+					"areacode": "WD12CD",
+					"areaname": "WD12NM",
+					"arealayername": "WD/WD_DEC_2012_GB_BGC",
+					"envelope": "330818:188806:337513:192806",
+					"extcode": "W05000837",
+					"hierarchycode": "2012Admin",
+					"levelname": "WD",
+					"markerenvelope": "334060:0190564",
+					"childarealist": "W00008437,W00008444,W00008443,W00008439,W00008456,W00008457,W00008451,W00008449,W00008446,W00008445,W00008447,W00008454,W00008452,W00008453,W00008458,W00008461,W00008460,W00008450,W00008459,W00008455,W00008436,W00008462,W00008438,W00008442,W00008440,W00008441,W00008448"
+				}
+			],
+			"LAD": [
+				{
+					"area": "Newport",
+					"areacode": "LAD11CD",
+					"areaname": "LAD11NM",
+					"arealayername": "LAD/LAD_DEC_2011_GB_BGC",
+					"envelope": "322219:178654:344495:194846",
+					"extcode": "W06000022",
+					"hierarchycode": "2011SOA",
+					"levelname": "LAD",
+					"markerenvelope": "334060:0190564",
+					"childarealist": "W05000844,W05000839,W05000851,W05000838,W05000833,W05000836,W05000847,W05000845,W05000850,W05000849,W05000843,W05000837,W05000848,W05000852,W05000835,W05000834,W05000841,W05000846,W05000840,W05000842"
+				}
+			],
+			"PCON": [
+				{
+					"area": "Newport West",
+					"areacode": "PCON11CD",
+					"areaname": "PCON11NM",
+					"arealayername": "PCON/PCON_DEC_2011_GB_BGC",
+					"envelope": "322219:178654:337509:192804",
+					"extcode": "W07000056",
+					"hierarchycode": "2011Elect",
+					"levelname": "PCON",
+					"markerenvelope": "334060:0190564"
+				}
+			],
+			"CTRY": [
+				{
+					"area": "Wales",
+					"areacode": "CTRY11CD",
+					"areaname": "CTRY11NM",
+					"arealayername": "CTRY/CTRY_DEC_2011_GB_BGC",
+					"envelope": "146612:164586:355313:395984",
+					"extcode": "W92000004",
+					"hierarchycode": "2011SOA",
+					"levelname": "CTRY",
+					"markerenvelope": "334060:0190564",
+					"childarealist": "W06000001,W06000002,W06000003,W06000004,W06000005,W06000006,W06000007,W06000008,W06000009,W06000010,W06000011,W06000012,W06000013,W06000014,W06000015,W06000016,W06000017,W06000018,W06000019,W06000021,W06000022,W06000023,W06000024"
+				}
+			]
+		}
+	]
+}

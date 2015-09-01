@@ -5,46 +5,60 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"> 
     <title></title>
      <!-- Latest compiled and minified CSS to go in head -->
-     <link href="resources/css/main.css" rel="stylesheet" type="text/css">
-     <!-- test -->
+     <link href="resources/css/nessmain.css" rel="stylesheet" type="text/css">
+     <link href="resources/css/showmore.css" rel="stylesheet" type="text/css">
+     <link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css"> 
+     <link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/claro/claro.css">
+     <link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/tundra/tundra.css">   
+     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
      <!-- Latest minified and concatenated JS to go in head -->
-     <script src="resources/javascript/header.min.js"></script>
      <!-- Latest minified and concatenated JS to go in the footer -->
-     <script src="resources/javascript/footer.min.js"></script>
-     <script src="resources/javascript/map.js"></script>  
+     <script src="resources/javascript/footer.js"></script>  
+     <script src="resources/javascript/header.js"></script>      
+     <script src="resources/javascript/map.js"></script> 
+     <script src="resources/javascript/highlightMap.js"></script>  
+     <script src="resources/javascript/hoverMap.js"></script>
+     <script src="resources/javascript/charts.js"></script>
+     <script src="resources/javascript/createTable.js"></script>
+     <script src="resources/javascript/ukMap.js"></script>    
+
      
-     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>  
-     
-     <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css"> 
-     <link rel="stylesheet" href="http://js.arcgis.com/3.13/dijit/themes/claro/claro.css">      
+     <script defer src="http://js.arcgis.com/3.14/"></script> 
+    
+       
      <style>  
        html, body { height: 100%; width: 100%; margin: 0; padding: 0; } 
        #map{padding:0;} 
 	   #innerDIV{position:absolute;z-index: 1; top:375px; left:25px; width:300px;} 
 	   #outerDIV{position:relative;} 
+	   #HomeButton {position: absolute;top: 250px;left: 14px;z-index: 50;}		   
      </style>
-     <script src="./dist/js/footer.js"></script>
-	 <script src="resources/javascript/charts.js"></script>
-     <script src="http://js.arcgis.com/3.13/"></script>     
-   
-     <script> 
     
-	    // Read a user input postcode and return a boolean.
-	    function postcode_validate(postcode)
-	    {    	
-		    var regPostcode = /^([a-zA-Z]){1}([0-9][0-9]|[0-9]|[a-zA-Z][0-9][a-zA-Z]|[a-zA-Z][0-9][0-9]|[a-zA-Z][0-9]){1}([ ])([0-9][a-zA-z][a-zA-z]){1}$/;
-			
-		    if(regPostcode.test(postcode) == false)	 {	
-		    	return false;		    
-		    }
-		    else {
-		    	return true;
-			}
+   
+     <script>     
+	    // Read a user input postcode and strip of plus signs,
+	    // convert to uppercase and reformat if necessary
+	    function  postcode_reformat(postcode) {
+	       // strip + sign from postcode string & convert to uppercase
+    	   postcode                     = postcode.replace(/\+/g, '');
+    	   var upperCasePostCode        = postcode.toUpperCase();    	
+    	   var regPostcode              = /^([a-zA-Z]){1}([0-9][0-9]|[0-9]|[a-zA-Z][0-9][a-zA-Z]|[a-zA-Z][0-9][0-9]|[a-zA-Z][0-9]){1}([ ])([0-9][a-zA-z][a-zA-z]){1}$/;
+		 
+	       if(regPostcode.test(upperCasePostCode) == false)	
+	       {	
+	    	   var re                   = /^([A-Z]{1,2}[\dA-Z]{1,2})[ ]?(\d[A-Z]{2})$/i; // case insensitive 	
+	    	   var tempPostCode         = upperCasePostCode.match(re);
+	    	   var reformatPostcode     = tempPostCode[1] + " " + tempPostCode[2];
+	    	   return reformatPostcode;
+	       }
+	       else {
+	    	 // postcode formatted correctly
+	    	 return upperCasePostCode;
+		   }	    	
 		}
 	    
 	    // Read a page's GET URL variables and return them as an associative array.
-	    function getUrlVars()
-	    {
+	    function getUrlVars() {	    
 	        var vars = [], hash;
 	        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 	        //hashes = decodeURI(window.location.href).replace(/[?&]+([^=&]+)=([^&]*)/gi;
@@ -63,155 +77,547 @@
 	        vars[key] = value;
 	        });
 	        return vars;
-	    }
+	    }	    
 	    
-	    var levelname;
-	    var postcode;
+	    // get parameters from url	    
+	    var levelname, childname;
+	    var postcode;	  
+	   
+	    postcode =  getUrlParams()["nav-search"];	    
+	    levelname = getUrlParams()["levelname"];	    
+	    childname = getUrlParams()["childname"];
 	    
-	    //postcode = getUrlVars()["nav-search"];
-	    postcode =  getUrlParams()["nav-search"];
-	    
-	    //levelname = getUrlVars()["levelname"];
-	    levelname = getUrlParams()["levelname"];
-	  
 		var pCode;
 		if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
 		  jsonFile      ='uk.json';	
-		  
 	    } 
 		else {
-		  // identify json file	
+	      // identify json file	
 		  pCode         = postcode.replace(/\+/g, '');
 		  pCode         = pCode.replace(/\s/g, '');
 		  jsonFile      = pCode.toLowerCase() + '.json';
-		 
 		  
-		  // replace plus sign with space
-		  postcode = postcode.replace(/\+/g, ' ');
-		  //str = postcode.replace(new RegExp("\\+","g"),'');
-		 
-		  // To do - 
-		  // display error message if postcode invalid
-		  // validate & reformat postcode
-		  if(!postcode_validate(postcode))
-		  {
-			  // to do 
-			  //alert("error");
-		  }	
-		  if(postcode_validate(postcode))
-		  {
-			  // to do
-			  //alert("ok");
-		  }	  
-		  
+		  postcode = postcode_reformat(postcode);
 	    }	  
 		  
 		$(document).ready(function(){
 		  $.getJSON(jsonFile, function(result){
-	         createMap(result,postcode,levelname);
-	        
-	        
+	         createMap(result, postcode,levelname,childname);
 		  }); 
 		}); 
 		
-	  </script> 
-  </head> 
-  <body> 
-      <div class="wrapper panel--mar nav-panels">
-        <div class="grid-wrap">
-            <header>
-              <div class="global-header__wrapper">        
-                   <a href="#"><img src="resources/images/ons-logo.png" alt="Insert Logo Here" width="264" height="50" id="Insert_logo" style="background-color: #FFFFFF; display: block;" /></a>       
-              </div>
-            </header>
-        
-            <div id="outerDIV" class="slate--grey search-wrapper">
-              <div><a href="index.html"><img src="resources/images/home_w.png" alt="" width="50" height="50" style="position:absolute; margin-left:20px; margin-top:10px;"></a>
-              </div>  
-              <form class="nav-search nav-search--hidden" id="searchBar">         
-                <div class="nav-search__container">
-                  <label for="nav-search"></label>
-                  <input type="search" class="nav-search__field" id="nav-search" name="nav-search" value="" placeholder="Search postcode or place name in England and Wales">
-                </div>
-                <button type="submit" class="btn btn--primary btn--nav-search" id="nav-search-submit">
-                  <span class="icon-search-1" role="presentation"></span>
-                </button>
-               </form>
-            </div>             	             
-            <div id="map"  style="height: 500px; margin-top:0px;"></div> 
-            <div id="selArea1"></div>	            
-          </div>    
-          <div id="topStat">
-          <div  id="statBox1" style="width:48%; float:left"></div>  
-          <div  id="statBox2" style="width:48%"></div>  
-          </div>
-          
-      
-      </div> 
-      <div id="tableChart"  style="display: none;">
-      <article class="wrapper">
-	    <div class="grid-wrap panel panel--separated--bottom">
-	       <div class="grid-col desktop-grid-one-half">
-	         <header>
-	            <h2>Population</h2>
-	        </header>
-	            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
-	                <dt class="grid-col desktop-grid-one-half">
-	                    <h3 class="stat__figure delta">
-	                        <a href="#">Total</a>
-	                    </h3>
-	                </dt>
-	                <dd class="grid-col desktop-grid-one-half flush">
-	                    <div class="stat__figure delta" id="sapede-all">
-	                    </div>
-	                    <div class="stat__figure delta">
-	                        <span class="stat__description">Mar 2014</span>
-	                    </div>
-	                </dd>
-	            </dl>
-	            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
-	                <dt class="grid-col desktop-grid-one-half">
-	                    <h3 class="stat__figure delta">
-	                        <a href="#">Males</a>
-	                    </h3>
-	                </dt>
-	                <dd class="grid-col desktop-grid-one-half flush">
-	                    <div class="stat__figure delta" id="sapede-males">
-	                       
-	                    </div>
-	                    <div class="stat__figure delta">
-	                        <span class="stat__description">Mar 2014</span>
-	                    </div>
-	                </dd>
-	            </dl>
-	            <dl class="grid-wrap panel flush--top flush--bottom">
-	                <dt class="grid-col desktop-grid-one-half">
-	                    <h3 class="stat__figure delta">
-	                        <a href="#">Females</a>
-	                    </h3>
-	                </dt>
-	                <dd class="grid-col desktop-grid-one-half flush">
-	                    <div class="stat__figure delta" id="sapede-females">
-	                      
-	                    </div>
-	                    <div class="stat__figure delta">
-	                        <span class="stat__description">Mar 2014</span>
-	                    </div>
-	                </dd>
-	            </dl>
-	        </div>
-	        <div class="grid-col desktop-grid-one-half" data-chart="pyramid" style="width:450px">
-	    
-	            </div>
-	        </div>
-	    </article>
-	    
+	  </script>	  
+	 
+	  <script type="text/javascript">
+	   function tab(tab) {
+	     document.getElementById('tab1').style.display = 'none';
+	     document.getElementById('tab2').style.display = 'none';
+	     document.getElementById('tab3').style.display = 'none';
+	     document.getElementById('li_tab1').setAttribute("class", "");
+	     document.getElementById('li_tab2').setAttribute("class", "");
+	     document.getElementById('li_tab3').setAttribute("class", "");
+	     document.getElementById(tab).style.display = 'block';	    
+	     document.getElementById('li_'+ tab).setAttribute("class", "current");	   
+	  //   testerFunction();
+	  
+	  //   function testerFunction(tab) {
+	  //  	 alert("reste");
+	  //  	    changeColumnColor('current','white');
+	  //  	}
+	  //  	function changeColumnColor(column,color) {
+	   // 	    var cols = document.getElementsByClassName(column);
+	    //	    alert("cols" + cols.toSource());
+	    	//    for(i=0; i<cols.length; i++) {
+	    	//      cols[i].style.backgroundColor = color;
+	    	 //   }		    	    
+	    	//}
+	   }
+	  </script>
+	  
+	  <!-- SHOW MORE JS -->
+	  <script type='text/javascript'>//<![CDATA[
+		$(window).load(function(){
+		var $text = $('.text'),
+		    i = 0;
 		
+		$(".show-more").on('click', function() {
+			var originalValueText = $("#detail-text").text();
+			$("#detail-text").text(originalValueText == "More Detail" ? "Less Detail" : "More Detail" );
+		    $("#tables").toggle();
+		});
+		
+		});//]]> 
+		
+		</script>
+	  
+  </head> 
+  <body class="tundra"> 
+    <form id="mapForm" name="mapForm">
+      <input type="hidden" name="queryExtent" value=""/>
+    </form>      
+      <div class="wrapper panel--mar nav-panels">
+	        <div class="grid-wrap">
+	            <header>
+	              <div class="global-header__wrapper">        
+	                   <a href="#"><img src="resources/images/ons-logo.png" alt="Insert Logo Here" width="264" height="50" id="Insert_logo" style="display: block;" /></a>       
+	              </div>
+	            </header>
+	        
+	            <div id="outerDIV" class="slate--grey search-wrapper">
+		              <div><a href="index.html"><img src="resources/images/home_w.png" alt="" width="50" height="50" style="position:absolute; margin-left:20px; margin-top:10px;"></a>
+		              </div>  
+		              <form class="nav-search nav-search--hidden" id="searchBar">         
+			                <div class="nav-search__container">
+			                  <label for="nav-search"></label>
+			                  <input type="search" class="nav-search__field" id="nav-search" name="nav-search" value="" placeholder="Search postcode or place name in England and Wales">
+			                </div>
+			                <button type="submit" class="btn btn--primary btn--nav-search" id="nav-search-submit">
+			                  <span class="icon-search-1" role="presentation"></span>
+			                </button>
+			                <script>  
+			                  $('#nav-search').attr('placeholder',postcode);                   
+			                </script> 
+		               </form>
+	            </div> 
+	                        	             
+	            <div id="map" style="height: 500px; margin-top:0px;">
+	               <div id="HomeButton"></div>             
+	            </div>	                        
+	            <div id="selArea1"></div>	            	            
+          </div>          
           
-	    </div>
-	    
-	    
-	
-                
-  </body>  
+          <div id="Tabs" style="display: none;">
+             <ul class="ul_tab">
+			  	<li id="li_tab1" class="current" onclick="tab('tab1')"><a>Population</a></li>
+				<li id="li_tab2" onclick="tab('tab2')"><a>Religion</a></li>
+				<li id="li_tab3" onclick="tab('tab3')"><a>Economy</a></li>				
+			 </ul>
+			 <div id="Content_Area">
+				<div id="tab1">				 
+				   <div id="tableChart"  style="display: none;">
+				      <article class="wrapper">
+					    <div class="grid-wrap panel panel--separated--bottom">
+					       <div class="grid-col desktop-grid-one-half">
+						         <header>
+						            <h2>Population</h2>
+						        </header>
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Total</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="sapede-all">
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">Mar 2014</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Males</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="sapede-males">
+					                       
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">Mar 2014</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            <dl class="grid-wrap panel flush--top flush--bottom">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Females</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="sapede-females">
+					                      
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">Mar 2014</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					        </div>
+					        <div class="grid-col desktop-grid-one-half" id="population-pyramid" data-chart="pyramid" style="width:450px"></div>
+					    </div>
+					  </article>          
+	              </div>                 
+			    </div>
+			    <div id="tab2" style="display: none;"> 
+				    <div id="religionChart"  style="display: none;">
+				      <article class="wrapper">
+					    <div class="grid-wrap panel panel--separated--bottom">
+					       <div class="grid-col desktop-grid-one-half">
+						         <header>
+						            <h2>Religion</h2>
+						        </header>
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Total</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="lc2107ew-all">
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">2011</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Christian</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="lc2107ew-christian">
+					                       
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">2011</span>
+					                    </div>
+					                </dd>
+					            </dl>					            
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Muslim</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="lc2107ew-muslim">
+					                      
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">2011</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Buddhist</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="lc2107ew-buddhist">
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">2011</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            <dl class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Sikh</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="lc2107ew-sikh">
+					                       
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">2011</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					            <dl class="grid-wrap panel flush--top flush--bottom">
+					                <dt class="grid-col desktop-grid-one-half">
+					                    <h3 class="stat__figure delta">
+					                        <a href="#">Other</a>
+					                    </h3>
+					                </dt>
+					                <dd class="grid-col desktop-grid-one-half flush">
+					                    <div class="stat__figure delta" id="lc2107ew-other">
+					                      
+					                    </div>
+					                    <div class="stat__figure delta">
+					                        <span class="stat__description">2011</span>
+					                    </div>
+					                </dd>
+					            </dl>
+					        </div>
+					        <div class="grid-col desktop-grid-one-half" id="religion-bar" data-chart="stacked-bar" style="width:450px"></div>
+					    </div>
+					  </article>
+			    </div>			    
+		    </div>
+		    <div id="tab3" style="display: none;"> 
+	         <header>
+	           <h2>Economy data to follow</h2>    
+	         </header>
+	      </div>    
+	     </div>
+       </div>  
+      		 
+                <section id="additional-data" class="accordion is-collapsed show-more" style="display: none;">
+                  <h2 id="detail-text" class="accordion__title delta" aria-controls="content-0">More Detail</h2>
+                  <div id="content-3" class="accordion__content" aria-labelledby="sc-0">
+                    
+				</div>						
+			</section>
+			
+			
+			<div class="show-tables" id="tables" style="display: none;">
+                    
+                    	<!-- Table 1 -->
+                    
+                    <div>
+                      <div id="myDiv" class="container2 zigzag">
+						<div>
+						<table>
+						  <span class="tabletitle">Population by sex and geography</span>
+						  <thead>
+						    <tr>
+						      <th data-priority="persist"></th>
+						      <th data-priority="persist">Output Area<br>(E00116582)</th>
+						      <th data-priority="persist">Ward<br>(Hayling West)</th>
+						      <th data-priority="1">Westminster<br> parliamentary<br>constituency<br>(Havant)</th>
+						      <th data-priority="1">Local authority<br>lower tier<br>(Havant)</th>
+						      <th data-priority="6">County<br>(Hampshire)</th>
+						      <th data-priority="6">Health<br>authority <br>(South Central)</th>
+						      <th data-priority="6">Region<br>(South East)</th>
+						      <th data-priority="6">National<br>(UK)</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr>
+						      <td>Total</td>
+						      <td>257</td>
+						      <td>8,377</td>
+						      <td>Not available</td>
+						      <td>117,173</td>
+						      <td>1,317,778</td>
+						      <td>Not available</td>
+						      <td>8.045,192</td>
+						      <td>59,365,677</td>
+						    </tr>
+						    <tr>
+						      <td>Males</td>
+						      <td>128</td>
+						      <td>3,996</td>
+						      <td>Not available</td>
+						      <td>56,426</td>
+						      <td>644,938</td>
+						      <td>Not available</td>
+						      <td>3,935,274</td>
+						      <td>28,972,747</td>
+						    </tr>
+						    <tr>
+						      <td>Females</td>
+						      <td>129</td>
+						      <td>4,381</td>
+						      <td>Not available</td>
+						      <td>60,742</td>
+						      <td>672,850</td>
+						      <td>Not available</td>
+						      <td>4,109,918</td>
+						      <td>30,392,930</td>
+						    </tr>
+						    </tbody>
+						</table>
+						<br>
+						
+						
+						</div>
+						
+						</div>	
+							
+						<div>
+							<p class="tablesubtitle">Download full table</p>
+							<p class="tablesubsubtitle">Download contents: population by sex; multiple geographies</p>
+						</div>
+						
+						
+						
+						<div class="download_btn" onClick="window.location='http://data.statistics.gov.uk/ons/datasets/xls/XLS_SAPEDE_2011STATH_2013_1_2013_EN.zip'">.XLSX (12KB) 
+							<span class="icon icon-download" role="presentation"></span>
+						</div>
+						<div class="download_btn" onClick="window.location='http://data.statistics.gov.uk/ons/datasets/csv/CSV_SAPEDE_2011STATH_2013_1_2013_EN.zip'">.CSV (3KB) 
+							<span class="icon icon-download" role="presentation"></span>
+						</div>
+						
+						
+						<br>
+						<br>
+					
+						</div>
+						
+						<!-- Table 2 -->
+						
+						
+						<div>
+                      <div id="myDiv" class="container2 zigzag">
+						<div>
+						<table>
+						  <span class="tabletitle">Age by geography</span>
+						  <thead>
+						    <tr>
+						      <th data-priority="persist"></th>
+						      <th data-priority="persist">Output Area<br>(E00116582)</th>
+						      <th data-priority="persist">Ward<br>(Hayling West)</th>
+						      <th data-priority="1">Westminster<br> parliamentary<br>constituency<br>(Havant)</th>
+						      <th data-priority="1">Local authority<br>lower tier<br>(Havant)</th>
+						      <th data-priority="6">County<br>(Hampshire)</th>
+						      <th data-priority="6">Health<br>authority <br>(South Central)</th>
+						      <th data-priority="6">Region<br>(South East)</th>
+						      <th data-priority="6">National<br>(UK)</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr>
+						      <td>Total</td>
+						      <td>257</td>
+						      <td>8,377</td>
+						      <td>Not available</td>
+						      <td>117,173</td>
+						      <td>1,317,778</td>
+						      <td>Not available</td>
+						      <td>8.045,192</td>
+						      <td>59,365,677</td>
+						    </tr>
+						    <tr>
+						      <td>Males</td>
+						      <td>128</td>
+						      <td>3,996</td>
+						      <td>Not available</td>
+						      <td>56,426</td>
+						      <td>644,938</td>
+						      <td>Not available</td>
+						      <td>3,935,274</td>
+						      <td>28,972,747</td>
+						    </tr>
+						    <tr>
+						      <td>Females</td>
+						      <td>129</td>
+						      <td>4,381</td>
+						      <td>Not available</td>
+						      <td>60,742</td>
+						      <td>672,850</td>
+						      <td>Not available</td>
+						      <td>4,109,918</td>
+						      <td>30,392,930</td>
+						    </tr>
+						    </tbody>
+						</table>
+						<br>
+						
+						
+						</div>
+						
+						</div>	
+							
+						<div>
+							<p class="tablesubtitle">Download full table</p>
+							<p class="tablesubsubtitle">Download contents: population by sex; multiple geographies</p>
+						</div>
+						
+						<div class="download_btn" onClick="window.location='http://data.statistics.gov.uk/ons/datasets/xls/XLS_SAPEDE_2011STATH_2013_1_2013_EN.zip'">.XLSX (12KB) 
+							<span class="icon icon-download" role="presentation"></span>
+						</div>
+						<div class="download_btn" onClick="window.location='http://data.statistics.gov.uk/ons/datasets/csv/CSV_SAPEDE_2011STATH_2013_1_2013_EN.zip'">.CSV (3KB) 
+							<span class="icon icon-download" role="presentation"></span>
+						</div>
+						<br>
+						<br>
+					
+						</div>
+						
+						
+							<!-- Table 3 -->
+						
+						<div>
+                      <div id="myDiv" class="container2 zigzag">
+						<div>
+						<table>
+						  <span class="tabletitle">Population over time (time series)</span>
+						  <thead>
+						    <tr>
+						      <th data-priority="persist"></th>
+						      <th data-priority="persist">Output Area<br>(E00116582)</th>
+						      <th data-priority="persist">Ward<br>(Hayling West)</th>
+						      <th data-priority="1">Westminster<br> parliamentary<br>constituency<br>(Havant)</th>
+						      <th data-priority="1">Local authority<br>lower tier<br>(Havant)</th>
+						      <th data-priority="6">County<br>(Hampshire)</th>
+						      <th data-priority="6">Health<br>authority <br>(South Central)</th>
+						      <th data-priority="6">Region<br>(South East)</th>
+						      <th data-priority="6">National<br>(UK)</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr>
+						      <td>Total</td>
+						      <td>257</td>
+						      <td>8,377</td>
+						      <td>Not available</td>
+						      <td>117,173</td>
+						      <td>1,317,778</td>
+						      <td>Not available</td>
+						      <td>8.045,192</td>
+						      <td>59,365,677</td>
+						    </tr>
+						    <tr>
+						      <td>Males</td>
+						      <td>128</td>
+						      <td>3,996</td>
+						      <td>Not available</td>
+						      <td>56,426</td>
+						      <td>644,938</td>
+						      <td>Not available</td>
+						      <td>3,935,274</td>
+						      <td>28,972,747</td>
+						    </tr>
+						    <tr>
+						      <td>Females</td>
+						      <td>129</td>
+						      <td>4,381</td>
+						      <td>Not available</td>
+						      <td>60,742</td>
+						      <td>672,850</td>
+						      <td>Not available</td>
+						      <td>4,109,918</td>
+						      <td>30,392,930</td>
+						    </tr>
+						    </tbody>
+						</table>
+						<br>
+						
+						
+						</div>
+						
+						</div>	
+							
+						<div>
+							<p class="tablesubtitle">Download full table</p>
+							<p class="tablesubsubtitle">Download contents: population by sex; multiple geographies</p>
+						</div>
+						
+						<div class="download_btn" onClick="window.location='http://data.statistics.gov.uk/ons/datasets/xls/XLS_SAPEDE_2011STATH_2013_1_2013_EN.zip'">.XLSX (12KB) 
+							<span class="icon icon-download" role="presentation"></span>
+						</div>
+						<div class="download_btn" onClick="window.location='http://data.statistics.gov.uk/ons/datasets/csv/CSV_SAPEDE_2011STATH_2013_1_2013_EN.zip'">.CSV (3KB) 
+							<span class="icon icon-download" role="presentation"></span>
+						</div>
+						<br>
+						<br>
+					
+						</div>
+					</div>
+			
+			
+			
+		</div>             
+	</body>  
 </html>  
