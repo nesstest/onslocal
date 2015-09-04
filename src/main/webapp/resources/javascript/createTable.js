@@ -13,7 +13,7 @@ function createTable(extcode, levelname){
 		var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+"&jsontype=json-stat&totals=false&diff=2013";
 		}
 	var details;
-	
+		
 	
 	$(document).ready(function(){
 		$.getJSON(URL, function(result){

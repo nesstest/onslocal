@@ -22,6 +22,7 @@
      <script src="resources/javascript/createTable.js"></script>
      <script src="resources/javascript/ukMap.js"></script>    
      <script src="resources/javascript/download.js"></script>    
+     <script src="resources/javascript/getDataTable.js"></script>    
      <script defer src="http://js.arcgis.com/3.14/"></script> 
     
        
@@ -380,58 +381,9 @@
                     
                     <div>
                       <div id="myDiv" class="container2 zigzag">
-						<div>
-						<table>
-						  <span class="tabletitle">Population by sex and geography</span>
-						  <thead>
-						    <tr>
-						      <th data-priority="persist"></th>
-						      <th data-priority="persist">Output Area<br>(E00116582)</th>
-						      <th data-priority="persist">Ward<br>(Hayling West)</th>
-						      <th data-priority="1">Westminster<br> parliamentary<br>constituency<br>(Havant)</th>
-						      <th data-priority="1">Local authority<br>lower tier<br>(Havant)</th>
-						      <th data-priority="6">County<br>(Hampshire)</th>
-						      <th data-priority="6">Health<br>authority <br>(South Central)</th>
-						      <th data-priority="6">Region<br>(South East)</th>
-						      <th data-priority="6">National<br>(UK)</th>
-						    </tr>
-						  </thead>
-						  <tbody>
-						    <tr>
-						      <td>Total</td>
-						      <td>257</td>
-						      <td>8,377</td>
-						      <td>Not available</td>
-						      <td>117,173</td>
-						      <td>1,317,778</td>
-						      <td>Not available</td>
-						      <td>8.045,192</td>
-						      <td>59,365,677</td>
-						    </tr>
-						    <tr>
-						      <td>Males</td>
-						      <td>128</td>
-						      <td>3,996</td>
-						      <td>Not available</td>
-						      <td>56,426</td>
-						      <td>644,938</td>
-						      <td>Not available</td>
-						      <td>3,935,274</td>
-						      <td>28,972,747</td>
-						    </tr>
-						    <tr>
-						      <td>Females</td>
-						      <td>129</td>
-						      <td>4,381</td>
-						      <td>Not available</td>
-						      <td>60,742</td>
-						      <td>672,850</td>
-						      <td>Not available</td>
-						      <td>4,109,918</td>
-						      <td>30,392,930</td>
-						    </tr>
-						    </tbody>
-						</table>
+                        <!-- script>getData('E00116582', levelname, 'popSexGeog');</script -->
+						<div id="popSexGeog">
+						<!-- contents created from getDataTable.js -->
 						<br>
 						
 						
@@ -464,58 +416,9 @@
 						
 						<div>
                       <div id="myDiv" class="container2 zigzag">
-						<div>
-						<table>
-						  <span class="tabletitle">Age by geography</span>
-						  <thead>
-						    <tr>
-						      <th data-priority="persist"></th>
-						      <th data-priority="persist">Output Area<br>(E00116582)</th>
-						      <th data-priority="persist">Ward<br>(Hayling West)</th>
-						      <th data-priority="1">Westminster<br> parliamentary<br>constituency<br>(Havant)</th>
-						      <th data-priority="1">Local authority<br>lower tier<br>(Havant)</th>
-						      <th data-priority="6">County<br>(Hampshire)</th>
-						      <th data-priority="6">Health<br>authority <br>(South Central)</th>
-						      <th data-priority="6">Region<br>(South East)</th>
-						      <th data-priority="6">National<br>(UK)</th>
-						    </tr>
-						  </thead>
-						  <tbody>
-						    <tr>
-						      <td>Total</td>
-						      <td>257</td>
-						      <td>8,377</td>
-						      <td>Not available</td>
-						      <td>117,173</td>
-						      <td>1,317,778</td>
-						      <td>Not available</td>
-						      <td>8.045,192</td>
-						      <td>59,365,677</td>
-						    </tr>
-						    <tr>
-						      <td>Males</td>
-						      <td>128</td>
-						      <td>3,996</td>
-						      <td>Not available</td>
-						      <td>56,426</td>
-						      <td>644,938</td>
-						      <td>Not available</td>
-						      <td>3,935,274</td>
-						      <td>28,972,747</td>
-						    </tr>
-						    <tr>
-						      <td>Females</td>
-						      <td>129</td>
-						      <td>4,381</td>
-						      <td>Not available</td>
-						      <td>60,742</td>
-						      <td>672,850</td>
-						      <td>Not available</td>
-						      <td>4,109,918</td>
-						      <td>30,392,930</td>
-						    </tr>
-						    </tbody>
-						</table>
+                       <script>getData("E00116582",'OA','areaname','ageGeog');</script>
+						<div id="ageGeog">
+						<!-- contents created from getDataTable.js -->
 						<br>
 						
 						
@@ -544,58 +447,9 @@
 						
 						<div>
                       <div id="myDiv" class="container2 zigzag">
-						<div>
-						<table>
-						  <span class="tabletitle">Population over time (time series)</span>
-						  <thead>
-						    <tr>
-						      <th data-priority="persist"></th>
-						      <th data-priority="persist">Output Area<br>(E00116582)</th>
-						      <th data-priority="persist">Ward<br>(Hayling West)</th>
-						      <th data-priority="1">Westminster<br> parliamentary<br>constituency<br>(Havant)</th>
-						      <th data-priority="1">Local authority<br>lower tier<br>(Havant)</th>
-						      <th data-priority="6">County<br>(Hampshire)</th>
-						      <th data-priority="6">Health<br>authority <br>(South Central)</th>
-						      <th data-priority="6">Region<br>(South East)</th>
-						      <th data-priority="6">National<br>(UK)</th>
-						    </tr>
-						  </thead>
-						  <tbody>
-						    <tr>
-						      <td>Total</td>
-						      <td>257</td>
-						      <td>8,377</td>
-						      <td>Not available</td>
-						      <td>117,173</td>
-						      <td>1,317,778</td>
-						      <td>Not available</td>
-						      <td>8.045,192</td>
-						      <td>59,365,677</td>
-						    </tr>
-						    <tr>
-						      <td>Males</td>
-						      <td>128</td>
-						      <td>3,996</td>
-						      <td>Not available</td>
-						      <td>56,426</td>
-						      <td>644,938</td>
-						      <td>Not available</td>
-						      <td>3,935,274</td>
-						      <td>28,972,747</td>
-						    </tr>
-						    <tr>
-						      <td>Females</td>
-						      <td>129</td>
-						      <td>4,381</td>
-						      <td>Not available</td>
-						      <td>60,742</td>
-						      <td>672,850</td>
-						      <td>Not available</td>
-						      <td>4,109,918</td>
-						      <td>30,392,930</td>
-						    </tr>
-						    </tbody>
-						</table>
+                      <script>getData("E00116582",'OA','areaname','popTime');</script>
+						<div id="popTime">
+						<!-- contents created from getDataTable.js -->
 						<br>
 						
 						
