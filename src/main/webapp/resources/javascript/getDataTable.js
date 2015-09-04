@@ -64,6 +64,18 @@ function getData(extcode, levelname, areaname, tableType){
 		 		
 				alert(extCodelist)*/
 		
+		
+				
+		
+				first(extcode, function(newExtCode) {
+				    alert("in call " + newExtCode);
+				    second(newExtCode);
+				    });
+		
+				
+				
+				
+				
 				var extCodeList;
 		
 				if(extcode == "E00115783")
@@ -244,3 +256,33 @@ function findParentExtcode(areaid){
 	  return(extcode)
 	 });	
 }*/
+
+
+
+function first(extcode, callback) {
+    if (typeof(callback) == 'function') {
+    	
+    	var newExtCode;
+     	getParentFromFallsWithinURL = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/"+extcode+"/leveltypeid/15/hierarchyid/26"
+    	$.getJSON(getParentFromFallsWithinURL, function(result)
+    	{
+    		newExtCode = result['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.FallsWithin.Area.AreaId;
+    		alert("in first" + newExtCode)
+    		callback(newExtCode);
+    	});
+       
+    }
+}
+
+function second(newExtCode) { 
+	var extcode
+	getExtcodeFromAreaDetailsURL = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"+newExtCode
+	 $.getJSON(getExtcodeFromAreaDetailsURL, function(result)
+	 {
+	  extcode = result['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode;	 
+	  alert("in second "+extcode)
+	 });	
+
+
+}
+
