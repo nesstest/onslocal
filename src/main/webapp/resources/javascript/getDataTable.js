@@ -64,16 +64,16 @@ function getData(extcode, levelname, areaname, tableType){
 		 		
 				alert(extCodelist)*/
 		
-		
+		 
 				
 		
-				first(extcode, function(newExtCode) {
+					getParentAreaId(extcode, function(newExtCode) {
 				    alert("in call " + newExtCode);
-				    second(newExtCode);
-				    });
+				     getParentExtCode(newExtCode);
+				     });
 		
 				
-				
+					
 				
 				
 				var extCodeList;
@@ -259,7 +259,7 @@ function findParentExtcode(areaid){
 
 
 
-function first(extcode, callback) {
+function getParentAreaId(extcode, callback) {
     if (typeof(callback) == 'function') {
     	
     	var newExtCode;
@@ -274,7 +274,7 @@ function first(extcode, callback) {
     }
 }
 
-function second(newExtCode) { 
+function getParentExtCode(newExtCode) { 
 	var extcode
 	getExtcodeFromAreaDetailsURL = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"+newExtCode
 	 $.getJSON(getExtcodeFromAreaDetailsURL, function(result)
