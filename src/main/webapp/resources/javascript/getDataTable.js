@@ -13,172 +13,303 @@ function getData(extcode, levelname, areaname, tableType){
 	var tableRow4;
 	var tableRow5;
 
-	if (levelname =="WD")
+	var extCodeList;
+	var OA
+	var laCode
+	var laName
+	var parliconCode
+	var parliconName
+	var wardCode
+	var wardName
+	var regionCode
+	var regionName
+	var nationalCode
+	var nationalName
+	var countyCode
+	var countyName
+	
+	
+	
+	if(extcode == "E00115783" || extcode == "E05004528" || extcode == "E07000087" || extcode == "E12000008" || extcode == "E92000001")
 	{
-		geogParam = "2011WARDH&dm/2011WARDH"
-		//following code to be replaced with passed WARD value
-		extcode = "E05004574"
-	}
-	else
-	{
-		geogParam = "2011STATH&dm/2011STATH"
-	}
+		
+		OA = "E00115783"
+		laCode = "E07000087"
+		laName = "Fareham"
+		parliconCode = "E14000699"
+		parliconName = "Fareham"
+		wardCode = "E05004528"
+		wardName = "Titchfield"
+		regionCode = "E12000008"
+		regionName = "South East"
+		nationalCode = "E92000001"
+		nationalName = "UK"
+		countyCode = "E10000014"
+		countyName = "Hampshire"
+		healthName = "South Central"
+	}	
+ 	
+	
 
 
 
 	//start to create table
-	tableHead = "<table><span class='tabletitle'>Population by sex and geography</span><thead><tr><th data-priority='persist'></th>";
-	tableBody = "<tbody>";
-
+	
 
 	if (tableType == "popSexGeog")
 	{
-		// URL returns all, males and females for specified area
-			/*	var parentcode
-				var extCodeList = extcode;
-				var leveltypeid = 15;
-				while(parentcode != 'E92000001')
-					{
-						var returnedAreaId;
-					 	getParentFromFallsWithinURL = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/"+extcode+"/leveltypeid/"+leveltypeid+"/hierarchyid/26"
-						$.getJSON(getParentFromFallsWithinURL, function(result)
-						{
-							returnedAreaId = result['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.FallsWithin.Area.AreaId;
-							alert(returnedAreaId)
-							
-							
-							getExtcodeFromAreaDetailsURL = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"+returnedAreaId
-							 $.getJSON(getExtcodeFromAreaDetailsURL, function(result)
-							 {
-							  parentcode = result['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode;
-							  alert(parentcode)
-							 });	
-						});
-					 	
-					 	if(leveltypeid == '15')
-					 		{leveltypeid = }
-					 	extCodeList = extcCodeList + "," +parentcode;
-					 	
-					 	
-					}
-		 		
-				alert(extCodelist)*/
 		
-		 
-				
-		
-					getParentAreaId(extcode, function(newExtCode) {
-				    alert("in call " + newExtCode);
-				     getParentExtCode(newExtCode);
-				     });
-		
-				
-					
-				
-				
-				var extCodeList;
-		
-				if(extcode == "E00115783")
-					{
-						extCodeList = "E00115783,E07000087,E12000008,E92000001"
-						//OA = "E00115783"
-						//LA = "E07000087"
-						//parlicon = "E14000699"
-						//ward = "E05004528"
-						//region = "E12000008"
-						//National = "E92000001"
-						//county = "E10000014"
-					}
-			 	
-				var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog="+geogParam+"="+extCodeList+"&jsontype=json-stat&totals=false&diff=2013";
-				
-				$(document).ready(function(){
-				$.getJSON(URL, function(result){
+		tableHead = "<table><span class='tabletitle'>Population by sex and geography</span><thead><tr><th data-priority='persist'></th>";
+		tableBody = "<tbody>";
 
-				tableHead = tableHead + "<th data-priority='persist'>"+levelname+"<br>("+areaname+")</th>";
+				//tableHead = tableHead + "<th data-priority='persist'>"+levelname+"<br>("+areaname+")</th>";
+				
 				tableRow1 = "<tr><td>Total</td>"
 				tableRow2 = "<tr><td>Males</td>"
 				tableRow3 = "<tr><td>Females</td>"
-	
-				while (extcode !== "done") 
-				{
-					all = result["SAPEDE 2013"].value[0] ;
-					male = result["SAPEDE 2013"].value[1] ;
-					female = result["SAPEDE 2013"].value[2];
-					tableRow1 = tableRow1 + "<td>"+all+"</td><tr>";
-					tableRow2 = tableRow2 + "<td>"+male+"</td><tr>";
-					tableRow3 = tableRow3 + "<td>"+female+"</td><tr>";
-	
-					//temporarily set extcode to UK to complete the loop statement
-					extcode = "E92000001"
-	
-					if (extcode != "E92000001")
+				
+				var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+"&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013";
+			
+				$.getJSON(URL, function(result)
 					{
-						    extcode = "done"
-							//alert("in loop")
-							//find parent of area
-							//extcode = findParent(extcode);
-					}
-					else
-					{
-						var tableRows = tableRow1 + tableRow2 + tableRow3;
+					
+					    if(levelname =="OA")
+					    	{
+					    tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
+					    all = result["SAPEDE 2013"].value[0] ;
+						male = result["SAPEDE 2013"].value[1] ;
+						female = result["SAPEDE 2013"].value[2];
+						tableRow1 = tableRow1 + "<td>"+all+"</td>";
+						tableRow2 = tableRow2 + "<td>"+male+"</td>";
+						tableRow3 = tableRow3 + "<td>"+female+"</td>";
+					    	}
+						
+						var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013";
+				
+						$.getJSON(URL, function(result)
+								{
+								
+								if(levelname == "WD" || levelname =="OA")
+						    	{
+									tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
+									all = result["SAPEDE 2013"].value[0] ;
+									male = result["SAPEDE 2013"].value[1] ;
+									female = result["SAPEDE 2013"].value[2];
+									tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
+									tableRow2 = tableRow2 + "<td>"+male+"</td><td>Not Available</td>";
+									tableRow3 = tableRow3 + "<td>"+female+"</td><td>Not Available</td>";
+						    	}
+								
+								var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+laCode+"&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013";
+						
+								$.getJSON(URL, function(result)
+										{
+										
+									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
+							    	{
+										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
+										all = result["SAPEDE 2013"].value[0] ;
+										male = result["SAPEDE 2013"].value[1] ;
+										female = result["SAPEDE 2013"].value[2];
+										tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
+										tableRow2 = tableRow2 + "<td>"+male+"</td><td>Not Available</td>";
+										tableRow3 = tableRow3 + "<td>"+female+"</td><td>Not Available</td>";
+							    	}
+											
+									var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+regionCode+"&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013";
+									
+									$.getJSON(URL, function(result)
+											{
+											
+										if(levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+								    	{
+											tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+											all = result["SAPEDE 2013"].value[0] ;
+											male = result["SAPEDE 2013"].value[1] ;
+											female = result["SAPEDE 2013"].value[2];
+											tableRow1 = tableRow1 + "<td>"+all+"</td>";
+											tableRow2 = tableRow2 + "<td>"+male+"</td>";
+											tableRow3 = tableRow3 + "<td>"+female+"</td>";
+								    	}
+												
+										var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+nationalCode+"&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013";
+										
+										$.getJSON(URL, function(result)
+												{
+												
+											if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+									    	{
+												tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
+												all = result["SAPEDE 2013"].value[0] ;
+												male = result["SAPEDE 2013"].value[1] ;
+												female = result["SAPEDE 2013"].value[2];
+												tableRow1 = tableRow1 + "<td>"+all+"</td>";
+												tableRow2 = tableRow2 + "<td>"+male+"</td>";
+												tableRow3 = tableRow3 + "<td>"+female+"</td>";
+									    	}
+													
+													var tableRows = tableRow1 + tableRow2 + tableRow3;
+													
+													tableRow1 = tableRow1 + "</tr>";
+													tableRow2 = tableRow2 + "</tr>";
+													tableRow3 = tableRow3 + "</tr>";
+								
+													completeTable(tableHead, tableBody, tableRows, tableType); 				
+												});				
+											});	 				
+										});			
+								});	
+	
+					});	
+				
+				
+				
 
-						tableRow1 = tableRow1 + "</tr>";
-						tableRow2 = tableRow2 + "</tr>";
-						tableRow3 = tableRow3 + "</tr>";
-
-						completeTable(tableHead, tableBody, tableRows, tableType); 
-						extcode = "done"
-					}
-				}
-			});	
-		});
 	}
-	else if (tableType == "ageGeog")
+	
+	if (tableType == "ageGeog")
 	{
+				
+				tableHead = "<table><span class='tabletitle'>Age by geography</span><thead><tr><th data-priority='persist'></th>";
+				tableBody = "<tbody>";
 
-		//URL returns all person by age for specified area
-
-		var URL2 = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog="+geogParam+"="+extcode+"&dm/CL_0000670=CI_0005569&jsontype=json-stat&totals=false&diff=2013"
-
-		$(document).ready(function(){
-			$.getJSON(URL2, function(result){
-
-				under1 = result["SAPEDE 2013"].value[1] ;
-				one = result["SAPEDE 2013"].value[2] ;
-				two = result["SAPEDE 2013"].value[3] ;
-				three = result["SAPEDE 2013"].value[4] ;
-				four = result["SAPEDE 2013"].value[5] ;
-
-
-
-				tableHead = tableHead + "<th data-priority='persist'>Output Area<br>(E00116582)</th>";
-				tableRow1 = "<tr><td>Under 1</td><td>"+under1+"</td></tr>";
-				tableRow2 = "<tr><td>1</td><td>"+one+"</td></tr>";
-				tableRow3 = "<tr><td>2</td><td>"+two+"</td></tr>";
-				tableRow4 = "<tr><td>3</td><td>"+three+"</td></tr>";
-				tableRow5 = "<tr><td>4</td><td>"+four+"</td></tr>";
-
-				//temporarily set extcode to UK tp complete the statement
-
-				extcode = "E92000001"
-
-					if (extcode == "E92000001")
+				
+				tableRow1 = "<tr><td>Under 1</td>";
+				tableRow2 = "<tr><td>1</td>";
+				tableRow3 = "<tr><td>2</td>";
+				tableRow4 = "<tr><td>3</td>";
+				tableRow5 = "<tr><td>4</td>";
+				
+				
+				var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+"&dm/CL_0000670=CI_0005569&jsontype=json-stat&totals=false&diff=2013"
+			
+				$.getJSON(URL, function(result)
 					{
-						var tableRows = tableRow1 + tableRow2 + tableRow3 + tableRow4 + tableRow5;
+					
+					    if(levelname =="OA")
+					    	{
+					    tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
+					    under1 = result["SAPEDE 2013"].value[1] ;
+						one = result["SAPEDE 2013"].value[2] ;
+						two = result["SAPEDE 2013"].value[3] ;
+						three = result["SAPEDE 2013"].value[4] ;
+						four = result["SAPEDE 2013"].value[5] ;
+						tableRow1 = tableRow1 + "<td>"+under1+"</td>";
+						tableRow2 = tableRow2 + "<td>"+one+"</td>";
+						tableRow3 = tableRow3 + "<td>"+two+"</td>";
+						tableRow4 = tableRow4 + "<td>"+three+"</td>";
+						tableRow5 = tableRow5 + "<td>"+four+"</td>";
+					    	}
+						
+						var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&dm/CL_0000670=CI_0005569&jsontype=json-stat&totals=false&diff=2013"
+				
+						$.getJSON(URL, function(result)
+								{
+								
+								if(levelname == "WD" || levelname =="OA")
+						    	{
+									tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
+									under1 = result["SAPEDE 2013"].value[1] ;
+									one = result["SAPEDE 2013"].value[2] ;
+									two = result["SAPEDE 2013"].value[3] ;
+									three = result["SAPEDE 2013"].value[4] ;
+									four = result["SAPEDE 2013"].value[5] ;
+									tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
+									tableRow2 = tableRow2 + "<td>"+one+"</td><td>Not Available</td>";
+									tableRow3 = tableRow3 + "<td>"+two+"</td><td>Not Available</td>";
+									tableRow4 = tableRow4 + "<td>"+three+"</td><td>Not Available</td>";
+									tableRow5 = tableRow5 + "<td>"+four+"</td><td>Not Available</td>";
+						    	}
+								
+								var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+laCode+"&dm/CL_0000670=CI_0005569&jsontype=json-stat&totals=false&diff=2013"
+						
+								$.getJSON(URL, function(result)
+										{
+										
+									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
+							    	{
+										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
+										under1 = result["SAPEDE 2013"].value[1] ;
+										one = result["SAPEDE 2013"].value[2] ;
+										two = result["SAPEDE 2013"].value[3] ;
+										three = result["SAPEDE 2013"].value[4] ;
+										four = result["SAPEDE 2013"].value[5] ;
+										tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
+									tableRow2 = tableRow2 + "<td>"+one+"</td><td>Not Available</td>";
+									tableRow3 = tableRow3 + "<td>"+two+"</td><td>Not Available</td>";
+									tableRow4 = tableRow4 + "<td>"+three+"</td><td>Not Available</td>";
+									tableRow5 = tableRow5 + "<td>"+four+"</td><td>Not Available</td>";
+							    	}
+											
+									var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+regionCode+"&dm/CL_0000670=CI_0005569&jsontype=json-stat&totals=false&diff=2013"
+									
+									$.getJSON(URL, function(result)
+											{
+											
+										if(levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+								    	{
+											tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+											under1 = result["SAPEDE 2013"].value[1] ;
+											one = result["SAPEDE 2013"].value[2] ;
+											two = result["SAPEDE 2013"].value[3] ;
+											three = result["SAPEDE 2013"].value[4] ;
+											four = result["SAPEDE 2013"].value[5] ;
+											tableRow1 = tableRow1 + "<td>"+under1+"</td>";
+											tableRow2 = tableRow2 + "<td>"+one+"</td>";
+											tableRow3 = tableRow3 + "<td>"+two+"</td>";
+											tableRow4 = tableRow4 + "<td>"+three+"</td>";
+											tableRow5 = tableRow5 + "<td>"+four+"</td>";
+								    	}
+												
+										var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+nationalCode+"&dm/CL_0000670=CI_0005569&jsontype=json-stat&totals=false&diff=2013"
+										
+										$.getJSON(URL, function(result)
+												{
+												
+											if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+									    	{
+												tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
+												under1 = result["SAPEDE 2013"].value[1] ;
+												one = result["SAPEDE 2013"].value[2] ;
+												two = result["SAPEDE 2013"].value[3] ;
+												three = result["SAPEDE 2013"].value[4] ;
+												four = result["SAPEDE 2013"].value[5] ;
+												tableRow1 = tableRow1 + "<td>"+under1+"</td>";
+												tableRow2 = tableRow2 + "<td>"+one+"</td>";
+												tableRow3 = tableRow3 + "<td>"+two+"</td>";
+												tableRow4 = tableRow4 + "<td>"+three+"</td>";
+												tableRow5 = tableRow5 + "<td>"+four+"</td>";
+									    	}
+													
+													var tableRows = tableRow1 + tableRow2 + tableRow3 + tableRow4 + tableRow5;
+													
+													tableRow1 = tableRow1 + "</tr>";
+													tableRow2 = tableRow2 + "</tr>";
+													tableRow3 = tableRow3 + "</tr>";
+													tableRow4 = tableRow4 + "</tr>";
+													tableRow5 = tableRow5 + "</tr>";
+								
+													completeTable(tableHead, tableBody, tableRows, tableType); 				
+												});				
+											});	 				
+										});			
+								});	
+	
+					});	
+				
+				
+				
 
-						completeTable(tableHead, tableBody, tableRows, tableType);
-					}
-
-
-			});	
-		});
 	}
 
 	else if (tableType == "popTime")
 	{
+		//start to create table
+		tableHead = "<table><span class='tabletitle'>Population over time (time series)</span><thead><tr><th data-priority='persist'></th>";
+		tableBody = "<tbody>";
+		
 		//URL returns all persons for specified are and specified year (diff=2013)
-		var URL3 = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog="+geogParam+"="+extcode+"&dm/CL_0000670=CI_0005569&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013"
+		var URL3 = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+"&dm/CL_0000670=CI_0005569&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013"
 
 		$(document).ready(function(){
 			$.getJSON(URL3, function(result){
@@ -232,57 +363,4 @@ function completeTable(tableHead, tableBody, tableRows, tableType){
 	});
 }
 
-
-/*
-function findParent(extcode){
-	
-	var returnedAreaId;
- 	getParentFromFallsWithinURL = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/"+extcode+"/leveltypeid/15/hierarchyid/26"
-	$.getJSON(getParentFromFallsWithinURL, function(result)
-	{
-		returnedAreaId = result['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.FallsWithin.Area.AreaId;
-		return(returnedAreaId)
-	});
-}
-
-
-function findParentExtcode(areaid){
-	
-	var extcode
-	getExtcodeFromAreaDetailsURL = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"+areaid
-	 $.getJSON(getExtcodeFromAreaDetailsURL, function(result)
-	 {
-	  extcode = result['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode;	 
-	  return(extcode)
-	 });	
-}*/
-
-
-
-function getParentAreaId(extcode, callback) {
-    if (typeof(callback) == 'function') {
-    	
-    	var newExtCode;
-     	getParentFromFallsWithinURL = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/"+extcode+"/leveltypeid/15/hierarchyid/26"
-    	$.getJSON(getParentFromFallsWithinURL, function(result)
-    	{
-    		newExtCode = result['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.FallsWithin.Area.AreaId;
-    		alert("in first" + newExtCode)
-    		callback(newExtCode);
-    	});
-       
-    }
-}
-
-function getParentExtCode(newExtCode) { 
-	var extcode
-	getExtcodeFromAreaDetailsURL = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"+newExtCode
-	 $.getJSON(getExtcodeFromAreaDetailsURL, function(result)
-	 {
-	  extcode = result['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode;	 
-	  alert("in second "+extcode)
-	 });	
-
-
-}
 
