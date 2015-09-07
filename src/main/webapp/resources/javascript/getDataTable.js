@@ -48,9 +48,47 @@ function getData(extcode, levelname, areaname, tableType){
 		countyName = "Hampshire"
 		healthName = "South Central"
 	}	
+	
+	
+	
+	if(extcode == "E00116582" || extcode == "E05004574" || extcode == "E07000090" || extcode == "E12000008" || extcode == "E92000001")
+	{
+		
+		OA = "E00116582"
+		laCode = "E07000090"
+		laName = "Havant"
+		parliconCode = "E14000736"
+		parliconName = "Havant"
+		wardCode = "E05004574"
+		wardName = "Hayling West"
+		regionCode = "E12000008"
+		regionName = "South East"
+		nationalCode = "E92000001"
+		nationalName = "UK"
+		countyCode = "E10000014"
+		countyName = "Hampshire"
+		healthName = "South Central"
+	}	
  	
 	
-
+	if(extcode == "W00008440" || extcode == "W05000837" || extcode == "W06000022" || extcode == "W92000004" || extcode == "W92000004")
+	{
+		
+		OA = "W00008440"
+		laCode = "W06000022"
+		laName = "Newport"
+		parliconCode = "W07000056"
+		parliconName = "Newport West"
+		wardCode = "W05000837"
+		wardName = "Caerleon"
+		regionCode = "W92000004"
+		regionName = "Wales"
+		nationalCode = "W92000004"
+		nationalName = "Wales"
+		countyCode = "w06000022"
+		countyName = "Newport"
+		healthName = "Wales"
+	}	
 
 
 	//start to create table
@@ -305,7 +343,7 @@ function getData(extcode, levelname, areaname, tableType){
 	if (tableType == "popTime")
 	{
 		
-		tableHead = "<table><span class='tabletitle'>population over time (time series)</span><thead><tr><th data-priority='persist'></th>";
+		tableHead = "<table><span class='tabletitle'>Population over time (time series)</span><thead><tr><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
 				
 				tableRow1 = "<tr><td>2013</td>";
