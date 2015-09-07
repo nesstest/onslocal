@@ -302,39 +302,101 @@ function getData(extcode, levelname, areaname, tableType){
 
 	}
 
-	else if (tableType == "popTime")
+	if (tableType == "popTime")
 	{
-		//start to create table
-		tableHead = "<table><span class='tabletitle'>Population over time (time series)</span><thead><tr><th data-priority='persist'></th>";
-		tableBody = "<tbody>";
 		
-		//URL returns all persons for specified are and specified year (diff=2013)
-		var URL3 = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+"&dm/CL_0000670=CI_0005569&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013"
+		tableHead = "<table><span class='tabletitle'>population over time (time series)</span><thead><tr><th data-priority='persist'></th>";
+		tableBody = "<tbody>";
+				
+				tableRow1 = "<tr><td>2013</td>";
 
-		$(document).ready(function(){
-			$.getJSON(URL3, function(result){
-
-				all = result["SAPEDE 2013"].value[0] ;
-
-				tableHead = tableHead + "<th data-priority='persist'>Output Area<br>(E00116582)</th>";
-				tableRow1 = "<tr><td>2013</td><td>"+all+"</td></tr>";
-
-
-				//temporarily set extcode to UK tp complete the statement
-
-				extcode = "E92000001"
-
-					if (extcode == "E92000001")
+				
+				var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+"&dm/CL_0000670=CI_0005569&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013"
+			
+				$.getJSON(URL, function(result)
 					{
-						var tableRows = tableRow1;
+					
+					    if(levelname =="OA")
+					    	{
+					    tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
+					    under1 = result["SAPEDE 2013"].value[0] ;
+	
+						tableRow1 = tableRow1 + "<td>"+under1+"</td>";
+					
+					    	}
+						
+						var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&dm/CL_0000670=CI_0005569&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013"
+				
+						$.getJSON(URL, function(result)
+								{
+								
+								if(levelname == "WD" || levelname =="OA")
+						    	{
+									tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
+									under1 = result["SAPEDE 2013"].value[0] ;
+									
+									tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
+								
+						    	}
+								
+								var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+laCode+"&dm/CL_0000670=CI_0005569&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013"
+						
+								$.getJSON(URL, function(result)
+										{
+										
+									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
+							    	{
+										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
+										under1 = result["SAPEDE 2013"].value[0] ;
+										
+										tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
+									
+							    	}
+											
+									var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+regionCode+"&dm/CL_0000670=CI_0005569&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013"
+									
+									$.getJSON(URL, function(result)
+											{
+											
+										if(levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+								    	{
+											tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+											under1 = result["SAPEDE 2013"].value[0] ;
+											
+											tableRow1 = tableRow1 + "<td>"+under1+"</td>";
+											
+								    	}
+												
+										var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+nationalCode+"&dm/CL_0000670=CI_0005569&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013"
+										
+										$.getJSON(URL, function(result)
+												{
+												
+											if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+									    	{
+												tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
+												under1 = result["SAPEDE 2013"].value[0] ;
+										
+												tableRow1 = tableRow1 + "<td>"+under1+"</td>";
+												
+									    	}
+													
+													var tableRows = tableRow1;
+													
+													tableRow1 = tableRow1 + "</tr>";
+													
+								
+													completeTable(tableHead, tableBody, tableRows, tableType); 				
+												});				
+											});	 				
+										});			
+								});	
+	
+					});	
+				
+				
+				
 
-						completeTable(tableHead, tableBody, tableRows, tableType);
-					}
-
-
-
-			});	
-		});
 	}
 
 }
