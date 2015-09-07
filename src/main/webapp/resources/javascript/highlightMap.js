@@ -38,8 +38,9 @@ function highlightMap(details, validpostCode){
 		  { 
 
 			var queryTask, query;
-			parser.parse(); 
-			detailsArray = details.split(":");
+			parser.parse();	
+						
+			detailsArray = details.split(":");			
 		
 			var xmin_env      = parseInt(detailsArray[0]);
 			var ymin_env      = parseInt(detailsArray[1]);
@@ -51,10 +52,10 @@ function highlightMap(details, validpostCode){
 			var xCoord        = detailsArray[7];
 			var yCoord        = detailsArray[8];
 			var levelname     = detailsArray[9];
-			var areacode      = detailsArray[10];		
+			var areacode      = detailsArray[10];			
 						
-			var postcode      = validpostCode;	
-			var polygon ;
+			var postcode      = validpostCode;				
+			var polygon;
 			var selected = false;
 			var diff = xmax_env-xmin_env;
 			newxmin  = xmin_env - diff;	
@@ -96,7 +97,7 @@ function highlightMap(details, validpostCode){
 						   new Color([229,78,22]),2),new Color([229,78,22, 0.45]));		   
           
 		    var dynamicLayer = "https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/featureServer/0";
-		  
+		   		  
 		    if (levelname === "OA") {
 		    	
 		    	var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areacode]});
@@ -104,12 +105,12 @@ function highlightMap(details, validpostCode){
 		    	renderer = new UniqueValueRenderer(defaultSymbol, areacode);
 		    }
 		    else{
-		    	var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areaname]});
+		    	var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areaname]});		    	    	
 		    	//create renderer 
 		    	renderer = new UniqueValueRenderer(defaultSymbol, areaname);
 		    }
 		
-			featureLayer.setRenderer(renderer); 
+			featureLayer.setRenderer(renderer); 			
 			map.addLayer(featureLayer);				
 			
 			map.infoWindow.resize(245,125);
@@ -166,12 +167,12 @@ function highlightMap(details, validpostCode){
 		       map.graphics.on("mouse-out", closeDialog);
 			   map.on("mouse-drag-end", closeDialog);
 			   map.graphics.on("click", closeDialog);
-			   var query = new Query();
+			   var query = new Query();			   
 			   if (levelname === "OA") {				   
 				   query.where = areacode +  "='" + area + "'";
 			   }
 			   else{
-				   query.where = areaname +  "='" + area + "'";
+				   query.where = areaname +  "='" + area + "'";				   			   
 			   }
 			   query.returnGeometry = true;
 
@@ -246,11 +247,11 @@ function highlightMap(details, validpostCode){
 			   var selectionQuery = new esri.tasks.Query();	          
 			   var tol = map.extent.getWidth()/map.width * 5;
 			   var x = evt.mapPoint.x;	          
-			   var y = evt.mapPoint.y;
+			   var y = evt.mapPoint.y;			 
 
 			   // get layer info for area clicked
 			   var wardUrl =  "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2012_GB_BGC/FeatureServer/0/query?where=&geometry=" +
-                               x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=WD12NM&returnGeometry=false&outSR=27700&f=pjson" ;			  
+                               x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=true&outSR=27700&f=pjson" ;			  
 			   var laUrl   =  "https://mapping.statistics.gov.uk/arcgis/rest/services/LAD/LAD_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
 				               x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=LAD11NM&returnGeometry=false&outSR=27700&f=pjson" ;
 			   var gorUrl  =  "https://mapping.statistics.gov.uk/arcgis/rest/services/GOR/GOR_DEC_2010_EN_BGC/FeatureServer/0/query?where=&geometry=" +
@@ -268,7 +269,8 @@ function highlightMap(details, validpostCode){
 						    	
 						    	  $(document).ready(function(){
 						    		  $.getJSON(wardUrl, function(result) {
-									      wardName = result.features[0].attributes.WD12NM;
+						    			  wardName = result.features[0].attributes.WD12NM;
+						    			  wardCode = result.features[0].attributes.WD12CD;	
 									      
 									      if (ctryName === 'England') {	
 									    	  
@@ -294,6 +296,7 @@ function highlightMap(details, validpostCode){
 													   regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
 													  
 													   $('#selArea1').empty();
+													   var markerEnvelope = xCoord + ":" + yCoord;
 													   
 													   if (levelname === "OA") {  														
 													     // set orange info box details    		
@@ -301,14 +304,15 @@ function highlightMap(details, validpostCode){
 													       '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
 														   '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
 														   '<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
-														   '<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD">' + wardName + '</a>)' +
+														   '<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD&amp;areaname=' + wardName + '&amp;areacode=' + wardCode + '&amp;markerenvelope=' + markerEnvelope + '">' + wardName + '</a>)' +
 														   '<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD">' + laName + '</a>)' + 
 														   regionText +
 													       '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">' + ctryName + '</a>)</div>' + 
 													       '</div>' + '</article></div>');
 													   } //	levelname === "OA"  
 														   
-													   if (levelname ==="WD"){
+													   if (levelname ==="WD"){													   
+														   
 														   // set orange info box details    		
 														   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 																  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
