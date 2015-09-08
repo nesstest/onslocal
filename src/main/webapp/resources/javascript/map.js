@@ -34,7 +34,8 @@ function createMap(result, validpostCode, levelname, childname){
 			getData(result.areas[0].OA[0].extcode, levelname, result.areas[0].OA[0].area, 'popSexGeog');
 			getData(result.areas[0].OA[0].extcode, levelname, result.areas[0].OA[0].area, 'ageGeog');
 			getData(result.areas[0].OA[0].extcode, levelname, result.areas[0].OA[0].area, 'popTime');
-
+			getData(result.areas[0].OA[0].extcode, levelname, result.areas[0].OA[0].area, 'relGeog');
+			getData(result.areas[0].OA[0].extcode, levelname, result.areas[0].OA[0].area, 'relAgeGeog');
 						
 			// set orange info box details	
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -84,7 +85,9 @@ function createMap(result, validpostCode, levelname, childname){
 			  createReligion(result.areas[0].WD[0].extcode, levelname);
 			  getData(result.areas[0].WD[0].extcode, levelname, result.areas[0].WD[0].area, 'popSexGeog');
 			  getData(result.areas[0].WD[0].extcode, levelname, result.areas[0].WD[0].area, 'ageGeog');
-				getData(result.areas[0].WD[0].extcode, levelname, result.areas[0].WD[0].area, 'popTime');
+			  getData(result.areas[0].WD[0].extcode, levelname, result.areas[0].WD[0].area, 'popTime');
+			  getData(result.areas[0].WD[0].extcode, levelname, result.areas[0].WD[0].area, 'relGeog');
+				getData(result.areas[0].WD[0].extcode, levelname, result.areas[0].WD[0].area, 'relAgeGeog');
 			  
 			  // set orange part of box & drill down details
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -126,6 +129,8 @@ function createMap(result, validpostCode, levelname, childname){
 			  getData(result.areas[0].LAD[0].extcode, levelname, result.areas[0].LAD[0].area, 'popSexGeog');
 			  getData(result.areas[0].LAD[0].extcode, levelname, result.areas[0].LAD[0].area, 'ageGeog');
 				getData(result.areas[0].LAD[0].extcode, levelname, result.areas[0].LAD[0].area, 'popTime');
+				getData(result.areas[0].LAD[0].extcode, levelname, result.areas[0].LAD[0].area, 'relGeog');
+				getData(result.areas[0].LAD[0].extcode, levelname, result.areas[0].LAD[0].area, 'relAgeGeog');
 				
 		      // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -166,6 +171,8 @@ function createMap(result, validpostCode, levelname, childname){
 			 getData(result.areas[0].GOR[0].extcode, levelname, result.areas[0].GOR[0].area, 'popSexGeog');
 			 getData(result.areas[0].GOR[0].extcode, levelname, result.areas[0].GOR[0].area, 'ageGeog');
 				getData(result.areas[0].GOR[0].extcode, levelname, result.areas[0].GOR[0].area, 'popTime');
+				getData(result.areas[0].GOR[0].extcode, levelname, result.areas[0].GOR[0].area, 'relGeog');
+				getData(result.areas[0].GOR[0].extcode, levelname, result.areas[0].GOR[0].area, 'relAgeGeog');
 			  
 		      // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -223,6 +230,8 @@ function createMap(result, validpostCode, levelname, childname){
 			  getData(result.areas[0].CTRY[0].extcode, levelname, result.areas[0].CTRY[0].area, 'popSexGeog');
 			  getData(result.areas[0].CTRY[0].extcode, levelname, result.areas[0].CTRY[0].area, 'ageGeog');
 				getData(result.areas[0].CTRY[0].extcode, levelname, result.areas[0].CTRY[0].area, 'popTime');
+				getData(result.areas[0].CTRY[0].extcode, levelname, result.areas[0].CTRY[0].area, 'relGeog');
+				getData(result.areas[0].CTRY[0].extcode, levelname, result.areas[0].CTRY[0].area, 'relAgeGeog');
 			  
 		      // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +

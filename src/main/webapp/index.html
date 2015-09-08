@@ -23,6 +23,7 @@
      <script src="resources/javascript/ukMap.js"></script>    
      <script src="resources/javascript/download.js"></script>    
      <script src="resources/javascript/getDataTable.js"></script>    
+     <script src="resources/javascript/cookiesHandler.js"></script>    
      <script defer src="http://js.arcgis.com/3.14/"></script> 
     
        
@@ -41,6 +42,7 @@
 	    
 	    //declare global var and set to home tab
 	    var current_tab = "tab1";
+	   
 	    
 	    function  postcode_reformat(postcode) {
 	       // strip + sign from postcode string & convert to uppercase
@@ -123,6 +125,8 @@
 	     document.getElementById(tab).style.display = 'block';	    
 	     document.getElementById('li_'+ tab).setAttribute("class", "current");
 	     current_tab = tab;
+	     createCookie("tab",tab)
+	     
 	  //   testerFunction();
 	  
 	  //   function testerFunction(tab) {
@@ -148,7 +152,11 @@
 		$(".show-more").on('click', function() {
 			var originalValueText = $("#detail-text").text();
 			$("#detail-text").text(originalValueText == "More Detail" ? "Less Detail" : "More Detail" );
+			$("#detail-text-rel").text(originalValueText == "More Detail" ? "Less Detail" : "More Detail" );
 		    $("#tables").toggle();
+		    $("#tables-rel").toggle();
+
+		    
 		});
 		
 		});//]]> 
@@ -176,7 +184,7 @@
 			                  <label for="nav-search"></label>
 			                  <input type="search" class="nav-search__field" id="nav-search" name="nav-search" value="" placeholder="Search postcode or place name in England and Wales">
 			                </div>
-			                <button type="submit" class="btn btn--primary btn--nav-search" id="nav-search-submit">
+			                <button type="submit" class="btn btn--primary btn--nav-search" onclick="eraseCookie('tab');" id="nav-search-submit">
 			                  <span class="icon-search-1" role="presentation"></span>
 			                </button>
 			                <script>  
@@ -254,8 +262,113 @@
 					        <div class="grid-col desktop-grid-one-half" id="population-pyramid" data-chart="pyramid" style="width:450px"></div>
 					    </div>
 					  </article>          
-	              </div>                 
-			    </div>
+	              </div>   
+	              <div id="additional-data" class="accordion is-collapsed show-more" style="display: none;">
+						<h2 id="detail-text" class="accordion__title delta" aria-controls="content-0">More Detail</h2>
+						<div id="content-3" class="accordion__content" aria-labelledby="sc-0"></div>						
+					</div>
+
+			
+					<div class="show-tables" id="tables" style="display: none;">
+                    
+                    	<!-- Table 1 -->
+                    
+                    <div>
+                      <div id="myDiv" class="container2 zigzag">
+                        <!-- script>getData('E00116582', levelname, 'popSexGeog');</script -->
+						<div id="popSexGeog">
+						<!-- contents created from getDataTable.js -->
+						<br>
+						
+						
+						</div>
+						
+						</div>	
+							
+						<div>
+							<p class="tablesubtitle">Download full table</p>
+							<p class="tablesubsubtitle">Download contents: population by sex; multiple geographies</p>
+						</div>
+						
+						
+						
+						<div class="download_btn" onClick="download(current_tab, 'xlsx')">.XLSX (12KB) 
+							<span class="icon icon-download" role="presentation"></span>
+						</div>
+						<div class="download_btn" onClick="download(current_tab, 'csv')">.CSV (3KB) 
+							<span class="icon icon-download" role="presentation"></span>
+						</div>
+						
+						
+						<br>
+						<br>
+					
+						</div>
+						
+						<!-- Table 2 -->
+						
+						
+						<div>
+                      <div id="myDiv" class="container2 zigzag">
+                       <!-- script>getData("E00116582",'OA','areaname','ageGeog');</script> -->
+						<div id="ageGeog">
+						<!-- contents created from getDataTable.js -->
+						<br>
+						
+						
+						</div>
+						
+						</div>	
+							
+						<div>
+							<p class="tablesubtitle">Download full table</p>
+							<p class="tablesubsubtitle">Download contents: population by age (under 1 - 85); split by sex; multiple geographies</p>
+						</div>
+						
+							<div class="download_btn" onClick="download(current_tab, 'xlsx')">.XLSX (12KB) 
+							<span class="icon icon-download" role="presentation"></span>
+						</div>
+						<div class="download_btn" onClick="download(current_tab, 'csv')">.CSV (3KB) 
+							<span class="icon icon-download" role="presentation"></span>
+						</div>
+						<br>
+						<br>
+					
+						</div>
+						
+						
+							<!-- Table 3 -->
+						
+						<div>
+                      <div id="myDiv" class="container2 zigzag">
+                      <!-- script>getData("E00116582",'OA','areaname','popTime');</script> -->
+						<div id="popTime">
+						<!-- contents created from getDataTable.js -->
+						<br>
+						
+						
+						</div>
+						
+						</div>	
+							
+						<div>
+							<p class="tablesubtitle">Download full table</p>
+							<p class="tablesubsubtitle">Download contents: population over time (2002 - 2013); split by age (under 1 - 85); split by sex; multiple geographies</p>
+						</div>
+						
+						<div class="download_btn" onClick="download(current_tab, 'xlsx')">.XLSX (12KB) 
+							<span class="icon icon-download" role="presentation"></span>
+						</div>
+						<div class="download_btn" onClick="download(current_tab, 'csv')">.CSV (3KB) 
+							<span class="icon icon-download" role="presentation"></span>
+						</div>
+						<br>
+						<br>
+					
+						</div>
+					</div>
+		</div>                 
+			    
 			    <div id="tab2" style="display: none;"> 
 				    <div id="religionChart"  style="display: none;">
 				      <article class="wrapper">
@@ -357,32 +470,21 @@
 					        <div class="grid-col desktop-grid-one-half" id="religion-bar" data-chart="stacked-bar" style="width:450px"></div>
 					    </div>
 					  </article>
-			    </div>			    
-		    </div>
-		    <div id="tab3" style="display: none;"> 
-	         <header>
-	           <h2>Economy data to follow</h2>    
-	         </header>
-	      </div>    
-	     </div>
-       </div>  
-      		 
-                <div id="additional-data" class="accordion is-collapsed show-more" style="display: none;">
-                  <h2 id="detail-text" class="accordion__title delta" aria-controls="content-0">More Detail</h2>
-                  <div id="content-3" class="accordion__content" aria-labelledby="sc-0">
-                    
-				</div>						
-			</div>
+			    </div>	
+			    
+			    <div id="additional-religion-data" class="accordion is-collapsed show-more" style="display: none;">
+						<h2 id="detail-text-rel" class="accordion__title delta" aria-controls="content-0">More Detail</h2>
+						<div id="content-3" class="accordion__content" aria-labelledby="sc-0"></div>						
+					</div>
+
 			
-			
-			<div class="show-tables" id="tables" style="display: none;">
+					<div class="show-tables" id="tables-rel" style="display: none;">
                     
                     	<!-- Table 1 -->
                     
                     <div>
                       <div id="myDiv" class="container2 zigzag">
-                        <!-- script>getData('E00116582', levelname, 'popSexGeog');</script -->
-						<div id="popSexGeog">
+						<div id="relGeog">
 						<!-- contents created from getDataTable.js -->
 						<br>
 						
@@ -393,7 +495,7 @@
 							
 						<div>
 							<p class="tablesubtitle">Download full table</p>
-							<p class="tablesubsubtitle">Download contents: population by sex; multiple geographies</p>
+							<p class="tablesubsubtitle">Download contents: religion by geography; multiple geographies</p>
 						</div>
 						
 						
@@ -416,8 +518,7 @@
 						
 						<div>
                       <div id="myDiv" class="container2 zigzag">
-                       <!-- script>getData("E00116582",'OA','areaname','ageGeog');</script> -->
-						<div id="ageGeog">
+						<div id="relAgeGeog">
 						<!-- contents created from getDataTable.js -->
 						<br>
 						
@@ -428,7 +529,7 @@
 							
 						<div>
 							<p class="tablesubtitle">Download full table</p>
-							<p class="tablesubsubtitle">Download contents: population by sex; multiple geographies</p>
+							<p class="tablesubsubtitle">Download contents: religion by age (grouped from 0-15 to 75 and over); multiple religions; multiple geographies</p>
 						</div>
 						
 							<div class="download_btn" onClick="download(current_tab, 'xlsx')">.XLSX (12KB) 
@@ -441,41 +542,28 @@
 						<br>
 					
 						</div>
-						
-						
-							<!-- Table 3 -->
-						
-						<div>
-                      <div id="myDiv" class="container2 zigzag">
-                      <!-- script>getData("E00116582",'OA','areaname','popTime');</script> -->
-						<div id="popTime">
-						<!-- contents created from getDataTable.js -->
-						<br>
-						
-						
-						</div>
-						
-						</div>	
-							
-						<div>
-							<p class="tablesubtitle">Download full table</p>
-							<p class="tablesubsubtitle">Download contents: population by sex; multiple geographies</p>
-						</div>
-						
-						<div class="download_btn" onClick="download(current_tab, 'xlsx')">.XLSX (12KB) 
-							<span class="icon icon-download" role="presentation"></span>
-						</div>
-						<div class="download_btn" onClick="download(current_tab, 'csv')">.CSV (3KB) 
-							<span class="icon icon-download" role="presentation"></span>
-						</div>
-						<br>
-						<br>
 					
-						</div>
-					</div>
-			
-			
-			
-		</div>             
+					</div>		    
+		    </div>
+		    <div id="tab3" style="display: none;"> 
+	         <header>
+	           <h2>Economy data to follow</h2>    
+	         </header>
+	      </div>    
+	     </div>
+       </div>  
+      		 
+		
+		
+		<!-- run cookie code to comtrol tabs -->
+		<script>
+			if(readCookie("tab") == null){
+				tab("tab1")
+				}
+			else
+				{
+				tab(readCookie("tab"))
+				}
+			</script>          
 	</body>  
 </html>  

@@ -81,7 +81,7 @@ function createTable(extcode, levelname){
 
 function createReligion(extcode, levelname){
 	$("#religionChart").toggle();
-	
+	$("#additional-religion-data").toggle();
 		
 	if (levelname =="WD")
 		{

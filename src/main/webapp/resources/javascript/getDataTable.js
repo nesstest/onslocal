@@ -43,7 +43,7 @@ function getData(extcode, levelname, areaname, tableType){
 		regionCode = "E12000008"
 		regionName = "South East"
 		nationalCode = "E92000001"
-		nationalName = "UK"
+		nationalName = "England"
 		countyCode = "E10000014"
 		countyName = "Hampshire"
 		healthName = "South Central"
@@ -64,7 +64,7 @@ function getData(extcode, levelname, areaname, tableType){
 		regionCode = "E12000008"
 		regionName = "South East"
 		nationalCode = "E92000001"
-		nationalName = "UK"
+		nationalName = "England"
 		countyCode = "E10000014"
 		countyName = "Hampshire"
 		healthName = "South Central"
@@ -186,12 +186,12 @@ function getData(extcode, levelname, areaname, tableType){
 												tableRow3 = tableRow3 + "<td>"+female+"</td>";
 									    	}
 													
-													var tableRows = tableRow1 + tableRow2 + tableRow3;
 													
 													tableRow1 = tableRow1 + "</tr>";
 													tableRow2 = tableRow2 + "</tr>";
 													tableRow3 = tableRow3 + "</tr>";
-								
+													var tableRows = tableRow1 + tableRow2 + tableRow3;
+
 													completeTable(tableHead, tableBody, tableRows, tableType); 				
 												});				
 											});	 				
@@ -319,14 +319,14 @@ function getData(extcode, levelname, areaname, tableType){
 												tableRow5 = tableRow5 + "<td>"+four+"</td>";
 									    	}
 													
-													var tableRows = tableRow1 + tableRow2 + tableRow3 + tableRow4 + tableRow5;
 													
 													tableRow1 = tableRow1 + "</tr>";
 													tableRow2 = tableRow2 + "</tr>";
 													tableRow3 = tableRow3 + "</tr>";
 													tableRow4 = tableRow4 + "</tr>";
 													tableRow5 = tableRow5 + "</tr>";
-								
+													var tableRows = tableRow1 + tableRow2 + tableRow3 + tableRow4 + tableRow5;
+
 													completeTable(tableHead, tableBody, tableRows, tableType); 				
 												});				
 											});	 				
@@ -419,10 +419,10 @@ function getData(extcode, levelname, areaname, tableType){
 												
 									    	}
 													
-													var tableRows = tableRow1;
+													
 													
 													tableRow1 = tableRow1 + "</tr>";
-													
+													var tableRows = tableRow1;
 								
 													completeTable(tableHead, tableBody, tableRows, tableType); 				
 												});				
@@ -436,6 +436,232 @@ function getData(extcode, levelname, areaname, tableType){
 				
 
 	}
+	
+	if (tableType == "relGeog")
+	{
+		tableHead = "<table><span class='tabletitle'>Religion by geography</span><thead><tr><th data-priority='persist'></th>";
+		tableBody = "<tbody>";
+
+				//tableHead = tableHead + "<th data-priority='persist'>"+levelname+"<br>("+areaname+")</th>";
+				
+				tableRow1 = "<tr><td>Total</td>"
+				tableRow2 = "<tr><td>Christian</td>"
+				tableRow3 = "<tr><td>Muslim</td>"
+				
+				var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121&dm/CL_0000163=CI_0001887";
+			
+				$.getJSON(URL, function(result)
+					{
+					
+					    if(levelname =="OA")
+					    	{
+					    tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
+					    all = result["LC2107EW"].value[0] ;
+						christian = result["LC2107EW"].value[1] ;
+						muslim = result["LC2107EW"].value[5];
+						tableRow1 = tableRow1 + "<td>"+all+"</td>";
+						tableRow2 = tableRow2 + "<td>"+christian+"</td>";
+						tableRow3 = tableRow3 + "<td>"+muslim+"</td>";
+					    	}
+						
+						var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121&dm/CL_0000163=CI_0001887";
+				
+						$.getJSON(URL, function(result)
+								{
+								
+								if(levelname == "WD" || levelname =="OA")
+						    	{
+									tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
+									all = result["LC2107EW"].value[0] ;
+									christian = result["LC2107EW"].value[1] ;
+									muslim = result["LC2107EW"].value[5];
+									tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
+									tableRow2 = tableRow2 + "<td>"+christian+"</td><td>Not Available</td>";
+									tableRow3 = tableRow3 + "<td>"+muslim+"</td><td>Not Available</td>";
+						    	}
+								
+								var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+laCode+"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121&dm/CL_0000163=CI_0001887";
+						
+					
+								$.getJSON(URL, function(result)
+										{
+										
+									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
+							    	{
+										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
+										all = result["LC2107EW"].value[0] ;
+										christian = result["LC2107EW"].value[1] ;
+										muslim = result["LC2107EW"].value[5];
+										tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
+										tableRow2 = tableRow2 + "<td>"+christian+"</td><td>Not Available</td>";
+										tableRow3 = tableRow3 + "<td>"+muslim+"</td><td>Not Available</td>";
+							    	}
+											
+									var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+regionCode+"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121&dm/CL_0000163=CI_0001887";
+									
+									$.getJSON(URL, function(result)
+											{
+											
+										if(levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+								    	{
+											tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+											all = result["LC2107EW"].value[0] ;
+											christian = result["LC2107EW"].value[1] ;
+											muslim = result["LC2107EW"].value[5];
+											tableRow1 = tableRow1 + "<td>"+all+"</td>";
+											tableRow2 = tableRow2 + "<td>"+christian+"</td>";
+											tableRow3 = tableRow3 + "<td>"+muslim+"</td>";
+								    	}
+												
+										var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121&dm/CL_0000163=CI_0001887";
+										
+										$.getJSON(URL, function(result)
+												{
+												
+											if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+									    	{
+												tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
+												all = result["LC2107EW"].value[0] ;
+												christian = result["LC2107EW"].value[1] ;
+												muslim = result["LC2107EW"].value[5];
+												tableRow1 = tableRow1 + "<td>"+all+"</td>";
+												tableRow2 = tableRow2 + "<td>"+christian+"</td>";
+												tableRow3 = tableRow3 + "<td>"+muslim+"</td>";
+									    	}
+													
+													
+													
+													tableRow1 = tableRow1 + "</tr>";
+													tableRow2 = tableRow2 + "</tr>";
+													tableRow3 = tableRow3 + "</tr>";
+													var tableRows = tableRow1 + tableRow2 + tableRow3;
+													completeTable(tableHead, tableBody, tableRows, tableType); 				
+												});				
+											});	 				
+										});			
+								});	
+	
+					});	
+				
+				
+				
+
+	}
+	
+	
+	
+	if (tableType == "relAgeGeog")
+	{
+		tableHead = "<table><span class='tabletitle'>Religion by age and geography</span><thead><tr><th data-priority='persist'></th><th data-priority='persist'></th>";
+		tableBody = "<tbody>";
+
+				//tableHead = tableHead + "<th data-priority='persist'>"+levelname+"<br>("+areaname+")</th>";
+				
+				tableRow1 = "<tr><th style='border-top:1px solid black;' rowspan='3'><font size='2'>Christian</font></th><td>0-15</td>"
+				tableRow2 = "<tr><td>16-24</td>"
+				tableRow3 = "<tr><td>25-34</td>"
+				
+				var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070&dm/CL_0000035=CI_0000121";
+						
+				$.getJSON(URL, function(result)
+					{
+					
+						
+					    if(levelname =="OA")
+					    	{
+					    tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
+					    groupOne = result["LC2107EW"].value[1] ;
+						groupTwo = result["LC2107EW"].value[2] ;
+						groupThree = result["LC2107EW"].value[3];
+						tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
+						tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
+						tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
+					    	}
+						
+						var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070&dm/CL_0000035=CI_0000121";
+				
+						$.getJSON(URL, function(result)
+								{
+								
+								if(levelname == "WD" || levelname =="OA")
+						    	{
+									tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
+									groupOne = result["LC2107EW"].value[1] ;
+									groupTwo = result["LC2107EW"].value[2] ;
+									groupThree = result["LC2107EW"].value[3];
+									tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
+									tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
+									tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
+						    	}
+								
+								var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+laCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070&dm/CL_0000035=CI_0000121";
+						
+								$.getJSON(URL, function(result)
+										{
+										
+									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
+							    	{
+										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
+										groupOne = result["LC2107EW"].value[1];
+										groupTwo = result["LC2107EW"].value[2];
+										groupThree = result["LC2107EW"].value[3];
+										tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
+										tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
+										tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
+							    	}
+											
+									var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+regionCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070&dm/CL_0000035=CI_0000121";
+									
+									$.getJSON(URL, function(result)
+											{
+											
+										if(levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+								    	{
+											tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+											groupOne = result["LC2107EW"].value[1] ;
+											groupTwo = result["LC2107EW"].value[2] ;
+											groupThree = result["LC2107EW"].value[3];
+											tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
+											tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
+											tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
+								    	}
+												
+										var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070&dm/CL_0000035=CI_0000121";
+										
+										$.getJSON(URL, function(result)
+												{
+												
+											if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+									    	{
+												tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
+												groupOne = result["LC2107EW"].value[1] ;
+												groupTwo = result["LC2107EW"].value[2] ;
+												groupThree = result["LC2107EW"].value[3];
+												tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
+												tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
+												tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
+									    	}
+													
+													
+													
+													tableRow1 = tableRow1 + "</tr>";
+													tableRow2 = tableRow2 + "</tr>";
+													tableRow3 = tableRow3 + "</tr>";
+													
+													var tableRows = tableRow1 + tableRow2 + tableRow3;								
+													completeTable(tableHead, tableBody, tableRows, tableType); 				
+												});				
+											});	 				
+										});			
+								});	
+	
+					});	
+				
+				
+				
+
+	}
+	
 
 }
 
@@ -459,6 +685,14 @@ function completeTable(tableHead, tableBody, tableRows, tableType){
 		else if (tableType == "popTime")
 		{
 			$('#popTime').append(completeTable);
+		}
+		else if (tableType == "relGeog")
+		{
+			$('#relGeog').append(completeTable);
+		}
+		else if (tableType == "relAgeGeog")
+		{
+			$('#relAgeGeog').append(completeTable);
 		}
 	});
 }
