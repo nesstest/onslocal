@@ -439,7 +439,7 @@ function getData(extcode, levelname, areaname, tableType){
 	
 	if (tableType == "relGeog")
 	{
-		tableHead = "<table><span class='tabletitle'>Religion by geography (2013)</span><thead><tr><th data-priority='persist'></th>";
+		tableHead = "<table><span class='tabletitle'>Religion by geography (2011)</span><thead><tr><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
 
 				//tableHead = tableHead + "<th data-priority='persist'>"+levelname+"<br>("+areaname+")</th>";
@@ -552,7 +552,7 @@ function getData(extcode, levelname, areaname, tableType){
 	
 	if (tableType == "relAgeGeog")
 	{
-		tableHead = "<table><span class='tabletitle'>Religion by age and geography (2013)</span><thead><tr><th data-priority='persist'></th><th data-priority='persist'></th>";
+		tableHead = "<table><span class='tabletitle'>Religion by age and geography (2011)</span><thead><tr><th data-priority='persist'></th><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
 
 				//tableHead = tableHead + "<th data-priority='persist'>"+levelname+"<br>("+areaname+")</th>";
@@ -664,7 +664,7 @@ function getData(extcode, levelname, areaname, tableType){
 	
 	if (tableType == "relSexGeog")
 	{
-		tableHead = "<table><span class='tabletitle'>Religion by sex and geography (2013)</span><thead><tr><th data-priority='persist'></th><th data-priority='persist'></th>";
+		tableHead = "<table><span class='tabletitle'>Religion by sex and geography (2011)</span><thead><tr><th data-priority='persist'></th><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
 
 				//tableHead = tableHead + "<th data-priority='persist'>"+levelname+"<br>("+areaname+")</th>";
