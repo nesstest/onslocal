@@ -297,7 +297,7 @@ function highlightMap(details, validpostCode){
 													   
 													   var markerEnvelope = xCoord + ":" + yCoord; 
 													    
-													   regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode' + gorCode + '&amp;markerenvelope=' + markerEnvelope + '">'+ gorName + '</a>)' ;
+													   regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;markerenvelope=' + markerEnvelope + '">'+ gorName + '</a>)' ;
 													   regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
 													  
 													   $('#selArea1').empty();
@@ -312,20 +312,19 @@ function highlightMap(details, validpostCode){
 														   '<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD&amp;areaname=' + wardName + '&amp;areacode=' + wardCode + '&amp;markerenvelope=' + markerEnvelope + '">' + wardName + '</a>)' +
 														   '<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;markerenvelope=' + markerEnvelope +'">' + laName + '</a>)' + 
 														   regionText +
-													       '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">' + ctryName + '</a>)</div>' + 
+													       '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope +'">' + ctryName + '</a>)</div>' + 
 													       '</div>' + '</article></div>');
 													   } //	levelname === "OA"  
 														   
-													   if (levelname ==="WD"){													   
-														   
+													   if (levelname ==="WD"){
 														   // set orange info box details    		
 														   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 																  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
 															      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
 															      '<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
-															      '<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD">'  + laName + '</a>)' +
+															      '<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;markerenvelope=' + markerEnvelope +'">'  + laName + '</a>)' +
 															      regionText + 
-														  	      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ ctryName + '</a>)</div>' + 
+														  	      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope +'">'+ ctryName + '</a>)</div>' + 
 											                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
 											                      '<div style="font-size: small;">' + 
 											                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD&amp;childname=OA"> Output area </a></div>' +
@@ -340,7 +339,7 @@ function highlightMap(details, validpostCode){
 															      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
 															      '<div style="color: black; font-size:medium;">(Local Authority)<br><br><strong>Part of:</strong></div>' +
 															      regionText + 
-															      '<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ ctryName + ' </a>)</div>' + 
+															      '<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope +'">'+ ctryName + ' </a>)</div>' + 
 											                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
 											                      '<div style="font-size: small;">' + 
 											                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD&amp;childname=WD"> Ward </a></div>' +
@@ -354,7 +353,7 @@ function highlightMap(details, validpostCode){
 																  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
 															      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
 															      '<div style="color: black; font-size:medium;">(Region)<br><br><strong>Part of:</strong></div>' +
-															      '<div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ ctryName +  ' </a>)</div>' + 
+															      '<div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope +'">'+ ctryName +  ' </a>)</div>' + 
 											                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
 											                      '<div style="font-size: small;">' + 
 											                      regionDrillText +
