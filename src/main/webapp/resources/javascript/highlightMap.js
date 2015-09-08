@@ -251,21 +251,23 @@ function highlightMap(details, validpostCode){
 
 			   // get layer info for area clicked
 			   var wardUrl =  "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2012_GB_BGC/FeatureServer/0/query?where=&geometry=" +
-                               x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=true&outSR=27700&f=pjson" ;			  
+                               x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;			  
 			   var laUrl   =  "https://mapping.statistics.gov.uk/arcgis/rest/services/LAD/LAD_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
-				               x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=LAD11NM&returnGeometry=false&outSR=27700&f=pjson" ;
+				               x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 			   var gorUrl  =  "https://mapping.statistics.gov.uk/arcgis/rest/services/GOR/GOR_DEC_2010_EN_BGC/FeatureServer/0/query?where=&geometry=" +
-				              x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=GOR10NM&returnGeometry=false&outSR=27700&f=pjson" ;
+				              x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 			   var ctryUrl =  "https://mapping.statistics.gov.uk/arcgis/rest/services/CTRY/CTRY_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
-				              x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=CTRY11NM&returnGeometry=false&outSR=27700&f=pjson" ;
+				              x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 				
 			   $(document).ready(function(){
 				 $.getJSON(ctryUrl, function(result) {
 				   ctryName = result.features[0].attributes.CTRY11NM; 
+				   ctryCode = result.features[0].attributes.CTRY11CD;
 				   
 				   $(document).ready(function(){
 						  $.getJSON(laUrl, function(result) {
 						    	laName = result.features[0].attributes.LAD11NM;
+						    	laCode = result.features[0].attributes.LAD11CD;
 						    	
 						    	  $(document).ready(function(){
 						    		  $.getJSON(wardUrl, function(result) {
@@ -276,7 +278,8 @@ function highlightMap(details, validpostCode){
 									    	  
 										    $(document).ready(function(){											 
 											   $.getJSON(gorUrl, function(result) {
-											     gorName = result.features[0].attributes.GOR10NM; 											    
+											     gorName = result.features[0].attributes.GOR10NM;
+											     gorCode = result.features[0].attributes.GOR10CD;
 											    	 $(document).ready(function(){
 													    var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
 														selectionQuery.geometry = queryExtent;														  
@@ -291,12 +294,14 @@ function highlightMap(details, validpostCode){
 														    }	 	          
 														  }														 
 										               }); //  featureLayer.selectFeatures	
+													   
+													   var markerEnvelope = xCoord + ":" + yCoord; 
 													    
-													   regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ gorName + '</a>)' ;
+													   regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode' + gorCode + '&amp;markerenvelope=' + markerEnvelope + '">'+ gorName + '</a>)' ;
 													   regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
 													  
 													   $('#selArea1').empty();
-													   var markerEnvelope = xCoord + ":" + yCoord;
+													  
 													   
 													   if (levelname === "OA") {  														
 													     // set orange info box details    		
@@ -305,7 +310,7 @@ function highlightMap(details, validpostCode){
 														   '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
 														   '<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
 														   '<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD&amp;areaname=' + wardName + '&amp;areacode=' + wardCode + '&amp;markerenvelope=' + markerEnvelope + '">' + wardName + '</a>)' +
-														   '<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD">' + laName + '</a>)' + 
+														   '<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;markerenvelope=' + markerEnvelope +'">' + laName + '</a>)' + 
 														   regionText +
 													       '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">' + ctryName + '</a>)</div>' + 
 													       '</div>' + '</article></div>');
