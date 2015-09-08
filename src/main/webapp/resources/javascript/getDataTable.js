@@ -662,6 +662,132 @@ function getData(extcode, levelname, areaname, tableType){
 
 	}
 	
+	if (tableType == "relSexGeog")
+	{
+		tableHead = "<table><span class='tabletitle'>Religion by sex and geography (2013)</span><thead><tr><th data-priority='persist'></th><th data-priority='persist'></th>";
+		tableBody = "<tbody>";
+
+				//tableHead = tableHead + "<th data-priority='persist'>"+levelname+"<br>("+areaname+")</th>";
+				
+				tableRow1 = "<tr><th style='border-top:1px solid black;' rowspan='2'><font size='2'>Christian</font></th><td>Male</td>"
+				tableRow2 = "<tr><td>Female</td>"
+				tableRow3 = "<tr><th style='border-top:1px solid black;' rowspan='2'><font size='2'>Muslim</font></th><td>Male</td>"
+				tableRow4 = "<tr><td>Female</td>"
+
+				
+				var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070,CI_0000074&dm/CL_0000035=CI_0000071,CI_0000070&dm/CL_0000163=CI_0001887";
+						
+				$.getJSON(URL, function(result)
+					{
+					
+						
+					    if(levelname =="OA")
+					    	{
+					    tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
+					    groupOne = result["LC2107EW"].value[0] ;
+						groupTwo = result["LC2107EW"].value[2] ;
+						groupThree = result["LC2107EW"].value[1];
+						groupFour = result["LC2107EW"].value[3];
+						tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
+						tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
+						tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
+						tableRow4 = tableRow4 + "<td>"+groupFour+"</td>";
+					    	}
+						
+						var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070,CI_0000074&dm/CL_0000035=CI_0000071,CI_0000070&dm/CL_0000163=CI_0001887";
+				
+						$.getJSON(URL, function(result)
+								{
+								
+								if(levelname == "WD" || levelname =="OA")
+						    	{
+									tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
+									 groupOne = result["LC2107EW"].value[0] ;
+										groupTwo = result["LC2107EW"].value[2] ;
+										groupThree = result["LC2107EW"].value[1];
+										groupFour = result["LC2107EW"].value[3];
+									tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
+									tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
+									tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
+									tableRow4 = tableRow4 + "<td>"+groupFour+"</td><td>Not Available</td>";
+
+						    	}
+								
+								var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+laCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070,CI_0000074&dm/CL_0000035=CI_0000071,CI_0000070&dm/CL_0000163=CI_0001887";
+						
+								$.getJSON(URL, function(result)
+										{
+										
+									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
+							    	{
+										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
+										 groupOne = result["LC2107EW"].value[0] ;
+											groupTwo = result["LC2107EW"].value[2] ;
+											groupThree = result["LC2107EW"].value[1];
+											groupFour = result["LC2107EW"].value[3];
+										tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
+										tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
+										tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
+										tableRow4 = tableRow4 + "<td>"+groupFour+"</td><td>Not Available</td>";
+							    	}
+											
+									var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+regionCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070,CI_0000074&dm/CL_0000035=CI_0000071,CI_0000070&dm/CL_0000163=CI_0001887";
+									
+									$.getJSON(URL, function(result)
+											{
+											
+										if(levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+								    	{
+											tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+											 groupOne = result["LC2107EW"].value[0] ;
+												groupTwo = result["LC2107EW"].value[2] ;
+												groupThree = result["LC2107EW"].value[1];
+												groupFour = result["LC2107EW"].value[3];
+											tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
+											tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
+											tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
+											tableRow4 = tableRow4 + "<td>"+groupFour+"</td>";
+								    	}
+												
+										var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070,CI_0000074&dm/CL_0000035=CI_0000071,CI_0000070&dm/CL_0000163=CI_0001887";
+										
+										$.getJSON(URL, function(result)
+												{
+												
+											if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+									    	{
+												tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
+												 groupOne = result["LC2107EW"].value[0] ;
+													groupTwo = result["LC2107EW"].value[2] ;
+													groupThree = result["LC2107EW"].value[1];
+													groupFour = result["LC2107EW"].value[3];
+												tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
+												tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
+												tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
+												tableRow4 = tableRow4 + "<td>"+groupFour+"</td>";
+									    	}
+													
+													
+													
+													tableRow1 = tableRow1 + "</tr>";
+													tableRow2 = tableRow2 + "</tr>";
+													tableRow3 = tableRow3 + "</tr>";
+													tableRow4 = tableRow4 + "</tr>";
+													
+													var tableRows = tableRow1 + tableRow2 + tableRow3 + tableRow4;								
+													completeTable(tableHead, tableBody, tableRows, tableType); 				
+												});				
+											});	 				
+										});			
+								});	
+	
+					});	
+				
+				
+				
+
+	}
+	
 
 }
 
@@ -693,6 +819,10 @@ function completeTable(tableHead, tableBody, tableRows, tableType){
 		else if (tableType == "relAgeGeog")
 		{
 			$('#relAgeGeog').append(completeTable);
+		}
+		else if (tableType == "relSexGeog")
+		{
+			$('#relSexGeog').append(completeTable);
 		}
 	});
 }
