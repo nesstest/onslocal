@@ -390,8 +390,7 @@ function highlightMap(details, postcode){
 		     }  //  executeQueryTask 
 	       
 	       // set orange info box OA details for postcode
-	       function  OA_postcode_boxDetail() {
-	    	   alert("in  OA_postcode_boxDetail ");
+	       function  OA_postcode_boxDetail() {	    	  
 	    	 if (ctryName === 'England') {
 	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
 	         }
@@ -413,8 +412,7 @@ function highlightMap(details, postcode){
 	       }
 	       
 	       // set orange info box OA details for an OA area
-	       function  OA_boxDetail() {
-	    	   alert("in  OA_boxDetail ");
+	       function  OA_boxDetail() {	    	  
 	    	 if (ctryName === 'England') {
 	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
 	    	 }
