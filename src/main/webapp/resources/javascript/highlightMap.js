@@ -393,7 +393,7 @@ function highlightMap(details, postcode){
 	       function  OA_postcode_boxDetail() {
 	    	   alert("in  OA_postcode_boxDetail ");
 	    	 if (ctryName === 'England') {
-	    	    regionText = '<br> - Region (<a style="color: light blue;font-size: small"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
+	    	    regionText = '<br> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
 	         }
 	    	 else{
 	    	    regionText = '<span style="display:none;"></span>';
@@ -416,8 +416,8 @@ function highlightMap(details, postcode){
 	       function  OA_boxDetail() {
 	    	   alert("in  OA_boxDetail ");
 	    	 if (ctryName === 'England') {
-	    		 regionText = '<br> - Region (<a style="color: light blue;font-size: small"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
-		     }
+	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
+	    	 }
 		     else{
 		        regionText = '<span style="display:none;"></span>';
 		     }  
@@ -438,7 +438,7 @@ function highlightMap(details, postcode){
 	       
 	       function  WD_boxDetail() {
 	    	 if (ctryName === 'England') {
-	    		 regionText = '<br> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
+	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
 		     }
 		     else{
 		        regionText = '<span style="display:none;"></span>';
