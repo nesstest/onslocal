@@ -448,7 +448,7 @@ function highlightMap(details, postcode){
 					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
 				      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
 				      '<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
-				      '<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+ laName + '</a>)' +  
+				      '<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+ laName + '</a>)' +  
 				      regionText + 
 			  	      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
                       '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
