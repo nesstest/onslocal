@@ -1,539 +1,237 @@
-function createMap(result, validpostCode, levelname, childname){	
-		
-	var paramName = $.getUrlVar('areacode');
+function createMap(postcode){
 	
-	var regionText,regionDrillText, childcode, childarealist ;	
-	
-		
-	if (typeof levelname === 'undefined') {
-		if (typeof validpostCode === 'undefined') {
-		  // display UK map
-		 details = result.areas[0].envelope;		
-	    }
-		else {	 
-			
-			if (typeof paramName === 'undefined') {
-			// display OA map			 
-				details = 	result.areas[0].OA[0].envelope +":"+ 
-							result.areas[0].OA[0].area+":"+ 
-							result.areas[0].OA[0].areaname+":"+ 					 
-							result.areas[0].OA[0].arealayername+":"+
-							result.areas[0].OA[0].markerenvelope+":"+
-							result.areas[0].OA[0].levelname+":"+
-							result.areas[0].OA[0].areacode;
-			}
-			else
-			{				
-				details = 	$.getUrlVar('xmin') + ":" + $.getUrlVar('ymin') + ":" + $.getUrlVar('xmax') + ":" + $.getUrlVar('xmax') + ":" +
-							$.getUrlVar('areaname') + ":" +
-							" " + ":" +
-							"OA/OA_2011_EW_BGC_V2" + ":" +
-							$.getUrlVar('markerenvelope') + ":" +
-							"OA" + ":" +
-							"OA11CD";
-			}
-			
-			$("#Tabs").toggle(); //display tabs for data content
-			
-			//Call createTable for OA
-			createTable(result.areas[0].OA[0].extcode, levelname);
-			createReligion(result.areas[0].OA[0].extcode, levelname);
-			
-			// if welsh postcode - no GOR
-			 if (validpostCode === "NP18 1AF"){
-			     regionText = '<span style="display:none;"></span>';			  			 
-			 }
-			 else{				 
-			    regionText = '<br> - Region (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;	
-			 }		
-
-						
-			// set orange info box details	
-			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
-								  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
-			                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +postcode+'</strong></div>' +
-			                      '<div style="color: black; font-size:medium;">(Output area ' + result.areas[0].OA[0].area + ')<br><br><strong>Part of:</strong></div>' +
-			                      '<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD">'+ result.areas[0].WD[0].area + '</a>)' +
-		  		             	  '<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + '</a>)' + 
-			                       regionText +
-			                      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
-			                      '</div>' +
-			                      '</article></div>');	
-		}
-	}	
-	else {		  
-		  // display map for level name - populate grandparent, parent & child details
-		  if (levelname ==="WD"){ 				
-			  
-			  if (typeof paramName === 'undefined') {
-				  
-				  details = result.areas[0].WD[0].envelope +":"+ 
-			            	result.areas[0].WD[0].area+":"+ 
-						    result.areas[0].WD[0].areaname+":"+ 
-							result.areas[0].WD[0].arealayername+":"+
-				            result.areas[0].WD[0].markerenvelope+":"+
-			                result.areas[0].WD[0].levelname +":"+
-			                result.areas[0].WD[0].areacode+":"+ 
-			                result.areas[0].WD[0].childarealist +":"+	
-			                result.areas[0].WD[0].extcode +":"+	 
-			                result.areas[0].OA[0].areacode +":"+
-			                result.areas[0].OA[0].area+":"+ 
-						    result.areas[0].OA[0].areaname+":"+ 
-							result.areas[0].OA[0].arealayername+":"+
-			                result.areas[0].OA[0].levelname;
-				  
-							//Call createTable for WARD
-							createTable(result.areas[0].WD[0].extcode, levelname);
-							createReligion(result.areas[0].WD[0].extcode, levelname);
-							
-							// if welsh postcode - no GOR
-							if (validpostCode === "NP18 1AF"){
-							    regionText      = '<span style="display:none;"></span>';	
-							    regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>';	
-							}
-							else{
-							   regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;
-							   regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
-							}		  	  
-							  
-							  // set orange part of box & drill down details
-							  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
-									  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
-				                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' + result.areas[0].WD[0].area +'</strong></div>' +
-				                      '<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
-				                      '<div style="font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + ' </a>)' +
-						              regionText +  
-				                      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
-				                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
-				                      '<div style="font-size: small;">' + 
-				                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD&amp;childname=OA"> Output area </a></div>' +
-				                      '</div>' +
-				                      '</article></div>');	
-			  }
-			  else{   				      
-				      var extcode = $.getUrlVar('areacode'); 				      
-					  jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + extcode + "/" + "leveltypeid/14/hierarchyid/30";
-					  jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
-					  
-					  $(document).ready(function(){
-					    $.getJSON(jsonFile1, function(res1){
-						    areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;
-						    
-						    $.getJSON(jsonFile2 + areaId,function(res2){
-						    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
-					       
-							  details = 	envelope + ":" +
-								            $.getUrlVar('areaname') + ":" +					            
-								            "WD12NM" + ":" +
-								            "WD/WD_DEC_2012_GB_BGC" + ":" +					
-								            $.getUrlVar('markerenvelope') + ":" +					            
-				                            "WD" +":"+
-				                            "WD12CD"+ ":" +
-				                            $.getUrlVar('areacode');
-							  
-							   detailsArray = details.split(":");
-				  
-								//Call createTable for WARD
-								 createTable(detailsArray[11], levelname);
-								 createReligion(detailsArray[11], levelname);
-								 
-								// if welsh postcode - no GOR
-								  if (validpostCode === "NP18 1AF"){
-									  regionText      = '<span style="display:none;"></span>';	
-									  regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>';	
-								  }
-								  else{
-									  regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;
-									  regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
-								  }		  	  
-								  
-								  // set orange part of box & drill down details
-								  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
-										  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
-					                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' + detailsArray[4]+'</strong></div>' +
-					                      '<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
-					                      '<div style="font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD">'+ result.areas[0].LAD[0].area + ' </a>)' +
-							              regionText +  
-					                      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + '</a>)</div>' + 
-					                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
-					                      '<div style="font-size: small;">' + 
-					                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=WD&amp;childname=OA"> Output area </a></div>' +
-					                      '</div>' +
-					                      '</article></div>');	
-				  
-								  // call highlight map
-							        if (typeof childname === 'undefined') {
-								     highlightMap(details, validpostCode);
-							      }
-							       // call hover map
-							       else {		 
-								      hoverMap(details, validpostCode);
-							      }							        
-	                           
-					  });	//jsonfile1	
-					});//jsonFile2		    
-			      });//ready
-			  }	//else			  
-			  
-			  $("#Tabs").toggle(); //display tabs for data content  
-		  }
-	
-		  // display map for level name - populate grandparent, parent & child details
-		  if (levelname ==="LAD"){
-			  
-			  if (typeof paramName === 'undefined') {		 
-			  
-				  details = 	result.areas[0].LAD[0].envelope +":"+ 
-				            	result.areas[0].LAD[0].area+":"+ 
-							    result.areas[0].LAD[0].areaname+":"+ 
-								result.areas[0].LAD[0].arealayername+":"+
-					            result.areas[0].LAD[0].markerenvelope+":"+
-				                result.areas[0].LAD[0].levelname+":"+
-				                result.areas[0].LAD[0].areacode +":"+
-				                result.areas[0].LAD[0].childarealist+":"+
-				                result.areas[0].LAD[0].extcode +":"+	
-							    result.areas[0].WD[0].areacode +":"+
-					            result.areas[0].WD[0].area+":"+ 
-							    result.areas[0].WD[0].areaname+":"+ 
-								result.areas[0].WD[0].arealayername+":"+
-					            result.areas[0].WD[0].levelname;
-				  
-				  //Call createTable for Local Authority
-				  createTable(result.areas[0].LAD[0].extcode, levelname); 
-				  createReligion(result.areas[0].LAD[0].extcode, levelname); 
-				  
-				// if welsh postcode - no GOR
-				  if (validpostCode === "NP18 1AF"){
-					  regionText      = '<span style="display:none;"></span>';	
-					  regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>';	
-				  }
-				  else{
-					  regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;
-					  regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
-				  }		  	  
-				  
-			      // set orange info box details	
-				  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
-						  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
-	                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].LAD[0].area+'</strong></div>' +
-	                      '<div style="color: black; font-size:medium;">(Local Authority)<br><br><strong>Part of:</strong></div>' +
-	                      regionText + 
-	                      '<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' + 
-	                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
-	                      '<div style="font-size: small;">' + 
-	                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD&amp;childname=WD"> Ward </a></div>' +
-	                      '</div>' +
-	                      '</article></div>');			
-			  }
-			  else{
-				  
-				  var extcode = $.getUrlVar('areacode'); 				      
-				  jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + extcode + "/" + "leveltypeid/13/hierarchyid/26";
-				  jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
-				  
-				  $(document).ready(function(){
-				    $.getJSON(jsonFile1, function(res1){
-					    areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;
-					    
-					    $.getJSON(jsonFile2 + areaId,function(res2){
-					    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
-				       
-						  details = 	envelope + ":" +
-							            $.getUrlVar('areaname') + ":" +					            
-							            "LAD11NM" + ":" +
-							            "LAD/LAD_DEC_2011_GB_BGC" + ":" +					
-							            $.getUrlVar('markerenvelope') + ":" +					            
-			                            "LAD" +":"+
-			                            "LAD11CD"+ ":" +
-			                            $.getUrlVar('areacode');
-						  
-						   detailsArray = details.split(":");
-						   
-						   //Call createTable for Local Authority
-						   createTable(detailsArray[11], levelname); 
-						   createReligion(detailsArray[11], levelname); 
-						   
-						   // if welsh postcode - no GOR
-						    if (validpostCode === "NP18 1AF"){
-								  regionText      = '<span style="display:none;"></span>';	
-								  regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>';	
-							}
-							else{
-							  regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;
-							  regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
-							}		  	  
-							  
-						   // set orange info box details	
-						   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
-								  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
-				                  '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +detailsArray[4]+'</strong></div>' +
-				                  '<div style="color: black; font-size:medium;">(Local Authority)<br><br><strong>Part of:</strong></div>' +
-				                  regionText + 
-				                  '<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' + 
-				                  '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
-				                  '<div style="font-size: small;">' + 
-				                  '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=LAD&amp;childname=WD"> Ward </a></div>' +
-				                  '</div>' +
-				                  '</article></div>');
-						   // call highlight map
-					       if (typeof childname === 'undefined') {
-						      highlightMap(details, validpostCode);
-					       }
-					       // call hover map
-					       else {		 
-						      hoverMap(details, validpostCode);
-					      }	
-					    });	//jsonfile1	
-				    });//jsonFile2		    
-				 });//ready
-			  }			  
-			  $("#Tabs").toggle(); //display tabs for data content			  	
-		  }
-		  
-		  // display map for level name - populate parent & child details
-		  if (levelname ==="GOR" && (validpostCode ==="PO15 5RR" || validpostCode ==="PO11 9DF")) {				 
-			  if (typeof paramName === 'undefined') {		
-				  details = 	result.areas[0].GOR[0].envelope +":"+ 
-				            	result.areas[0].GOR[0].area+":"+ 
-							    result.areas[0].GOR[0].areaname+":"+ 
-								result.areas[0].GOR[0].arealayername+":"+
-					            result.areas[0].GOR[0].markerenvelope+":"+
-				                result.areas[0].GOR[0].levelname+":"+
-				                result.areas[0].GOR[0].areacode +":"+
-				                result.areas[0].GOR[0].childarealist+":"+
-				                result.areas[0].GOR[0].extcode+":"+
-							    result.areas[0].LAD[0].areacode +":"+
-					            result.areas[0].LAD[0].area+":"+ 
-							    result.areas[0].LAD[0].areaname+":"+ 
-								result.areas[0].LAD[0].arealayername+":"+
-					            result.areas[0].LAD[0].levelname;
-				  
-				   //Call createTable for GOR
-				   createTable(result.areas[0].GOR[0].extcode, levelname);
-				   createReligion(result.areas[0].GOR[0].extcode, levelname); 
-					  
-			      // set orange info box details	
-				  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
-						  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
-	                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].GOR[0].area+'</strong></div>' +
-	                      '<div style="color: black; font-size:medium;">(Region)<br><br><strong>Part of:</strong></div>' +
-	                      '<div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' + 
-	                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
-	                      '<div style="font-size: small;">' + 
-	                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=GOR&amp;childname=LAD"> Local Authority </a></div>' +
-	                      '</div>' +
-	                      '</article></div>');	
-			    }
-			  else{				 
-				 var extcode = $.getUrlVar('areacode'); 				      
-				  jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + extcode + "/" + "leveltypeid/11/hierarchyid/26";
-				  jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
-				  
-				  $(document).ready(function(){
-				    $.getJSON(jsonFile1, function(res1){
-					    areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;
-					    
-					    $.getJSON(jsonFile2 + areaId,function(res2){
-					    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
-					    	alert("envelope" + envelope);
-				       
-						  details = 	envelope + ":" +
-							            $.getUrlVar('areaname') + ":" +					            
-							            "GOR10NM" + ":" +
-							            "GOR/GOR_DEC_2010_EN_BGC" + ":" +					
-							            $.getUrlVar('markerenvelope') + ":" +					            
-			                            "GOR" +":"+
-			                            "GOR10CD"+ ":" +
-			                            $.getUrlVar('areacode');
-						  
-						   detailsArray = details.split(":");
-						   
-						   //Call createTable for GOR
-						   createTable(detailsArray[11], levelname);
-						   createReligion(detailsArray[11], levelname); 
-							  
-					       // set orange info box details	
-						   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
-								  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
-			                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +detailsArray[4]+'</strong></div>' +
-			                      '<div style="color: black; font-size:medium;">(Region)<br><br><strong>Part of:</strong></div>' +
-			                      '<div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=CTRY">'+ result.areas[0].CTRY[0].area + ' </a>)</div>' + 
-			                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
-			                      '<div style="font-size: small;">' + 
-			                      '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=GOR&amp;childname=LAD"> Local Authority </a></div>' +
-			                      '</div>' +
-			                      '</article></div>');
-						   // call highlight map
-					        if (typeof childname === 'undefined') {
-						       highlightMap(details, validpostCode);
-					        }
-					        // call hover map
-					        else {		 
-						       hoverMap(details, validpostCode);
-					       }	
-					    });	//jsonfile1	
-				    });//jsonFile2		    
-				 });//ready	
-		      }
-			  $("#Tabs").toggle(); //display tabs for data content	
-		 }	  
-		  
-		  // display map for level name - populate parent & child details
-		  if (levelname ==="CTRY"){
-			  if (typeof paramName === 'undefined') {	
-				  if (validpostCode ==="PO15 5RR" || validpostCode ==="PO11 9DF") {					 
-						  alert("in undefined")
-						  details = 	result.areas[0].CTRY[0].envelope +":"+ 
-						            	result.areas[0].CTRY[0].area+":"+ 
-									    result.areas[0].CTRY[0].areaname+":"+ 
-										result.areas[0].CTRY[0].arealayername+":"+
-							            result.areas[0].CTRY[0].markerenvelope+":"+
-						                result.areas[0].CTRY[0].levelname+":"+
-						                result.areas[0].CTRY[0].areacode +":"+
-						                result.areas[0].CTRY[0].childarealist+":"+
-						                result.areas[0].CTRY[0].extcode+":"+
-									    result.areas[0].GOR[0].areacode +":"+
-							            result.areas[0].GOR[0].area+":"+ 
-									    result.areas[0].GOR[0].areaname+":"+ 
-										result.areas[0].GOR[0].arealayername+":"+
-							            result.areas[0].GOR[0].levelname;
-					 	  
-				  }
-			  else {				 
-					  alert("in other else");
-						  details = 	result.areas[0].CTRY[0].envelope +":"+ 
-						            	result.areas[0].CTRY[0].area+":"+ 
-									    result.areas[0].CTRY[0].areaname+":"+ 
-										result.areas[0].CTRY[0].arealayername+":"+
-							            result.areas[0].CTRY[0].markerenvelope+":"+
-						                result.areas[0].CTRY[0].levelname+":"+
-						                result.areas[0].CTRY[0].areacode +":"+
-						                result.areas[0].CTRY[0].childarealist+":"+
-						                result.areas[0].CTRY[0].extcode+":"+
-						                result.areas[0].LAD[0].areacode +":"+
-							            result.areas[0].LAD[0].area+":"+ 
-									    result.areas[0].LAD[0].areaname+":"+ 
-										result.areas[0].LAD[0].arealayername+":"+
-					 		            result.areas[0].LAD[0].levelname;
-				  }	
-				  //Call createTable for Country
-				  createTable(result.areas[0].CTRY[0].extcode, levelname);
-				  createReligion(result.areas[0].CTRY[0].extcode, levelname);
-				  
-				  // if welsh postcode - no GOR
-				   if (validpostCode === "NP18 1AF"){
-					   regionText      = '<span style="display:none;"></span>';	
-					   regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>';	
-				   }
-				   else{
-					  regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;
-					  regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
-				   }		 
-				  
-			      // set orange info box details	
-				  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
-						  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
-	                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +result.areas[0].CTRY[0].area+'</strong></div>' +
-	                      '<div style="color: black; font-size:medium;">(Country)<br><br></strong></div>' +  
-	                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
-	                      '<div style="font-size: small;">' + 
-	                      regionDrillText +
-	                      '</div>' +
-	                      '</article></div>');	
-			  }  
-		  else{
-			  alert("in else");
-			  var extcode = $.getUrlVar('areacode'); 				      
-			  jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + extcode + "/" + "leveltypeid/10/hierarchyid/26";
-			  jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
-			  
-			  $(document).ready(function(){
-			    $.getJSON(jsonFile1, function(res1){
-				    areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;
-				    
-				    $.getJSON(jsonFile2 + areaId,function(res2){
-				    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 				    	
-			       
-					  details = 	envelope + ":" +
-						            $.getUrlVar('areaname') + ":" +					            
-						            "CTRY11NM" + ":" +
-						            "CTRY/CTRY_DEC_2011_GB_BGC" + ":" +					
-						            $.getUrlVar('markerenvelope') + ":" +					            
-		                            "CTRY" +":"+
-		                            "CTRY11CD"+ ":" +
-		                            $.getUrlVar('areacode');
-					  
-					   detailsArray = details.split(":");
-					   
-					   //Call createTable for Country
-					   createTable(detailsArray[11], levelname);
-					   createReligion(detailsArray[11], levelname);
-					   
-					   // if welsh postcode - no GOR
-					   if (validpostCode === "NP18 1AF"){
-						   regionText      = '<span style="display:none;"></span>';	
-						   regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>';	
-					   }
-					   else{
-						  regionText       = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search='+ validpostCode + '&amp;levelname=GOR">'+ result.areas[0].GOR[0].area + '</a>)' ;
-						  regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + validpostCode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
-					   }		  	  
-						  
-					   // set orange info box details	
-					   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
-							  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
-			                  '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +detailsArray[4]+'</strong></div>' +
-			                  '<div style="color: black; font-size:medium;">(Country)<br><br></strong></div>' +  
-			                  '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
-			                  '<div style="font-size: small;">' + 
-			                  regionDrillText +
-			                  '</div>' +
-			                  '</article></div>');
-					   
-					   // call highlight map
-				       if (typeof childname === 'undefined') {
-					      highlightMap(details, validpostCode);
-				       }
-				       // call hover map
-				       else {		 
-					      hoverMap(details, validpostCode);
-				      }	
-				    });	//jsonfile1	
-			    });//jsonFile2		    
-			 });//ready	
-	      }
-		  $("#Tabs").toggle(); //display tabs for data content
-	   }
-	}	  
-	
-	if (typeof levelname === 'undefined') {
-		if (typeof validpostCode === 'undefined') {
-		  // display UK map		 
-		 ukMap(details);		
-	   } 
-		else{
-			// call highlight map
-			  if (typeof childname === 'undefined') {				 
-				  highlightMap(details, validpostCode);
-			  }
-			  // call hover map
-			  else {				 
-				 hoverMap(details, validpostCode);
-			  }	
-		}
-	}
+    if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
+    	
+    	// --------------- to do -----------------------------
+		// need to remove if statement on removal of uk map
+		// ----------------------------------------------------
+    }
 	else {	
-		if (typeof paramName === 'undefined') {
-	        // call highlight map
-	        if (typeof childname === 'undefined') {
-		     highlightMap(details, validpostCode);
-	      }
-	       // call hover map
-	       else {		 
-		      hoverMap(details, validpostCode);
-	       }
-		 }   
-	   }
+		// ----------------------------------------------------
+		// check to see if postcode details are required
+		// ----------------------------------------------------
+		
+		if (typeof $.getUrlVar('pcSearch') === 'undefined' ) {
+			
+			OA_pcode_details(postcode);
+		}
+		else{
+			alert("not a pc search");
+			if($.getUrlVar('levelname') === 'WD' ) {
+			  WD_areaDetails($.getUrlVar('areaname'),$.getUrlVar('areacode'),$.getUrlVar('markerEnvelope'));
+			}
+			
+			if($.getUrlVar('levelname') === 'LAD' ) {
+			  LA_areaDetails($.getUrlVar('areaname'),$.getUrlVar('areacode'),$.getUrlVar('markerEnvelope'));
+			}
+			
+			if($.getUrlVar('levelname') === 'GOR' ) {
+			  GOR_areaDetails($.getUrlVar('areaname'),$.getUrlVar('areacode'),$.getUrlVar('markerEnvelope'));
+			}
+			
+			if($.getUrlVar('levelname') === 'CTRY' ) {
+			  CTRY_areaDetails($.getUrlVar('areaname'),$.getUrlVar('areacode'),$.getUrlVar('markerEnvelope'));
+			}
+		}
+	}	 
+}
+
+function WD_areaDetails(wardName,wardCode,markerEnvelope){
+	alert("in WD_areaDetails");
+	
+	 alert($('input#wardName').val());
+	
+   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + wardCode + "/" + "leveltypeid/14/hierarchyid/30";
+   jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
+
+   $(document).ready(function(){
+      $.getJSON(jsonFile1, function(res1){
+	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
+	     $.getJSON(jsonFile2 + areaId,function(res2){
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;      
+		    details = 	envelope + ":" + wardName + ":" + "WD12NM" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + markerEnvelope + ":" + "WD" +":"+ "WD12CD"+ ":" + wardCode;	
+		    
+		    // --------------- to do -----------------------------
+			// Do we need to populate the falls within code
+		    //   + LA + ":" + GOR + ":" + CTRY + ":" +  LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode
+		    // and drill down
+		    //   + OA + OA_extcode
+			// ----------------------------------------------------
+		    
+		    
+		    highlightMap(details,postcode);	
+	    });	//jsonfile1	
+	  });//jsonFile2		    
+   });//ready
+}
+
+function LA_areaDetails(laName,laCode,markerEnvelope){
+	alert("in LA_areaDetails");
+	
+   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + laCode + "/" + "leveltypeid/13/hierarchyid/26";
+   jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
+   $(document).ready(function(){
+      $.getJSON(jsonFile1, function(res1){
+	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
+	     $.getJSON(jsonFile2 + areaId,function(res2){
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;     
+	    	details = 	envelope + ":" + laName + ":" + "LAD11NM" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "LAD" +":"+ "LAD11CD"+ ":" + laCode;	
+	    	  // --------------- to do -----------------------------
+			// Do we need to populate the falls within code
+		    //   + LA + ":" + GOR + ":" + CTRY + ":" +  LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode
+		    // and drill down
+		    //   + OA + OA_extcode
+			// ----------------------------------------------------
+	    	// highlightMap(details,postcode);	
+	    });	//jsonfile1	
+	  });//jsonFile2		    
+   });//ready
+}	
+
+function GOR_areaDetails(gorName,gorCode,markerEnvelope){
+	alert("in GOR_areaDetails");
+	
+   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + gorCode + "/" + "leveltypeid/11/hierarchyid/26";
+   jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
+   $(document).ready(function(){
+      $.getJSON(jsonFile1, function(res1){
+	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
+	     $.getJSON(jsonFile2 + areaId,function(res2){
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;   
+	    	details = 	envelope + ":" + gorName + ":" + "GOR10NM" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + markerEnvelope + ":" + "GOR" +":"+ "GOR10CD"+ ":" + gorCode;
+	    	  // --------------- to do -----------------------------
+			// Do we need to populate the falls within code
+		    //   + LA + ":" + GOR + ":" + CTRY + ":" +  LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode
+		    // and drill down
+		    //   + OA + OA_extcode
+			// ----------------------------------------------------
+	    	// highlightMap(details,postcode);	
+	    });	//jsonfile1	
+	  });//jsonFile2		    
+   });//ready
+}	
+
+function CTRY_areaDetails(ctryName,ctryCode,markerEnvelope){
+	alert("in CTRY_areaDetails");
+	
+   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + ctryCode + "/" + "leveltypeid/10/hierarchyid/26";
+   jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
+   $(document).ready(function(){
+      $.getJSON(jsonFile1, function(res1){
+	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
+	     $.getJSON(jsonFile2 + areaId,function(res2){
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
+	    	details = 	envelope + ":" + ctryName + ":" + "CTRY11NM" + ":" + "CTRY/CTRY_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "CTRY" +":"+ "CTRY11CD"+ ":" + ctryCode;
+	    	  // --------------- to do -----------------------------
+			// Do we need to populate the falls within code
+		    //   + LA + ":" + GOR + ":" + CTRY + ":" +  LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode
+		    // and drill down
+		    //   + OA + OA_extcode
+			// ----------------------------------------------------
+	    	// highlightMap(details,postcode);	
+	    });	//jsonfile1	
+	  });//jsonFile2		    
+   });//ready
+}		  
+		  
+
+
+// populate area details
+// OA details
+function  OA_pcode_details(postcode) {
+	alert("postcode search - in OA_pcode_details");
+	
+	jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/26";
+	jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/30";			
+	jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";	
+	jsonFile4 = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?text=" + postcode.toLowerCase() +
+	            "&outFields=geometry&sourceCountry=GBR&outSR=27700&f=json&maxLocations=1&bbox=";
+	var areaId, envelope, extCode, markerEnvelope, OA, LA, GOR, CTRY, WD, OA_AreaId, LA_AreaId, GOR_AreaId,  CTRY_AreaId;
+	var WD_AreaId, WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode ;
+	 
+	$(document).ready(function(){
+	  $.getJSON(jsonFile1, function(res1){
+		// ----------------------------------------------------  
+		// Get OA postcode details
+		// ----------------------------------------------------  
+		OA_AreaId    = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.AreaId;
+	    OA           = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.Name;
+	    LA           = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].FallsWithin.Area.Name;  
+	    LA_AreaId    = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].FallsWithin.Area.AreaId; 
+	    GOR          = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[4].Area.Name;
+	    GOR_AreaId   = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[4].Area.AreaId;
+	    CTRY         = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[5].Area.Name;
+	    CTRY_AreaId  = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[5].Area.AreaId;
+	    
+	    $.getJSON(jsonFile2, function(res2){
+	      WD        = res2['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.Name;	
+	      WD_AreaId  = res2['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.AreaId;
+	      
+	      $.getJSON(jsonFile3 + OA_AreaId,function(res3){	        	
+	 	    envelope    = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
+	 	    //extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 
+	 	    $.getJSON(jsonFile3 + WD_AreaId,function(res3){	
+	 	    	WD_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 
+	 	    	$.getJSON(jsonFile3 + LA_AreaId,function(res3){	
+	 	    		LA_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 
+	 	    		$.getJSON(jsonFile3 + GOR_AreaId,function(res3){	
+	 	    			GOR_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 
+		 	    		$.getJSON(jsonFile3 +  CTRY_AreaId,function(res3){	
+		 	    			CTRY_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode;
+	 	    	
+	 	                    $.getJSON(jsonFile4 + envelope, function(res4){	     	    	
+	 	                      markerEnvelope    = res4.locations[0].feature.geometry.x + ":" + res4.locations[0].feature.geometry.y; 
+	 	                      
+	 	                      details = envelope + ":" + OA + ":" + " " + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
+								        WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;
+			 	              highlightMap(details,postcode);				 	     
+	 	                   }); 
+		 	    		}); 			 	    		
+			 	     }); 
+		 	     });		 	      
+	 	    }); // jsonFile4
+	      }); // jsonFile3	   
+	    }); // jsonFile2	      	   
+	  }); // jsonFile1		     	   
+	}); // ready
+}	
+
+function  OA_details() {
+	var OA_details;
+	
+	// = 	$.getUrlVar('xmin') + ":" + $.getUrlVar('ymin') + ":" + $.getUrlVar('xmax') + ":" + $.getUrlVar('xmax') + ":" +
+	//	$.getUrlVar('areaname') + ":" +
+	//	" " + ":" +
+	//	"OA/OA_2011_EW_BGC_V2" + ":" +
+	//	$.getUrlVar('markerenvelope') + ":" +
+	//	"OA" + ":" +
+	//	"OA11CD";
+//} 
+////	   
+//	return OA_details;
+}	    	
+	
+
+//Read a user input postcode and strip of plus signs,
+// convert to uppercase and reformat if necessary
+function  postcode_reformat(postcode) {
+   // strip + sign from postcode string & convert to uppercase
+   postcode                     = postcode.replace(/\+/g, '');
+   
+   var upperCasePostCode        = postcode.toUpperCase();    	
+   var regPostcode              = /^([a-zA-Z]){1}([0-9][0-9]|[0-9]|[a-zA-Z][0-9][a-zA-Z]|[a-zA-Z][0-9][0-9]|[a-zA-Z][0-9]){1}([ ])([0-9][a-zA-z][a-zA-z]){1}$/;
+ 
+   if(regPostcode.test(upperCasePostCode) == false)	
+   {	
+	   var re                   = /^([A-Z]{1,2}[\dA-Z]{1,2})[ ]?(\d[A-Z]{2})$/i; // case insensitive 	
+	   var tempPostCode         = upperCasePostCode.match(re);
+	   var reformatPostcode     = tempPostCode[1] + " " + tempPostCode[2];
+	   return reformatPostcode;
+   }
+   else {
+	 // postcode formatted correctly
+	 return upperCasePostCode;
+   }	    	
 }
 
 $.extend({
