@@ -16,56 +16,57 @@ function createMap(postcode){
 			OA_pcode_details(postcode);
 		}
 		else{
-			alert("not a pc search");
 			if($.getUrlVar('levelname') === 'WD' ) {
-			  WD_areaDetails($.getUrlVar('areaname'),$.getUrlVar('areacode'),$.getUrlVar('markerEnvelope'));
+			  WD_areaDetails();
 			}
 			
 			if($.getUrlVar('levelname') === 'LAD' ) {
-			  LA_areaDetails($.getUrlVar('areaname'),$.getUrlVar('areacode'),$.getUrlVar('markerEnvelope'));
+			  LA_areaDetails();
 			}
 			
 			if($.getUrlVar('levelname') === 'GOR' ) {
-			  GOR_areaDetails($.getUrlVar('areaname'),$.getUrlVar('areacode'),$.getUrlVar('markerEnvelope'));
+			  GOR_areaDetails();
 			}
 			
 			if($.getUrlVar('levelname') === 'CTRY' ) {
-			  CTRY_areaDetails($.getUrlVar('areaname'),$.getUrlVar('areacode'),$.getUrlVar('markerEnvelope'));
+			  CTRY_areaDetails();
 			}
 		}
 	}	 
 }
 
-function WD_areaDetails(wardName,wardCode,markerEnvelope){
-	alert("in WD_areaDetails");
-	
-	 alert($('input#wardName').val());
-	
-   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + wardCode + "/" + "leveltypeid/14/hierarchyid/30";
+function WD_areaDetails(){
+   var areaId, envelope, markerEnvelope, LA, GOR, CTRY, WD;
+   var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode ;
+   
+   WD              = $.getUrlVar('areaname');
+   LA              = $.getUrlVar('an1');
+   GOR             = $.getUrlVar('an2');
+   CTRY            = $.getUrlVar('an3');
+   WD_extcode      = $.getUrlVar('areacode');
+   LA_extcode      = $.getUrlVar('ac1');
+   GOR_extcode     = $.getUrlVar('ac2');
+   CTRY_extcode    = $.getUrlVar('ac3');
+   markerEnvelope  = $.getUrlVar('markerenvelope');
+   
+   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + WD_extcode + "/" + "leveltypeid/14/hierarchyid/30";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
 
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
 	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
 	     $.getJSON(jsonFile2 + areaId,function(res2){
-	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;      
-		    details = 	envelope + ":" + wardName + ":" + "WD12NM" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + markerEnvelope + ":" + "WD" +":"+ "WD12CD"+ ":" + wardCode;	
-		    
-		    // --------------- to do -----------------------------
-			// Do we need to populate the falls within code
-		    //   + LA + ":" + GOR + ":" + CTRY + ":" +  LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode
-		    // and drill down
-		    //   + OA + OA_extcode
-			// ----------------------------------------------------
-		    
-		    
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
+	    	
+	    	details = envelope + ":" + WD + ":" + "WD12NM " + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + markerEnvelope + ":" + "WD" + ":" + "WD12CD" + ":" +
+		              WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;		    
 		    highlightMap(details,postcode);	
 	    });	//jsonfile1	
 	  });//jsonFile2		    
    });//ready
 }
 
-function LA_areaDetails(laName,laCode,markerEnvelope){
+function LA_areaDetails(){
 	alert("in LA_areaDetails");
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + laCode + "/" + "leveltypeid/13/hierarchyid/26";
@@ -88,7 +89,7 @@ function LA_areaDetails(laName,laCode,markerEnvelope){
    });//ready
 }	
 
-function GOR_areaDetails(gorName,gorCode,markerEnvelope){
+function GOR_areaDetails(){
 	alert("in GOR_areaDetails");
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + gorCode + "/" + "leveltypeid/11/hierarchyid/26";
@@ -111,7 +112,7 @@ function GOR_areaDetails(gorName,gorCode,markerEnvelope){
    });//ready
 }	
 
-function CTRY_areaDetails(ctryName,ctryCode,markerEnvelope){
+function CTRY_areaDetails(){
 	alert("in CTRY_areaDetails");
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + ctryCode + "/" + "leveltypeid/10/hierarchyid/26";
@@ -183,7 +184,7 @@ function  OA_pcode_details(postcode) {
 	 	                      markerEnvelope    = res4.locations[0].feature.geometry.x + ":" + res4.locations[0].feature.geometry.y; 
 	 	                      
 	 	                      details = envelope + ":" + OA + ":" + " " + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
-								        WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;
+								        WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;	 	                      
 			 	              highlightMap(details,postcode);				 	     
 	 	                   }); 
 		 	    		}); 			 	    		

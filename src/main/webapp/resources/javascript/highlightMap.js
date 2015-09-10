@@ -248,8 +248,27 @@ function highlightMap(details, postcode){
 	        	  map.graphics.add(new Graphic(polygon, selSymbol));	        	 
 	          }	          
 	          map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));	      
-	       } 
-	       OA_postcode_boxDetail();   
+	       }
+	       
+	       // check to see if postcode search
+	       if (typeof $.getUrlVar('pcSearch') === 'undefined' ) {
+				
+	    	   OA_postcode_boxDetail(); 
+	       }
+	       else{	    	  							   
+				 if (levelname ==="WD"){														  					   
+					   WD_boxDetail();
+				 } 														   
+                 if (levelname ==="LAD"){
+              	   LA_boxDetail();									                	  			   
+				  }
+                 if (levelname ==="GOR"){
+              	   GOR_boxDetail();									                	  							   
+				  } 														   
+                 if (levelname ==="CTRY"){
+              	   CTRY_boxDetail();									                	  
+				 } 									
+	       }
 	       
 	       function executeQueryTask(evt){
 	    	   selected = true;
@@ -372,6 +391,7 @@ function highlightMap(details, postcode){
 	       
 	       // set orange info box OA details for postcode
 	       function  OA_postcode_boxDetail() {
+	    	   alert("in  OA_postcode_boxDetail ");
 	    	 if (ctryName === 'England') {
 	    	    regionText = '<br> - Region (<a onClick="getFallsWithin(GOR)" style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
 	         }
@@ -383,36 +403,18 @@ function highlightMap(details, postcode){
 	     	                      '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
 	     	                      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +postcode+'</strong></div>' +
 	     	                      '<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
-	     	                      '<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;areaname=' + wardName + '&amp;areacode=' + wardCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+ wardName + '</a>)' +
+	     	                      '<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; + href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;areaname=' + wardName + '&amp;areacode=' + wardCode + '&amp;an1=' + laName + '&amp;ac1=' + laCode +
+	     	                      '&amp;an2=' + gorName + '&amp;ac2=' + gorCode + '&amp;an3=' + ctryName + '&amp;ac3=' + ctryCode +'&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+ wardName + '</a>)' +
 	       		                  '<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+ laName + '</a>)' + 
 	       		                  regionText + 
 	     	                      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
 	     	                      '</div>' +
 	     	                      '</article></div>');	
-	     	 
-	     	 //mapForm.wardName.value = wardName;
-	     	 //mapForm.submit();
-	     	 $('#mapForm').attr('wardName',wardName); 
-	     	 
-	     	 
-	     	 $('#mapForm').append('<input type="hidden" id="wardName" name="wardName" value=' + wardName + ' />' 
-  			        + '<input type="hidden" id="wardCode" name="wardCode" value="wardCode" />' 
-  			        + '<input type="hidden" id="laName" name="laName" value="laName" />' 
-  			        + '<input type="hidden" id="laCode" name="laCode" value="laCode" />' 
-  			        + '<input type="hidden" id="ctryName" name="ctryName" value="ctryName" />'
-  			        + '<input type="hidden" id="ctryCode" name="ctryCode" value="ctryCode" />');
-	     	 
-	     	  //alert($('input#wardName').val());
-  	   
-			  if (ctryName === 'England') {
-				 $('#mapForm').append('<input type="hidden" id="gorName" name="gorName" value="gorName" />' 
-			     			      + '<input type="hidden" id="gorCode" name="gorCode" value="gorCode" />' );
-			  }  		 
-	     	   
 	       }
 	       
 	       // set orange info box OA details for an OA area
 	       function  OA_boxDetail() {
+	    	   alert("in  OA_boxDetail ");
 	    	 if (ctryName === 'England') {
 	    		 regionText = '<br> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
 		     }
@@ -431,19 +433,6 @@ function highlightMap(details, postcode){
 	     	                      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
 	     	                      '</div>' +
 	     	                      '</article></div>');
-	     	
-	     	   $('#mapForm').append('<input type="hidden" id="wardName" name="wardName" value="wardName" />' 
-	     			        + '<input type="hidden" id="wardCode" name="wardCode" value="wardCode" />' 
-	     			        + '<input type="hidden" id="laName" name="laName" value="laName" />' 
-	     			        + '<input type="hidden" id="laCode" name="laCode" value="laCode" />' 
-	     			        + '<input type="hidden" id="ctryName" name="ctryName" value="ctryName" />'
-	     			        + '<input type="hidden" id="ctryCode" name="ctryCode" value="ctryCode" />');
-	     	   
-	     	  if (ctryName === 'England') {
-	     		 $('#mapForm').append('<input type="hidden" id="gorName" name="gorName" value="gorName" />' 
-		     			      + '<input type="hidden" id="gorCode" name="gorCode" value="gorCode" />' );
-	     	  }  		 
-
 	       }
 	       
 	       function  WD_boxDetail() {
