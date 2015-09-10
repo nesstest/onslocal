@@ -1,6 +1,5 @@
 function createMap(result, validpostCode, levelname, childname){	
 	
-	//alert(validpostCode)
 	if(validpostCode != null)
 	{	
 		$('#map').toggle();
