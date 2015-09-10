@@ -40,13 +40,13 @@ function WD_areaDetails(){
    var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode ;
    
    WD              = $.getUrlVar('areaname');
-   LA              = $.getUrlVar('an1');
-   GOR             = $.getUrlVar('an2');
-   CTRY            = $.getUrlVar('an3');
+   LA              = $.getUrlVar('ln');
+   GOR             = $.getUrlVar('gn');
+   CTRY            = $.getUrlVar('cn');
    WD_extcode      = $.getUrlVar('areacode');
-   LA_extcode      = $.getUrlVar('ac1');
-   GOR_extcode     = $.getUrlVar('ac2');
-   CTRY_extcode    = $.getUrlVar('ac3');
+   LA_extcode      = $.getUrlVar('lc');
+   GOR_extcode     = $.getUrlVar('gc');
+   CTRY_extcode    = $.getUrlVar('cc');
    markerEnvelope  = $.getUrlVar('markerenvelope');
    
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + WD_extcode + "/" + "leveltypeid/14/hierarchyid/30";
@@ -56,9 +56,8 @@ function WD_areaDetails(){
       $.getJSON(jsonFile1, function(res1){
 	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
 	     $.getJSON(jsonFile2 + areaId,function(res2){
-	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
-	    	
-	    	details = envelope + ":" + WD + ":" + "WD12NM " + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + markerEnvelope + ":" + "WD" + ":" + "WD12CD" + ":" +
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 	    	
+	    	details = envelope + ":" + WD + ":" + "WD12NM" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + markerEnvelope + ":" + "WD" + ":" + "WD12CD" + ":" +
 		              WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;		    
 		    highlightMap(details,postcode);	
 	    });	//jsonfile1	
@@ -67,69 +66,75 @@ function WD_areaDetails(){
 }
 
 function LA_areaDetails(){
-	alert("in LA_areaDetails");
+   var areaId, envelope, markerEnvelope, LA, GOR, CTRY; 
+   var LA_extcode, GOR_extcode, CTRY_extcode ;
+   
+   LA              = $.getUrlVar('areaname');
+   GOR             = $.getUrlVar('gn');
+   CTRY            = $.getUrlVar('cn');
+   LA_extcode      = $.getUrlVar('areacode');
+   GOR_extcode     = $.getUrlVar('gc');
+   CTRY_extcode    = $.getUrlVar('cc');
+   markerEnvelope  = $.getUrlVar('markerenvelope');
 	
-   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + laCode + "/" + "leveltypeid/13/hierarchyid/26";
+   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + LA_extcode + "/" + "leveltypeid/13/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
 	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
 	     $.getJSON(jsonFile2 + areaId,function(res2){
-	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;     
-	    	details = 	envelope + ":" + laName + ":" + "LAD11NM" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "LAD" +":"+ "LAD11CD"+ ":" + laCode;	
-	    	  // --------------- to do -----------------------------
-			// Do we need to populate the falls within code
-		    //   + LA + ":" + GOR + ":" + CTRY + ":" +  LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode
-		    // and drill down
-		    //   + OA + OA_extcode
-			// ----------------------------------------------------
-	    	// highlightMap(details,postcode);	
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 	    	
+	    	details = envelope + ":" + LA + ":" + "LAD11NM" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "LAD" + ":" + "LAD11CD" + ":" +
+	    	          " " + ":" + LA + ":" + GOR + ":" + CTRY + ":" + " "  + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;
+	    	highlightMap(details,postcode);	
 	    });	//jsonfile1	
 	  });//jsonFile2		    
    });//ready
 }	
 
 function GOR_areaDetails(){
-	alert("in GOR_areaDetails");
+	var areaId, envelope, markerEnvelope, GOR, CTRY; 
+    var GOR_extcode, CTRY_extcode ;
+    
+    GOR             = $.getUrlVar('areaname');
+    CTRY            = $.getUrlVar('cn');
+    GOR_extcode     = $.getUrlVar('areacode');
+    CTRY_extcode    = $.getUrlVar('cc');
+    markerEnvelope  = $.getUrlVar('markerenvelope');
 	
-   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + gorCode + "/" + "leveltypeid/11/hierarchyid/26";
+   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + GOR_extcode + "/" + "leveltypeid/11/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
 	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
 	     $.getJSON(jsonFile2 + areaId,function(res2){
-	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;   
-	    	details = 	envelope + ":" + gorName + ":" + "GOR10NM" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + markerEnvelope + ":" + "GOR" +":"+ "GOR10CD"+ ":" + gorCode;
-	    	  // --------------- to do -----------------------------
-			// Do we need to populate the falls within code
-		    //   + LA + ":" + GOR + ":" + CTRY + ":" +  LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode
-		    // and drill down
-		    //   + OA + OA_extcode
-			// ----------------------------------------------------
-	    	// highlightMap(details,postcode);	
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;	    	
+	    	details = envelope + ":" + GOR + ":" + "GOR10NM" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + markerEnvelope + ":" + "GOR" + ":" + "GOR10CD" + ":" +
+	          " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode;
+	    	highlightMap(details,postcode);	
 	    });	//jsonfile1	
 	  });//jsonFile2		    
    });//ready
 }	
 
 function CTRY_areaDetails(){
-	alert("in CTRY_areaDetails");
+	var areaId, envelope, markerEnvelope, CTRY; 
+    var CTRY_extcode ;
+    
+    CTRY            = $.getUrlVar('areaname');
+    CTRY_extcode    = $.getUrlVar('areacode');
+    markerEnvelope  = $.getUrlVar('markerenvelope');
 	
-   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + ctryCode + "/" + "leveltypeid/10/hierarchyid/26";
+   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + CTRY_extcode + "/" + "leveltypeid/10/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
 	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
 	     $.getJSON(jsonFile2 + areaId,function(res2){
 	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
-	    	details = 	envelope + ":" + ctryName + ":" + "CTRY11NM" + ":" + "CTRY/CTRY_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "CTRY" +":"+ "CTRY11CD"+ ":" + ctryCode;
-	    	  // --------------- to do -----------------------------
-			// Do we need to populate the falls within code
-		    //   + LA + ":" + GOR + ":" + CTRY + ":" +  LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode
-		    // and drill down
-		    //   + OA + OA_extcode
-			// ----------------------------------------------------
-	    	// highlightMap(details,postcode);	
+	    	details = envelope + ":" + CTRY + ":" + "CTRY11NM" + ":" + "CTRY/CTRY_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "CTRY" + ":" + "CTRY11CD" + ":" +
+	          " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode;
+	    	highlightMap(details,postcode);	
 	    });	//jsonfile1	
 	  });//jsonFile2		    
    });//ready
@@ -140,7 +145,6 @@ function CTRY_areaDetails(){
 // populate area details
 // OA details
 function  OA_pcode_details(postcode) {
-	alert("postcode search - in OA_pcode_details");
 	
 	jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/26";
 	jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/30";			
