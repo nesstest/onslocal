@@ -1,4 +1,15 @@
-function createMap(result, validpostCode, levelname, childname){		
+function createMap(result, validpostCode, levelname, childname){	
+	
+	//alert(validpostCode)
+	if(validpostCode != null)
+	{	
+		$('#map').toggle();
+	}
+	else 
+		{
+		$('#bluebox').toggle();
+		$('#titlebox').toggle();
+		}
 	
 	var regionText,regionDrillText, childcode, childarealist ;	
 		
