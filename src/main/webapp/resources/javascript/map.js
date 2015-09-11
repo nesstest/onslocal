@@ -1,15 +1,31 @@
+function homePageBoxes(postcode){
+	if(postcode == null || postcode.length == 0 || typeof postcode === 'undefined')
+	{
+		$('#bluebox').toggle();
+		$('#titlebox').toggle();
+	}
+	
+}
+
 function createMap(postcode){
+	
+	
+	
 	
     if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
     	
     	// --------------- to do -----------------------------
 		// need to remove if statement on removal of uk map
 		// ----------------------------------------------------
+    	
     }
 	else {	
 		// ----------------------------------------------------
 		// check to see if postcode details are required
 		// ----------------------------------------------------
+		
+		
+		
 		
 		if (typeof $.getUrlVar('pcSearch') === 'undefined' ) {
 			
@@ -300,6 +316,7 @@ function  OA_details() {
 //Read a user input postcode and strip of plus signs,
 // convert to uppercase and reformat if necessary
 function  postcode_reformat(postcode) {
+	
    // strip + sign from postcode string & convert to uppercase
    postcode                     = postcode.replace(/\+/g, '');
    

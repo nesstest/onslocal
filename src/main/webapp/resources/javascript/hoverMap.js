@@ -1,4 +1,7 @@
 function hoverMap(details, validpostCode){
+	
+	$('#map').toggle();
+	
     dojoConfig = {
        locale: "en",
        parseOnLoad: true	    	     
