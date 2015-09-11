@@ -225,10 +225,7 @@ function  OA_pcode_details(postcode) {
 	    CTRY_Welsh_AreaId  = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[4].Area.AreaId;
 	    CTRY               = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[5].Area.Name;
 	    CTRY_AreaId        = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[5].Area.AreaId;
-	    
-	    alert("ctrywelsh" + CTRY_Welsh);
-	    alert("CTRY_AreaId" + CTRY_AreaId);
-	    
+	   	    
 	    $.getJSON(jsonFile2, function(res2){
 	      WD        = res2['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.Name;	
 	      WD_AreaId  = res2['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.AreaId;
