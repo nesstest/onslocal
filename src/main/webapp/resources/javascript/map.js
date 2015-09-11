@@ -208,21 +208,23 @@ function  OA_pcode_details(postcode) {
 	jsonFile4 = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?text=" + postcode.toLowerCase() +
 	            "&outFields=geometry&sourceCountry=GBR&outSR=27700&f=json&maxLocations=1&bbox=";
 	var areaId, envelope, extCode, markerEnvelope, OA, LA, GOR, CTRY, WD, OA_AreaId, LA_AreaId, GOR_AreaId,  CTRY_AreaId;
-	var WD_AreaId, WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode ;
+	var WD_AreaId, WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, CTRY_Welsh, CTRY_Welsh_Areaid;
 	 
 	$(document).ready(function(){
 	  $.getJSON(jsonFile1, function(res1){
 		// ----------------------------------------------------  
 		// Get OA postcode details
 		// ----------------------------------------------------  
-		OA_AreaId    = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.AreaId;
-	    OA           = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.Name;
-	    LA           = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].FallsWithin.Area.Name;  
-	    LA_AreaId    = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].FallsWithin.Area.AreaId; 
-	    GOR          = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[4].Area.Name;
-	    GOR_AreaId   = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[4].Area.AreaId;
-	    CTRY         = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[5].Area.Name;
-	    CTRY_AreaId  = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[5].Area.AreaId;
+		OA_AreaId          = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.AreaId;
+	    OA                 = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.Name;
+	    LA                 = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].FallsWithin.Area.Name;  
+	    LA_AreaId          = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].FallsWithin.Area.AreaId; 
+	    GOR                = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[4].Area.Name;
+	    GOR_AreaId         = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[4].Area.AreaId;
+	    CTRY_Welsh         = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[4].Area.Name;
+	    CTRY_Welsh_AreaId  = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[4].Area.AreaId;
+	    CTRY               = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[5].Area.Name;
+	    CTRY_AreaId        = res1['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[5].Area.AreaId;
 	    
 	    $.getJSON(jsonFile2, function(res2){
 	      WD        = res2['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.Name;	
@@ -239,12 +241,20 @@ function  OA_pcode_details(postcode) {
 	 	    			GOR_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 
 		 	    		$.getJSON(jsonFile3 +  CTRY_AreaId,function(res3){	
 		 	    			CTRY_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode;
+		 	    			$.getJSON(jsonFile3 +  CTRY_Welsh_AreaId,function(res3){	
+			 	    			CTRY_Welsh_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode;
 	 	    	
 	 	                    $.getJSON(jsonFile4 + envelope, function(res4){	     	    	
 	 	                      markerEnvelope    = res4.locations[0].feature.geometry.x + ":" + res4.locations[0].feature.geometry.y; 
 	 	                      
-	 	                      details = envelope + ":" + OA + ":" + " " + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
-								        WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;	 	                      
+	 	                      if(CTRY_Welsh === "Wales"){
+	 	                    	 details = envelope + ":" + OA + ":" + " " + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
+							       WD + ":" + LA + ":" + GOR + ":" + CTRY_Welsh  + ":" + WD_extcode + ":" + LA_extcode + ":" +  " "  + ":" + CTRY_Welsh_extcode;	 	       
+	 	                      }
+	 	                      else{
+	 	                    	details = envelope + ":" + OA + ":" + " " + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
+							       WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;	 	              
+	 	                     }      
 			 	              
 	 	                     $("#Tabs").toggle(); //display tabs for data content
 	 	    				
@@ -262,7 +272,8 @@ function  OA_pcode_details(postcode) {
 	 	                   }); 
 		 	    		}); 			 	    		
 			 	     }); 
-		 	     });		 	      
+		 	      });
+	 	       });	
 	 	    }); // jsonFile4
 	      }); // jsonFile3	   
 	    }); // jsonFile2	      	   
