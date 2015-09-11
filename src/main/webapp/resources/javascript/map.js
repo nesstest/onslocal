@@ -36,7 +36,7 @@ function createMap(postcode){
 }
 
 function WD_areaDetails(){
-   var areaId, envelope, markerEnvelope, LA, GOR, CTRY, WD;
+   var areaId, envelope, markerEnvelope, LA, GOR, CTRY, WD, levelname;
    var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode ;
    
    WD              = $.getUrlVar('areaname');
@@ -48,6 +48,7 @@ function WD_areaDetails(){
    GOR_extcode     = $.getUrlVar('gc');
    CTRY_extcode    = $.getUrlVar('cc');
    markerEnvelope  = $.getUrlVar('markerenvelope');
+   levelname       = $.getUrlVar('levelname');
    
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + WD_extcode + "/" + "leveltypeid/14/hierarchyid/30";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
@@ -63,9 +64,15 @@ function WD_areaDetails(){
 	    	$("#Tabs").toggle(); //display tabs for data content
 				
  			//Call createTable for OA
- 			createTable( WD_extcode, "WD");
- 			createReligion( WD_extcode, "WD");	
-	    	
+ 			createTable( WD_extcode, levelname);
+ 			createReligion( WD_extcode, levelname);	
+ 			getData( WD_extcode, levelname, WD, 'popSexGeog');
+			getData( WD_extcode, levelname, WD, 'ageGeog');
+			getData( WD_extcode, levelname, WD, 'popTime');
+			getData( WD_extcode, levelname, WD, 'relGeog');
+			getData( WD_extcode, levelname, WD, 'relAgeGeog');
+			getData( WD_extcode, levelname, WD, 'relSexGeog');	
+			
 	    	highlightMap(details,postcode);	
 	    });	//jsonfile1	
 	  });//jsonFile2		    
@@ -73,7 +80,7 @@ function WD_areaDetails(){
 }
 
 function LA_areaDetails(){
-   var areaId, envelope, markerEnvelope, LA, GOR, CTRY; 
+   var areaId, envelope, markerEnvelope, LA, GOR, CTRY, levelname; 
    var LA_extcode, GOR_extcode, CTRY_extcode ;
    
    LA              = $.getUrlVar('areaname');
@@ -83,6 +90,7 @@ function LA_areaDetails(){
    GOR_extcode     = $.getUrlVar('gc');
    CTRY_extcode    = $.getUrlVar('cc');
    markerEnvelope  = $.getUrlVar('markerenvelope');
+   levelname       = $.getUrlVar('levelname');
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + LA_extcode + "/" + "leveltypeid/13/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
@@ -97,8 +105,14 @@ function LA_areaDetails(){
 	    	$("#Tabs").toggle(); //display tabs for data content
 			
  			//Call createTable for OA
- 			createTable(LA_extcode, "LAD");
- 			createReligion(LA_extcode, "LAD");	
+ 			createTable(LA_extcode, levelname);
+ 			createReligion(LA_extcode, levelname);
+ 			getData(LA_extcode, levelname, LA, 'popSexGeog');
+			getData(LA_extcode, levelname, LA, 'ageGeog');
+			getData(LA_extcode, levelname, LA, 'popTime');
+			getData(LA_extcode, levelname, LA, 'relGeog');
+			getData(LA_extcode, levelname, LA, 'relAgeGeog');
+			getData(LA_extcode, levelname, LA, 'relSexGeog');
 	    	
 	    	highlightMap(details,postcode);	
 	    });	//jsonfile1	
@@ -107,7 +121,7 @@ function LA_areaDetails(){
 }	
 
 function GOR_areaDetails(){
-	var areaId, envelope, markerEnvelope, GOR, CTRY; 
+	var areaId, envelope, markerEnvelope, GOR, CTRY, levelname; 
     var GOR_extcode, CTRY_extcode ;
     
     GOR             = $.getUrlVar('areaname');
@@ -115,6 +129,7 @@ function GOR_areaDetails(){
     GOR_extcode     = $.getUrlVar('areacode');
     CTRY_extcode    = $.getUrlVar('cc');
     markerEnvelope  = $.getUrlVar('markerenvelope');
+    levelname       = $.getUrlVar('levelname');
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + GOR_extcode + "/" + "leveltypeid/11/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
@@ -129,8 +144,14 @@ function GOR_areaDetails(){
 	    	$("#Tabs").toggle(); //display tabs for data content
 			
  			//Call createTable for OA
- 			createTable(GOR_extcode, "GOR");
- 			createReligion(GOR_extcode, "GOR");
+ 			createTable(GOR_extcode, levelname);
+ 			createReligion(GOR_extcode, levelname);
+ 		    getData(GOR_extcode, levelname, GOR, 'popSexGeog');
+			getData(GOR_extcode, levelname, GOR, 'ageGeog');
+			getData(GOR_extcode, levelname, GOR, 'popTime');
+			getData(GOR_extcode, levelname, GOR, 'relGeog');
+			getData(GOR_extcode, levelname, GOR, 'relAgeGeog');
+			getData(GOR_extcode, levelname, GOR, 'relSexGeog');
  			
 	    	highlightMap(details,postcode);	
 	    });	//jsonfile1	
@@ -139,12 +160,13 @@ function GOR_areaDetails(){
 }	
 
 function CTRY_areaDetails(){
-	var areaId, envelope, markerEnvelope, CTRY; 
+	var areaId, envelope, markerEnvelope, CTRY, levelname; 
     var CTRY_extcode ;
     
     CTRY            = $.getUrlVar('areaname');
     CTRY_extcode    = $.getUrlVar('areacode');
     markerEnvelope  = $.getUrlVar('markerenvelope');
+    levelname       = $.getUrlVar('levelname');    
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + CTRY_extcode + "/" + "leveltypeid/10/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
@@ -159,20 +181,26 @@ function CTRY_areaDetails(){
 	    	$("#Tabs").toggle(); //display tabs for data content
 			
  			//Call createTable for OA
- 			createTable(CTRY_extcode, "CTRY");
- 			createReligion(CTRY_extcode, "CTRY"); 
+ 			createTable(CTRY_extcode, levelname);
+ 			createReligion(CTRY_extcode, levelname);
+ 			getData(CTRY_extcode, levelname, CTRY, 'popSexGeog');
+			getData(CTRY_extcode, levelname, CTRY, 'ageGeog');
+			getData(CTRY_extcode, levelname, CTRY, 'popTime');
+			getData(CTRY_extcode, levelname, CTRY, 'relGeog');
+			getData(CTRY_extcode, levelname, CTRY, 'relAgeGeog');
+			getData(CTRY_extcode, levelname, CTRY, 'relSexGeog');
 	    	
 	    	highlightMap(details,postcode);	
 	    });	//jsonfile1	
 	  });//jsonFile2		    
    });//ready
-}		  
-		  
-
+}
 
 // populate area details
 // OA details
 function  OA_pcode_details(postcode) {
+	var levelname;
+	levelname = $.getUrlVar('levelname');
 	
 	jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/26";
 	jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/30";			
@@ -223,6 +251,12 @@ function  OA_pcode_details(postcode) {
 	 	       			     //Call createTable for OA
 	 	       			     createTable(OA, "OA");
 	 	       			     createReligion(OA, "OA");	
+		 	       			 getData(OA, levelname, OA, 'popSexGeog');
+		 	    			 getData(OA, levelname, OA, 'ageGeog');
+		 	    			 getData(OA, levelname, OA, 'popTime');
+		 	    			 getData(OA, levelname, OA, 'relGeog');
+		 	    			 getData(OA, levelname, OA, 'relAgeGeog');
+		 	    			 getData(OA, levelname, OA, 'relSexGeog');
 	 	                      
 	 	                     highlightMap(details,postcode);				 	     
 	 	                   }); 
@@ -293,4 +327,4 @@ $.extend({
 	  getUrlVar: function(name){
 	    return $.getUrlVars()[name];
 	  }	  
-	});
+  });
