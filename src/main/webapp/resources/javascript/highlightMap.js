@@ -52,7 +52,7 @@ function highlightMap(details, postcode){
 			var xCoord        = detailsArray[7];
 			var yCoord        = detailsArray[8];
 			var levelname     = detailsArray[9];
-			var areacode      = detailsArray[10];	
+			var areacode      = detailsArray[10];			
 			var wardName      = detailsArray[11];	
 			var laName        = detailsArray[12];
 			var gorName       = detailsArray[13];
@@ -367,16 +367,16 @@ function highlightMap(details, postcode){
 												   $('#selArea1').empty();
 												   
 												   if (levelname === "OA") {    
-													   OA_boxDetails();
+													   OA_boxDetail();
 												   } 
 												   if (levelname ==="WD"){
-													   WD_boxDetails();				   
+													   WD_boxDetail();				   
 												   }
 								                   if (levelname ==="LAD"){
-								                	   LA_boxDetails();										                	  
+								                	   LA_boxDetail();										                	  
 												   } 
 								                   if (levelname ==="CTRY"){
-								                	   CTRY_boxDetails();										                	  
+								                	   CTRY_boxDetail();										                	  
 												   }
 										    	 }); //  $(document)													    	 
 											  }	//  if (ctryName === 'Wales'
@@ -396,7 +396,8 @@ function highlightMap(details, postcode){
 	         }
 	    	 else{
 	    	    regionText = '<span style="display:none;"></span>';
-	         }
+	         }    	     
+			 
 	     	 // set orange info box details	
 	     	 $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 	     	                      '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
@@ -408,8 +409,8 @@ function highlightMap(details, postcode){
 	       		                  regionText + 
 	     	                      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
 	     	                      '</div>' +
-	     	                      '</article></div>');	
-	       }
+	     	                      '</article></div>');		     		 
+	       }	       
 	       
 	       // set orange info box OA details for an OA area
 	       function  OA_boxDetail() {	    	  
@@ -418,7 +419,8 @@ function highlightMap(details, postcode){
 	    	 }
 		     else{
 		        regionText = '<span style="display:none;"></span>';
-		     }  
+		     } 
+	    	 
 	    	 
 	     	 // set orange info box details	
 	     	 $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
