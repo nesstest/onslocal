@@ -1,4 +1,5 @@
 function highlightMap(details, postcode){	
+	$("#map").toggle();
 	
     dojoConfig = {
        locale: "en",
@@ -453,7 +454,7 @@ function highlightMap(details, postcode){
 			  	      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
                       '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
                       '<div style="font-size: small;">' + 
-                      '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA"> Output area </a></div>' +
+                      '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '"> Output area </a></div>' +
                       '</div>' +
                       '</article></div>');			   
 	       }
@@ -474,7 +475,7 @@ function highlightMap(details, postcode){
 				      '<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
                       '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
                       '<div style="font-size: small;">' + 
-                      '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD"> Ward </a></div>' +
+                      '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '"> Ward </a></div>' +
                       '</div>' +
                       '</article></div>');	
 	       }
@@ -482,12 +483,11 @@ function highlightMap(details, postcode){
 	       function  GOR_boxDetail() {
 	    	 if (ctryName === 'England') {
 	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
-	    		 regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
+	    		 regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;childname=LAD"> Local Authority </a></div>';
 		     }
 		     else{
 		        regionText = '<span style="display:none;"></span>';
-		        regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>'
-				   
+		        regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>';				   
 		     } 
 	    	 // set orange info box details    		
 			   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -508,7 +508,7 @@ function highlightMap(details, postcode){
 		     }
 		     else{
 		        regionText = '<span style="display:none;"></span>';
-		        regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>'					   
+		        regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>';					   
 		     }
 	    	 // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +

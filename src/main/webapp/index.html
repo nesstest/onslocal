@@ -91,6 +91,12 @@ html,body {
 	    	postcode = postcode_reformat(postcode);
 		    createMap(postcode);
 	    }
+	    
+	    $(document).ready(function(){
+			
+	    	homePageBoxes(postcode);
+			
+			}); 
 		
 	  </script>
 
@@ -141,6 +147,12 @@ html,body {
 				</div>
 			</header>
 
+			<div id="titlebox" style="margin: auto; width: 880px; margin-top: 70px; display: none;">
+			<h2>Welcome to the Office for National Statistics local data prototype</h2>
+
+			<h4>The primary objective of this prototype is to build a website that specifically focuses on bringing together ONS local data<br>on one platform. Our approach has been to choose data that covers a variety of geographic levels</h4>
+			</div>
+
 			<div id="outerDIV" class="slate--grey search-wrapper">
 				<div>
 					<a href="index.html"><img src="resources/images/home_w.png"
@@ -163,10 +175,35 @@ html,body {
 			                </script>
 				</form>
 			</div>
+			
+			<article id="bluebox" class="box box--blue box--blue--separated--left" style="margin: auto; width: 600px; margin-top: 200px; margin-bottom: 200px; display: none;" >
+			  <div class="box__inner border box--padded has-icon" >
+			    <header class="box__header">
+			      <h2 class="gamma">
+			        <a href="http:\\beta.ons.gov.uk">
+			          Check out the new ONS BETA website
+			        </a>
+			      </h2>
+			    </header>
+			    <!-- /box__header -->
+			
+			    <div class="box__content">
+			      <p>
+			        The new Office for National Statistics website is currently in BETA.
+			        <br>
+			        Why not take a look and give us your feedback?
+			      </p>
+			      
+			    </div>
+			    <!-- /box__content -->
+			  </div>
+			  <!-- /box__inner -->
+			</article>
 
-			<div id="map" style="height: 500px; margin-top: 0px;">
+			<div id="map" style="height: 500px; margin-top: 0px; display: none;">
 				<div id="HomeButton"></div>
 			</div>
+			
 			<div id="selArea1"></div>
 		</div>
 
@@ -626,7 +663,5 @@ html,body {
       </div>
     </div>
   </footer>
-
-	
 </body>
 </html>

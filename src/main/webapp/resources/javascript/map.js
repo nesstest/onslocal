@@ -1,3 +1,11 @@
+function homePageBoxes(postcode){
+	if(postcode == null || postcode.length == 0 || typeof postcode === 'undefined')
+	{
+		$('#bluebox').toggle();
+		$('#titlebox').toggle();
+	}	
+}
+
 function createMap(postcode){
 	
     if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
@@ -10,6 +18,7 @@ function createMap(postcode){
 		// ----------------------------------------------------
 		// check to see if postcode details are required
 		// ----------------------------------------------------
+		 
 		
 		if (typeof $.getUrlVar('pcSearch') === 'undefined' ) {
 			
@@ -55,7 +64,7 @@ function WD_areaDetails(){
 
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
-	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
+	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	
 	     $.getJSON(jsonFile2 + areaId,function(res2){
 	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 	    	
 	    	details = envelope + ":" + WD + ":" + "WD12NM" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + markerEnvelope + ":" + "WD" + ":" + "WD12CD" + ":" +
@@ -74,6 +83,21 @@ function WD_areaDetails(){
 			getData( WD_extcode, levelname, WD, 'relSexGeog');	
 			
 	    	highlightMap(details,postcode);	
+	    	
+	    	
+	    	
+	    	// call highlight map
+			   // if (typeof childname === 'undefined') {				 
+			//	   highlightMap(details, validpostCode);
+			  //  }
+			    // call hover map
+			  //  else {				 
+			//	  hoverMap(details, validpostCode);
+			  //   }
+	    	
+	    	
+	    	
+	    	
 	    });	//jsonfile1	
 	  });//jsonFile2		    
    });//ready
@@ -96,7 +120,7 @@ function LA_areaDetails(){
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
-	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
+	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;		     
 	     $.getJSON(jsonFile2 + areaId,function(res2){
 	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 	    	
 	    	details = envelope + ":" + LA + ":" + "LAD11NM" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "LAD" + ":" + "LAD11CD" + ":" +
@@ -198,7 +222,7 @@ function CTRY_areaDetails(){
 
 // populate area details
 // OA details
-function  OA_pcode_details(postcode) {
+function  OA_pcode_details(postcode) {	
 	var levelname;
 	levelname = $.getUrlVar('levelname');
 	
@@ -259,8 +283,8 @@ function  OA_pcode_details(postcode) {
 	 	                     $("#Tabs").toggle(); //display tabs for data content
 	 	    				
 	 	       			     //Call createTable for OA
-	 	       			     createTable(OA, "OA");
-	 	       			     createReligion(OA, "OA");	
+	 	       			     createTable(OA, levelname);
+	 	       			     createReligion(OA, levelname);	
 		 	       			 getData(OA, levelname, OA, 'popSexGeog');
 		 	    			 getData(OA, levelname, OA, 'ageGeog');
 		 	    			 getData(OA, levelname, OA, 'popTime');
@@ -268,7 +292,17 @@ function  OA_pcode_details(postcode) {
 		 	    			 getData(OA, levelname, OA, 'relAgeGeog');
 		 	    			 getData(OA, levelname, OA, 'relSexGeog');
 	 	                      
-	 	                     highlightMap(details,postcode);				 	     
+	 	                     highlightMap(details,postcode);	 	                     
+	 	                     
+	 	                    // call highlight map
+	 	      			   // if (typeof childname === 'undefined') {				 
+	 	      			//	   highlightMap(details, validpostCode);
+	 	      			  //  }
+	 	      			    // call hover map
+	 	      			  //  else {				 
+	 	      			//	  hoverMap(details, validpostCode);
+	 	      			  //   }
+	 	                     
 	 	                   }); 
 		 	    		}); 			 	    		
 			 	     }); 
