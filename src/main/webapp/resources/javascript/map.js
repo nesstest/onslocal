@@ -59,7 +59,14 @@ function WD_areaDetails(){
 	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 	    	
 	    	details = envelope + ":" + WD + ":" + "WD12NM" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + markerEnvelope + ":" + "WD" + ":" + "WD12CD" + ":" +
 		              WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;		    
-		    highlightMap(details,postcode);	
+	    	
+	    	$("#Tabs").toggle(); //display tabs for data content
+				
+ 			//Call createTable for OA
+ 			createTable( WD_extcode, "WD");
+ 			createReligion( WD_extcode, "WD");	
+	    	
+	    	highlightMap(details,postcode);	
 	    });	//jsonfile1	
 	  });//jsonFile2		    
    });//ready
@@ -86,6 +93,13 @@ function LA_areaDetails(){
 	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 	    	
 	    	details = envelope + ":" + LA + ":" + "LAD11NM" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "LAD" + ":" + "LAD11CD" + ":" +
 	    	          " " + ":" + LA + ":" + GOR + ":" + CTRY + ":" + " "  + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;
+	    	
+	    	$("#Tabs").toggle(); //display tabs for data content
+			
+ 			//Call createTable for OA
+ 			createTable(LA_extcode, "LAD");
+ 			createReligion(LA_extcode, "LAD");	
+	    	
 	    	highlightMap(details,postcode);	
 	    });	//jsonfile1	
 	  });//jsonFile2		    
@@ -111,6 +125,13 @@ function GOR_areaDetails(){
 	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;	    	
 	    	details = envelope + ":" + GOR + ":" + "GOR10NM" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + markerEnvelope + ":" + "GOR" + ":" + "GOR10CD" + ":" +
 	          " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode;
+	    	
+	    	$("#Tabs").toggle(); //display tabs for data content
+			
+ 			//Call createTable for OA
+ 			createTable(GOR_extcode, "GOR");
+ 			createReligion(GOR_extcode, "GOR");
+ 			
 	    	highlightMap(details,postcode);	
 	    });	//jsonfile1	
 	  });//jsonFile2		    
@@ -134,6 +155,13 @@ function CTRY_areaDetails(){
 	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
 	    	details = envelope + ":" + CTRY + ":" + "CTRY11NM" + ":" + "CTRY/CTRY_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "CTRY" + ":" + "CTRY11CD" + ":" +
 	          " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode;
+	    	
+	    	$("#Tabs").toggle(); //display tabs for data content
+			
+ 			//Call createTable for OA
+ 			createTable(CTRY_extcode, "CTRY");
+ 			createReligion(CTRY_extcode, "CTRY"); 
+	    	
 	    	highlightMap(details,postcode);	
 	    });	//jsonfile1	
 	  });//jsonFile2		    
@@ -189,7 +217,14 @@ function  OA_pcode_details(postcode) {
 	 	                      
 	 	                      details = envelope + ":" + OA + ":" + " " + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
 								        WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;	 	                      
-			 	              highlightMap(details,postcode);				 	     
+			 	              
+	 	                     $("#Tabs").toggle(); //display tabs for data content
+	 	    				
+	 	       			     //Call createTable for OA
+	 	       			     createTable(OA, "OA");
+	 	       			     createReligion(OA, "OA");	
+	 	                      
+	 	                     highlightMap(details,postcode);				 	     
 	 	                   }); 
 		 	    		}); 			 	    		
 			 	     }); 
