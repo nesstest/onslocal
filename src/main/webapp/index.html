@@ -74,41 +74,7 @@ html,body {
 	    
 	    //declare global var and set to home tab
 	    var current_tab = "tab1";
-	   
 	    
-	    function  postcode_reformat(postcode) {
-	       // strip + sign from postcode string & convert to uppercase
-    	   postcode                     = postcode.replace(/\+/g, '');
-    	   var upperCasePostCode        = postcode.toUpperCase();    	
-    	   var regPostcode              = /^([a-zA-Z]){1}([0-9][0-9]|[0-9]|[a-zA-Z][0-9][a-zA-Z]|[a-zA-Z][0-9][0-9]|[a-zA-Z][0-9]){1}([ ])([0-9][a-zA-z][a-zA-z]){1}$/;
-		 
-	       if(regPostcode.test(upperCasePostCode) == false)	
-	       {	
-	    	   var re                   = /^([A-Z]{1,2}[\dA-Z]{1,2})[ ]?(\d[A-Z]{2})$/i; // case insensitive 	
-	    	   var tempPostCode         = upperCasePostCode.match(re);
-	    	   var reformatPostcode     = tempPostCode[1] + " " + tempPostCode[2];
-	    	   return reformatPostcode;
-	       }
-	       else {
-	    	 // postcode formatted correctly
-	    	 return upperCasePostCode;
-		   }	    	
-		}
-	    
-	    // Read a page's GET URL variables and return them as an associative array.
-	    function getUrlVars() {	    
-	        var vars = [], hash;
-	        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-	        //hashes = decodeURI(window.location.href).replace(/[?&]+([^=&]+)=([^&]*)/gi;
-	        for(var i = 0; i < hashes.length; i++)
-	        {
-	            hash = hashes[i].split('=');
-	            vars.push(hash[0]);
-	            vars[hash[0]] = hash[1];
-	        }
-	        return vars;
-	    }    
-	  
 	    function getUrlParams() {
 	        var vars = {};
 	        parts = decodeURI(window.location.href).replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -117,32 +83,20 @@ html,body {
 	        return vars;
 	    }	    
 	    
-	    // get parameters from url	    
-	    var levelname, childname;
-	    var postcode;	  
-	   
-	    postcode =  getUrlParams()["nav-search"];	    
-	    levelname = getUrlParams()["levelname"];	    
-	    childname = getUrlParams()["childname"];
+	    postcode =  getUrlParams()["nav-search"];
+	    if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
+	    	// do nothing
+	    }
+	    else{
+	    	postcode = postcode_reformat(postcode);
+		    createMap(postcode);
+	    }
 	    
-		var pCode;
-		if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
-		  jsonFile      ='uk.json';	
-	    } 
-		else {
-	      // identify json file	
-		  pCode         = postcode.replace(/\+/g, '');
-		  pCode         = pCode.replace(/\s/g, '');
-		  jsonFile      = pCode.toLowerCase() + '.json';
-		  
-		  postcode = postcode_reformat(postcode);
-	    }	  
-		  
-		$(document).ready(function(){
-		  $.getJSON(jsonFile, function(result){
-	         createMap(result, postcode,levelname,childname);
-		  }); 
-		}); 
+	    $(document).ready(function(){
+			
+	    	homePageBoxes(postcode);
+			
+			}); 
 		
 	  </script>
 
@@ -157,21 +111,7 @@ html,body {
 	     document.getElementById(tab).style.display = 'block';	    
 	     document.getElementById('li_'+ tab).setAttribute("class", "current");
 	     current_tab = tab;
-	     createCookie("tab",tab)
-	     
-	  //   testerFunction();
-	  
-	  //   function testerFunction(tab) {
-	  //  	 alert("reste");
-	  //  	    changeColumnColor('current','white');
-	  //  	}
-	  //  	function changeColumnColor(column,color) {
-	   // 	    var cols = document.getElementsByClassName(column);
-	    //	    alert("cols" + cols.toSource());
-	    	//    for(i=0; i<cols.length; i++) {
-	    	//      cols[i].style.backgroundColor = color;
-	    	 //   }		    	    
-	    	//}
+	     createCookie("tab",tab)	  
 	   }
 	  </script>
 
@@ -196,10 +136,7 @@ html,body {
 		</script>
 
 </head>
-<body class="tundra">
-	<form id="mapForm" name="mapForm" action="">
-		<input type="hidden" name="queryExtent" value="" />
-	</form>
+<body class="tundra">	
 	<div class="wrapper panel--mar nav-panels">
 		<div class="grid-wrap">
 			<header>
@@ -209,11 +146,13 @@ html,body {
 						style="display: block;" /></a>
 				</div>
 			</header>
+
 			<div id="titlebox" style="margin: auto; width: 880px; margin-top: 70px; display: none;">
 			<h2>Welcome to the Office for National Statistics local data prototype</h2>
 
 			<h4>The primary objective of this prototype is to build a website that specifically focuses on bringing together ONS local data<br>on one platform. Our approach has been to choose data that covers a variety of geographic levels</h4>
 			</div>
+
 			<div id="outerDIV" class="slate--grey search-wrapper">
 				<div>
 					<a href="index.html"><img src="resources/images/home_w.png"
@@ -228,7 +167,7 @@ html,body {
 							placeholder="Search postcode or place name in England and Wales">
 					</div>
 					<button type="submit" class="btn btn--primary btn--nav-search"
-						onclick="eraseCookie('tab')" id="nav-search-submit">
+						onclick="eraseCookie('tab');" id="nav-search-submit">
 						<span class="icon-search-1" role="presentation"></span>
 					</button>
 					<script type="text/javascript">  
@@ -236,11 +175,12 @@ html,body {
 			                </script>
 				</form>
 			</div>
+			
 			<article id="bluebox" class="box box--blue box--blue--separated--left" style="margin: auto; width: 600px; margin-top: 200px; margin-bottom: 200px; display: none;" >
 			  <div class="box__inner border box--padded has-icon" >
 			    <header class="box__header">
 			      <h2 class="gamma">
-			        <a href="http:\\beta.ons.gov.uk">
+			        <a href="http://beta.ons.gov.uk">
 			          Check out the new ONS BETA website
 			        </a>
 			      </h2>
@@ -259,9 +199,11 @@ html,body {
 			  </div>
 			  <!-- /box__inner -->
 			</article>
+
 			<div id="map" style="height: 500px; margin-top: 0px; display: none;">
 				<div id="HomeButton"></div>
 			</div>
+			
 			<div id="selArea1"></div>
 		</div>
 

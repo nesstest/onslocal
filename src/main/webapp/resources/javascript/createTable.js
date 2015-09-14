@@ -1,6 +1,13 @@
 function createTable(extcode, levelname){
-	$("#tableChart").toggle();
-	$("#additional-data").toggle();
+	
+	//alert(document.getElementById("tableChart").getAttribute("style"))
+	
+	//check to see if the tables are visible, if they are do not hide them
+	if(document.getElementById("tableChart").getAttribute("style") == "display: none;")
+		{
+			$("#tableChart").toggle();
+			$("#additional-data").toggle();
+		}
 		
 		
 	if (levelname =="WD")
@@ -21,6 +28,12 @@ function createTable(extcode, levelname){
 			all = result["SAPEDE 2013"].value[0] ;
 			male = result["SAPEDE 2013"].value[1] ;
 			female = result["SAPEDE 2013"].value[2];
+			
+			//clear contents of elements
+			$('#sapede-all').empty();
+			$('#sapede-males').empty();
+			$('#sapede-females').empty();
+			
 			
 			$('#sapede-all').append(commaSeparateNumber(all));
 			$('#sapede-males').append(commaSeparateNumber(male));
@@ -55,10 +68,10 @@ function createTable(extcode, levelname){
 			f_0_4 = result["SAPEDE 2013"].value[5] + result["SAPEDE 2013"].value[8] + result["SAPEDE 2013"].value[11] + result["SAPEDE 2013"].value[14] + result["SAPEDE 2013"].value[17];
 			f_5_9 = result["SAPEDE 2013"].value[20] + result["SAPEDE 2013"].value[23] + result["SAPEDE 2013"].value[26] + result["SAPEDE 2013"].value[29] + result["SAPEDE 2013"].value[32];
 			f_10_14 = result["SAPEDE 2013"].value[35]+ result["SAPEDE 2013"].value[38] + result["SAPEDE 2013"].value[41] + result["SAPEDE 2013"].value[44] + result["SAPEDE 2013"].value[47];
-			f_15_19 = result["SAPEDE 2013"].value[50] + result["SAPEDE 2013"].value[53] + result["SAPEDE 2013"].value[56] + result["SAPEDE 2013"].value[57] + result["SAPEDE 2013"].value[62];		
+			f_15_19 = result["SAPEDE 2013"].value[50] + result["SAPEDE 2013"].value[53] + result["SAPEDE 2013"].value[56] + result["SAPEDE 2013"].value[59] + result["SAPEDE 2013"].value[62];		
 			f_20_24 = result["SAPEDE 2013"].value[65] + result["SAPEDE 2013"].value[68] + result["SAPEDE 2013"].value[71] + result["SAPEDE 2013"].value[74] + result["SAPEDE 2013"].value[77];
 			f_25_29 = result["SAPEDE 2013"].value[80] + result["SAPEDE 2013"].value[83] + result["SAPEDE 2013"].value[86] + result["SAPEDE 2013"].value[89] + result["SAPEDE 2013"].value[92];
-			f_30_34 = result["SAPEDE 2013"].value[95] + result["SAPEDE 2013"].value[98] + result["SAPEDE 2013"].value[101] + result["SAPEDE 2013"].value[104] + result["SAPEDE 2013"].value[106];
+			f_30_34 = result["SAPEDE 2013"].value[95] + result["SAPEDE 2013"].value[98] + result["SAPEDE 2013"].value[101] + result["SAPEDE 2013"].value[104] + result["SAPEDE 2013"].value[107];
 			f_35_39 = result["SAPEDE 2013"].value[110] + result["SAPEDE 2013"].value[113] + result["SAPEDE 2013"].value[116] + result["SAPEDE 2013"].value[119] + result["SAPEDE 2013"].value[122];
 			f_40_44 = result["SAPEDE 2013"].value[125] + result["SAPEDE 2013"].value[128] + result["SAPEDE 2013"].value[131] + result["SAPEDE 2013"].value[134] + result["SAPEDE 2013"].value[137];
 			f_45_49 = result["SAPEDE 2013"].value[140] + result["SAPEDE 2013"].value[143] + result["SAPEDE 2013"].value[146] + result["SAPEDE 2013"].value[149] + result["SAPEDE 2013"].value[152];
