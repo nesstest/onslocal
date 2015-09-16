@@ -1,6 +1,13 @@
 function createTable(extcode, levelname){
-	$("#tableChart").toggle();
-	$("#additional-data").toggle();
+	
+	//alert(document.getElementById("tableChart").getAttribute("style"))
+	
+	//check to see if the tables are visible, if they are do not hide them
+	if(document.getElementById("tableChart").getAttribute("style") == "display: none;")
+		{
+			$("#tableChart").toggle();
+			$("#additional-data").toggle();
+		}
 		
 		
 	if (levelname =="WD")
@@ -21,6 +28,12 @@ function createTable(extcode, levelname){
 			all = result["SAPEDE 2013"].value[0] ;
 			male = result["SAPEDE 2013"].value[1] ;
 			female = result["SAPEDE 2013"].value[2];
+			
+			//clear contents of elements
+			$('#sapede-all').empty();
+			$('#sapede-males').empty();
+			$('#sapede-females').empty();
+			
 			
 			$('#sapede-all').append(commaSeparateNumber(all));
 			$('#sapede-males').append(commaSeparateNumber(male));
@@ -80,8 +93,11 @@ function createTable(extcode, levelname){
 }
 
 function createReligion(extcode, levelname){
-	$("#religionChart").toggle();
-	$("#additional-religion-data").toggle();
+	if(document.getElementById("religionChart").getAttribute("style") == "display: none;")
+	{
+		$("#religionChart").toggle();
+		$("#additional-religion-data").toggle();
+	}
 		
 	if (levelname =="WD")
 		{
@@ -105,6 +121,13 @@ function createReligion(extcode, levelname){
 			buddhist   = result["LC2107EW"].value[2];
 			sikh       = result["LC2107EW"].value[6];
 			other      = result["LC2107EW"].value[7];
+			
+			$('#lc2107ew-all').empty();
+			$('#lc2107ew-christian').empty();
+			$('#lc2107ew-muslim').empty();
+			$('#lc2107ew-buddhist').empty();
+			$('#lc2107ew-sikh').empty();
+			$('#lc2107ew-other').empty();
 			
 			$('#lc2107ew-all').append(commaSeparateNumber(all));
 			$('#lc2107ew-christian').append(commaSeparateNumber(christian));
