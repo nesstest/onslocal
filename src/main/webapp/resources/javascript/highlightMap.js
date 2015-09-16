@@ -505,7 +505,7 @@ function highlightMap(details, postcode){
 		     }
 		     else{
 		        regionText = '<span style="display:none;"></span>';
-		        regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>';					   
+		        regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=LAD&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '"> Local Authority </a></div>';					   
 		     }
 	    	 // set orange info box details	
 			  $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +

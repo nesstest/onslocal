@@ -1,5 +1,5 @@
 function hoverMap(details, postcode){
-	alert("in hovermap");	
+	
 	$("#map").toggle();
 	
     dojoConfig = {
@@ -102,15 +102,21 @@ function hoverMap(details, postcode){
 			
 			var parentAreaDef;
 			
-			if (childlevelname === "OA") {
+			if (childlevelname === "OA") {				
 			   parentAreaDef       = areacode  + " = '" + wardCode + "'";
 			}
-			else if (childlevelname === "WD"){
+			else if (childlevelname === "WD"){				
 			   parentAreaDef       = areacode  + " = '" + laCode + "'";
 			}
-			else if (childlevelname === "LAD"){
+			else if (childlevelname === "LAD" && ctryName === "England"){				
 				   parentAreaDef       = areacode  + " = '" + gorCode + "'";
 			}
+			else if (childlevelname === "LAD" && ctryName === "Wales"){				
+				   parentAreaDef       = areacode  + " = '" + laCode + "'";
+			}	
+			else if (childlevelname === "GOR"){				
+				   parentAreaDef       = areacode  + " = '" + ctryCode + "'";
+			}	
 			
 			var labelField = areacode; 
 			var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/FeatureServer/0", { 							

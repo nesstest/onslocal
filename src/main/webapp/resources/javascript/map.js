@@ -60,7 +60,6 @@ function WD_areaDetails(){
    markerEnvelope  = $.getUrlVar('markerenvelope');
    levelname       = $.getUrlVar('levelname');
    childname       = $.getUrlVar('childname');
-   childarealist   = "E00115782,E00115783,E00115784,E00115788,E00115787,E00115786,E00115781,E00115776,E00115782,E00115778,E00115793,E00115785,E00115780,E00115775,E00115779,E00115777,E00115796,E00115794,E00115795,E00115792,E00115791,E00115790,E00115789";
   	   
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + WD_extcode + "/" + "leveltypeid/14/hierarchyid/30";   
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"; 
@@ -118,7 +117,7 @@ function LA_areaDetails(){
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + LA_extcode + "/" + "leveltypeid/13/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
-   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + LA_extcode + "/hierarchyid/30";
+   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + LA_extcode + "/leveltypeid/13/hierarchyid/30";
    
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
@@ -170,18 +169,18 @@ function GOR_areaDetails(){
     markerEnvelope  = $.getUrlVar('markerenvelope');
     levelname       = $.getUrlVar('levelname');
     childname       = $.getUrlVar('childname');    
-	alert("gorextcode" + GOR_extcode);
+	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + GOR_extcode + "/" + "leveltypeid/11/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
-  // jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + GOR_extcode + "/hierarchyid/26";
+   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + GOR_extcode + "/" + "leveltypeid/11/hierarchyid/26";
    
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
 	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
 	     $.getJSON(jsonFile2 + areaId,function(res2){
 	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;
-	    	//$.getJSON(jsonFile3,function(res3){
-			//   childarealist = res3['extcode'];	
+	    	$.getJSON(jsonFile3,function(res3){
+			   childarealist = res3['extcode'];	
 				  
 	    	details = envelope + ":" + GOR + ":" + "GOR10NM" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + markerEnvelope + ":" + "GOR" + ":" + "GOR10CD" + ":" +
 	                  " " + ":" + " " + ":" + GOR + ":" + CTRY + ":" + " "  + ":" + " " + ":" + GOR_extcode + ":" + CTRY_extcode + ":" +
@@ -207,14 +206,14 @@ function GOR_areaDetails(){
 			else {				
 			   hoverMap(details, postcode);
 			}  	    	
-	    });	//jsonfile1	
+	    });	//jsonfile3	
 	  });//jsonFile2
-   // });//jsonFile3     
-   });//ready
+    });//jsonFile1     
+  });//ready
 }	
 
 function CTRY_areaDetails(){
-	alert("in ctry");
+	
 	var areaId, envelope, markerEnvelope, CTRY, levelname; 
     var CTRY_extcode, childname, childarealist;
     
@@ -222,19 +221,29 @@ function CTRY_areaDetails(){
     CTRY_extcode    = $.getUrlVar('areacode');
     markerEnvelope  = $.getUrlVar('markerenvelope');
     levelname       = $.getUrlVar('levelname');
-    childname       = $.getUrlVar('childname');
-    childarealist   = "E12000001,E12000002,E12000003,E12000004,E12000005,E12000006,E12000007,E12000008,E12000009";
-	
+    childname       = $.getUrlVar('childname');  
+   
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + CTRY_extcode + "/" + "leveltypeid/10/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
+   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + CTRY_extcode + "/" + "leveltypeid/10/hierarchyid/26";
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
 	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
 	     $.getJSON(jsonFile2 + areaId,function(res2){
-	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
-	    	details = envelope + ":" + CTRY + ":" + "CTRY11NM" + ":" + "CTRY/CTRY_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "CTRY" + ":" + "CTRY11CD" + ":" +
-	                  " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode + ":" +
-	                  childarealist + ":" + "GOR10NM" + ":" + "GOR10CD" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + childname;	
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;
+	    	$.getJSON(jsonFile3,function(res3){
+				   childarealist = res3['extcode'];					  
+	    	
+	    	if(CTRY === "Wales"){
+	    		details = envelope + ":" + CTRY + ":" + "CTRY11NM" + ":" + "CTRY/CTRY_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "CTRY" + ":" + "CTRY11CD" + ":" +
+                          " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode + ":" +
+                          childarealist + ":" + "LAD11NM" + ":" + "LAD11CD" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + childname;		
+	    	}
+	    	else{
+	    	  details = envelope + ":" + CTRY + ":" + "CTRY11NM" + ":" + "CTRY/CTRY_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "CTRY" + ":" + "CTRY11CD" + ":" +
+                        " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode + ":" +
+                        childarealist + ":" + "GOR10NM" + ":" + "GOR10CD" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + childname;	
+	    	}	    	
 	    	
 	    	$("#Tabs").toggle(); //display tabs for data content
 			
@@ -253,13 +262,13 @@ function CTRY_areaDetails(){
 			   highlightMap(details, postcode);
 			}
 			// call hover map
-			else {	
-				alert("hovermapcall");
+			else {					
 			   hoverMap(details, postcode);
 			}  	    	
-	    });	//jsonfile1	
-	  });//jsonFile2		    
-   });//ready
+	    });	//jsonfile3
+	  });//jsonFile2
+    });//jsonFile1    
+  });//ready
 }
 
 // populate area details
