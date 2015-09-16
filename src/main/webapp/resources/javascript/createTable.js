@@ -93,8 +93,11 @@ function createTable(extcode, levelname){
 }
 
 function createReligion(extcode, levelname){
-	$("#religionChart").toggle();
-	$("#additional-religion-data").toggle();
+	if(document.getElementById("religionChart").getAttribute("style") == "display: none;")
+	{
+		$("#religionChart").toggle();
+		$("#additional-religion-data").toggle();
+	}
 		
 	if (levelname =="WD")
 		{
@@ -118,6 +121,13 @@ function createReligion(extcode, levelname){
 			buddhist   = result["LC2107EW"].value[2];
 			sikh       = result["LC2107EW"].value[6];
 			other      = result["LC2107EW"].value[7];
+			
+			$('#lc2107ew-all').empty();
+			$('#lc2107ew-christian').empty();
+			$('#lc2107ew-muslim').empty();
+			$('#lc2107ew-buddhist').empty();
+			$('#lc2107ew-sikh').empty();
+			$('#lc2107ew-other').empty();
 			
 			$('#lc2107ew-all').append(commaSeparateNumber(all));
 			$('#lc2107ew-christian').append(commaSeparateNumber(christian));

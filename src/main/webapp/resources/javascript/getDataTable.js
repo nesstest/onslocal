@@ -15,83 +15,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 	var tableRow4;
 	var tableRow5;
 
-	/*var extCodeList;
-	var OA
-	var laCode
-	var laName
-	var parliconCode
-	var parliconName
-	var wardCode
-	var wardName
-	var regionCode
-	var regionName
-	var nationalCode
-	var nationalName
-	var countyCode
-	var countyName
 	
-	
-	
-	if(extcode == "E00115783" || extcode == "E05004528" || extcode == "E07000087" || extcode == "E12000008" || extcode == "E92000001")
-	{
-		
-		OA = "E00115783"
-		laCode = "E07000087"
-		laName = "Fareham"
-		parliconCode = "E14000699"
-		parliconName = "Fareham"
-		wardCode = "E05004528"
-		wardName = "Titchfield"
-		regionCode = "E12000008"
-		regionName = "South East"
-		nationalCode = "E92000001"
-		nationalName = "England"
-		countyCode = "E10000014"
-		countyName = "Hampshire"
-		healthName = "South Central"
-	}	
-	
-	
-	
-	if(extcode == "E00116582" || extcode == "E05004574" || extcode == "E07000090" || extcode == "E12000008" || extcode == "E92000001")
-	{
-		
-		OA = "E00116582"
-		laCode = "E07000090"
-		laName = "Havant"
-		parliconCode = "E14000736"
-		parliconName = "Havant"
-		wardCode = "E05004574"
-		wardName = "Hayling West"
-		regionCode = "E12000008"
-		regionName = "South East"
-		nationalCode = "E92000001"
-		nationalName = "England"
-		countyCode = "E10000014"
-		countyName = "Hampshire"
-		healthName = "South Central"
-	}	
- 	
-	
-	if(extcode == "W00008440" || extcode == "W05000837" || extcode == "W06000022" || extcode == "W92000004" || extcode == "W92000004")
-	{
-		
-		OA = "W00008440"
-		laCode = "W06000022"
-		laName = "Newport"
-		parliconCode = "W07000056"
-		parliconName = "Newport West"
-		wardCode = "W05000837"
-		wardName = "Caerleon"
-		regionCode = "W92000004"
-		regionName = "Wales"
-		nationalCode = "W92000004"
-		nationalName = "Wales"
-		countyCode = "w06000022"
-		countyName = "Newport"
-		healthName = "Wales"
-	}	*/
-
 
 	//start to create table
 	
@@ -101,8 +25,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 		tableHead = "<table><span class='tabletitle'>Population by sex and geography (2013)</span><thead><tr><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
 
-				//tableHead = tableHead + "<th data-priority='persist'>"+levelname+"<br>("+areaname+")</th>";
-				
+						
 				tableRow1 = "<tr><td>Total</td>"
 				tableRow2 = "<tr><td>Males</td>"
 				tableRow3 = "<tr><td>Females</td>"
