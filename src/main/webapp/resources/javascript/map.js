@@ -63,12 +63,15 @@ function WD_areaDetails(){
   	   
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + WD_extcode + "/" + "leveltypeid/14/hierarchyid/30";   
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"; 
+   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/extcodes/ward/";   
 
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
-	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	
+	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
 	     $.getJSON(jsonFile2 + areaId,function(res2){
-	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;	    
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;
+	    	$.getJSON(jsonFile3 + areaId,function(res3){
+		       childarealist = res3['oa'];		       
 	    		    	
 	    	details = envelope + ":" + WD + ":" + "WD12NM" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + markerEnvelope + ":" + "WD" + ":" + "WD12CD" + ":" +
 		              WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":"  + 
@@ -94,10 +97,10 @@ function WD_areaDetails(){
 			else {			   
 			   hoverMap(details, postcode);
 			}    	
-	    });	//jsonfile1	
+	    });	//jsonfile3	
 	  });//jsonFile2	
-   // });//jsonFile3	    
-   });//ready
+    });//jsonFile1	    
+  });//ready
 }
 
 function LA_areaDetails(){	
