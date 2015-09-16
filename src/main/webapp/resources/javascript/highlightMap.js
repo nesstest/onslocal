@@ -56,12 +56,12 @@ function highlightMap(details, postcode){
 			var areacode      = detailsArray[10];			
 			var wardName      = detailsArray[11];	
 			var laName        = detailsArray[12];
-			var gorName       = detailsArray[13];
+			var gorName       = detailsArray[13];			
 			var ctryName      = detailsArray[14];
 			var wardCode      = detailsArray[15];	
 			var laCode        = detailsArray[16];
-			var gorCode       = detailsArray[17];
-			var ctryCode      = detailsArray[18];
+			var gorCode       = detailsArray[17];			
+			var ctryCode      = detailsArray[18];				
 			
 			var markerEnvelope = xCoord + ":" + yCoord;
 			
@@ -253,7 +253,6 @@ function highlightMap(details, postcode){
 	       
 	       // check to see if postcode search
 	       if (typeof $.getUrlVar('pcSearch') === 'undefined' ) {
-				
 	    	   OA_postcode_boxDetail(); 
 	       }
 	       else{	    	  							   
@@ -391,9 +390,9 @@ function highlightMap(details, postcode){
 		     }  //  executeQueryTask 
 	       
 	       // set orange info box OA details for postcode
-	       function  OA_postcode_boxDetail() {	    	  
+	       function  OA_postcode_boxDetail() {		    	 
 	    	 if (ctryName === 'England') {
-	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
+	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';	    		 
 	         }
 	    	 else{
 	    	    regionText = '<span style="display:none;"></span>';
@@ -416,12 +415,11 @@ function highlightMap(details, postcode){
 	       // set orange info box OA details for an OA area
 	       function  OA_boxDetail() {	    	  
 	    	 if (ctryName === 'England') {
-	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
+	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';	    		
 	    	 }
 		     else{
 		        regionText = '<span style="display:none;"></span>';
-		     } 
-	    	 
+		     }  	 
 	    	 
 	     	 // set orange info box details	
 	     	 $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -437,13 +435,13 @@ function highlightMap(details, postcode){
 	     	                      '</article></div>');
 	       }
 	       
-	       function  WD_boxDetail() {
+	       function  WD_boxDetail() {	    	  
 	    	 if (ctryName === 'England') {
-	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
+	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';	    		 
 		     }
 		     else{
 		        regionText = '<span style="display:none;"></span>';
-		     } 
+		     } 	    	
 	    	 // set orange info box details    		
 			   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 					  '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
@@ -454,13 +452,14 @@ function highlightMap(details, postcode){
 			  	      '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
                       '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
                       '<div style="font-size: small;">' + 
-                      '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '"> Output area </a></div>' +
+                      '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + wardName + '&amp;ln=' + laName + '&amp;lc=' + laCode +
+	                  '&amp;gn=' + gorName + '&amp;gc=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope +'&amp;pcSearch=false' + '"> Output area </a></div>' +
                       '</div>' +
                       '</article></div>');			   
 	       }
 	       
-	       function  LA_boxDetail() {
-	    	 if (ctryName === 'England') {
+	       function  LA_boxDetail() {	    	  	    	   
+	    	 if (ctryName === 'England') {	    		
 	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
 		     }
 		     else{
@@ -475,18 +474,16 @@ function highlightMap(details, postcode){
 				      '<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
                       '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
                       '<div style="font-size: small;">' + 
-                      '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '"> Ward </a></div>' +
+                      '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + laName + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope +'&amp;pcSearch=false' + '"> Ward </a></div>' +
                       '</div>' +
                       '</article></div>');	
 	       }
 	       
-	       function  GOR_boxDetail() {
-	    	 if (ctryName === 'England') {
-	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
-	    		 regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;childname=LAD"> Local Authority </a></div>';
+	       function  GOR_boxDetail() {	    	   
+	    	 if (ctryName === 'England') {	    		    		 
+	    		 regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;childname=LAD&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '"> Local Authority </a></div>';
 		     }
-		     else{
-		        regionText = '<span style="display:none;"></span>';
+		     else{		        
 		        regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=LAD"> Local Authority </a></div>';				   
 		     } 
 	    	 // set orange info box details    		
@@ -502,9 +499,9 @@ function highlightMap(details, postcode){
                       '</article></div>');
 	       }
 	       function  CTRY_boxDetail() {
-	    	 if (ctryName === 'England') {
+	    	 if (ctryName === 'England') {	    		 
 	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
-	    		 regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=GOR"> Region </a></div>';
+	    		 regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=GOR&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '"> Region </a></div>';
 		     }
 		     else{
 		        regionText = '<span style="display:none;"></span>';

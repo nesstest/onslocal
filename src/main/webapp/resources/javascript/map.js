@@ -40,15 +40,16 @@ function createMap(postcode){
 			if($.getUrlVar('levelname') === 'CTRY' ) {
 			  CTRY_areaDetails();
 			}
-		}
+		}	
 	}	 
 }
 
 function WD_areaDetails(){
+	
    var areaId, envelope, markerEnvelope, LA, GOR, CTRY, WD, levelname;
-   var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode ;
-   
-   WD              = $.getUrlVar('areaname');
+   var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, childarealist, childname;  
+  
+   WD              = $.getUrlVar('areaname');   
    LA              = $.getUrlVar('ln');
    GOR             = $.getUrlVar('gn');
    CTRY            = $.getUrlVar('cn');
@@ -58,17 +59,21 @@ function WD_areaDetails(){
    CTRY_extcode    = $.getUrlVar('cc');
    markerEnvelope  = $.getUrlVar('markerenvelope');
    levelname       = $.getUrlVar('levelname');
-   
-   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + WD_extcode + "/" + "leveltypeid/14/hierarchyid/30";
-   jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
+   childname       = $.getUrlVar('childname');
+   childarealist   = "E00115782,E00115783,E00115784,E00115788,E00115787,E00115786,E00115781,E00115776,E00115782,E00115778,E00115793,E00115785,E00115780,E00115775,E00115779,E00115777,E00115796,E00115794,E00115795,E00115792,E00115791,E00115790,E00115789";
+  	   
+   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + WD_extcode + "/" + "leveltypeid/14/hierarchyid/30";   
+   jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"; 
 
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
 	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	
 	     $.getJSON(jsonFile2 + areaId,function(res2){
-	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 	    	
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;	    
+	    		    	
 	    	details = envelope + ":" + WD + ":" + "WD12NM" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + markerEnvelope + ":" + "WD" + ":" + "WD12CD" + ":" +
-		              WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;		    
+		              WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":"  + 
+		              childarealist + ":" + "" + ":" + "OA11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + childname;		    
 	    	
 	    	$("#Tabs").toggle(); //display tabs for data content
 				
@@ -81,31 +86,25 @@ function WD_areaDetails(){
 			getData( WD_extcode, levelname, WD, 'relGeog');
 			getData( WD_extcode, levelname, WD, 'relAgeGeog');
 			getData( WD_extcode, levelname, WD, 'relSexGeog');	
-			
-	    	highlightMap(details,postcode);	
 	    	
-	    	
-	    	
-	    	// call highlight map
-			   // if (typeof childname === 'undefined') {				 
-			//	   highlightMap(details, validpostCode);
-			  //  }
-			    // call hover map
-			  //  else {				 
-			//	  hoverMap(details, validpostCode);
-			  //   }
-	    	
-	    	
-	    	
-	    	
+	        //call highlight map
+			if (typeof childname === 'undefined') {					
+			   highlightMap(details, postcode);
+			}
+			// call hover map
+			else {			   
+			   hoverMap(details, postcode);
+			}    	
 	    });	//jsonfile1	
-	  });//jsonFile2		    
+	  });//jsonFile2	
+   // });//jsonFile3	    
    });//ready
 }
 
-function LA_areaDetails(){
+function LA_areaDetails(){	
+	
    var areaId, envelope, markerEnvelope, LA, GOR, CTRY, levelname; 
-   var LA_extcode, GOR_extcode, CTRY_extcode ;
+   var LA_extcode, GOR_extcode, CTRY_extcode, childarealist, childname;
    
    LA              = $.getUrlVar('areaname');
    GOR             = $.getUrlVar('gn');
@@ -115,16 +114,23 @@ function LA_areaDetails(){
    CTRY_extcode    = $.getUrlVar('cc');
    markerEnvelope  = $.getUrlVar('markerenvelope');
    levelname       = $.getUrlVar('levelname');
+   childname       = $.getUrlVar('childname');
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + LA_extcode + "/" + "leveltypeid/13/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
+   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + LA_extcode + "/hierarchyid/30";
+   
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
 	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;		     
 	     $.getJSON(jsonFile2 + areaId,function(res2){
-	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 	    	
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;
+	    	$.getJSON(jsonFile3,function(res3){
+			   childarealist = res3['extcode'];	
+			  
 	    	details = envelope + ":" + LA + ":" + "LAD11NM" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "LAD" + ":" + "LAD11CD" + ":" +
-	    	          " " + ":" + LA + ":" + GOR + ":" + CTRY + ":" + " "  + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode;
+	    	          " " + ":" + LA + ":" + GOR + ":" + CTRY + ":" + " "  + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode  + ":" +
+		              childarealist + ":" + "WD12NM" + ":" + "WD12CD" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + childname;
 	    	
 	    	$("#Tabs").toggle(); //display tabs for data content
 			
@@ -138,15 +144,24 @@ function LA_areaDetails(){
 			getData(LA_extcode, levelname, LA, 'relAgeGeog');
 			getData(LA_extcode, levelname, LA, 'relSexGeog');
 	    	
-	    	highlightMap(details,postcode);	
-	    });	//jsonfile1	
-	  });//jsonFile2		    
-   });//ready
+	    	//call highlight map
+			if (typeof childname === 'undefined') {					
+			   highlightMap(details, postcode);
+			}
+			// call hover map
+			else {			   
+			   hoverMap(details, postcode);
+			} 
+	    });	//jsonfile3
+	  });//jsonFile2
+    });//jsonFile1     
+  });//ready
 }	
 
 function GOR_areaDetails(){
+	
 	var areaId, envelope, markerEnvelope, GOR, CTRY, levelname; 
-    var GOR_extcode, CTRY_extcode ;
+    var GOR_extcode, CTRY_extcode, childname, childarealist;
     
     GOR             = $.getUrlVar('areaname');
     CTRY            = $.getUrlVar('cn');
@@ -154,16 +169,23 @@ function GOR_areaDetails(){
     CTRY_extcode    = $.getUrlVar('cc');
     markerEnvelope  = $.getUrlVar('markerenvelope');
     levelname       = $.getUrlVar('levelname');
-	
+    childname       = $.getUrlVar('childname');    
+	alert("gorextcode" + GOR_extcode);
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + GOR_extcode + "/" + "leveltypeid/11/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
+  // jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + GOR_extcode + "/hierarchyid/26";
+   
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
 	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
 	     $.getJSON(jsonFile2 + areaId,function(res2){
-	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;	    	
+	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;
+	    	//$.getJSON(jsonFile3,function(res3){
+			//   childarealist = res3['extcode'];	
+				  
 	    	details = envelope + ":" + GOR + ":" + "GOR10NM" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + markerEnvelope + ":" + "GOR" + ":" + "GOR10CD" + ":" +
-	          " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode;
+	                  " " + ":" + " " + ":" + GOR + ":" + CTRY + ":" + " "  + ":" + " " + ":" + GOR_extcode + ":" + CTRY_extcode + ":" +
+                      childarealist + ":" + "LAD11NM" + ":" + "LAD11CD" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + childname;	    	
 	    	
 	    	$("#Tabs").toggle(); //display tabs for data content
 			
@@ -176,21 +198,32 @@ function GOR_areaDetails(){
 			getData(GOR_extcode, levelname, GOR, 'relGeog');
 			getData(GOR_extcode, levelname, GOR, 'relAgeGeog');
 			getData(GOR_extcode, levelname, GOR, 'relSexGeog');
- 			
-	    	highlightMap(details,postcode);	
+	    	
+	    	//call highlight map
+			if (typeof childname === 'undefined') {				
+			   highlightMap(details, postcode);
+			}
+			// call hover map
+			else {				
+			   hoverMap(details, postcode);
+			}  	    	
 	    });	//jsonfile1	
-	  });//jsonFile2		    
+	  });//jsonFile2
+   // });//jsonFile3     
    });//ready
 }	
 
 function CTRY_areaDetails(){
+	alert("in ctry");
 	var areaId, envelope, markerEnvelope, CTRY, levelname; 
-    var CTRY_extcode ;
+    var CTRY_extcode, childname, childarealist;
     
     CTRY            = $.getUrlVar('areaname');
     CTRY_extcode    = $.getUrlVar('areacode');
     markerEnvelope  = $.getUrlVar('markerenvelope');
-    levelname       = $.getUrlVar('levelname');    
+    levelname       = $.getUrlVar('levelname');
+    childname       = $.getUrlVar('childname');
+    childarealist   = "E12000001,E12000002,E12000003,E12000004,E12000005,E12000006,E12000007,E12000008,E12000009";
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + CTRY_extcode + "/" + "leveltypeid/10/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
@@ -200,7 +233,8 @@ function CTRY_areaDetails(){
 	     $.getJSON(jsonFile2 + areaId,function(res2){
 	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
 	    	details = envelope + ":" + CTRY + ":" + "CTRY11NM" + ":" + "CTRY/CTRY_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "CTRY" + ":" + "CTRY11CD" + ":" +
-	          " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode;
+	                  " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode + ":" +
+	                  childarealist + ":" + "GOR10NM" + ":" + "GOR10CD" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + childname;	
 	    	
 	    	$("#Tabs").toggle(); //display tabs for data content
 			
@@ -214,7 +248,15 @@ function CTRY_areaDetails(){
 			getData(CTRY_extcode, levelname, CTRY, 'relAgeGeog');
 			getData(CTRY_extcode, levelname, CTRY, 'relSexGeog');
 	    	
-	    	highlightMap(details,postcode);	
+			//call highlight map
+			if (typeof childname === 'undefined') {				
+			   highlightMap(details, postcode);
+			}
+			// call hover map
+			else {	
+				alert("hovermapcall");
+			   hoverMap(details, postcode);
+			}  	    	
 	    });	//jsonfile1	
 	  });//jsonFile2		    
    });//ready
@@ -292,16 +334,7 @@ function  OA_pcode_details(postcode) {
 		 	    			 getData(OA, levelname, OA, 'relAgeGeog');
 		 	    			 getData(OA, levelname, OA, 'relSexGeog');
 	 	                      
-	 	                     highlightMap(details,postcode);	 	                     
-	 	                     
-	 	                    // call highlight map
-	 	      			   // if (typeof childname === 'undefined') {				 
-	 	      			//	   highlightMap(details, validpostCode);
-	 	      			  //  }
-	 	      			    // call hover map
-	 	      			  //  else {				 
-	 	      			//	  hoverMap(details, validpostCode);
-	 	      			  //   }
+	 	                     highlightMap(details,postcode);
 	 	                     
 	 	                   }); 
 		 	    		}); 			 	    		
