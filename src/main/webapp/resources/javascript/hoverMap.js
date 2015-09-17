@@ -74,6 +74,8 @@ function hoverMap(details, postcode){
 			
 			var markerEnvelope = xCoord + ":" + yCoord;//param needed for orange box links when going back to highlightMap.js
 			
+			loading = dojo.byId("loadingImg");  //loading image. id   
+			
 		    var reformList    = childarealist.replace(/,/g, "','");	
 		    var childAreaDef  = childcode + " IN ('" + reformList + "')"; 
 			
@@ -103,6 +105,13 @@ function hoverMap(details, postcode){
 			map.addLayer(dynamicMSLayer);  
 			
 			map.setExtent(bbox.expand(1.1)); 
+			
+			on(dynamicMSLayer, "load", function(){
+				  showLoading();			   
+				});	
+				
+				on(map, 'update-start', showLoading);
+			    on(map, 'update-end', hideLoading);
 			
 			var parentAreaDef;
 			
@@ -238,6 +247,14 @@ function hoverMap(details, postcode){
 		       map.graphics.on("mouse-out", closeDialog);
 		       map.on("mouse-drag-end", closeDialog);
 		    }); 
+	        
+	        function showLoading() {    				
+			      esri.show(loading); 
+			    }
+			       
+			    function hideLoading() {
+			      esri.hide(loading);           
+			    }
 	        	        
 	        // go to correct orange box details
 		    if (childlevelname === "OA") {			    	

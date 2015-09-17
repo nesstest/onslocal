@@ -71,6 +71,9 @@ function highlightMap(details, postcode){
 			
 			var polygon;
 			var selected = false;
+
+			loading = dojo.byId("loadingImg");  //loading image. id   
+			
 			var diff = xmax_env-xmin_env;
 			newxmin  = xmin_env - diff;	
 			var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
@@ -94,7 +97,14 @@ function highlightMap(details, postcode){
 			
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
 			map.addLayer(dynamicMSLayer);         
-			map.setExtent(bbox.expand(1.1)); 			
+			map.setExtent(bbox.expand(1.1)); 	
+			
+			on(dynamicMSLayer, "load", function(){
+				  showLoading();			   
+				});	
+				
+				on(map, 'update-start', showLoading);
+			    on(map, 'update-end', hideLoading);
 		  	
 	       var renderer = new UniqueValueRenderer();
 	       
@@ -254,6 +264,14 @@ function highlightMap(details, postcode){
 	          }	          
 	          map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));	      
 	       }
+	       
+	       function showLoading() {    				
+		         esri.show(loading); 
+		       }
+		       
+		       function hideLoading() {
+		         esri.hide(loading);           
+		       }
 	       
 	       // check to see if postcode search
 	       if (typeof $.getUrlVar('pcSearch') === 'undefined' ) {
