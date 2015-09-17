@@ -277,19 +277,22 @@ function highlightMap(details, postcode){
 	       if (typeof $.getUrlVar('pcSearch') === 'undefined' ) {
 	    	   OA_postcode_boxDetail(); 
 	       }
-	       else{	    	  							   
-				 if (levelname ==="WD"){														  					   
-					   WD_boxDetail();
-				 } 														   
-                 if (levelname ==="LAD"){
-              	   LA_boxDetail();									                	  			   
-				  }
-                 if (levelname ==="GOR"){
-              	   GOR_boxDetail();									                	  							   
-				  } 														   
-                 if (levelname ==="CTRY"){
-              	   CTRY_boxDetail();									                	  
-				 } 									
+	       else{
+	    	 if (levelname ==="OA"){														  					   
+			   OA_boxDetail();
+			 } 	
+			 if (levelname ==="WD"){														  					   
+			   WD_boxDetail();
+			 } 														   
+             if (levelname ==="LAD"){
+               LA_boxDetail();									                	  			   
+			 }
+             if (levelname ==="GOR"){
+               GOR_boxDetail();									                	  							   
+			 } 														   
+             if (levelname ==="CTRY"){
+               CTRY_boxDetail();									                	  
+			 } 									
 	       }
 	       
 	       function executeQueryTask(evt){

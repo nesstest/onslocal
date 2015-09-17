@@ -24,7 +24,10 @@ function createMap(postcode){
 			
 			OA_pcode_details(postcode);
 		}
-		else{
+		else{		    
+			if($.getUrlVar('levelname') === 'OA' ) {
+				  OA_areaDetails();
+			}
 			if($.getUrlVar('levelname') === 'WD' ) {
 			  WD_areaDetails();
 			}
@@ -43,6 +46,69 @@ function createMap(postcode){
 		}	
 	}	 
 }
+
+function OA_areaDetails(){
+	
+   var areaId, envelope, markerEnvelope, LA, GOR, CTRY, WD, OA, levelname;
+   var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, OA_extcode, childarealist, childname;  
+  
+   OA               = $.getUrlVar('areaname');
+   OA_extcode       = $.getUrlVar('areacode');
+   WD               = $.getUrlVar('wn');   
+   LA               = $.getUrlVar('ln');
+   GOR              = $.getUrlVar('gn');
+   CTRY             = $.getUrlVar('cn');
+   WD_extcode       = $.getUrlVar('wc');
+   LA_extcode       = $.getUrlVar('lc');
+   GOR_extcode      = $.getUrlVar('gc');
+   CTRY_extcode     = $.getUrlVar('cc');
+   markerEnvelope   = $.getUrlVar('markerenvelope');
+   levelname        = $.getUrlVar('levelname');
+   childname        = $.getUrlVar('childname');
+   parliCon 		= $.getUrlVar('pn');
+   health 			= $.getUrlVar('hn');  
+   parliCon_extcode	= $.getUrlVar('pc');
+   health_extcode 	= $.getUrlVar('hc');  
+  	   
+   
+   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + OA_extcode + "/" + "leveltypeid/15/hierarchyid/26";   
+   jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"; 
+   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/extcodes/ward/";   
+	   
+   $(document).ready(function(){
+	   $.getJSON(jsonFile1, function(res1){
+          areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
+	      $.getJSON(jsonFile2 + areaId,function(res2){
+	     	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;
+	  
+		   details = envelope + ":" + OA + ":" + "WD11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
+		   			 WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":"  + 
+		   			 childarealist + ":" + "" + ":" + "OA11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + childname + ":" + parliCon + ":" + health + ":" + 
+		   			 parliCon_extcode + ":" + health_extcode;	    
+		   
+		   $("#Tabs").toggle(); //display tabs for data content
+		   
+	 	   createTable( OA, levelname);
+	 	   createReligion( OA, levelname);	
+	 	   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'popSexGeog');
+		   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'ageGeog');
+		   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'popTime');
+		   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'relGeog');
+		   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'relAgeGeog');
+		   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'relSexGeog');				
+				
+		  //call highlight map
+		  if (typeof childname === 'undefined') {					
+			 highlightMap(details, postcode);
+		  }
+		  // call hover map
+			else {			   
+		  hoverMap(details, postcode);
+		  }    	
+	   });  
+	 }); 
+   }); 
+ }
 
 function WD_areaDetails(){
 	
