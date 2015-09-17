@@ -1,5 +1,4 @@
-function hoverMap(details, postcode){
-	
+function hoverMap(details, postcode){	
 	$("#map").toggle();
 	
     dojoConfig = {

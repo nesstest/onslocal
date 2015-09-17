@@ -1,4 +1,5 @@
-function highlightMap(details, postcode){	
+function highlightMap(details, postcode){
+	
 	$("#map").toggle();
 	
     dojoConfig = {
