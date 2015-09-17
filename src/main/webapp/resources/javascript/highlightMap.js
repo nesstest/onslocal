@@ -1,5 +1,4 @@
-function highlightMap(details, postcode){
-	
+function highlightMap(details, postcode){	
 	$("#map").toggle();
 	
     dojoConfig = {
@@ -72,7 +71,7 @@ function highlightMap(details, postcode){
 			
 			var polygon;
 			var selected = false;
-			
+
 			loading = dojo.byId("loadingImg");  //loading image. id   
 			
 			var diff = xmax_env-xmin_env;
@@ -98,26 +97,26 @@ function highlightMap(details, postcode){
 			
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
 			map.addLayer(dynamicMSLayer);         
-			map.setExtent(bbox.expand(1.1)); 
+			map.setExtent(bbox.expand(1.1)); 	
 			
 			on(dynamicMSLayer, "load", function(){
-			  showLoading();			   
-			});	
-			
-			on(map, 'update-start', showLoading);
-		    on(map, 'update-end', hideLoading);
+				  showLoading();			   
+				});	
+				
+				on(map, 'update-start', showLoading);
+			    on(map, 'update-end', hideLoading);
 		  	
-	        var renderer = new UniqueValueRenderer();
+	       var renderer = new UniqueValueRenderer();
 	       
-		    var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+		   var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                  new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                  new Color([229,78,22]),1),new Color([0,0,0,0]));  
 		   
-		    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
+		   var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
 			     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
 			     new Color([229,78,22,0.1]));  
 		   
-		    var selSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+		   var selSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
 				   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
 						   new Color([229,78,22]),2),new Color([229,78,22, 0.45]));		   
           
@@ -264,22 +263,25 @@ function highlightMap(details, postcode){
 	        	  map.graphics.add(new Graphic(polygon, selSymbol));	        	 
 	          }	          
 	          map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));	      
-	       }	       
+	       }
 	       
 	       function showLoading() {    				
-	         esri.show(loading); 
-	       }
-	       
-	       function hideLoading() {
-	         esri.hide(loading);           
-	       }
+		         esri.show(loading); 
+		       }
+		       
+		       function hideLoading() {
+		         esri.hide(loading);           
+		       }
 	       
 	       // check to see if postcode search
 	       if (typeof $.getUrlVar('pcSearch') === 'undefined' ) {
 	    	   OA_postcode_boxDetail(); 
 	       }
 	       else{	    	  							   
-				 if (levelname ==="WD"){														  					   
+	    	   if (levelname ==="OA"){														  					   
+				   OA_boxDetail();
+			   } 	
+	    	   if (levelname ==="WD"){														  					   
 					   WD_boxDetail();
 				 } 														   
                  if (levelname ==="LAD"){

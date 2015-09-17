@@ -1,4 +1,5 @@
-function hoverMap(details, postcode){	
+function hoverMap(details, postcode){
+	
 	$("#map").toggle();
 	
     dojoConfig = {
@@ -103,14 +104,14 @@ function hoverMap(details, postcode){
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
 			map.addLayer(dynamicMSLayer);  
 			
-			map.setExtent(bbox.expand(1.1));
+			map.setExtent(bbox.expand(1.1)); 
 			
 			on(dynamicMSLayer, "load", function(){
-			  showLoading();			   
-			});	
-			
-			on(map, 'update-start', showLoading);
-		    on(map, 'update-end', hideLoading);
+				  showLoading();			   
+				});	
+				
+				on(map, 'update-start', showLoading);
+			    on(map, 'update-end', hideLoading);
 			
 			var parentAreaDef;
 			
@@ -248,12 +249,12 @@ function hoverMap(details, postcode){
 		    }); 
 	        
 	        function showLoading() {    				
-		      esri.show(loading); 
-		    }
-		       
-		    function hideLoading() {
-		      esri.hide(loading);           
-		    }
+			      esri.show(loading); 
+			    }
+			       
+			    function hideLoading() {
+			      esri.hide(loading);           
+			    }
 	        	        
 	        // go to correct orange box details
 		    if (childlevelname === "OA") {			    	
@@ -277,7 +278,10 @@ function hoverMap(details, postcode){
 	        function executeQueryTask(evt){
 		    	   
 			   clearHighlightArea();
-			  
+			   //reset area and areaname so that only clicked areas return values and the default values are removed
+			   area = "";
+			   areaname = "";
+			   
 			   var selectionQuery = new esri.tasks.Query();	          
 			   var tol = map.extent.getWidth()/map.width * 5;
 			   var x = evt.mapPoint.x;	          
@@ -289,9 +293,30 @@ function hoverMap(details, postcode){
 				 var resultFeatures = features;
 				 
 				 for(var i=0, il=resultFeatures.length; i<il; i++){
-				   area = resultFeatures[i].attributes[childcode];	  	       	  
+				   area = resultFeatures[i].attributes[childcode];
+				   areaname = resultFeatures[i].attributes[childareaname];
 				 }
               });
+			   
+			   
+			   
+			   
+			    if (area !== ""){
+			    	if (levelname === "WD"){ 
+			    		//sort this out for OA
+			    		window.location.href =  'index.html?nav-search='+postcode+'&levelname=OA&areaname='+area+'&areacode='+area+'&wn='+wardName+'&wc='+wardCode+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+'&cn='+ctryName+'&cc='+ctryCode+'&pn=undefined&pc=undefined&hn=undefined&hc=undefined&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false';		                	  			   
+					}
+				    else if (levelname === "LAD"){
+				    	window.location.href =  'index.html?nav-search='+postcode+'&levelname=WD&areaname='+areaname+'&areacode='+area+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+'&cn='+ctryName+'&cc='+ctryCode+'&pn=undefined&pc=undefined&hn=undefined&hc=undefined&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false';      									                	  							   
+					} 														   
+				    else if (levelname === "GOR"){
+				    	window.location.href =  'index.html?nav-search='+postcode+'&levelname=LAD&areaname='+areaname+'&areacode='+area+'&gn='+gorName+'&gc='+gorCode+'&cn='+ctryName+'&cc='+ctryCode+'&hn=undefined&hc=undefined&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false'	                	  
+					} 
+				    else if (levelname === "CTRY"){
+				    	window.location.href =  'index.html?nav-search='+postcode+'&levelname=GOR&areaname='+areaname+'&areacode='+area+'&cn='+ctryName+'&cc='+ctryCode+'&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false'
+				    }		                	  
+				} 
+			   
 		   }  //  executeQueryTask 
 	        
 	      // $('#selArea1').empty(); //empty any previous contents of orange box
