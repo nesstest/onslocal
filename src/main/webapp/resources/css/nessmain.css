@@ -2959,8 +2959,9 @@ address {
   padding: 1rem 1rem 0;
   margin: 0 auto 5px;
   margin: 0 auto 0.5rem;
-  background-image: url(../images/alpha.png);
-  background-repeat: repeat;}
+/*   background-image: url(../images/alpha.png); */
+  background-repeat: repeat;} 
+  back
   @media screen and (min-width: 50em) {
     .global-header__wrapper {
       padding: 20px 20px 10px 20px;
