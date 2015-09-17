@@ -238,15 +238,10 @@ function hoverMap(details, postcode){
 		       map.graphics.on("mouse-out", closeDialog);
 		       map.on("mouse-drag-end", closeDialog);
 		    }); 
-	        
-	        
-	        
-	        alert("childlevelname" + childlevelname);
-	        
+	        	        
 	        // go to correct orange box details
 		    if (childlevelname === "OA") {			    	
-		       WD_boxDetail();
-		       alert("in wd boxdetail");
+		       WD_boxDetail();		     
 		    }
 		    else if (childlevelname === "WD"){ 
 	          LA_boxDetail();									                	  			   
@@ -285,8 +280,7 @@ function hoverMap(details, postcode){
 	        
 	      // $('#selArea1').empty(); //empty any previous contents of orange box
 	       
-	       function  WD_boxDetail() {
-	    	   alert("wd_boxDetail")
+	       function  WD_boxDetail() {	    	  
 	    	 if (ctryName === 'England') {
 	    		 regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
 		     }
