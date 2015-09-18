@@ -110,15 +110,15 @@ function highlightMap(details, postcode){
 	       
 		    var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                  new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                 new Color([229,78,22]),1),new Color([0,0,0,0]));  
+                 new Color([0,0,0]),1),new Color([0,0,0,0]));  
 		   
 		    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
-			     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
+			     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([0,0,0]), 2), 
 			     new Color([229,78,22,0.1]));  
 		   
 		    var selSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
 				   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-						   new Color([229,78,22]),2),new Color([229,78,22, 0.45]));		   
+						   new Color([0,0,0]),2),new Color([229,78,22, 0.45]));		   
           
 		    var dynamicLayer = "https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/featureServer/0";
 		   		  
@@ -173,7 +173,7 @@ function highlightMap(details, postcode){
 	        });	 
 	      
 	        var selectionSymbol =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
-				 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
+				 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([0,0,0]), 2), 
 				 new Color([229,78,22,0.5]));
 	        
 	        featureLayer.setSelectionSymbol(selectionSymbol);
