@@ -331,11 +331,7 @@ function hoverMap(details, postcode){
 				    '<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;hn=' + healthName + '&amp;hc=' + healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+ laName + '</a>)' +  
 				    regionText + 
 			  	    '<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
-		            '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
-		            '<div style="font-size: small;">' + 
-		            '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + wardName + '&amp;ln=' + laName + '&amp;lc=' + laCode +
-		            '&amp;gn=' + gorName + '&amp;gc=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope +'&amp;pcSearch=false' + '"> Output area </a></div>' +
-		            '</div>' +  '</article></div>');
+		            '</article></div>');
 		   }
 	       function  LA_boxDetail() {	    	  
 	    	 if (ctryName === 'England') {
@@ -351,19 +347,14 @@ function hoverMap(details, postcode){
 				      '<div style="color: black; font-size:medium;">(Local Authority)<br><br><strong>Part of:</strong></div>' +
 				      regionText + 
 				      '<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
-                      '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
-                      '<div style="font-size: small;">' + 
-                      '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + laName + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope +'&amp;pcSearch=false' + '"> Ward </a></div>' +
-                      '</div>' + '</article></div>');	
+                      '</article></div>');	
 		 }	       
 	     function  GOR_boxDetail() {	    	 
 	       if (ctryName === 'England') {	    	    
-	    	  regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
-	    	  regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;childname=LAD&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '"> Local Authority </a></div>';
+	    	  regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';	    	  
 		   }
 		   else{
-		     regionText = '<span style="display:none;"></span>';
-		     regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=LAD&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '"> Local Authority </a></div>';				   
+		     regionText = '<span style="display:none;"></span>';		     
 		   } 
 	       // set orange info box details    		
 		   $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -371,27 +362,21 @@ function hoverMap(details, postcode){
 			      '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
 			      '<div style="color: black; font-size:medium;">(Region)<br><br><strong>Part of:</strong></div>' +
 			      '<div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
-	              '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
-	              '<div style="font-size: small;">' + 
-	              regionDrillText + '</div>' +  '</article></div>');
+	              '</article></div>');
 	     } 
 	     function  CTRY_boxDetail() {
 	       if (ctryName === 'England') {	    		 
-	    	   regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
-	    	   regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=GOR&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '"> Region </a></div>';
+	    	   regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';	    	 
 		    }
 		    else{
-		      regionText = '<span style="display:none;"></span>';
-		      regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=LAD&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '"> Local Authority </a></div>';					   
+		      regionText = '<span style="display:none;"></span>';		      
 		    }
 	    	// set orange info box details	
 			 $('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 			        '<div style="background-color:white" class="box__inner border box--padded has-icon">'+			                   
                     '<div style="color: rgb(243,113,33); font-size: x-large"><strong>' +area+'</strong></div>' +
                     '<div style="color: black; font-size:medium;">(Country)<br><br></strong></div>' +  
-                    '<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
-                    '<div style="font-size: small;">' + 
-                    regionDrillText + '</div>' + '</article></div>');	
+                    '</article></div>');	
 	     }      
 	  });		
 	}	
