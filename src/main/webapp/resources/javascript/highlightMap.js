@@ -300,8 +300,8 @@ function highlightMap(details, postcode){
 	    	   clearHighlightArea();
 			   var selectionQuery = new esri.tasks.Query();	          
 			   var tol = map.extent.getWidth()/map.width * 5;
-			   var x = evt.mapPoint.x;	          
-			   var y = evt.mapPoint.y;			 
+			   var x = Math.round(evt.mapPoint.x);	          
+			   var y = Math.round(evt.mapPoint.y);			
 
 			   // get layer info for area clicked
 			   var wardUrl     = "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2012_GB_BGC/FeatureServer/0/query?where=&geometry=" +
