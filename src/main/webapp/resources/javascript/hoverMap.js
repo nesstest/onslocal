@@ -154,11 +154,11 @@ function hoverMap(details, postcode){
 			
 			var parentMapSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                                   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                                  new Color([229,78,22]),2),new Color([229,78,22, 0.2]));  	  		
+                                  new Color([0,0,0]),2),new Color([229,78,22, 0.2]));  	  		
 			
 			var defaultSymbol  =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                                   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                                  new Color([229,78,22]),2),new Color([229,78,22, 0.2])); 		
+                                  new Color([0,0,0]),2),new Color([229,78,22, 0.2])); 		
            
             
             featureChildLayer1.setDefinitionExpression(childAreaDef);
@@ -178,7 +178,7 @@ function hoverMap(details, postcode){
 		    dialog.startup();		 
 		    
 		    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
-				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
+				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([0,0,0]), 2), 
 				new Color([229,78,22,0.2]));	
 		    
 	        //listen for when the onMouseOver event fires on the countiesGraphicsLayer
@@ -209,7 +209,7 @@ function hoverMap(details, postcode){
 	        });
 		    
 		    var selectionSymbol =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
-				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
+				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([0,0,0]), 2), 
 				new Color([229,78,22,0.5]));
 		        
 		    featureChildLayer1.setSelectionSymbol(selectionSymbol);
@@ -271,7 +271,7 @@ function hoverMap(details, postcode){
 		    	CTRY_boxDetail();		
 		      }          									                	  							   
 			} 														   
-		    else if (childlevelname === "GOR"){//put if in for welsh.?????
+		    else if (childlevelname === "GOR"){
 	          CTRY_boxDetail();									                	  
 			} 
 	        
@@ -314,9 +314,7 @@ function hoverMap(details, postcode){
 				   	window.location.href =  'index.html?nav-search='+postcode+'&levelname=GOR&areaname='+areaname+'&areacode='+area+'&cn='+ctryName+'&cc='+ctryCode+'&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false'
 				}		                	  
 			 } 			   
-		   }  //  executeQueryTask 
-	        
-	      // $('#selArea1').empty(); //empty any previous contents of orange box
+		   }  //  executeQueryTask	    
 	       
 	       function  WD_boxDetail() {	    	  
 	    	 if (ctryName === 'England') {
