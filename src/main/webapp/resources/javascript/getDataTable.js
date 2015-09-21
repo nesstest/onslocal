@@ -38,9 +38,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					    if(levelname =="OA")
 					    	{
 					    tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-					    all = result["SAPEDE 2013"].value[0] ;
-						male = result["SAPEDE 2013"].value[1] ;
-						female = result["SAPEDE 2013"].value[2];
+					    all = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
+						male = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
+						female = commaSeparateNumber(result["SAPEDE 2013"].value[2]);
 						tableRow1 = tableRow1 + "<td>"+all+"</td>";
 						tableRow2 = tableRow2 + "<td>"+male+"</td>";
 						tableRow3 = tableRow3 + "<td>"+female+"</td>";
@@ -54,9 +54,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 								if(levelname == "WD" || levelname =="OA")
 						    	{
 									tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-									all = result["SAPEDE 2013"].value[0] ;
-									male = result["SAPEDE 2013"].value[1] ;
-									female = result["SAPEDE 2013"].value[2];
+									all = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
+									male = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
+									female = commaSeparateNumber(result["SAPEDE 2013"].value[2]);
 									tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
 									tableRow2 = tableRow2 + "<td>"+male+"</td><td>Not Available</td>";
 									tableRow3 = tableRow3 + "<td>"+female+"</td><td>Not Available</td>";
@@ -70,9 +70,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 							    	{
 										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
-										all = result["SAPEDE 2013"].value[0] ;
-										male = result["SAPEDE 2013"].value[1] ;
-										female = result["SAPEDE 2013"].value[2];
+										all = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
+										male = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
+										female = commaSeparateNumber(result["SAPEDE 2013"].value[2]);
 										tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
 										tableRow2 = tableRow2 + "<td>"+male+"</td><td>Not Available</td>";
 										tableRow3 = tableRow3 + "<td>"+female+"</td><td>Not Available</td>";
@@ -86,9 +86,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 										if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
 								    	{
 											tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-											all = result["SAPEDE 2013"].value[0] ;
-											male = result["SAPEDE 2013"].value[1] ;
-											female = result["SAPEDE 2013"].value[2];
+											all = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
+											male = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
+											female = commaSeparateNumber(result["SAPEDE 2013"].value[2]);
 											tableRow1 = tableRow1 + "<td>"+all+"</td>";
 											tableRow2 = tableRow2 + "<td>"+male+"</td>";
 											tableRow3 = tableRow3 + "<td>"+female+"</td>";
@@ -102,9 +102,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 											if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 									    	{
 												tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-												all = result["SAPEDE 2013"].value[0] ;
-												male = result["SAPEDE 2013"].value[1] ;
-												female = result["SAPEDE 2013"].value[2];
+												all = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
+												male = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
+												female = commaSeparateNumber(result["SAPEDE 2013"].value[2]);
 												tableRow1 = tableRow1 + "<td>"+all+"</td>";
 												tableRow2 = tableRow2 + "<td>"+male+"</td>";
 												tableRow3 = tableRow3 + "<td>"+female+"</td>";
@@ -151,11 +151,11 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					    if(levelname =="OA")
 					    	{
 					    tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-					    under1 = result["SAPEDE 2013"].value[1] ;
-						one = result["SAPEDE 2013"].value[2] ;
-						two = result["SAPEDE 2013"].value[3] ;
-						three = result["SAPEDE 2013"].value[4] ;
-						four = result["SAPEDE 2013"].value[5] ;
+					    under1 = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
+						one = commaSeparateNumber(result["SAPEDE 2013"].value[2]) ;
+						two = commaSeparateNumber(result["SAPEDE 2013"].value[3]) ;
+						three = commaSeparateNumber(result["SAPEDE 2013"].value[4]) ;
+						four = commaSeparateNumber(result["SAPEDE 2013"].value[5]) ;
 						tableRow1 = tableRow1 + "<td>"+under1+"</td>";
 						tableRow2 = tableRow2 + "<td>"+one+"</td>";
 						tableRow3 = tableRow3 + "<td>"+two+"</td>";
@@ -171,11 +171,11 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 								if(levelname == "WD" || levelname =="OA")
 						    	{
 									tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-									under1 = result["SAPEDE 2013"].value[1] ;
-									one = result["SAPEDE 2013"].value[2] ;
-									two = result["SAPEDE 2013"].value[3] ;
-									three = result["SAPEDE 2013"].value[4] ;
-									four = result["SAPEDE 2013"].value[5] ;
+									under1 = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
+									one = commaSeparateNumber(result["SAPEDE 2013"].value[2]) ;
+									two = commaSeparateNumber(result["SAPEDE 2013"].value[3]) ;
+									three = commaSeparateNumber(result["SAPEDE 2013"].value[4]) ;
+									four = commaSeparateNumber(result["SAPEDE 2013"].value[5]) ;
 									tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
 									tableRow2 = tableRow2 + "<td>"+one+"</td><td>Not Available</td>";
 									tableRow3 = tableRow3 + "<td>"+two+"</td><td>Not Available</td>";
@@ -191,11 +191,11 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 							    	{
 										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
-										under1 = result["SAPEDE 2013"].value[1] ;
-										one = result["SAPEDE 2013"].value[2] ;
-										two = result["SAPEDE 2013"].value[3] ;
-										three = result["SAPEDE 2013"].value[4] ;
-										four = result["SAPEDE 2013"].value[5] ;
+										under1 = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
+										one = commaSeparateNumber(result["SAPEDE 2013"].value[2]) ;
+										two = commaSeparateNumber(result["SAPEDE 2013"].value[3]) ;
+										three = commaSeparateNumber(result["SAPEDE 2013"].value[4]) ;
+										four = commaSeparateNumber(result["SAPEDE 2013"].value[5]) ;
 										tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
 									tableRow2 = tableRow2 + "<td>"+one+"</td><td>Not Available</td>";
 									tableRow3 = tableRow3 + "<td>"+two+"</td><td>Not Available</td>";
@@ -211,11 +211,11 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 										if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
 								    	{
 											tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-											under1 = result["SAPEDE 2013"].value[1] ;
-											one = result["SAPEDE 2013"].value[2] ;
-											two = result["SAPEDE 2013"].value[3] ;
-											three = result["SAPEDE 2013"].value[4] ;
-											four = result["SAPEDE 2013"].value[5] ;
+											under1 = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
+											one = commaSeparateNumber(result["SAPEDE 2013"].value[2]) ;
+											two = commaSeparateNumber(result["SAPEDE 2013"].value[3]) ;
+											three = commaSeparateNumber(result["SAPEDE 2013"].value[4]) ;
+											four = commaSeparateNumber(result["SAPEDE 2013"].value[5]) ;
 											tableRow1 = tableRow1 + "<td>"+under1+"</td>";
 											tableRow2 = tableRow2 + "<td>"+one+"</td>";
 											tableRow3 = tableRow3 + "<td>"+two+"</td>";
@@ -231,11 +231,11 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 											if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 									    	{
 												tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-												under1 = result["SAPEDE 2013"].value[1] ;
-												one = result["SAPEDE 2013"].value[2] ;
-												two = result["SAPEDE 2013"].value[3] ;
-												three = result["SAPEDE 2013"].value[4] ;
-												four = result["SAPEDE 2013"].value[5] ;
+												under1 = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
+												one = commaSeparateNumber(result["SAPEDE 2013"].value[2]) ;
+												two = commaSeparateNumber(result["SAPEDE 2013"].value[3]) ;
+												three = commaSeparateNumber(result["SAPEDE 2013"].value[4]) ;
+												four = commaSeparateNumber(result["SAPEDE 2013"].value[5]) ;
 												tableRow1 = tableRow1 + "<td>"+under1+"</td>";
 												tableRow2 = tableRow2 + "<td>"+one+"</td>";
 												tableRow3 = tableRow3 + "<td>"+two+"</td>";
@@ -281,7 +281,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					    if(levelname =="OA")
 					    	{
 					    tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-					    under1 = result["SAPEDE 2013"].value[0] ;
+					    under1 = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
 	
 						tableRow1 = tableRow1 + "<td>"+under1+"</td>";
 					
@@ -295,7 +295,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 								if(levelname == "WD" || levelname =="OA")
 						    	{
 									tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-									under1 = result["SAPEDE 2013"].value[0] ;
+									under1 = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
 									
 									tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
 								
@@ -309,7 +309,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 							    	{
 										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
-										under1 = result["SAPEDE 2013"].value[0] ;
+										under1 = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
 										
 										tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
 									
@@ -323,7 +323,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 										if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
 								    	{
 											tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-											under1 = result["SAPEDE 2013"].value[0] ;
+											under1 = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
 											
 											tableRow1 = tableRow1 + "<td>"+under1+"</td>";
 											
@@ -337,7 +337,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 											if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 									    	{
 												tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-												under1 = result["SAPEDE 2013"].value[0] ;
+												under1 = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
 										
 												tableRow1 = tableRow1 + "<td>"+under1+"</td>";
 												
@@ -380,9 +380,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					    if(levelname =="OA")
 					    	{
 					    tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-					    all = result["LC2107EW"].value[0] ;
-						christian = result["LC2107EW"].value[1] ;
-						muslim = result["LC2107EW"].value[5];
+					    all = commaSeparateNumber(result["LC2107EW"].value[0]) ;
+						christian = commaSeparateNumber(result["LC2107EW"].value[1]) ;
+						muslim = commaSeparateNumber(result["LC2107EW"].value[5]);
 						tableRow1 = tableRow1 + "<td>"+all+"</td>";
 						tableRow2 = tableRow2 + "<td>"+christian+"</td>";
 						tableRow3 = tableRow3 + "<td>"+muslim+"</td>";
@@ -396,9 +396,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 								if(levelname == "WD" || levelname =="OA")
 						    	{
 									tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-									all = result["LC2107EW"].value[0] ;
-									christian = result["LC2107EW"].value[1] ;
-									muslim = result["LC2107EW"].value[5];
+									all = commaSeparateNumber(result["LC2107EW"].value[0]) ;
+									christian = commaSeparateNumber(result["LC2107EW"].value[1]) ;
+									muslim = commaSeparateNumber(result["LC2107EW"].value[5]);
 									tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
 									tableRow2 = tableRow2 + "<td>"+christian+"</td><td>Not Available</td>";
 									tableRow3 = tableRow3 + "<td>"+muslim+"</td><td>Not Available</td>";
@@ -413,9 +413,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 							    	{
 										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
-										all = result["LC2107EW"].value[0] ;
-										christian = result["LC2107EW"].value[1] ;
-										muslim = result["LC2107EW"].value[5];
+										all = commaSeparateNumber(result["LC2107EW"].value[0]) ;
+										christian = commaSeparateNumber(result["LC2107EW"].value[1]) ;
+										muslim = commaSeparateNumber(result["LC2107EW"].value[5]);
 										tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
 										tableRow2 = tableRow2 + "<td>"+christian+"</td><td>Not Available</td>";
 										tableRow3 = tableRow3 + "<td>"+muslim+"</td><td>Not Available</td>";
@@ -429,9 +429,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 										if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
 								    	{
 											tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-											all = result["LC2107EW"].value[0] ;
-											christian = result["LC2107EW"].value[1] ;
-											muslim = result["LC2107EW"].value[5];
+											all = commaSeparateNumber(result["LC2107EW"].value[0]) ;
+											christian = commaSeparateNumber(result["LC2107EW"].value[1]) ;
+											muslim = commaSeparateNumber(result["LC2107EW"].value[5]);
 											tableRow1 = tableRow1 + "<td>"+all+"</td>";
 											tableRow2 = tableRow2 + "<td>"+christian+"</td>";
 											tableRow3 = tableRow3 + "<td>"+muslim+"</td>";
@@ -445,9 +445,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 											if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 									    	{
 												tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-												all = result["LC2107EW"].value[0] ;
-												christian = result["LC2107EW"].value[1] ;
-												muslim = result["LC2107EW"].value[5];
+												all = commaSeparateNumber(result["LC2107EW"].value[0]) ;
+												christian = commaSeparateNumber(result["LC2107EW"].value[1]) ;
+												muslim = commaSeparateNumber(result["LC2107EW"].value[5]);
 												tableRow1 = tableRow1 + "<td>"+all+"</td>";
 												tableRow2 = tableRow2 + "<td>"+christian+"</td>";
 												tableRow3 = tableRow3 + "<td>"+muslim+"</td>";
@@ -494,9 +494,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					    if(levelname =="OA")
 					    	{
 					    tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-					    groupOne = result["LC2107EW"].value[1] ;
-						groupTwo = result["LC2107EW"].value[2] ;
-						groupThree = result["LC2107EW"].value[3];
+					    groupOne = commaSeparateNumber(result["LC2107EW"].value[1]) ;
+						groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]);
+						groupThree = commaSeparateNumber(result["LC2107EW"].value[3]);
 						tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
 						tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
 						tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
@@ -510,9 +510,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 								if(levelname == "WD" || levelname =="OA")
 						    	{
 									tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-									groupOne = result["LC2107EW"].value[1] ;
-									groupTwo = result["LC2107EW"].value[2] ;
-									groupThree = result["LC2107EW"].value[3];
+									groupOne = commaSeparateNumber(result["LC2107EW"].value[1]) ;
+									groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]) ;
+									groupThree = commaSeparateNumber(result["LC2107EW"].value[3]);
 									tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
 									tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
 									tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
@@ -526,9 +526,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 							    	{
 										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
-										groupOne = result["LC2107EW"].value[1];
-										groupTwo = result["LC2107EW"].value[2];
-										groupThree = result["LC2107EW"].value[3];
+										groupOne = commaSeparateNumber(result["LC2107EW"].value[1]);
+										groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]);
+										groupThree = commaSeparateNumber(result["LC2107EW"].value[3]);
 										tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
 										tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
 										tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
@@ -542,9 +542,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 										if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
 								    	{
 											tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-											groupOne = result["LC2107EW"].value[1] ;
-											groupTwo = result["LC2107EW"].value[2] ;
-											groupThree = result["LC2107EW"].value[3];
+											groupOne = commaSeparateNumber(result["LC2107EW"].value[1]) ;
+											groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]) ;
+											groupThree = commaSeparateNumber(result["LC2107EW"].value[3]);
 											tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
 											tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
 											tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
@@ -558,9 +558,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 											if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 									    	{
 												tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-												groupOne = result["LC2107EW"].value[1] ;
-												groupTwo = result["LC2107EW"].value[2] ;
-												groupThree = result["LC2107EW"].value[3];
+												groupOne = commaSeparateNumber(result["LC2107EW"].value[1]) ;
+												groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]) ;
+												groupThree = commaSeparateNumber(result["LC2107EW"].value[3]);
 												tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
 												tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
 												tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
@@ -608,10 +608,10 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					    if(levelname =="OA")
 					    	{
 					    tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-					    groupOne = result["LC2107EW"].value[0] ;
-						groupTwo = result["LC2107EW"].value[2] ;
-						groupThree = result["LC2107EW"].value[1];
-						groupFour = result["LC2107EW"].value[3];
+					    groupOne = commaSeparateNumber(result["LC2107EW"].value[0]) ;
+						groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]) ;
+						groupThree = commaSeparateNumber(result["LC2107EW"].value[1]);
+						groupFour = commaSeparateNumber(result["LC2107EW"].value[3]);
 						tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
 						tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
 						tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
@@ -626,10 +626,10 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 								if(levelname == "WD" || levelname =="OA")
 						    	{
 									tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-									 groupOne = result["LC2107EW"].value[0] ;
-										groupTwo = result["LC2107EW"].value[2] ;
-										groupThree = result["LC2107EW"].value[1];
-										groupFour = result["LC2107EW"].value[3];
+									 groupOne = commaSeparateNumber(result["LC2107EW"].value[0]) ;
+										groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]) ;
+										groupThree = commaSeparateNumber(result["LC2107EW"].value[1]);
+										groupFour = commaSeparateNumber(result["LC2107EW"].value[3]);
 									tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
 									tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
 									tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
@@ -645,10 +645,10 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 							    	{
 										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
-										 groupOne = result["LC2107EW"].value[0] ;
-											groupTwo = result["LC2107EW"].value[2] ;
-											groupThree = result["LC2107EW"].value[1];
-											groupFour = result["LC2107EW"].value[3];
+										 groupOne = commaSeparateNumber(result["LC2107EW"].value[0]) ;
+											groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]) ;
+											groupThree = commaSeparateNumber(result["LC2107EW"].value[1]);
+											groupFour = commaSeparateNumber(result["LC2107EW"].value[3]);
 										tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
 										tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
 										tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
@@ -663,10 +663,10 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 										if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
 								    	{
 											tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-											 groupOne = result["LC2107EW"].value[0] ;
-												groupTwo = result["LC2107EW"].value[2] ;
-												groupThree = result["LC2107EW"].value[1];
-												groupFour = result["LC2107EW"].value[3];
+											 groupOne = commaSeparateNumber(result["LC2107EW"].value[0]) ;
+												groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]);
+												groupThree = commaSeparateNumber(result["LC2107EW"].value[1]);
+												groupFour = commaSeparateNumber(result["LC2107EW"].value[3]);
 											tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
 											tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
 											tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
@@ -681,10 +681,10 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 											if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 									    	{
 												tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-												 groupOne = result["LC2107EW"].value[0] ;
-													groupTwo = result["LC2107EW"].value[2] ;
-													groupThree = result["LC2107EW"].value[1];
-													groupFour = result["LC2107EW"].value[3];
+												 groupOne = commaSeparateNumber(result["LC2107EW"].value[0]) ;
+													groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]) ;
+													groupThree = commaSeparateNumber(result["LC2107EW"].value[1]);
+													groupFour = commaSeparateNumber(result["LC2107EW"].value[3]);
 												tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
 												tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
 												tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
@@ -757,4 +757,11 @@ function completeTable(tableHead, tableBody, tableRows, tableType){
 	});
 }
 
+function commaSeparateNumber(val){
+	while (/(\d+)(\d{3})/.test(val.toString()))
+	{
+		val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+	}
+  return val;
+}
 
