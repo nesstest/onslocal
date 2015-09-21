@@ -154,11 +154,11 @@ function hoverMap(details, postcode){
 			
 			var parentMapSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                                   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                                  new Color([229,78,22]),2),new Color([229,78,22, 0.2]));  	  		
+                                  new Color([0,0,0]),2),new Color([229,78,22, 0.2]));  	  		
 			
 			var defaultSymbol  =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                                   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                                  new Color([229,78,22]),2),new Color([229,78,22, 0.2])); 		
+                                  new Color([0,0,0]),2),new Color([229,78,22, 0.2])); 		
            
             
             featureChildLayer1.setDefinitionExpression(childAreaDef);
@@ -209,7 +209,7 @@ function hoverMap(details, postcode){
 	        });
 		    
 		    var selectionSymbol =  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 
-				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([229,78,22]), 2), 
+				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new Color([0,0,0]), 2), 
 				new Color([229,78,22,0.5]));
 		        
 		    featureChildLayer1.setSelectionSymbol(selectionSymbol);
