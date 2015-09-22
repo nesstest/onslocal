@@ -451,7 +451,9 @@ function highlightMap(details, postcode){
 
 														gorName = laName;
 														gorCode = laCode;    
-														if (!levelname ==="GOR") {
+														if (levelname === "GOR") {
+														}
+														else{
 
 															$(document).ready(function(){
 																var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
