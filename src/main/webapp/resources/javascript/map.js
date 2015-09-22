@@ -85,7 +85,13 @@ function OA_areaDetails(){
 		   			 WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":" + parliCon + ":" + health + ":" + 
 		   			 parliCon_extcode + ":" + health_extcode + ":"  + childarealist + ":" + "" + ":" + "OA11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + childname;	    
 		   
-		   $("#Tabs").toggle(); //display tabs for data content
+		   $("#Tabs").toggle(); 
+		   
+		   //display tabs for data content
+		   
+		   if (GOR_extcode == " "){
+				 GOR_extcode = CTRY_extcode
+				}  
 		   
 	 	   createTable( OA, levelname);
 	 	   createReligion( OA, levelname);	
