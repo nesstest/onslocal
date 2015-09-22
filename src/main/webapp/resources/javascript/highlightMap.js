@@ -543,7 +543,7 @@ function highlightMap(details, postcode){
 			// set orange info box details	
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;" class="box__inner border box--padded has-icon">'+			                   
-					'<div style="color: rgb(243,113,33); font-size:large"><strong>' +postcode+'</strong></div>' +
+					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +postcode+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
 					'<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; + href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;areaname=' + wardName + '&amp;areacode=' + wardCode + '&amp;ln=' + laName + '&amp;lc=' + laCode +
 					'&amp;gn=' + gorName + '&amp;gc=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;pn=' + parliConName + '&amp;pc=' + parliConCode + '&amp;hn=' + healthName + '&amp;hc=' + healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+ wardName + '</a>)' +
@@ -566,7 +566,7 @@ function highlightMap(details, postcode){
 			// set orange info box details	
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;" class="box__inner border box--padded has-icon">'+			                   
-					'<div style="color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
+					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
 					'<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;areaname=' + wardName + '&amp;areacode=' + wardCode + '&amp;ln=' + laName + '&amp;lc=' + laCode +
 					'&amp;gn=' + gorName + '&amp;gc=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode  + '&amp;pn=' + parliConName + '&amp;pc=' + parliConCode + '&amp;hn=' + healthName + '&amp;hc=' + healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+ wardName + '</a>)' +
@@ -586,8 +586,8 @@ function highlightMap(details, postcode){
 			} 	    	
 			// set orange info box details    		
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
-					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;" class="box__inner border box--padded has-icon">'+			                   
-					'<div style="color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
+					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;min-width: 211px" class="box__inner border box--padded has-icon">'+			                   
+					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
 					'<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;hn=' + healthName + '&amp;hc=' + healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+ laName + '</a>)' +  
 					regionText + 
@@ -609,8 +609,8 @@ function highlightMap(details, postcode){
 			} 
 			// set orange info box details    		
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
-					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;" class="box__inner border box--padded has-icon">'+			                   
-					'<div style="color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
+					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;min-width: 211px;" class="box__inner border box--padded has-icon">'+			                   
+					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Local Authority)<br><br><strong>Part of:</strong></div>' +
 					regionText + 
 					'<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
@@ -631,7 +631,7 @@ function highlightMap(details, postcode){
 			// set orange info box details    		
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
 					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;" class="box__inner border box--padded has-icon">'+			                   
-					'<div style="color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
+					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Region)<br><br><strong>Part of:</strong></div>' +
 					'<div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
 					'<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
