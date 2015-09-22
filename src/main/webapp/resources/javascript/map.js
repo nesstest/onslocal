@@ -82,9 +82,8 @@ function OA_areaDetails(){
 	     	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;
 	  
 		   details = envelope + ":" + OA + ":" + "WD11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
-		   			 WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":"  + 
-		   			 childarealist + ":" + "" + ":" + "OA11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + childname + ":" + parliCon + ":" + health + ":" + 
-		   			 parliCon_extcode + ":" + health_extcode;	    
+		   			 WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":" + parliCon + ":" + health + ":" + 
+		   			 parliCon_extcode + ":" + health_extcode + ":"  + childarealist + ":" + "" + ":" + "OA11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + childname;	    
 		   
 		   $("#Tabs").toggle(); //display tabs for data content
 		   
@@ -145,13 +144,24 @@ function WD_areaDetails(){
 		       childarealist = res3['oa'];	
 		       
 	    	details = envelope + ":" + WD + ":" + "WD12NM" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + markerEnvelope + ":" + "WD" + ":" + "WD12CD" + ":" +
-		              WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":"  + 
-		              childarealist + ":" + "" + ":" + "OA11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + childname + ":" + parliCon + ":" + health + ":" + 
-		              parliCon_extcode + ":" + health_extcode;	    
+		              WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":" + parliCon + ":" + health + ":" + 
+		              parliCon_extcode + ":" + health_extcode + ":"  + 
+		              childarealist + ":" + "" + ":" + "OA11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + childname;	    
 	    	
 	    	$("#Tabs").toggle(); //display tabs for data content
 				
  			//Call createTable for OA
+	    	
+	    	 if (OA == ""){
+				 OA = CTRY_extcode
+				}  
+	    	 
+	    	 if (GOR_extcode == " "){
+				 GOR_extcode = CTRY_extcode
+				}  
+			   
+			 
+	    	
  			createTable( WD_extcode, levelname);
  			createReligion( WD_extcode, levelname);	
  			getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, WD, 'popSexGeog');
@@ -210,13 +220,21 @@ function LA_areaDetails(){
 			   childarealist = res3['extcode'];	
 			  
 	    	details = envelope + ":" + LA + ":" + "LAD11NM" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "LAD" + ":" + "LAD11CD" + ":" +
-	    	          " " + ":" + LA + ":" + GOR + ":" + CTRY + ":" + " "  + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode  + ":" +
-		              childarealist + ":" + "WD12NM" + ":" + "WD12CD" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + childname + ":" + parliCon + ":" + 
-		              health + ":" + parliCon_extcode + ":" + health_extcode;
+	    	          " " + ":" + LA + ":" + GOR + ":" + CTRY + ":" + " "  + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":" + parliCon + ":" + 
+		              health + ":" + parliCon_extcode + ":" + health_extcode  + ":" +
+		              childarealist + ":" + "WD12NM" + ":" + "WD12CD" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + childname;
 	    	
 	    	$("#Tabs").toggle(); //display tabs for data content
 			
  			//Call createTable for OA
+	    	
+	    	 if (OA == ""){
+				 OA = CTRY_extcode
+				}  
+	    	 
+	    	 if (GOR_extcode == " "){
+				 GOR_extcode = CTRY_extcode
+				}  
  			createTable(LA_extcode, levelname);
  			createReligion(LA_extcode, levelname);
  			getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'popSexGeog');
@@ -275,13 +293,21 @@ function GOR_areaDetails(){
 			   childarealist = res3['extcode'];	
 				  
 	    	details = envelope + ":" + GOR + ":" + "GOR10NM" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + markerEnvelope + ":" + "GOR" + ":" + "GOR10CD" + ":" +
-	                  " " + ":" + " " + ":" + GOR + ":" + CTRY + ":" + " "  + ":" + " " + ":" + GOR_extcode + ":" + CTRY_extcode + ":" +
-                      childarealist + ":" + "LAD11NM" + ":" + "LAD11CD" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + childname + ":" + parliCon + 
-                      ":" + health + ":" + parliCon_extcode + ":" + health_extcode;		    	    	
+	                  " " + ":" + " " + ":" + GOR + ":" + CTRY + ":" + " "  + ":" + " " + ":" + GOR_extcode + ":" + CTRY_extcode + ":" + parliCon + 
+                      ":" + health + ":" + parliCon_extcode + ":" + health_extcode + ":" +
+                      childarealist + ":" + "LAD11NM" + ":" + "LAD11CD" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + childname;		    	    	
 	    	
 	    	$("#Tabs").toggle(); //display tabs for data content
 			
  			//Call createTable for OA
+	    	 if (OA == ""){
+				 OA = CTRY_extcode
+				}  
+	    	 
+	    	 if (GOR_extcode == " "){
+				 GOR_extcode = CTRY_extcode
+				}  
+	    	
  			createTable(GOR_extcode, levelname);
  			createReligion(GOR_extcode, levelname);
  			getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, GOR, 'popSexGeog');
@@ -341,19 +367,28 @@ function CTRY_areaDetails(){
 	    	if(CTRY === "Wales"){
 	    		details = envelope + ":" + CTRY + ":" + "CTRY11NM" + ":" + "CTRY/CTRY_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "CTRY" + ":" + "CTRY11CD" + ":" +
                           " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode + ":" +
-                          childarealist + ":" + "LAD11NM" + ":" + "LAD11CD" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + childname + ":" +
-                          parliCon + ":" + health + ":"  + parliCon_extcode + ":" + health_extcode;
+                          parliCon + ":" + health + ":"  + parliCon_extcode + ":" + health_extcode + ":" +
+                          childarealist + ":" + "LAD11NM" + ":" + "LAD11CD" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + childname;
 	    	}
 	    	else{
 	    	  details = envelope + ":" + CTRY + ":" + "CTRY11NM" + ":" + "CTRY/CTRY_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "CTRY" + ":" + "CTRY11CD" + ":" +
-                        " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode + ":" +
-                        childarealist + ":" + "GOR10NM" + ":" + "GOR10CD" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + childname + ":"  + parliCon + 
-                        ":" + health + ":" + parliCon_extcode + ":" + health_extcode;
+                        " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode + ":"  + parliCon + 
+                        ":" + health + ":" + parliCon_extcode + ":" + health_extcode + ":" +
+                        childarealist + ":" + "GOR10NM" + ":" + "GOR10CD" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + childname;
 	    	}	    	
 	    	
 	    	$("#Tabs").toggle(); //display tabs for data content
 			
  			//Call createTable for OA
+	    	
+	    	
+	    	 if (OA == ""){
+				 OA = CTRY_extcode
+				}  
+	    	 
+	    	 if (GOR_extcode == " "){
+				 GOR_extcode = CTRY_extcode
+				}  
  			createTable(CTRY_extcode, levelname);
  			createReligion(CTRY_extcode, levelname);
  			getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, CTRY, 'popSexGeog');

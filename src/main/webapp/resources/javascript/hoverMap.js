@@ -62,15 +62,15 @@ function hoverMap(details, postcode){
 			var laCode             = detailsArray[16];
 			var gorCode            = detailsArray[17];
 			var ctryCode           = detailsArray[18];
-			var childarealist      = detailsArray[19];
-			var childareaname      = detailsArray[20];
-			var childcode          = detailsArray[21];
-			var childlayername     = detailsArray[22];
-			var childlevelname     = detailsArray[23];
-			var parliConName       = detailsArray[24];		
-			var healthName         = detailsArray[25];
-			var parliConCode       = detailsArray[26];
-			var healthCode         = detailsArray[27];	
+			var parliConName       = detailsArray[19];		
+			var healthName         = detailsArray[20];
+			var parliConCode       = detailsArray[21];
+			var healthCode         = detailsArray[22];	
+			var childarealist      = detailsArray[23];
+			var childareaname      = detailsArray[24];
+			var childcode          = detailsArray[25];
+			var childlayername     = detailsArray[26];
+			var childlevelname     = detailsArray[27];
 			
 			var markerEnvelope = xCoord + ":" + yCoord;//param needed for orange box links when going back to highlightMap.js
 			
@@ -302,13 +302,13 @@ function hoverMap(details, postcode){
 			  if (area !== ""){
 			   	if (levelname === "WD"){ 
 			   		//sort this out for OA
-			   		window.location.href =  'index.html?nav-search='+postcode+'&levelname=OA&areaname='+area+'&areacode='+area+'&wn='+wardName+'&wc='+wardCode+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+'&cn='+ctryName+'&cc='+ctryCode+'&pn=undefined&pc=undefined&hn=undefined&hc=undefined&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false';		                	  			   
+			   		window.location.href =  'index.html?nav-search='+postcode+'&levelname=OA&areaname='+area+'&areacode='+area+'&wn='+wardName+'&wc='+wardCode+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+'&cn='+ctryName+'&cc='+ctryCode+'&pn='+parliConName+'&pc='+parliConCode+'&hn='+healthName+'&hc='+healthCode+'&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false';		                	  			   
 				}
 				else if (levelname === "LAD"){
-				   	window.location.href =  'index.html?nav-search='+postcode+'&levelname=WD&areaname='+areaname+'&areacode='+area+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+'&cn='+ctryName+'&cc='+ctryCode+'&pn=undefined&pc=undefined&hn=undefined&hc=undefined&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false';      									                	  							   
+				   	window.location.href =  'index.html?nav-search='+postcode+'&levelname=WD&areaname='+areaname+'&areacode='+area+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+'&cn='+ctryName+'&cc='+ctryCode+'&pn='+parliConName+'&pc='+parliConCode+'&hn='+healthName+'&hc='+healthCode+'&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false';      									                	  							   
 				} 														   
 				else if (levelname === "GOR"){
-				   	window.location.href =  'index.html?nav-search='+postcode+'&levelname=LAD&areaname='+areaname+'&areacode='+area+'&gn='+gorName+'&gc='+gorCode+'&cn='+ctryName+'&cc='+ctryCode+'&hn=undefined&hc=undefined&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false'	                	  
+				   	window.location.href =  'index.html?nav-search='+postcode+'&levelname=LAD&areaname='+areaname+'&areacode='+area+'&gn='+gorName+'&gc='+gorCode+'&cn='+ctryName+'&cc='+ctryCode+'&hn='+healthName+'&hc='+healthCode+'&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false'	                	  
 				} 
 				else if (levelname === "CTRY"){
 				   	window.location.href =  'index.html?nav-search='+postcode+'&levelname=GOR&areaname='+areaname+'&areacode='+area+'&cn='+ctryName+'&cc='+ctryCode+'&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false'
