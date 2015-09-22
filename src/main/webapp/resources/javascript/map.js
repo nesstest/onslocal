@@ -232,7 +232,7 @@ function LA_areaDetails(){
 				 OA = CTRY_extcode
 				}  
 	    	 
-	    	 if (GOR_extcode == " "){
+	    	 if (GOR_extcode == " " | GOR_extcode == null){
 				 GOR_extcode = CTRY_extcode
 				}  
  			createTable(LA_extcode, levelname);
@@ -477,7 +477,9 @@ function  OA_pcode_details(postcode) {
 					    						  if(CTRY_Welsh === "Wales"){
 					    							 details = envelope + ":" + OA + ":" + " " + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
 					    							 		   WD + ":" + LA + ":" + GOR + ":" + CTRY_Welsh  + ":" + WD_extcode + ":" + LA_extcode + ":" +  " "  + ":" + CTRY_Welsh_extcode + ":" +
-					    							 		   parliCon + ":" + health + ":" + parliCon_extcode + ":" + health_extcode;	 	       
+					    							 		   parliCon + ":" + health + ":" + parliCon_extcode + ":" + health_extcode;	 
+					    							 CTRY = CTRY_Welsh;
+					    							 CTRY_extcode = CTRY_Welsh_extcode;
 					    						  }
 					    						  else{
 					    							details = envelope + ":" + OA + ":" + " " + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
