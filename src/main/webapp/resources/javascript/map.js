@@ -208,9 +208,9 @@ function LA_areaDetails(){
    markerEnvelope   = $.getUrlVar('markerenvelope');
    levelname        = $.getUrlVar('levelname');
    childname        = $.getUrlVar('childname');
-   parliCon 		= "";
+   parliCon 		= $.getUrlVar('pn');
    health 			= $.getUrlVar('hn');
-   parliCon_extcode	= "";
+   parliCon_extcode	= $.getUrlVar('pc');
    health_extcode 	= $.getUrlVar('hc');
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + LA_extcode + "/" + "leveltypeid/13/hierarchyid/26";
@@ -281,10 +281,10 @@ function GOR_areaDetails(){
     markerEnvelope   = $.getUrlVar('markerenvelope');
     levelname        = $.getUrlVar('levelname');
     childname        = $.getUrlVar('childname');
-    parliCon 		 = "";
-    health 			 = "";
-    parliCon_extcode = "";
-    health_extcode 	 = "";
+    parliCon 		 = $.getUrlVar('pn');
+    health 			 = $.getUrlVar('hn');
+    parliCon_extcode = $.getUrlVar('pc');
+    health_extcode 	 = $.getUrlVar('hc');
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + GOR_extcode + "/" + "leveltypeid/11/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
@@ -354,10 +354,10 @@ function CTRY_areaDetails(){
     markerEnvelope   = $.getUrlVar('markerenvelope');
     levelname        = $.getUrlVar('levelname');
     childname        = $.getUrlVar('childname');
-    parliCon 		 = "";
-    health 			 = "";
-    parliCon_extcode = "";
-    health_extcode 	 = "";
+    parliCon 		 = $.getUrlVar('pn');
+    health 			 = $.getUrlVar('hn');
+    parliCon_extcode = $.getUrlVar('pc');
+    health_extcode 	 = $.getUrlVar('hc');
    
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + CTRY_extcode + "/" + "leveltypeid/10/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
@@ -521,23 +521,7 @@ function  OA_pcode_details(postcode) {
 				 }); // jsonFile2	      	   
 			}); // jsonFile1		     	   
 		}); // ready
-}	
-
-function  OA_details() {
-	var OA_details;
-	
-	// = 	$.getUrlVar('xmin') + ":" + $.getUrlVar('ymin') + ":" + $.getUrlVar('xmax') + ":" + $.getUrlVar('xmax') + ":" +
-	//	$.getUrlVar('areaname') + ":" +
-	//	" " + ":" +
-	//	"OA/OA_2011_EW_BGC_V2" + ":" +
-	//	$.getUrlVar('markerenvelope') + ":" +
-	//	"OA" + ":" +
-	//	"OA11CD";
-//} 
-////	   
-//	return OA_details;
-}	    	
-	
+}
 
 //Read a user input postcode and strip of plus signs,
 // convert to uppercase and reformat if necessary

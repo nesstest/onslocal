@@ -71,9 +71,7 @@ function hoverMap(details, postcode){
 		var childcode          = detailsArray[25];
 		var childlayername     = detailsArray[26];
 		var childlevelname     = detailsArray[27];
-
-		var markerEnvelope = xCoord + ":" + yCoord;//param needed for orange box links when going back to highlightMap.js
-
+		var markerEnvelope     = xCoord + ":" + yCoord; //param needed for orange box links when going back to highlightMap.js		
 		loading = dojo.byId("loadingImg");  //loading image. id   
 
 		var reformList    = childarealist.replace(/,/g, "','");	
@@ -298,34 +296,42 @@ function hoverMap(details, postcode){
 					areaname = resultFeatures[i].attributes[childareaname];	  	       	  
 				}
 			});
-
-			if (area !== ""){
+			
+            if (area !== ""){
+				
+				var urlParams          = '&cn='+ctryName+'&cc='+ctryCode+'&pn='+parliConName+'&pc='+parliConCode+'&hn='+healthName+'&hc='+ healthCode + '&markerenvelope=' + markerEnvelope + '&pcSearch=false';
+				var urlParams1         = '&areaname='+ctryName+'&areacode='+ctryCode+'&pn='+parliConName+'&pc='+parliConCode+'&hn='+healthName+'&hc='+ healthCode + '&markerenvelope=' + markerEnvelope + '&pcSearch=false';
+				
 				if (levelname === "WD"){ 
 					//sort this out for OA
-					window.location.href =  'index.html?nav-search='+postcode+'&levelname=OA&areaname='+area+'&areacode='+area+'&wn='+wardName+'&wc='+wardCode+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+'&cn='+ctryName+'&cc='+ctryCode+'&pn='+parliConName+'&pc='+parliConCode+'&hn='+healthName+'&hc='+healthCode+'&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false';		                	  			   
+					window.location.href =  'index.html?nav-search='+postcode+'&levelname=OA&areaname='+area+'&areacode='+area+'&wn='+wardName+'&wc='+wardCode+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+urlParams;		                	  			   
 				}
 				else if (levelname === "LAD"){
-					window.location.href =  'index.html?nav-search='+postcode+'&levelname=WD&areaname='+areaname+'&areacode='+area+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+'&cn='+ctryName+'&cc='+ctryCode+'&pn='+parliConName+'&pc='+parliConCode+'&hn='+healthName+'&hc='+healthCode+'&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false';      									                	  							   
+					window.location.href =  'index.html?nav-search='+postcode+'&levelname=WD&areaname='+areaname+'&areacode='+area+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+urlParams;      									                	  							   
 				} 														   
 				else if (levelname === "GOR"){
-					window.location.href =  'index.html?nav-search='+postcode+'&levelname=LAD&areaname='+areaname+'&areacode='+area+'&gn='+gorName+'&gc='+gorCode+'&cn='+ctryName+'&cc='+ctryCode+'&hn='+healthName+'&hc='+healthCode+'&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false'	                	  
+					window.location.href =  'index.html?nav-search='+postcode+'&levelname=LAD&reaname='+areaname+'&areacode='+area+'&gn='+gorName+'&gc='+gorCode+urlParams;	                	  
 				} 
 				else if (levelname === "CTRY"){
 					if(ctryName == "Wales"){
-						window.location.href=  'index.html?nav-search='+postcode+'&levelname=LAD&areaname='+areaname+'&areacode='+area+'&cn='+ctryName+'&cc='+ctryCode+'&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false'
+						window.location.href=  'index.html?nav-search='+postcode+'&;levelname=LAD&areaname='+areaname+'&areacode='+area+urlParams;
 					}
 					else
 					{
-						window.location.href=  'index.html?nav-search='+postcode+'&levelname=GOR&areaname='+areaname+'&areacode='+area+'&cn='+ctryName+'&cc='+ctryCode+'&markerenvelope='+xCoord+':'+yCoord+'&pcSearch=false'
+						window.location.href=  'index.html?nav-search='+postcode+'&levelname=GOR&areaname='+areaname+'&areacode='+area+urlParams;
 					}
 
 				}		                	  
 			} 			   
 		}  //  executeQueryTask	    
+					
 
-		function  WD_boxDetail() {	    	  
+		function  WD_boxDetail() {	
+			var urlParams          = '&amp;cn='+ctryName+'&amp;cc='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
+			var urlParams1         = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
+			
 			if (ctryName === 'England') {
-				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
+				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';
@@ -335,14 +341,17 @@ function hoverMap(details, postcode){
 					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;" class="box__inner border box--padded has-icon">'+			                   
 					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
-					'<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;hn=' + healthName + '&amp;hc=' + healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+ laName + '</a>)' +  
+					'<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ laName + '</a>)' +  
 					regionText + 
-					'<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
+					'<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
 			'</article></div>');
 		}
-		function  LA_boxDetail() {	    	  
+		function  LA_boxDetail() {
+			var urlParams          = '&amp;cn='+ctryName+'&amp;cc='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
+			var urlParams1         = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
+			
 			if (ctryName === 'England') {
-				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';
+				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';
@@ -353,12 +362,15 @@ function hoverMap(details, postcode){
 					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Local Authority)<br><br><strong>Part of:</strong></div>' +
 					regionText + 
-					'<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
+					'<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
 			'</article></div>');	
 		}	       
-		function  GOR_boxDetail() {	    	 
+		function  GOR_boxDetail() {	
+			var urlParams          = '&amp;cn='+ctryName+'&amp;cc='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
+			var urlParams1         = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
+			
 			if (ctryName === 'England') {	    	    
-				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';	    	  
+				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    	  
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';		     
@@ -368,12 +380,15 @@ function hoverMap(details, postcode){
 					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;" class="box__inner border box--padded has-icon">'+			                   
 					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Region)<br><br><strong>Part of:</strong></div>' +
-					'<div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY&amp;areaname=' + ctryName + '&amp;areacode=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">'+  ctryName + '</a>)</div>' + 
+					'<div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
 			'</article></div>');
 		} 
 		function  CTRY_boxDetail() {
+			var urlParams          = '&amp;cn='+ctryName+'&amp;cc='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
+			var urlParams1         = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
+			
 			if (ctryName === 'England') {	    		 
-				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + '&amp;cn=' + ctryName + '&amp;cc=' + ctryCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false' + '">' + gorName + '</a>)';	    	 
+				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    	 
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';		      
