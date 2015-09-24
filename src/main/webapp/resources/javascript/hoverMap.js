@@ -297,32 +297,53 @@ function hoverMap(details, postcode){
 				}
 			});
 			
-            if (area !== ""){
-				
-				var urlParams          = '&cn='+ctryName+'&cc='+ctryCode+'&pn='+parliConName+'&pc='+parliConCode+'&hn='+healthName+'&hc='+ healthCode + '&markerenvelope=' + markerEnvelope + '&pcSearch=false';
-				var urlParams1         = '&areaname='+ctryName+'&areacode='+ctryCode+'&pn='+parliConName+'&pc='+parliConCode+'&hn='+healthName+'&hc='+ healthCode + '&markerenvelope=' + markerEnvelope + '&pcSearch=false';
-				
-				if (levelname === "WD"){ 
-					//sort this out for OA
-					window.location.href =  'index.html?nav-search='+postcode+'&levelname=OA&areaname='+area+'&areacode='+area+'&wn='+wardName+'&wc='+wardCode+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+urlParams;		                	  			   
-				}
-				else if (levelname === "LAD"){
-					window.location.href =  'index.html?nav-search='+postcode+'&levelname=WD&areaname='+areaname+'&areacode='+area+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+urlParams;      									                	  							   
-				} 														   
-				else if (levelname === "GOR"){
-					window.location.href =  'index.html?nav-search='+postcode+'&levelname=LAD&areaname='+areaname+'&areacode='+area+'&gn='+gorName+'&gc='+gorCode+urlParams;	                	  
-				} 
-				else if (levelname === "CTRY"){
-					if(ctryName == "Wales"){
-						window.location.href=  'index.html?nav-search='+postcode+'&;levelname=LAD&areaname='+areaname+'&areacode='+area+urlParams;
-					}
-					else
-					{
-						window.location.href=  'index.html?nav-search='+postcode+'&levelname=GOR&areaname='+areaname+'&areacode='+area+urlParams;
-					}
+			var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/HLTH/HLTH_DEC_2006_EW_BGC/FeatureServer/0/query?where=&geometry=" +
+			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 
-				}		                	  
-			} 			   
+			var parliConUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
+			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;  
+			$(document).ready(function(){
+				$.getJSON(healthUrl, function(result) {
+					healthName = result.features[0].attributes.HLTH06NM;
+					healthCode = result.features[0].attributes.HLTH06CD;
+
+					$(document).ready(function(){
+						$.getJSON(parliConUrl, function(result) {
+							parliConName = result.features[0].attributes.PCON11NM;
+							parliConCode = result.features[0].attributes.PCON11CD;
+							
+							if (area !== ""){
+								
+								var urlParams          = '&cn='+ctryName+'&cc='+ctryCode+'&pn='+parliConName+'&pc='+parliConCode+'&hn='+healthName+'&hc='+ healthCode + '&markerenvelope=' + markerEnvelope + '&pcSearch=false';
+								var urlParams1         = '&areaname='+ctryName+'&areacode='+ctryCode+'&pn='+parliConName+'&pc='+parliConCode+'&hn='+healthName+'&hc='+ healthCode + '&markerenvelope=' + markerEnvelope + '&pcSearch=false';
+								
+								if (levelname === "WD"){ 
+									//sort this out for OA
+									window.location.href =  'index.html?nav-search='+postcode+'&levelname=OA&areaname='+area+'&areacode='+area+'&wn='+wardName+'&wc='+wardCode+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+urlParams;		                	  			   
+								}
+								else if (levelname === "LAD"){
+									window.location.href =  'index.html?nav-search='+postcode+'&levelname=WD&areaname='+areaname+'&areacode='+area+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+urlParams;      									                	  							   
+								} 														   
+								else if (levelname === "GOR"){
+									window.location.href =  'index.html?nav-search='+postcode+'&levelname=LAD&areaname='+areaname+'&areacode='+area+'&gn='+gorName+'&gc='+gorCode+urlParams;	                	  
+								} 
+								else if (levelname === "CTRY"){
+									if(ctryName == "Wales"){
+										window.location.href=  'index.html?nav-search='+postcode+'&;levelname=LAD&areaname='+areaname+'&areacode='+area+urlParams;
+									}
+									else
+									{
+										window.location.href=  'index.html?nav-search='+postcode+'&levelname=GOR&areaname='+areaname+'&areacode='+area+urlParams;
+									}
+
+								}		                	  
+							} 			   
+						}); //  $(document)
+					}); //  getJSON(healthUrl	
+				}); //  $(document)
+			}); //  getJSON(parliConUrl	
+			
+            
 		}  //  executeQueryTask	    
 					
 
