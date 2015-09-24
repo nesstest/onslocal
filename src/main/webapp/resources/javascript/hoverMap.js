@@ -310,7 +310,7 @@ function hoverMap(details, postcode){
 					window.location.href =  'index.html?nav-search='+postcode+'&levelname=WD&areaname='+areaname+'&areacode='+area+'&ln='+laName+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+urlParams;      									                	  							   
 				} 														   
 				else if (levelname === "GOR"){
-					window.location.href =  'index.html?nav-search='+postcode+'&levelname=LAD&reaname='+areaname+'&areacode='+area+'&gn='+gorName+'&gc='+gorCode+urlParams;	                	  
+					window.location.href =  'index.html?nav-search='+postcode+'&levelname=LAD&areaname='+areaname+'&areacode='+area+'&gn='+gorName+'&gc='+gorCode+urlParams;	                	  
 				} 
 				else if (levelname === "CTRY"){
 					if(ctryName == "Wales"){
