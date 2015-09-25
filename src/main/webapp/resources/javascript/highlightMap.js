@@ -445,13 +445,9 @@ function highlightMap(details, postcode){
 
 														if (wardCode == null){
 															wardCode = ctryCode
-														}  
-
-
-
-														gorName = laName;
-														gorCode = laCode;    
-														if (levelname === "GOR") {
+														} 
+														
+														if (levelname === "GOR") {															
 														}
 														else{
 
@@ -589,9 +585,13 @@ function highlightMap(details, postcode){
 						
 			if (ctryName === 'England') {
 				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    		 
+				regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + wardName + '&amp;ln=' + laName + '&amp;lc=' +
+				laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '"> Output area </a></div>';
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';
+				regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + wardName + '&amp;ln=' + laName + '&amp;lc=' + laCode +
+				 urlParams + '"> Output area </a></div>';
 			} 	    	
 			// set orange info box details    		
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -603,8 +603,7 @@ function highlightMap(details, postcode){
 					'<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
 					'<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
 					'<div style="font-size: small;">' + 
-					'- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + wardName + '&amp;ln=' + laName + '&amp;lc=' + laCode +
-					'&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '"> Output area </a></div>' +
+					regionDrillText +
 					'</div>' +
 			'</article></div>');			   
 		}
@@ -615,9 +614,11 @@ function highlightMap(details, postcode){
 			
 			if (ctryName === 'England') {	    		
 				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';
+				regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + laName + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '"> Ward </a></div>' ;
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';
+				regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + laName + urlParams + '"> Ward </a></div>' ;
 			} 
 			// set orange info box details    		
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -628,7 +629,7 @@ function highlightMap(details, postcode){
 					'<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
 					'<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
 					'<div style="font-size: small;">' + 
-					'- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + laName + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '"> Ward </a></div>' +
+					regionDrillText +
 					'</div>' +
 			'</article></div>');	
 		}
