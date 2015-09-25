@@ -329,7 +329,7 @@ function hoverMap(details, postcode){
 								} 
 								else if (levelname === "CTRY"){
 									if(ctryName == "Wales"){
-										window.location.href=  'index.html?nav-search='+postcode+'&;levelname=LAD&areaname='+areaname+'&areacode='+area+urlParams;
+										window.location.href=  'index.html?nav-search='+postcode+'&levelname=LAD&areaname='+areaname+'&areacode='+area+urlParams;
 									}
 									else
 									{
