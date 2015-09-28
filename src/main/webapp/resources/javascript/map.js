@@ -149,7 +149,7 @@ function WD_areaDetails(){
 	    	$.getJSON(jsonFile3 + areaId,function(res3){
 		       childarealist = res3['oa'];	
 		       
-	    	details = envelope + ":" + WD + ":" + "WD12NM" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + markerEnvelope + ":" + "WD" + ":" + "WD12CD" + ":" +
+	    	details = envelope + ":" + WD + ":" + "WD11NM" + ":" + "WD/WD_DEC_2011_EW_BGC" + ":" + markerEnvelope + ":" + "WD" + ":" + "WD11CD" + ":" +
 		              WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":" + parliCon + ":" + health + ":" + 
 		              parliCon_extcode + ":" + health_extcode + ":"  + 
 		              childarealist + ":" + "" + ":" + "OA11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + childname;	    
@@ -228,7 +228,7 @@ function LA_areaDetails(){
 	    	details = envelope + ":" + LA + ":" + "LAD11NM" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "LAD" + ":" + "LAD11CD" + ":" +
 	    	          "" + ":" + LA + ":" + GOR + ":" + CTRY + ":" + ""  + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":" + parliCon + ":" + 
 		              health + ":" + parliCon_extcode + ":" + health_extcode  + ":" +
-		              childarealist + ":" + "WD12NM" + ":" + "WD12CD" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + childname;
+		              childarealist + ":" + "WD11NM" + ":" + "WD11CD" + ":" + "WD/WD_DEC_2011_EW_BGC" + ":" + childname;
 	    	
 	    	$("#Tabs").toggle(); //display tabs for data content
 			
@@ -461,7 +461,7 @@ function  OA_pcode_details(postcode) {
 			      parliCon        = res6['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.Name;	
 			      parliCon_AreaId  = res6['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.AreaId;
 			      $.getJSON(jsonFile3 + OA_AreaId,function(res3){	        	
-			    	  envelope    = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
+			    	  envelope    = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;
 			    	  //extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 
 			    	  $.getJSON(jsonFile3 + WD_AreaId,function(res3){	
 			    		  WD_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 
@@ -476,11 +476,9 @@ function  OA_pcode_details(postcode) {
 			    						  $.getJSON(jsonFile3 + health_AreaId,function(res3){	
 						 	    			 health_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 
 						 	   	 	    	 $.getJSON(jsonFile3 + parliCon_AreaId,function(res3){	
-						 	   	 	    		parliCon_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 						 	   	 	    		
-	 	    	
+						 	   	 	    		parliCon_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode;
 			    						        $.getJSON(jsonFile4 + envelope, function(res4){	     	    	
 			    							      markerEnvelope    = res4.locations[0].feature.geometry.x + ":" + res4.locations[0].feature.geometry.y; 
-	 	                      
 					    						  if(CTRY_Welsh === "Wales"){
 					    							 details = envelope + ":" + OA + ":" + "" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
 					    							 		   WD + ":" + LA + ":" + GOR + ":" + CTRY_Welsh  + ":" + WD_extcode + ":" + LA_extcode + ":" +  ""  + ":" + CTRY_Welsh_extcode + ":" +

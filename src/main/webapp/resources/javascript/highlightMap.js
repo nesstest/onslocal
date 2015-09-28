@@ -304,7 +304,7 @@ function highlightMap(details, postcode){
 			var y = evt.mapPoint.y;			 
 
 			// get layer info for area clicked
-			var wardUrl     = "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2012_GB_BGC/FeatureServer/0/query?where=&geometry=" +
+			var wardUrl     = "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2011_EW_BGC/FeatureServer/0/query?where=&geometry=" +
 			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;	
 
 			var laUrl       = "https://mapping.statistics.gov.uk/arcgis/rest/services/LAD/LAD_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
@@ -344,8 +344,8 @@ function highlightMap(details, postcode){
 
 											$(document).ready(function(){
 												$.getJSON(wardUrl, function(result) {
-													wardName = result.features[0].attributes.WD12NM;
-													wardCode = result.features[0].attributes.WD12CD;	
+													wardName = result.features[0].attributes.WD11NM;
+													wardCode = result.features[0].attributes.WD11CD;	
 
 													if (ctryName === 'England') {	
 
