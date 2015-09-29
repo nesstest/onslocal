@@ -89,9 +89,9 @@ function OA_areaDetails(){
 		   
 		   //display tabs for data content
 		   
-		   if (GOR_extcode == " "){
+		   if (GOR_extcode == "") {
 				 GOR_extcode = CTRY_extcode
-				}  
+		   }  
 		   
 	 	   createTable( OA, levelname);
 	 	   createReligion( OA, levelname);	
@@ -137,19 +137,19 @@ function WD_areaDetails(){
    parliCon_extcode	= $.getUrlVar('pc');
    health_extcode 	= $.getUrlVar('hc');  
   	   
-   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + WD_extcode + "/" + "leveltypeid/14/hierarchyid/30";   
+   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + WD_extcode + "/" + "leveltypeid/14/hierarchyid/27";   
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"; 
    jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/extcodes/ward/";   
 
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
-	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
+	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	
 	     $.getJSON(jsonFile2 + areaId,function(res2){
 	    	envelope = res2['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;
 	    	$.getJSON(jsonFile3 + areaId,function(res3){
 		       childarealist = res3['oa'];	
 		       
-	    	details = envelope + ":" + WD + ":" + "WD12NM" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + markerEnvelope + ":" + "WD" + ":" + "WD12CD" + ":" +
+	    	details = envelope + ":" + WD + ":" + "WD11NM" + ":" + "WD/WD_DEC_2011_EW_BGC" + ":" + markerEnvelope + ":" + "WD" + ":" + "WD11CD" + ":" +
 		              WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":" + parliCon + ":" + health + ":" + 
 		              parliCon_extcode + ":" + health_extcode + ":"  + 
 		              childarealist + ":" + "" + ":" + "OA11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + childname;	    
@@ -162,9 +162,9 @@ function WD_areaDetails(){
 				 OA = CTRY_extcode
 				}  
 	    	 
-	    	 if (GOR_extcode == " "){
+	    	 if (GOR_extcode == ""){
 				 GOR_extcode = CTRY_extcode
-				}  
+			 }  
 			   
 			 
 	    	
@@ -208,14 +208,14 @@ function LA_areaDetails(){
    markerEnvelope   = $.getUrlVar('markerenvelope');
    levelname        = $.getUrlVar('levelname');
    childname        = $.getUrlVar('childname');
-   parliCon 		= "";
+   parliCon 		= $.getUrlVar('pn');
    health 			= $.getUrlVar('hn');
-   parliCon_extcode	= "";
+   parliCon_extcode	= $.getUrlVar('pc');
    health_extcode 	= $.getUrlVar('hc');
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + LA_extcode + "/" + "leveltypeid/13/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
-   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + LA_extcode + "/leveltypeid/13/hierarchyid/30";
+   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + LA_extcode + "/leveltypeid/13/hierarchyid/27";
    
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
@@ -226,21 +226,21 @@ function LA_areaDetails(){
 			   childarealist = res3['extcode'];	
 			  
 	    	details = envelope + ":" + LA + ":" + "LAD11NM" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "LAD" + ":" + "LAD11CD" + ":" +
-	    	          " " + ":" + LA + ":" + GOR + ":" + CTRY + ":" + " "  + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":" + parliCon + ":" + 
+	    	          "" + ":" + LA + ":" + GOR + ":" + CTRY + ":" + ""  + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":" + parliCon + ":" + 
 		              health + ":" + parliCon_extcode + ":" + health_extcode  + ":" +
-		              childarealist + ":" + "WD12NM" + ":" + "WD12CD" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + childname;
+		              childarealist + ":" + "WD11NM" + ":" + "WD11CD" + ":" + "WD/WD_DEC_2011_EW_BGC" + ":" + childname;
 	    	
 	    	$("#Tabs").toggle(); //display tabs for data content
 			
  			//Call createTable for OA
 	    	
-	    	 if (OA == ""){
-				 OA = CTRY_extcode
-				}  
+	    	if (OA == ""){
+			  OA = CTRY_extcode
+			}  
 	    	 
-	    	 if (GOR_extcode == " " | GOR_extcode == null){
+	    	if (GOR_extcode == ""){
 				 GOR_extcode = CTRY_extcode
-				}  
+			}  
  			createTable(LA_extcode, levelname);
  			createReligion(LA_extcode, levelname);
  			getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'popSexGeog');
@@ -281,10 +281,10 @@ function GOR_areaDetails(){
     markerEnvelope   = $.getUrlVar('markerenvelope');
     levelname        = $.getUrlVar('levelname');
     childname        = $.getUrlVar('childname');
-    parliCon 		 = "";
-    health 			 = "";
-    parliCon_extcode = "";
-    health_extcode 	 = "";
+    parliCon 		 = $.getUrlVar('pn');
+    health 			 = $.getUrlVar('hn');
+    parliCon_extcode = $.getUrlVar('pc');
+    health_extcode 	 = $.getUrlVar('hc');
 	
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + GOR_extcode + "/" + "leveltypeid/11/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
@@ -299,7 +299,7 @@ function GOR_areaDetails(){
 			   childarealist = res3['extcode'];	
 				  
 	    	details = envelope + ":" + GOR + ":" + "GOR10NM" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + markerEnvelope + ":" + "GOR" + ":" + "GOR10CD" + ":" +
-	                  " " + ":" + " " + ":" + GOR + ":" + CTRY + ":" + " "  + ":" + " " + ":" + GOR_extcode + ":" + CTRY_extcode + ":" + parliCon + 
+	                  "" + ":" + "" + ":" + GOR + ":" + CTRY + ":" + ""  + ":" + "" + ":" + GOR_extcode + ":" + CTRY_extcode + ":" + parliCon + 
                       ":" + health + ":" + parliCon_extcode + ":" + health_extcode + ":" +
                       childarealist + ":" + "LAD11NM" + ":" + "LAD11CD" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + childname;		    	    	
 	    	
@@ -308,11 +308,11 @@ function GOR_areaDetails(){
  			//Call createTable for OA
 	    	 if (OA == ""){
 				 OA = CTRY_extcode
-				}  
+			 }  
 	    	 
-	    	 if (GOR_extcode == " "){
+	    	 if (GOR_extcode == ""){
 				 GOR_extcode = CTRY_extcode
-				}  
+			 }  
 	    	
  			createTable(GOR_extcode, levelname);
  			createReligion(GOR_extcode, levelname);
@@ -354,10 +354,10 @@ function CTRY_areaDetails(){
     markerEnvelope   = $.getUrlVar('markerenvelope');
     levelname        = $.getUrlVar('levelname');
     childname        = $.getUrlVar('childname');
-    parliCon 		 = "";
-    health 			 = "";
-    parliCon_extcode = "";
-    health_extcode 	 = "";
+    parliCon 		 = $.getUrlVar('pn');
+    health 			 = $.getUrlVar('hn');
+    parliCon_extcode = $.getUrlVar('pc');
+    health_extcode 	 = $.getUrlVar('hc');
    
    jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + CTRY_extcode + "/" + "leveltypeid/10/hierarchyid/26";
    jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
@@ -372,13 +372,13 @@ function CTRY_areaDetails(){
 	    	
 	    	if(CTRY === "Wales"){
 	    		details = envelope + ":" + CTRY + ":" + "CTRY11NM" + ":" + "CTRY/CTRY_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "CTRY" + ":" + "CTRY11CD" + ":" +
-                          " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode + ":" +
+                          "" + ":" + "" + ":" + "" + ":" + CTRY + ":" + ""  + ":" + "" + ":" + ""  + ":" + CTRY_extcode + ":" +
                           parliCon + ":" + health + ":"  + parliCon_extcode + ":" + health_extcode + ":" +
                           childarealist + ":" + "LAD11NM" + ":" + "LAD11CD" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + childname;
 	    	}
 	    	else{
 	    	  details = envelope + ":" + CTRY + ":" + "CTRY11NM" + ":" + "CTRY/CTRY_DEC_2011_GB_BGC" + ":" + markerEnvelope + ":" + "CTRY" + ":" + "CTRY11CD" + ":" +
-                        " " + ":" + " " + ":" + " " + ":" + CTRY + ":" + " "  + ":" + " " + ":" + " "  + ":" + CTRY_extcode + ":"  + parliCon + 
+                        "" + ":" + "" + ":" + "" + ":" + CTRY + ":" + ""  + ":" + "" + ":" + ""  + ":" + CTRY_extcode + ":"  + parliCon + 
                         ":" + health + ":" + parliCon_extcode + ":" + health_extcode + ":" +
                         childarealist + ":" + "GOR10NM" + ":" + "GOR10CD" + ":" + "GOR/GOR_DEC_2010_EN_BGC" + ":" + childname;
 	    	}	    	
@@ -388,13 +388,14 @@ function CTRY_areaDetails(){
  			//Call createTable for OA
 	    	
 	    	
-	    	 if (OA == ""){
-				 OA = CTRY_extcode
-				}  
+	    	if (OA == ""){
+			  OA = CTRY_extcode
+			}  
 	    	 
-	    	 if (GOR_extcode == " "){
-				 GOR_extcode = CTRY_extcode
-				}  
+	    	if (GOR_extcode == ""){
+			  GOR_extcode = CTRY_extcode
+			} 
+	    	
  			createTable(CTRY_extcode, levelname);
  			createReligion(CTRY_extcode, levelname);
  			getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, CTRY, 'popSexGeog');
@@ -425,7 +426,7 @@ function  OA_pcode_details(postcode) {
 	levelname = $.getUrlVar('levelname');
 	
 	jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/26";
-	jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/30";	
+	jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/27";	
 	jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";	
 	jsonFile4 = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?text=" + postcode.toLowerCase() +
 	            "&outFields=geometry&sourceCountry=GBR&outSR=27700&f=json&maxLocations=1&bbox=";
@@ -460,7 +461,7 @@ function  OA_pcode_details(postcode) {
 			      parliCon        = res6['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.Name;	
 			      parliCon_AreaId  = res6['ns2:FindAreasResponseElement'].AreaFallsWithins.AreaFallsWithin[0].Area.AreaId;
 			      $.getJSON(jsonFile3 + OA_AreaId,function(res3){	        	
-			    	  envelope    = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope; 
+			    	  envelope    = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.Envelope;
 			    	  //extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 
 			    	  $.getJSON(jsonFile3 + WD_AreaId,function(res3){	
 			    		  WD_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 
@@ -475,20 +476,18 @@ function  OA_pcode_details(postcode) {
 			    						  $.getJSON(jsonFile3 + health_AreaId,function(res3){	
 						 	    			 health_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 
 						 	   	 	    	 $.getJSON(jsonFile3 + parliCon_AreaId,function(res3){	
-						 	   	 	    		parliCon_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode; 						 	   	 	    		
-	 	    	
+						 	   	 	    		parliCon_extcode     = res3['ns2:GetAreaDetailResponseElement'].AreaDetail.ExtCode;
 			    						        $.getJSON(jsonFile4 + envelope, function(res4){	     	    	
 			    							      markerEnvelope    = res4.locations[0].feature.geometry.x + ":" + res4.locations[0].feature.geometry.y; 
-	 	                      
 					    						  if(CTRY_Welsh === "Wales"){
-					    							 details = envelope + ":" + OA + ":" + " " + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
-					    							 		   WD + ":" + LA + ":" + GOR + ":" + CTRY_Welsh  + ":" + WD_extcode + ":" + LA_extcode + ":" +  " "  + ":" + CTRY_Welsh_extcode + ":" +
+					    							 details = envelope + ":" + OA + ":" + "" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
+					    							 		   WD + ":" + LA + ":" + GOR + ":" + CTRY_Welsh  + ":" + WD_extcode + ":" + LA_extcode + ":" +  ""  + ":" + CTRY_Welsh_extcode + ":" +
 					    							 		   parliCon + ":" + health + ":" + parliCon_extcode + ":" + health_extcode;	 
 					    							 CTRY = CTRY_Welsh;
 					    							 CTRY_extcode = CTRY_Welsh_extcode;
 					    						  }
 					    						  else{
-					    							details = envelope + ":" + OA + ":" + " " + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
+					    							details = envelope + ":" + OA + ":" + "" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + markerEnvelope + ":" + "OA" + ":" + "OA11CD" + ":" +
 					    									  WD + ":" + LA + ":" + GOR + ":" + CTRY + ":" + WD_extcode + ":" + LA_extcode + ":" + GOR_extcode + ":" + CTRY_extcode + ":" +
 					    									  parliCon + ":" + health + ":" + parliCon_extcode + ":" + health_extcode;	 	              
 					    						  }      
@@ -521,23 +520,7 @@ function  OA_pcode_details(postcode) {
 				 }); // jsonFile2	      	   
 			}); // jsonFile1		     	   
 		}); // ready
-}	
-
-function  OA_details() {
-	var OA_details;
-	
-	// = 	$.getUrlVar('xmin') + ":" + $.getUrlVar('ymin') + ":" + $.getUrlVar('xmax') + ":" + $.getUrlVar('xmax') + ":" +
-	//	$.getUrlVar('areaname') + ":" +
-	//	" " + ":" +
-	//	"OA/OA_2011_EW_BGC_V2" + ":" +
-	//	$.getUrlVar('markerenvelope') + ":" +
-	//	"OA" + ":" +
-	//	"OA11CD";
-//} 
-////	   
-//	return OA_details;
-}	    	
-	
+}
 
 //Read a user input postcode and strip of plus signs,
 // convert to uppercase and reformat if necessary
