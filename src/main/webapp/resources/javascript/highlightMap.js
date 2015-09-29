@@ -122,18 +122,11 @@ function highlightMap(details, postcode){
 
 		var dynamicLayer = "https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/featureServer/0";
 
-		if (levelname === "OA") {
-
-			var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areacode]});
-			//create renderer 
-			renderer = new UniqueValueRenderer(defaultSymbol, areacode);
-		}
-		else{
-			var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areaname]});		    	    	
-			//create renderer 
-			renderer = new UniqueValueRenderer(defaultSymbol, areaname);
-		}
-
+		var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areacode, areaname]});
+		
+		//create renderer 
+		renderer = new UniqueValueRenderer(defaultSymbol, areacode);
+	
 		featureLayer.setRenderer(renderer); 			
 		map.addLayer(featureLayer);				
 
@@ -149,15 +142,13 @@ function highlightMap(details, postcode){
 		//when fired, create a new graphic with the geometry from the event.graphic and add it to the maps graphics layer		   
 		var t;
 		featureLayer.on("mouse-over", function(evt){
-			map.setMapCursor("pointer");		      
-
+			map.setMapCursor("pointer");
 			if (levelname === "OA") {
 				t = "<b>${"+ areacode + "}</b>";
 			}
 			else {
 				t = "<b>${"+ areaname + "}</b>";
-			}	 	          
-
+			}
 			var content = esriLang.substitute(evt.graphic.attributes,t);         
 			map.graphics.add(new Graphic(evt.graphic.geometry,highlightSymbol));
 
@@ -191,13 +182,24 @@ function highlightMap(details, postcode){
 			map.graphics.on("mouse-out", closeDialog);
 			map.on("mouse-drag-end", closeDialog);
 			map.graphics.on("click", closeDialog);
-			var query = new Query();			   
+			var query = new Query();
+			
 			if (levelname === "OA") {				   
 				query.where = areacode +  "='" + area + "'";
 			}
-			else{
-				query.where = areaname +  "='" + area + "'";				   			   
+			if (levelname === "WD") {				   
+				query.where = areacode +  "='" + wardCode + "'";
 			}
+			if (levelname === "LAD") {				   
+				query.where = areacode +  "='" + laCode + "'";
+			}
+			if (levelname === "GOR") {				   
+				query.where = areacode +  "='" + gorCode + "'";
+			}
+		    if (levelname === "CTRY") {				   
+		    	query.where = areacode +  "='" + ctryCode + "'";
+		    }
+			
 			query.returnGeometry = true;
 
 			featureLayer.queryFeatures(query, function (featureSet){			    	
