@@ -122,7 +122,12 @@ function highlightMap(details, postcode){
 
 		var dynamicLayer = "https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/featureServer/0";
 
-		var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areacode, areaname]});
+		if (levelname === "OA") {
+		   var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areacode]});
+		}
+		else {
+		   var featureLayer = new FeatureLayer(dynamicLayer, {outFields: [areacode, areaname]});
+		}
 		
 		//create renderer 
 		renderer = new UniqueValueRenderer(defaultSymbol, areacode);
