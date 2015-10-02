@@ -66,7 +66,7 @@ function highlightMap(details, postcode){
 			var healthName    = detailsArray[25];
 			var parliConCode  = detailsArray[26];
 			var healthCode    = detailsArray[27];			
-			
+			var currentLayer;
 			var markerEnvelope = xCoord + ":" + yCoord;
 			
 			var polygon;
@@ -96,8 +96,36 @@ function highlightMap(details, postcode){
 			esriConfig.defaults.io.corsEnabledServers.push("http://ajax.googleapis.com");	
 			
 			var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
-			map.addLayer(dynamicMSLayer);         
-			map.setExtent(bbox.expand(1.1)); 	
+			var dynamicMSLayer2 = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer");      
+			currentLayer = "street"
+			map.addLayer(dynamicMSLayer);   
+			
+			map.setExtent(bbox.expand(1.1)); 
+
+			
+			 on(dom.byId("btnSwap"), "click", function () {  
+	             if (currentLayer == "street")
+	            	 {
+	            	 changeLayer(dynamicMSLayer2)
+	            	 //document.getElementById('btnSwap').text == "Street"
+	            	 $("#btnSwap").attr('src','resources/images/street.jpg');
+	            	 currentLayer = "topo"
+	            	 } 
+	             else
+	             {
+	            	 changeLayer(dynamicMSLayer)
+	            	 //document.getElementById('btnSwap').text == "Aerial"
+	            	 $("#btnSwap").attr('src','resources/images/aerial.jpg');
+	            	 currentLayer = "street"
+	            	 } 
+	         });  
+
+
+	         function changeLayer(alname) {  
+	             map.removeLayer(dynamicMSLayer);  
+	             map.addLayer(alname);  
+	 
+	         }  
 			
 			on(dynamicMSLayer, "load", function(){
 				  showLoading();			   
