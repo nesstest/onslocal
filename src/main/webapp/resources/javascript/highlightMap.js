@@ -106,14 +106,18 @@ function highlightMap(details, postcode){
 			 on(dom.byId("btnSwap"), "click", function () {  
 	             if (currentLayer == "street")
 	            	 {
-	            	 changeLayer(dynamicMSLayer2)
+	            	 //changeLayer(dynamicMSLayer2)
+	            	 map.removeLayer(dynamicMSLayer);  
+	            	 map.addLayer(dynamicMSLayer2);
 	            	 //document.getElementById('btnSwap').text == "Street"
 	            	 $("#btnSwap").attr('src','resources/images/street.jpg');
 	            	 currentLayer = "topo"
 	            	 } 
 	             else
 	             {
-	            	 changeLayer(dynamicMSLayer)
+	            	 //changeLayer(dynamicMSLayer)
+	            	 map.removeLayer(dynamicMSLayer2);  
+	            	 map.addLayer(dynamicMSLayer);
 	            	 //document.getElementById('btnSwap').text == "Aerial"
 	            	 $("#btnSwap").attr('src','resources/images/aerial.jpg');
 	            	 currentLayer = "street"
