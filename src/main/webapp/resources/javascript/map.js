@@ -7,6 +7,9 @@ function homePageBoxes(postcode){
 	else
 	{
 		$("#map").toggle();
+		$("#tableChart").toggle();
+		$("#additional-data").toggle();
+		$("#Tabs").toggle(); 
 	}
 }
 
@@ -92,7 +95,7 @@ function OA_areaDetails(){
            childarealist + ":" + "" + ":" + "OA11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + childname + ":" + parliCon + ":" + health + ":" + 
            parliCon_extcode + ":" + health_extcode;	    
 		   
-		   $("#Tabs").toggle(); //display tabs for data content
+		   //$("#Tabs").toggle(); //display tabs for data content
 	 			createTable( OA, levelname);
 	 			createReligion( OA, levelname);	
 	 			getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'popSexGeog');
@@ -159,7 +162,7 @@ function WD_areaDetails(){
 		              childarealist + ":" + "" + ":" + "OA11CD" + ":" + "OA/OA_2011_EW_BGC_V2" + ":" + childname + ":" + parliCon + ":" + health + ":" + 
 		              parliCon_extcode + ":" + health_extcode;	    
 	    	
-	    	$("#Tabs").toggle(); //display tabs for data content
+	    	//$("#Tabs").toggle(); //display tabs for data content
 				
  			//Call createTable for OA
  			createTable( WD_extcode, levelname);
@@ -224,7 +227,7 @@ function LA_areaDetails(){
 		              childarealist + ":" + "WD12NM" + ":" + "WD12CD" + ":" + "WD/WD_DEC_2012_GB_BGC" + ":" + childname + ":" + parliCon + ":" + 
 		              health + ":" + parliCon_extcode + ":" + health_extcode;
 	    	
-	    	$("#Tabs").toggle(); //display tabs for data content
+	    	//$("#Tabs").toggle(); //display tabs for data content
 			
  			//Call createTable for OA
  			createTable(LA_extcode, levelname);
@@ -289,7 +292,7 @@ function GOR_areaDetails(){
                       childarealist + ":" + "LAD11NM" + ":" + "LAD11CD" + ":" + "LAD/LAD_DEC_2011_GB_BGC" + ":" + childname + ":" + parliCon + 
                       ":" + health + ":" + parliCon_extcode + ":" + health_extcode;		    	    	
 	    	
-	    	$("#Tabs").toggle(); //display tabs for data content
+	    	//$("#Tabs").toggle(); //display tabs for data content
 			
  			//Call createTable for OA
  			createTable(GOR_extcode, levelname);
@@ -361,7 +364,7 @@ function CTRY_areaDetails(){
                         ":" + health + ":" + parliCon_extcode + ":" + health_extcode;
 	    	}	    	
 	    	
-	    	$("#Tabs").toggle(); //display tabs for data content
+	    	//$("#Tabs").toggle(); //display tabs for data content
 			
  			//Call createTable for OA
  			createTable(CTRY_extcode, levelname);
@@ -460,7 +463,7 @@ function  OA_pcode_details(postcode) {
 					    									  parliCon + ":" + health + ":" + parliCon_extcode + ":" + health_extcode;	 	              
 					    						  }      
 					 	              
-					    						  $("#Tabs").toggle(); //display tabs for data content
+					    						  //$("#Tabs").toggle(); //display tabs for data content
 			 	    				
 					    						  //Call createTable for OA
 					    						  createTable(OA, levelname);
