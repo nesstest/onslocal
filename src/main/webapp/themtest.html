@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title></title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css">
+    <link rel="stylesheet" href="resources/css/styles.css">
+    <script src="http://js.arcgis.com/3.14/"></script>
+    <script>
+      require([
+        "dojo/parser", 
+        "dojo/json", 
+        "dojo/_base/array", 
+        "dojo/_base/connect", 
+        "esri/Color", 
+        "dojo/number", 
+        "dojo/dom-construct",
+        "esri/map", 
+        "esri/geometry/Extent",
+        "esri/symbols/SimpleLineSymbol",
+        "esri/symbols/SimpleFillSymbol",
+        "esri/renderers/SimpleRenderer",
+        "esri/renderers/ClassBreaksRenderer",
+        "esri/layers/FeatureLayer", 
+        "esri/dijit/Legend", 
+        "esri/request",
+        "dijit/layout/BorderContainer", 
+        "dijit/layout/ContentPane", 
+        "dojo/domReady!"
+      ], function(
+        parser, JSON, arr, conn, Color, number, domConstruct, 
+        Map, Extent, SimpleLineSymbol, SimpleFillSymbol, SimpleRenderer, ClassBreaksRenderer, 
+        FeatureLayer, Legend, esriRequest) {
+          // call the parser to create the dijit layout dijits
+          parser.parse();
+          
+          var bounds = new Extent({xmin:448760,ymin:101385,xmax:462605,ymax:111270,spatialReference:{wkid:27700}});    
+
+          window.map = new Map("map", { 
+            extent: bounds
+          });
+
+          window.thematicFeatureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/LAD/LAD_DEC_2011_GB_BGC/MapServer/0", {
+            maxAllowableOffset: window.map.extent.getWidth() / window.map.width,
+            mode: FeatureLayer.MODE_SNAPSHOT,
+            outFields: ["LAD11NM"],
+            visible: true
+          });
+          // override default renderer so that states aren't drawn
+          // until the gas price data has been loaded and is joined
+          thematicFeatureLayer.setRenderer(new SimpleRenderer(null));
+        
+            var dataValues = esriRequest({
+              url: "phil.json",
+              callbackParamName: "callback"
+            });
+            dataValues.then(drawFeatureLayer, dataValuesError);
+
+          window.map.addLayer(thematicFeatureLayer);
+
+          function drawFeatureLayer(data) {
+            // If data comes back as text (which it does when coming from apify), parse it.
+            var jsonDataFile = (typeof data === "string" ) ? JSON.parse(data) : data;
+            
+            // loop through json data file, find min/max and populate an object 
+            window.thematicMap = {};
+            var dataValueMin = Infinity;
+            var dataValueMax = -Infinity;
+            arr.forEach(jsonDataFile, function(g) {
+              if ( g.areaExtCode !== "AreaExtCode" ) {
+                var areaValue = parseFloat(parseFloat(g.areaValue.replace("$", "")).toFixed(2));
+                thematicMap[g.areaExtCode] = areaValue;
+                if ( areaValue < dataValueMin ) {
+                	dataValueMin = areaValue;
+                }
+                if ( areaValue > dataValueMax ) {
+                	dataValueMax = areaValue;
+                }
+              }
+            });
+           
+            // create a class breaks renderer
+            var breaks = calcBreaks(dataValueMin, dataValueMax, 4);
+            var SFS = SimpleFillSymbol;
+            var SLS = SimpleLineSymbol;
+            var outline = new SLS("solid", new Color("#444"), 1);
+            var br = new ClassBreaksRenderer(null, findDataValue);
+            br.setMaxInclusive(true);
+            br.addBreak(breaks[0], breaks[1], new SFS("solid", outline, new Color([255, 255, 178, 0.75])));
+            br.addBreak(breaks[1], breaks[2], new SFS("solid", outline, new Color([254, 204, 92, 0.75])));
+            br.addBreak(breaks[2], breaks[3], new SFS("solid", outline, new Color([253, 141, 60, 0.75])));
+            br.addBreak(breaks[3], dataValueMax, new SFS("solid", outline, new Color([227, 26, 28, 0.75])));
+
+            thematicFeatureLayer.setRenderer(br);
+            thematicFeatureLayer.redraw();
+
+            var legend = new Legend({
+              map: window.map,
+              layerInfos: [{ "layer": thematicFeatureLayer, "title": "Legend" }]
+            },"legend");
+            legend.startup();
+
+            // remove the loading div
+            domConstruct.destroy("loading");
+          }
+          
+          // function used by the class breaks renderer to get the
+          // value used to symbolize each state
+          function findDataValue(graphic) {
+            var areaExtCode = graphic.attributes.LAD11NM;
+            return thematicMap[areaExtCode];
+          }
+
+          function calcBreaks(min, max, numberOfClasses) {
+            var range = (max - min) / numberOfClasses;
+            var breakValues = [];
+            for ( var i = 0; i < numberOfClasses; i++ ) {
+              breakValues[i] = min + ( range * i );
+            }
+            // console.log("break values: ", breakValues);
+            return breakValues;
+          }
+
+          
+          
+          function dataValuesError(e) {
+            console.log("error getting gas price data: ", e);
+          }
+        }
+      );
+    </script>
+  </head>
+  
+  <body>
+
+    <div id="legend" class="shadow info"></div>
+
+    <div data-dojo-type="dijit.layout.BorderContainer" 
+         data-dojo-props="design:'headline',gutters:false" 
+         style="width: 100%; height: 100%; margin: 0;">
+      <div id="map" 
+           data-dojo-type="dijit.layout.ContentPane" 
+           data-dojo-props="region:'center'"> 
+        
+        <div id="title" class="shadow info">Population by Local Authority</div>
+
+      </div>
+    </div>
+  </body>
+</html>

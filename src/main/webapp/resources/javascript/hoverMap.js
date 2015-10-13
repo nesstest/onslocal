@@ -1,6 +1,6 @@
 function hoverMap(details, postcode){
 	
-	$("#map").toggle();
+	
 	
     dojoConfig = {
        locale: "en",
