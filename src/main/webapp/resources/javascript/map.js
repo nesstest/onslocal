@@ -1,9 +1,14 @@
 function homePageBoxes(postcode){
 	if(postcode == null || postcode.length == 0 || typeof postcode === 'undefined')
 	{
+		
 		$('#bluebox').toggle();
 		$('#titlebox').toggle();
 	}	
+	else
+	{
+		$("#map").toggle();
+	}
 }
 
 function createMap(postcode){
