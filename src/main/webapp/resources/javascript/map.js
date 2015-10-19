@@ -3,7 +3,11 @@ function homePageBoxes(postcode){
 	{
 		$('#bluebox').toggle();
 		$('#titlebox').toggle();
-	}	
+	}
+	else
+	{
+		$("#map").toggle();
+	}
 }
 
 function createMap(postcode){

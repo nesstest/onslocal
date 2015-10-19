@@ -1,6 +1,5 @@
 function highlightMap(details, postcode, queryExtent){	
-	$("#map").toggle();
-
+	
 	dojoConfig = {
 			locale: "en",
 			parseOnLoad: true	    	     
