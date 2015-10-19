@@ -1,10 +1,9 @@
 function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,regionCode,regionName,nationalCode,nationalName,healthName, levelname, areaname, tableType){
 
-	if(regionCode === 'undefined' || typeof regionCode === 'undefined' || typeof regionCode === null)
+	if(regionCode === 'W99999999' || typeof regionCode === 'undefined' || typeof regionCode === null)
 	{
 		regionCode = nationalCode; 
     }
-	
 	
 	if(levelname == null)
 		{levelname = "OA"}
@@ -32,6 +31,8 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				tableRow1 = "<tr><td>Total</td>"
 				tableRow2 = "<tr><td>Males</td>"
 				tableRow3 = "<tr><td>Females</td>"
+					
+					
 				
 				var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+"&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013";
 			
@@ -144,7 +145,6 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				tableRow3 = "<tr><td>2</td>";
 				tableRow4 = "<tr><td>3</td>";
 				tableRow5 = "<tr><td>4</td>";
-				
 				
 				var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+"&dm/CL_0000670=CI_0005569&jsontype=json-stat&totals=false&diff=2013"
 			

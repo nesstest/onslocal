@@ -1,4 +1,4 @@
-function highlightMap(details, postcode){	
+function highlightMap(details, postcode, queryExtent){	
 	$("#map").toggle();
 
 	dojoConfig = {
@@ -41,31 +41,27 @@ function highlightMap(details, postcode){
 		var queryTask, query;
 		parser.parse();	
 
-		detailsArray = details.split(":");			
-
-		var xmin_env      = parseInt(detailsArray[0]);
-		var ymin_env      = parseInt(detailsArray[1]);
-		var xmax_env      = parseInt(detailsArray[2]);
-		var ymax_env      = parseInt(detailsArray[3]);
-		var area          = detailsArray[4];            // ie OA,WD,LA,GOR,CTRY
-		var areaname      = detailsArray[5];
-		var arealayername = detailsArray[6];
-		var xCoord        = detailsArray[7];
-		var yCoord        = detailsArray[8];
-		var levelname     = detailsArray[9];
-		var areacode      = detailsArray[10];			
-		var wardName      = detailsArray[11];	
-		var laName        = detailsArray[12];
-		var gorName       = detailsArray[13];			
-		var ctryName      = detailsArray[14];
-		var wardCode      = detailsArray[15];	
-		var laCode        = detailsArray[16];
-		var gorCode       = detailsArray[17];			
-		var ctryCode      = detailsArray[18];			
-		var parliConName  = detailsArray[19];		
-		var healthName    = detailsArray[20];
-		var parliConCode  = detailsArray[21];
-		var healthCode    = detailsArray[22];			
+		detailsArray = details.split(":");	
+		
+		var area          = detailsArray[0];            // ie OA,WD,LA,GOR,CTRY
+		var areaname      = detailsArray[1];
+		var arealayername = detailsArray[2];
+		var xCoord        = detailsArray[3];
+		var yCoord        = detailsArray[4];
+		var levelname     = detailsArray[5];
+		var areacode      = detailsArray[6];			
+		var wardName      = detailsArray[7];	
+		var laName        = detailsArray[8];
+		var gorName       = detailsArray[9];			
+		var ctryName      = detailsArray[10];
+		var wardCode      = detailsArray[11];	
+		var laCode        = detailsArray[12];
+		var gorCode       = detailsArray[13];			
+		var ctryCode      = detailsArray[14];			
+		var parliConName  = detailsArray[15];		
+		var healthName    = detailsArray[16];
+		var parliConCode  = detailsArray[17];
+		var healthCode    = detailsArray[18];			
 
 		var markerEnvelope = xCoord + ":" + yCoord;
 
@@ -73,10 +69,8 @@ function highlightMap(details, postcode){
 		var selected = false;
 
 		loading = dojo.byId("loadingImg");  //loading image. id   
-
-		var diff = xmax_env-xmin_env;
-		newxmin  = xmin_env - diff;	
-		var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
+		
+		var bbox = new esri.geometry.Extent(queryExtent);
 		map = new Map("map", { 
 			extent: bbox,
 			slider:true,
@@ -323,8 +317,9 @@ function highlightMap(details, postcode){
 			var ctryUrl     = "https://mapping.statistics.gov.uk/arcgis/rest/services/CTRY/CTRY_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
 			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 
-			var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/HLTH/HLTH_DEC_2006_EW_BGC/FeatureServer/0/query?where=&geometry=" +
-			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
+			
+		
+				
 
 			var parliConUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
 			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
@@ -337,12 +332,7 @@ function highlightMap(details, postcode){
 					$(document).ready(function(){
 						$.getJSON(laUrl, function(result) {
 							laName = result.features[0].attributes.LAD11NM;
-							laCode = result.features[0].attributes.LAD11CD;
-
-							$(document).ready(function(){
-								$.getJSON(healthUrl, function(result) {
-									healthName = result.features[0].attributes.HLTH06NM;
-									healthCode = result.features[0].attributes.HLTH06CD;
+							laCode = result.features[0].attributes.LAD11CD;						
 
 									$(document).ready(function(){
 										$.getJSON(parliConUrl, function(result) {
@@ -355,6 +345,14 @@ function highlightMap(details, postcode){
 													wardCode = result.features[0].attributes.WD11CD;	
 
 													if (ctryName === 'England') {	
+														
+													var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/CCG/CCG_JUL_2015_EN_BGC_V2/FeatureServer/0/query?where=&geometry=" +
+														x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ; 	
+														
+													 $(document).ready(function(){
+														$.getJSON(healthUrl, function(result) {
+															healthName = result.features[0].attributes.CCG15NM;
+															healthCode = result.features[0].attributes.CCG15CD;
 
 														$(document).ready(function(){											 
 															$.getJSON(gorUrl, function(result) {
@@ -435,8 +433,9 @@ function highlightMap(details, postcode){
 																	} 													    
 																}); //  $(document)
 															}); //  getJSON(gorUrl	
-
-														}); //  $(document)
+														  }); //  $(document)
+														}); //  getJSON(healthUrl	
+													  }); //  $(document)
 													} //if (ctryName === 'England')
 
 													if (ctryName === 'Wales') {
@@ -456,7 +455,14 @@ function highlightMap(details, postcode){
 														
 														if (levelname === "GOR") {															
 														}
-														else{
+														else{														
+														 var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/LHB/LHB_DEC_2014_WA_BGC/FeatureServer/0/query?where=&geometry=" +
+														     x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;														
+															
+														 $(document).ready(function(){
+															$.getJSON(healthUrl, function(result) {
+																healthName = result.features[0].attributes.LHB14NM;
+																healthCode = result.features[0].attributes.LHB14CD;
 
 															$(document).ready(function(){
 																var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
@@ -519,14 +525,15 @@ function highlightMap(details, postcode){
 																	getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relAgeGeog');
 																	getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relSexGeog');
 																}
-															}); //  $(document)	
+															 });
+															});																
+														  }); //  $(document)														
 														}
 													}	//  if (ctryName === 'Wales'
 												}); //getJSON wardUrl							    		  
 											}); // document 						    	  
-										}); //getJSON	parliConUrl				   
-									}); // document 		
-								}); //getJSON	healthUrl				   
+										}); //getJSON	parliConUrl		   
+												   
 							}); // document 		
 						}); //getJSON	laUrl				   
 					}); // document 		
