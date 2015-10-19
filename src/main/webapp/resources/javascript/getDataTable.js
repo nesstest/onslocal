@@ -1,6 +1,6 @@
 function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,regionCode,regionName,nationalCode,nationalName,healthName, levelname, areaname, tableType){
 
-	if(regionCode === 'W99999999' || typeof regionCode === 'undefined' || typeof regionCode === null)
+	if(regionCode === 'undefined' || regionCode === 'W99999999' || typeof regionCode === 'undefined' || typeof regionCode === null)
 	{
 		regionCode = nationalCode; 
     }
