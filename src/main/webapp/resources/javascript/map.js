@@ -442,6 +442,8 @@ function  OA_pcode_details(postcode) {
 	 
 	$(document).ready(function(){
 	  $.getJSON(jsonFile1, function(res1){
+			var start = new Date().getTime();
+
 		// ----------------------------------------------------  
 		// Get OA postcode details
 		// ----------------------------------------------------  
@@ -499,6 +501,11 @@ function  OA_pcode_details(postcode) {
 					 	              
 					    						  $("#Tabs").toggle(); //display tabs for data content
 			 	    				
+					    						  
+					    						  var end = new Date().getTime();
+													var time = end - start;
+													console.log('to get data for tables: ' + time/1000);
+	 	                     
 					    						  //Call createTable for OA
 					    						  createTable(OA, levelname);
 					    						  createReligion(OA, levelname);	
@@ -510,7 +517,7 @@ function  OA_pcode_details(postcode) {
 						 	    			      getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relSexGeog');
 						 	                      
 						 	    			      highlightMap(details,postcode);
-	 	                     
+						 	    			    
 			    						   });
 						 	   	 	   }); 			 	    		
 							 	    }); 
