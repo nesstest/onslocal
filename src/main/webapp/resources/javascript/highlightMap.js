@@ -348,7 +348,7 @@ function highlightMap(details, postcode){
 			var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/HLTH/HLTH_DEC_2006_EW_BGC/FeatureServer/0/query?where=&geometry=" +
 			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 
-			var parliConUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
+			var parliConUrl = "https://mappinguat.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
 			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 
 			$(document).ready(function(){
