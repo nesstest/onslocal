@@ -79,18 +79,31 @@ html,body {
 	    
 	    postcode =  getUrlParams()["nav-search"];
 	    if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
-	    	// do nothing
+	    	// load default home page
+	    	$(document).ready(function(){				
+		    	homePageBoxes(postcode);				
+			});
 	    }
 	    else{
 	    	postcode = postcode_reformat(postcode);
-		    createMap(postcode);
+	    	if(postcode === 'error')
+	    	{
+	    		// load default home page with error message
+	    		$(document).ready(function(){
+	    		  homePageBoxes1();	
+	    		});  
+	    	}
+	    	else{
+	    		// load default home page with loading symbol
+			    createMap(postcode);
+			    $(document).ready(function(){					
+			    	homePageBoxes(postcode);
+					
+				});
+	    	}
 	    }
 	    
-	    $(document).ready(function(){
-			
-	    	homePageBoxes(postcode);
-			
-		}); 
+	  
 		
 	  </script>
 
@@ -169,6 +182,25 @@ html,body {
 			                </script>
 				</form>
 			</div>
+			
+			<article id="redbox" class="box--warning" style="margin: auto; width: 600px; margin-top: 20px; margin-bottom: 20px; display: none;" >
+			  <div class="box__inner border box--padded has-icon" >
+			    <header class="box__header">
+			      <h2 class="gamma">			        
+			          Error
+			      </h2>
+			    </header>
+			    <!-- /box__header -->
+			
+			    <div class="box__content">
+			      <p>
+			        Invalid postcode
+			      </p>			      
+			    </div>
+			    <!-- /box__content -->
+			  </div>
+			  <!-- /box__inner -->
+			</article>
 			
 			<article id="bluebox" class="box box--blue box--blue--separated--left" style="margin: auto; width: 600px; margin-top: 200px; margin-bottom: 200px; display: none;" >
 			  <div class="box__inner border box--padded has-icon" >
