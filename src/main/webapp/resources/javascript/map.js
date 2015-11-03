@@ -76,9 +76,9 @@ function OA_areaDetails(){
    health_extcode 	= $.getUrlVar('hc');  
   	   
    
-   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + OA_extcode + "/" + "leveltypeid/15/hierarchyid/26";   
-   jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"; 
-   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/extcodes/ward/";   
+   jsonFile1 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + OA_extcode + "/" + "leveltypeid/15/hierarchyid/26";   
+   jsonFile2 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"; 
+   jsonFile3 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/extcodes/ward/";   
 	   
    $(document).ready(function(){
 	   $.getJSON(jsonFile1, function(res1){
@@ -142,9 +142,9 @@ function WD_areaDetails(){
    parliCon_extcode	= $.getUrlVar('pc');
    health_extcode 	= $.getUrlVar('hc');  
   	   
-   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + WD_extcode + "/" + "leveltypeid/14/hierarchyid/27";   
-   jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"; 
-   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/extcodes/ward/";   
+   jsonFile1 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + WD_extcode + "/" + "leveltypeid/14/hierarchyid/27";   
+   jsonFile2 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/"; 
+   jsonFile3 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/extcodes/ward/";   
 
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
@@ -218,9 +218,9 @@ function LA_areaDetails(){
    parliCon_extcode	= $.getUrlVar('pc');
    health_extcode 	= $.getUrlVar('hc');
 	
-   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + LA_extcode + "/" + "leveltypeid/13/hierarchyid/26";
-   jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
-   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + LA_extcode + "/leveltypeid/13/hierarchyid/27";
+   jsonFile1 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + LA_extcode + "/" + "leveltypeid/13/hierarchyid/26";
+   jsonFile2 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
+   jsonFile3 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + LA_extcode + "/leveltypeid/13/hierarchyid/27";
    
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
@@ -291,9 +291,9 @@ function GOR_areaDetails(){
     parliCon_extcode = $.getUrlVar('pc');
     health_extcode 	 = $.getUrlVar('hc');
 	
-   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + GOR_extcode + "/" + "leveltypeid/11/hierarchyid/26";
-   jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
-   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + GOR_extcode + "/" + "leveltypeid/11/hierarchyid/26";
+   jsonFile1 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + GOR_extcode + "/" + "leveltypeid/11/hierarchyid/26";
+   jsonFile2 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
+   jsonFile3 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + GOR_extcode + "/" + "leveltypeid/11/hierarchyid/26";
    
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
@@ -364,9 +364,9 @@ function CTRY_areaDetails(){
     parliCon_extcode = $.getUrlVar('pc');
     health_extcode 	 = $.getUrlVar('hc');
    
-   jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + CTRY_extcode + "/" + "leveltypeid/10/hierarchyid/26";
-   jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
-   jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + CTRY_extcode + "/" + "leveltypeid/10/hierarchyid/26";
+   jsonFile1 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/code/" + CTRY_extcode + "/" + "leveltypeid/10/hierarchyid/26";
+   jsonFile2 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";
+   jsonFile3 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/areachildlist/code/" + CTRY_extcode + "/" + "leveltypeid/10/hierarchyid/26";
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
 	     areaId = res1['ns2:SearchAreaByCodeResponseElement'].AreaFallsWithins.AreaFallsWithin.Area.AreaId;	    
@@ -430,13 +430,13 @@ function  OA_pcode_details(postcode) {
 	var levelname;
 	levelname = $.getUrlVar('levelname');
 	
-	jsonFile1 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/26";
-	jsonFile2 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/27";	
-	jsonFile3 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";	
+	jsonFile1 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/26";
+	jsonFile2 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/27";	
+	jsonFile3 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/area/";	
 	jsonFile4 = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?text=" + postcode.toLowerCase() +
 	            "&outFields=geometry&sourceCountry=GBR&outSR=27700&f=json&maxLocations=1&bbox=";
-	jsonFile5 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/15";	
-	jsonFile6 = "http://onslocalos-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/28";	
+	jsonFile5 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/15";	
+	jsonFile6 = "http://onslocal-glassfishtest.rhcloud.com/resource-web/rs/onslocal/postcode/" + postcode.toLowerCase() + "/hierarchyid/28";	
 	var areaId, envelope, extCode, markerEnvelope, health, parliCon, OA, LA, GOR, CTRY, WD, OA_AreaId, LA_AreaId, GOR_AreaId,  CTRY_AreaId, health_AreaId, parliCon_AreaId;
 	var WD_AreaId, WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, health_extcode, parliCon_extcode, CTRY_Welsh, CTRY_Welsh_Areaid;
 	 
