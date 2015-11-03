@@ -2,10 +2,14 @@ Get child areas:
 
 http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildren/E05002319
 
+Get child extcodes:
+
+http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/E05002319
+
 Get parent areas:
 
 http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/E00082600
 
 Search:
 
-http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/search/fareham
+http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/search?term=fareham
