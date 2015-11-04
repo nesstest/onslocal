@@ -13,3 +13,37 @@ http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/E0008260
 Search:
 
 http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/search?term=fareham
+
+AUTOCOMPLETE EXAMPLE
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Autocomplete - Remote datasource</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  
+  <script>
+  $(function() {
+    $( "#birds" ).autocomplete({
+      source: "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/search",
+      minLength: 3
+    });
+  });
+  </script>
+</head>
+<body>
+ 
+<div class="ui-widget">
+  <label for="birds">Birds: </label>
+  <input id="birds">
+</div>
+ 
+<div class="ui-widget" style="margin-top:2em; font-family:Arial">
+
+</div>
+ 
+ 
+</body>
+</html>
