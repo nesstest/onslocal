@@ -14,6 +14,10 @@ Search:
 
 http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/search?term=fareham
 
+Basic Search:
+
+http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/basicsearch?term=barn
+
 AUTOCOMPLETE EXAMPLE
 <!doctype html>
 <html lang="en">
