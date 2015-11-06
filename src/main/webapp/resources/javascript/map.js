@@ -107,7 +107,9 @@ function OA_areaDetails(){
 	   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'relGeog');
 	   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'relAgeGeog');
 	   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'relSexGeog');
-	   
+	  
+	   $(window).load(function(){
+		   
 	   require([  
 	     "esri/geometry/Extent",			       
 	     "esri/graphic",	        
@@ -154,8 +156,9 @@ function OA_areaDetails(){
 			     hoverMap(details, postcode, queryExtent);
 		       } 
 	     });
-     }); // require	   
-  }); // ready
+      }); // require	   
+    }); // ready
+  });
  }
 
 function WD_areaDetails(){
