@@ -71,7 +71,7 @@ function hoverMap(details, postcode, queryExtent){
 		loading = dojo.byId("loadingImg");  //loading image. id   
 
 		var reformList    = childarealist.replace(/,/g, "','");	
-		var childAreaDef  = childcode + " IN ('" + reformList + "')"; 
+		var childAreaDef  = childcode + " IN ('" + reformList + "')"; 	
 		
 		var bbox = new esri.geometry.Extent(queryExtent);
 
@@ -94,13 +94,41 @@ function hoverMap(details, postcode, queryExtent){
 
 		// parent layer
 		var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
+		var dynamicMSLayer2 = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer");      
+		currentLayer = "street"
 		map.addLayer(dynamicMSLayer);  
 
 		map.setExtent(bbox.expand(1.1));
+		
+		on(dom.byId("btnSwap"), "click", function () {  
+             if (currentLayer == "street")
+            	 {
+            	 //changeLayer(dynamicMSLayer2)
+            	 map.removeLayer(dynamicMSLayer);  
+            	 map.addLayer(dynamicMSLayer2);
+            	 //document.getElementById('btnSwap').text == "Street"
+            	 $("#btnSwap").attr('src','resources/images/street.jpg');
+            	 currentLayer = "topo"
+            	 } 
+             else
+             {
+            	 //changeLayer(dynamicMSLayer)
+            	 map.removeLayer(dynamicMSLayer2);  
+            	 map.addLayer(dynamicMSLayer);
+            	 //document.getElementById('btnSwap').text == "Aerial"
+            	 $("#btnSwap").attr('src','resources/images/aerial.jpg');
+            	 currentLayer = "street"
+            	 } 
+        });  
 
 		on(dynamicMSLayer, "load", function(){
 			showLoading();			   
 		});	
+		
+		on(dynamicMSLayer,'error', function(err){			                  	 
+		      hideLoading(err); 
+		      dojo.byId("mapFailed").innerHTML = "Map currently unavailable";     
+		});
 
 		on(map, 'update-start', showLoading);
 		on(map, 'update-end', hideLoading);
