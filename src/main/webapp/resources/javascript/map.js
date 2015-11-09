@@ -603,100 +603,112 @@ function  OA_pcode_details(postcode,queryExtent) {
 	// get layer info for postcode
 	var pcUrl     = "https://mapping.statistics.gov.uk/arcgis/rest/services/POSTCODE/ONSLocal/MapServer/0/query?where=pcds=" + "'" + postcode + "'" + "&outFields=*&returnGeometry=true&outSR=27700&f=pjson";
 	$(document).ready(function(){		
-	  $.getJSON(pcUrl, function(result) {
-	    CTRY_extcode     = result.features[0].attributes.ctrycd;
-	    CTRY             = result.features[0].attributes.ctrynm;
-	    GOR_extcode	     = result.features[0].attributes.gorcd;
-	    GOR     	     = result.features[0].attributes.gornm;
-        LA_extcode       = result.features[0].attributes.lauacd;
-        LA               = result.features[0].attributes.lauanm;
-        WD_extcode       = result.features[0].attributes.wardcd;
-        WD               = result.features[0].attributes.wardnm;
-        extCode          = result.features[0].attributes.oa11cd;
-        OA               = result.features[0].attributes.oa11cd;
-        parliCon_extcode = result.features[0].attributes.pconcd;
-        parliCon         = result.features[0].attributes.pconnm;
-        health_extcode   = result.features[0].attributes.ccgcd;
-        health           = result.features[0].attributes.ccgnm;
-        markerEnvelope   = result.features[0].geometry.x + ":" + result.features[0].geometry.y;
-        doterm           = result.features[0].attributes.doterm; 	
-                
-        // check to see if postcode not obsolete (doterm === null valid)
-        if(doterm == null) {        	
-	        var queryExtent;       
-	    	
-	    	require([ 
-	    	         "esri/geometry/Extent",    	         
-	    	         "esri/graphic",	        
-	    	         "esri/tasks/query",
-	    	         "esri/tasks/QueryTask",
-	    	         "dojo/domReady!"		
-	
-	    	         ], function( 
-	    	        	   Extent, Graphic, Query, QueryTask
-	    	         ) 
-	    	        {    		
-	    	   
-			    	    var query,QueryTask;    	     
-			    	    var oAUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/OA/OA_2011_EW_BGC_V2/MapServer/0/query?where=where=OA11CD" + "='" + extCode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPoint&inSR=27700&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=27700&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";	       
-			    	    var queryTask = new esri.tasks.QueryTask(oAUrl);
-			    	    var query = new Query();	    
-			    	    query.where = "OA11CD" + "='" + extCode + "'";
-			    	    query.outSpatialReference = new esri.SpatialReference({ wkid: 27700 });
-			    	    query.returnGeometry = true;
-			    	    
-			    	    queryTask.execute(query, function (featureSet) {
-				            //get the feature and it's extent then set the map to that extent
-				            var feature = featureSet.features[0];
-				            var extentPoly = new esri.geometry.Polygon(new esri.SpatialReference({ wkid: 27700 }));
+	  $.getJSON(pcUrl, function(result) {		  
+		  
+		if (result.features && result.features.length === 0) {
+            // do stuff when no features were found
+			$('#redbox').toggle(); 
+	    	$('#bluebox').toggle();
+	   		$('#titlebox').toggle();
+	   		$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
+	   		$('#map').toggle();
+        }
+		else
+		{	
+		    CTRY_extcode     = result.features[0].attributes.ctrycd;
+		    CTRY             = result.features[0].attributes.ctrynm;
+		    GOR_extcode	     = result.features[0].attributes.gorcd;
+		    GOR     	     = result.features[0].attributes.gornm;
+	        LA_extcode       = result.features[0].attributes.lauacd;
+	        LA               = result.features[0].attributes.lauanm;
+	        WD_extcode       = result.features[0].attributes.wardcd;
+	        WD               = result.features[0].attributes.wardnm;
+	        extCode          = result.features[0].attributes.oa11cd;
+	        OA               = result.features[0].attributes.oa11cd;
+	        parliCon_extcode = result.features[0].attributes.pconcd;
+	        parliCon         = result.features[0].attributes.pconnm;
+	        health_extcode   = result.features[0].attributes.ccgcd;
+	        health           = result.features[0].attributes.ccgnm;
+	        markerEnvelope   = result.features[0].geometry.x + ":" + result.features[0].geometry.y;
+	        doterm           = result.features[0].attributes.doterm; 	
+	                
+	        // check to see if postcode not obsolete (doterm === null valid)
+	        if(doterm == null) {        	
+		        var queryExtent;       
+		    	
+		    	require([ 
+		    	         "esri/geometry/Extent",    	         
+		    	         "esri/graphic",	        
+		    	         "esri/tasks/query",
+		    	         "esri/tasks/QueryTask",
+		    	         "dojo/domReady!"		
+		
+		    	         ], function( 
+		    	        	   Extent, Graphic, Query, QueryTask
+		    	         ) 
+		    	        {    		
+		    	   
+				    	    var query,QueryTask;    	     
+				    	    var oAUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/OA/OA_2011_EW_BGC_V2/MapServer/0/query?where=where=OA11CD" + "='" + extCode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPoint&inSR=27700&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=27700&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";	       
+				    	    var queryTask = new esri.tasks.QueryTask(oAUrl);
+				    	    var query = new Query();	    
+				    	    query.where = "OA11CD" + "='" + extCode + "'";
+				    	    query.outSpatialReference = new esri.SpatialReference({ wkid: 27700 });
+				    	    query.returnGeometry = true;
+				    	    
+				    	    queryTask.execute(query, function (featureSet) {
+					            //get the feature and it's extent then set the map to that extent
+					            var feature = featureSet.features[0];
+					            var extentPoly = new esri.geometry.Polygon(new esri.SpatialReference({ wkid: 27700 }));
+					
+					            for (var i = 0; i < feature.geometry.rings.length; i++) {
+					              extentPoly.addRing(feature.geometry.rings[i]);
+					            }
+					            
+					            var xmin_env      = extentPoly.getExtent().xmin;
+					    		var ymin_env      = extentPoly.getExtent().ymin;
+					    		var xmax_env      = extentPoly.getExtent().xmax;
+					    		var ymax_env      = extentPoly.getExtent().ymax;
+					    		
+					    		var diff = xmax_env-xmin_env;
+					    		newxmin  = xmin_env - diff;    		
+					            queryExtent = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});			      		    
+									      										
+							    if(CTRY === "Wales"){
+								   details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
+								 		     WD + "|" + LA + "|" + GOR + "|" + CTRY  + "|" + WD_extcode + "|" + LA_extcode + "|" +  ""  + "|" + CTRY_extcode + "|" +
+								 		     parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	
+							    }
+							    else{
+								  details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
+										    WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" +
+										    parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	 	              
+							    }
+				  
+							    $("#Tabs").toggle(); //display tabs for data content
 				
-				            for (var i = 0; i < feature.geometry.rings.length; i++) {
-				              extentPoly.addRing(feature.geometry.rings[i]);
-				            }
-				            
-				            var xmin_env      = extentPoly.getExtent().xmin;
-				    		var ymin_env      = extentPoly.getExtent().ymin;
-				    		var xmax_env      = extentPoly.getExtent().xmax;
-				    		var ymax_env      = extentPoly.getExtent().ymax;
-				    		
-				    		var diff = xmax_env-xmin_env;
-				    		newxmin  = xmin_env - diff;    		
-				            queryExtent = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});			      		    
-								      										
-						    if(CTRY === "Wales"){
-							   details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
-							 		     WD + "|" + LA + "|" + GOR + "|" + CTRY  + "|" + WD_extcode + "|" + LA_extcode + "|" +  ""  + "|" + CTRY_extcode + "|" +
-							 		     parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	
-						    }
-						    else{
-							  details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
-									    WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" +
-									    parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	 	              
-						    }
-			  
-						    $("#Tabs").toggle(); //display tabs for data content
-			
-						    //Call createTable for OA
-						    createTable(OA, levelname);
-						    createReligion(OA, levelname);	
-					        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'popSexGeog');
-					        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'ageGeog');
-					        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'popTime');
-					        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relGeog');
-					        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relAgeGeog');
-					        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relSexGeog');
-			              						 	    			     
-					        highlightMap(details,postcode,queryExtent);
-		    	       })//queryTask.execute   
-		           }// ready  
-       )}  // check to see if postcode not obsolete (doterm === null valid)
-       else {
-    	   $('#redbox').toggle(); 
-    	   $('#bluebox').toggle();
-   		   $('#titlebox').toggle();
-   		   $('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-   		   $('#map').toggle();
-       }// postcode obsolete        
+							    //Call createTable for OA
+							    createTable(OA, levelname);
+							    createReligion(OA, levelname);	
+						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'popSexGeog');
+						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'ageGeog');
+						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'popTime');
+						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relGeog');
+						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relAgeGeog');
+						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relSexGeog');
+				              						 	    			     
+						        highlightMap(details,postcode,queryExtent);
+			    	       })//queryTask.execute   
+			           }// ready  
+	       )}  // check to see if postcode not obsolete (doterm === null valid)
+	       else {
+	    	   $('#redbox').toggle(); 
+	    	   $('#bluebox').toggle();
+	   		   $('#titlebox').toggle();
+	   		   $('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
+	   		   $('#map').toggle();
+	       }// postcode obsolete 
+		} // if (result.features && result.features.length === 0)      
 	})//pcUrl
   })//ready	  
 } //OA_pcode_details function
@@ -705,18 +717,17 @@ function  OA_pcode_details(postcode,queryExtent) {
 // convert to uppercase and reformat if necessary
 function  postcode_reformat(postcode) {
    // strip + sign from postcode string & convert to uppercase
-   postcode                     = postcode.replace(/\+/g, '');
-   
-   var upperCasePostCode        = postcode.toUpperCase();    	
-   var regPostcode              = /^([a-zA-Z]){1}([0-9][0-9]|[0-9]|[a-zA-Z][0-9][a-zA-Z]|[a-zA-Z][0-9][0-9]|[a-zA-Z][0-9]){1}([ ])([0-9][a-zA-z][a-zA-z]){1}$/;
+   postcode                     = postcode.replace(/\+/g, '');    	
+   var regExp1                  = /^([a-zA-Z]){1}([0-9][0-9]|[0-9]|[a-zA-Z][0-9][a-zA-Z]|[a-zA-Z][0-9][0-9]|[a-zA-Z][0-9]){1}([ ])([0-9][a-zA-z][a-zA-z]){1}$/;
  
-   if(regPostcode.test(upperCasePostCode) == false)	
-   {	
-	   var re                   = /^([A-Z]{1,2}[\dA-Z]{1,2})[ ]?(\d[A-Z]{2})$/i; // case insensitive 	
-	   var tempPostCode         = upperCasePostCode.match(re);
+   if(regExp1.test(postcode) == false)	
+   {	 
+	   var regExp2              = /^([A-Z]{1,2}[\dA-Z]{1,2})[ ]?(\d[A-Z]{2})$/i; // case insensitive 
+
+	   var tempPostCode         = postcode.match(regExp2);
 	   try {
 		   var reformatPostcode     = tempPostCode[1] + " " + tempPostCode[2];
-		   return reformatPostcode;
+		   return reformatPostcode.toUpperCase();
         } 
         
 	    catch ( e ) {
@@ -727,7 +738,7 @@ function  postcode_reformat(postcode) {
    }
    else {
 	 // postcode formatted correctly
-	 return upperCasePostCode;
+	 return postcode.toUpperCase();
    }	    	
 }
 
