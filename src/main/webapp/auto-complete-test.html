@@ -75,10 +75,7 @@ html,body {
       },
       select: function( event, ui ) {
         $( "#project" ).val( ui.item.label  + " (" + ui.item.type+")" );
-        //$( "#project-id" ).val( ui.item.value );
-        //$( "#project-description" ).html( ui.item.type );
- 
-        return false;
+    	    return false;
       }
     })
     .autocomplete( "instance" )._renderItem = function( ul, item ) {
