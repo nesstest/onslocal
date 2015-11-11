@@ -1,12 +1,12 @@
 function createTable(extcode, levelname){
 	
-	
+	//alert(document.getElementById("tableChart").getAttribute("style"))
 	
 	//check to see if the tables are visible, if they are do not hide them
 	if(document.getElementById("tableChart").getAttribute("style") == "display: none;")
 		{
-		$("#tableChart").toggle();
-		$("#additional-data").toggle();
+			$("#tableChart").toggle();
+			$("#additional-data").toggle();
 		}
 		
 		

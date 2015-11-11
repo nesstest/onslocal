@@ -1,6 +1,5 @@
-function highlightMap(details, postcode){	
+function highlightMap(details, postcode, queryExtent){	
 	
-
 	dojoConfig = {
 			locale: "en",
 			parseOnLoad: true	    	     
@@ -39,33 +38,30 @@ function highlightMap(details, postcode){
 	         { 
 
 		var queryTask, query;
-		parser.parse();	
+		parser.parse();				
 
-		detailsArray = details.split(":");			
-
-		var xmin_env      = parseInt(detailsArray[0]);
-		var ymin_env      = parseInt(detailsArray[1]);
-		var xmax_env      = parseInt(detailsArray[2]);
-		var ymax_env      = parseInt(detailsArray[3]);
-		var area          = detailsArray[4];            // ie OA,WD,LA,GOR,CTRY
-		var areaname      = detailsArray[5];
-		var arealayername = detailsArray[6];
-		var xCoord        = detailsArray[7];
-		var yCoord        = detailsArray[8];
-		var levelname     = detailsArray[9];
-		var areacode      = detailsArray[10];			
-		var wardName      = detailsArray[11];	
-		var laName        = detailsArray[12];
-		var gorName       = detailsArray[13];			
-		var ctryName      = detailsArray[14];
-		var wardCode      = detailsArray[15];	
-		var laCode        = detailsArray[16];
-		var gorCode       = detailsArray[17];			
-		var ctryCode      = detailsArray[18];			
-		var parliConName  = detailsArray[19];		
-		var healthName    = detailsArray[20];
-		var parliConCode  = detailsArray[21];
-		var healthCode    = detailsArray[22];			
+		detailsArray = details.split("|");
+		
+		var area          = detailsArray[0];            // ie OA,WD,LA,GOR,CTRY
+		var areaname      = detailsArray[1];
+		var arealayername = detailsArray[2];
+		var markerParam   = detailsArray[3].split(':');
+		var xCoord        = parseInt(markerParam[0]);
+		var yCoord        = parseInt(markerParam[1]);
+		var levelname     = detailsArray[4];
+		var areacode      = detailsArray[5];;
+		var wardName      = detailsArray[6];	
+		var laName        = detailsArray[7];
+		var gorName       = detailsArray[8];			
+		var ctryName      = detailsArray[9];
+		var wardCode      = detailsArray[10];	
+		var laCode        = detailsArray[11];
+		var gorCode       = detailsArray[12];			
+		var ctryCode      = detailsArray[13];			
+		var parliConName  = detailsArray[14];		
+		var healthName    = detailsArray[15];
+		var parliConCode  = detailsArray[16];
+		var healthCode    = detailsArray[17];			
 
 		var markerEnvelope = xCoord + ":" + yCoord;
 
@@ -73,10 +69,8 @@ function highlightMap(details, postcode){
 		var selected = false;
 
 		loading = dojo.byId("loadingImg");  //loading image. id   
-
-		var diff = xmax_env-xmin_env;
-		newxmin  = xmin_env - diff;	
-		var bbox = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
+		
+		var bbox = new esri.geometry.Extent(queryExtent);
 		map = new Map("map", { 
 			extent: bbox,
 			slider:true,
@@ -101,11 +95,10 @@ function highlightMap(details, postcode){
 		map.addLayer(dynamicMSLayer);   
 		
 		map.setExtent(bbox.expand(1.1)); 
-
 		
-		 on(dom.byId("btnSwap"), "click", function () {  
-             if (currentLayer == "street")
-            	 {
+		on(dom.byId("btnSwap"), "click", function () {  
+          if (currentLayer == "street")
+          	 {
             	 map.removeLayer(dynamicMSLayer);  
             	 map.addLayer(dynamicMSLayer2);
             	 $("#btnSwap").attr('src','resources/images/street.jpg');
@@ -117,13 +110,18 @@ function highlightMap(details, postcode){
             	 map.addLayer(dynamicMSLayer);
             	 $("#btnSwap").attr('src','resources/images/aerial.jpg');
             	 currentLayer = "street"
-            	 } 
-         });  
-
+             } 
+       });  
+		
 
 		on(dynamicMSLayer, "load", function(){
-			showLoading();			   
+		  showLoading();			   
 		});	
+		
+		on(dynamicMSLayer,'error', function(err){			                  	 
+	      hideLoading(err); 
+	      dojo.byId("mapFailed").innerHTML = "Map currently unavailable";     
+		});
 
 		on(map, 'update-start', showLoading);
 		on(map, 'update-end', hideLoading);
@@ -345,10 +343,7 @@ function highlightMap(details, postcode){
 			var ctryUrl     = "https://mapping.statistics.gov.uk/arcgis/rest/services/CTRY/CTRY_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
 			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 
-			var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/HLTH/HLTH_DEC_2006_EW_BGC/FeatureServer/0/query?where=&geometry=" +
-			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
-
-			var parliConUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
+			var parliConUrl = "https://mappinguat.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
 			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 
 			$(document).ready(function(){
@@ -358,13 +353,8 @@ function highlightMap(details, postcode){
 
 					$(document).ready(function(){
 						$.getJSON(laUrl, function(result) {
-							laName = result.features[0].attributes.LAD11NM;
-							laCode = result.features[0].attributes.LAD11CD;
-
-							$(document).ready(function(){
-								$.getJSON(healthUrl, function(result) {
-									healthName = result.features[0].attributes.HLTH06NM;
-									healthCode = result.features[0].attributes.HLTH06CD;
+							laName = (result.features[0].attributes.LAD11NM);
+							laCode = result.features[0].attributes.LAD11CD;						
 
 									$(document).ready(function(){
 										$.getJSON(parliConUrl, function(result) {
@@ -373,92 +363,101 @@ function highlightMap(details, postcode){
 
 											$(document).ready(function(){
 												$.getJSON(wardUrl, function(result) {
-													wardName = result.features[0].attributes.WD11NM;
+													wardName =(result.features[0].attributes.WD11NM);
 													wardCode = result.features[0].attributes.WD11CD;	
 
 													if (ctryName === 'England') {	
-
-														$(document).ready(function(){											 
-															$.getJSON(gorUrl, function(result) {
-																gorName = result.features[0].attributes.GOR10NM;
-																gorCode = result.features[0].attributes.GOR10CD;
-																$(document).ready(function(){
-																	var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
-																	selectionQuery.geometry = queryExtent;														  
-																	featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){																  
-																		var resultFeatures = features;														
-																		for(var i=0, il=resultFeatures.length; i<il; i++){
-																			if (levelname === "OA") {     
-																				area = resultFeatures[i].attributes[areacode];
-																			}
-																			else {
-																				area = resultFeatures[i].attributes[areaname];
-																			}	 	          
-																		}														 
-																	}); //  featureLayer.selectFeatures
-
-																	$('#selArea1').empty();	
-
-																	if (levelname === "OA") {  														
-																		// set orange info box details    		
-																		OA_boxDetail();
-																		createTable(area, levelname);
-																		createReligion(area, levelname);
-																		getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area, 'popSexGeog');
-																		getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'ageGeog');
-																		getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'popTime');
-																		getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relGeog');
-																		getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relAgeGeog');
-																		getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relSexGeog');
-																	}  														   
-																	if (levelname ==="WD"){														  					   
-																		WD_boxDetail();
-																		createTable(wardCode, levelname);
-																		createReligion(wardCode, levelname);
-																		getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName, 'popSexGeog');
-																		getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'ageGeog');
-																		getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'popTime');
-																		getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relGeog');
-																		getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relAgeGeog');
-																		getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relSexGeog');
-																	} 														   
-																	if (levelname ==="LAD"){
-																		LA_boxDetail();
-																		createTable(laCode, levelname);
-																		createReligion(laCode, levelname);
-																		getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName, 'popSexGeog');
-																		getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'ageGeog');
-																		getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'popTime');
-																		getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relGeog');
-																		getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relAgeGeog');
-																		getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relSexGeog'); 
-																	}
-																	if (levelname ==="GOR"){
-																		GOR_boxDetail();
-																		createTable(gorCode, levelname);
-																		createReligion(gorCode, levelname);
-																		getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName, 'popSexGeog');
-																		getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'ageGeog');
-																		getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'popTime');
-																		getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'relGeog');
-																		getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'relAgeGeog');
-																		getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'relSexGeog');
-																	} 														   
-																	if (levelname ==="CTRY"){
-																		CTRY_boxDetail();
-																		createTable(ctryCode, levelname);
-																		createReligion(ctryCode, levelname);
-																		getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName, 'popSexGeog');
-																		getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'ageGeog');
-																		getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'popTime');
-																		getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relGeog');
-																		getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relAgeGeog');
-																		getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relSexGeog');									                	   
-																	} 													    
-																}); //  $(document)
-															}); //  getJSON(gorUrl	
-
-														}); //  $(document)
+														
+														var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/CCG/CCG_JUL_2015_EN_BGC_V2/FeatureServer/0/query?where=&geometry=" +
+															x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ; 	
+															
+														 $(document).ready(function(){
+															$.getJSON(healthUrl, function(result) {
+																healthName = result.features[0].attributes.CCG15NM;
+																healthCode = result.features[0].attributes.CCG15CD;
+	
+															$(document).ready(function(){											 
+																$.getJSON(gorUrl, function(result) {
+																	gorName = result.features[0].attributes.GOR10NM;
+																	gorCode = result.features[0].attributes.GOR10CD;
+																	$(document).ready(function(){
+																		var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
+																		selectionQuery.geometry = queryExtent;														  
+																		featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){																  
+																			var resultFeatures = features;														
+																			for(var i=0, il=resultFeatures.length; i<il; i++){
+																				if (levelname === "OA") {     
+																					area = resultFeatures[i].attributes[areacode];
+																				}
+																				else {
+																					area = resultFeatures[i].attributes[areaname];
+																				}	 	          
+																			}														 
+																		}); //  featureLayer.selectFeatures
+	
+																		$('#selArea1').empty();	
+	
+																		if (levelname === "OA") {  														
+																			// set orange info box details    		
+																			OA_boxDetail();
+																			createTable(area, levelname);
+																			createReligion(area, levelname);
+																			getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area, 'popSexGeog');
+																			getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'ageGeog');
+																			getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'popTime');
+																			getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relGeog');
+																			getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relAgeGeog');
+																			getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relSexGeog');
+																		}  														   
+																		if (levelname ==="WD"){														  					   
+																			WD_boxDetail();
+																			createTable(wardCode, levelname);
+																			createReligion(wardCode, levelname);
+																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName, 'popSexGeog');
+																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'ageGeog');
+																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'popTime');
+																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relGeog');
+																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relAgeGeog');
+																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relSexGeog');
+																		} 														   
+																		if (levelname ==="LAD"){
+																			LA_boxDetail();
+																			createTable(laCode, levelname);
+																			createReligion(laCode, levelname);
+																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName, 'popSexGeog');
+																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'ageGeog');
+																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'popTime');
+																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relGeog');
+																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relAgeGeog');
+																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relSexGeog'); 
+																		}
+																		if (levelname ==="GOR"){
+																			GOR_boxDetail();
+																			createTable(gorCode, levelname);
+																			createReligion(gorCode, levelname);
+																			getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName, 'popSexGeog');
+																			getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'ageGeog');
+																			getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'popTime');
+																			getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'relGeog');
+																			getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'relAgeGeog');
+																			getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'relSexGeog');
+																		} 														   
+																		if (levelname ==="CTRY"){
+																			CTRY_boxDetail();
+																			createTable(ctryCode, levelname);
+																			createReligion(ctryCode, levelname);
+																			getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName, 'popSexGeog');
+																			getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'ageGeog');
+																			getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'popTime');
+																			getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relGeog');
+																			getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relAgeGeog');
+																			getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relSexGeog');									                	   
+																		} 													    
+																	}); //  $(document)
+																}); //  getJSON(gorUrl	
+															  }); //  $(document)
+															}); //  getJSON(healthUrl	
+														  }); //  $(document)
 													} //if (ctryName === 'England')
 
 													if (ctryName === 'Wales') {
@@ -478,7 +477,14 @@ function highlightMap(details, postcode){
 														
 														if (levelname === "GOR") {															
 														}
-														else{
+														else{														
+														 var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/LHB/LHB_DEC_2014_WA_BGC/FeatureServer/0/query?where=&geometry=" +
+														     x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;														
+															
+														 $(document).ready(function(){
+															$.getJSON(healthUrl, function(result) {
+																healthName = result.features[0].attributes.LHB14NM;
+																healthCode = result.features[0].attributes.LHB14CD;
 
 															$(document).ready(function(){
 																var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
@@ -541,14 +547,15 @@ function highlightMap(details, postcode){
 																	getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relAgeGeog');
 																	getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relSexGeog');
 																}
-															}); //  $(document)	
+															 });
+															});																
+														  }); //  $(document)														
 														}
 													}	//  if (ctryName === 'Wales'
 												}); //getJSON wardUrl							    		  
 											}); // document 						    	  
-										}); //getJSON	parliConUrl				   
-									}); // document 		
-								}); //getJSON	healthUrl				   
+										}); //getJSON	parliConUrl		   
+												   
 							}); // document 		
 						}); //getJSON	laUrl				   
 					}); // document 		
@@ -562,7 +569,7 @@ function highlightMap(details, postcode){
 			var urlParams1 = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			
 			if (ctryName === 'England') {
-				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    		 
+				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    		 
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';
@@ -573,11 +580,11 @@ function highlightMap(details, postcode){
 					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;" class="box__inner border box--padded has-icon">'+			                   
 					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +postcode+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
-					'<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; + href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;areaname=' + wardName + '&amp;areacode=' + wardCode + '&amp;ln=' + laName + '&amp;lc=' + laCode +
+					'<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue;" + href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;areaname=' + encodeName(wardName) + '&amp;areacode=' + wardCode + '&amp;ln=' + encodeName(laName) + '&amp;lc=' + laCode +
 					'&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ wardName + '</a>)' +
-					'<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ laName + '</a>)' + 
+					'<br> - Local Authority (<a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;areaname=' + encodeName(laName) + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ laName + '</a>)' + 
 					regionText + 
-					'<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
+					'<br> - Country (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
 					'</div>' +
 			'</article></div>');		     		 
 		}	       
@@ -588,7 +595,7 @@ function highlightMap(details, postcode){
 			var urlParams1 = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			
 			if (ctryName === 'England') {
-				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    		
+				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    		
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';
@@ -599,11 +606,11 @@ function highlightMap(details, postcode){
 					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;" class="box__inner border box--padded has-icon">'+			                   
 					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
-					'<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;areaname=' + wardName + '&amp;areacode=' + wardCode + '&amp;ln=' + laName + '&amp;lc=' + laCode +
+					'<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;areaname=' + encodeName(wardName) + '&amp;areacode=' + wardCode + '&amp;ln=' + encodeName(laName) + '&amp;lc=' + laCode +
 					'&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ wardName + '</a>)' +
-					'<br> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ laName + '</a>)' +  
+					'<br> - Local Authority (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + encodeName(laName) + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ laName + '</a>)' +  
 					regionText + 
-					'<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">' +  ctryName + '</a>)</div>' + 
+					'<br> - Country (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">' +  ctryName + '</a>)</div>' + 
 					'</div>' +
 			'</article></div>');
 		}
@@ -613,13 +620,13 @@ function highlightMap(details, postcode){
 			var urlParams1 = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 						
 			if (ctryName === 'England') {
-				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    		 
-				regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + wardName + '&amp;ln=' + laName + '&amp;lc=' +
+				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    		 
+				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + encodeName(wardName) + '&amp;ln=' + encodeName(laName) + '&amp;lc=' +
 				laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '"> Output area </a></div>';
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';
-				regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + wardName + '&amp;ln=' + laName + '&amp;lc=' + laCode +
+				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + encodeName(wardName) + '&amp;ln=' + encodeName(laName) + '&amp;lc=' + laCode +
 				 urlParams + '"> Output area </a></div>';
 			} 	    	
 			// set orange info box details    		
@@ -627,9 +634,9 @@ function highlightMap(details, postcode){
 					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;min-width: 211px" class="box__inner border box--padded has-icon">'+			                   
 					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
-					'<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + laName + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ laName + '</a>)' +  
+					'<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + encodeName(laName) + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ laName + '</a>)' +  
 					regionText + 
-					'<br> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
+					'<br> - Country (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
 					'<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
 					'<div style="font-size: small;">' + 
 					regionDrillText +
@@ -642,12 +649,12 @@ function highlightMap(details, postcode){
 			var urlParams1 = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			
 			if (ctryName === 'England') {	    		
-				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';
-				regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + laName + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '"> Ward </a></div>' ;
+				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';
+				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + encodeName(laName) + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '"> Ward </a></div>' ;
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';
-				regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + laName + urlParams + '"> Ward </a></div>' ;
+				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + encodeName(laName) + urlParams + '"> Ward </a></div>' ;
 			} 
 			// set orange info box details    		
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
@@ -655,7 +662,7 @@ function highlightMap(details, postcode){
 					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Local Authority)<br><br><strong>Part of:</strong></div>' +
 					regionText + 
-					'<br><div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
+					'<br><div style="font-size: small;"> - Country (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
 					'<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
 					'<div style="font-size: small;">' + 
 					regionDrillText +
@@ -668,7 +675,7 @@ function highlightMap(details, postcode){
 			var urlParams1 = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			
 			if (ctryName === 'England') {	    		    		 
-				regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;childname=LAD&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '"> Local Authority </a></div>';
+				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;childname=LAD&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '"> Local Authority </a></div>';
 			}
 			else{		        
 				regionDrillText = '<span style="display:none;"></span>';				   
@@ -678,7 +685,7 @@ function highlightMap(details, postcode){
 					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;" class="box__inner border box--padded has-icon">'+			                   
 					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Region)<br><br><strong>Part of:</strong></div>' +
-					'<div style="font-size: small;"> - Country (<a style="color: light blue"; href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
+					'<div style="font-size: small;"> - Country (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
 					'<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
 					'<div style="font-size: small;">' + 
 					regionDrillText +
@@ -690,12 +697,12 @@ function highlightMap(details, postcode){
 			var urlParams1 = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			
 			if (ctryName === 'England') {	    		 
-				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';
-				regionDrillText  = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=GOR' + urlParams1 + '"> Region </a></div>';
+				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';
+				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=GOR' + urlParams1 + '"> Region </a></div>';
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';
-				regionDrillText = '- <a style="color: light blue"; href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=LAD' + urlParams1 + '"> Local Authority </a></div>';					   
+				regionDrillText = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=CTRY&amp;childname=LAD' + urlParams1 + '"> Local Authority </a></div>';					   
 			}
 			// set orange info box details	
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
