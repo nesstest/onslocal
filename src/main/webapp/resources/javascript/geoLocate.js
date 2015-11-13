@@ -1,11 +1,11 @@
 function getLocation() {
+	alert("wibble");
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
+    	alert("Geolocation is not supported by this browser.");
     }
 }
 function showPosition(position) {
-    x.innerHTML = "Latitude: " + position.coords.latitude + 
-    "<br>Longitude: " + position.coords.longitude; 
+	alert("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude); 
 }
