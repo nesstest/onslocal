@@ -7,10 +7,10 @@ function getLocation() {
     }  
 }
 function showPosition(position) {
-	alert("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude); 
+	alert("Latitude: " + position.coords.latitude + "Longitude: " + position.coords.longitude); 
 	//create a wgs84 coordinate
     wgs84=new GT_WGS84();
-    wgs84.setDegrees(position.coords.longitude, position.coords.latitude);
+    wgs84.setDegrees(position.coords.latitude, position.coords.longitude);
 
     //convert to OSGB
     osgb=wgs84.getOSGB();
