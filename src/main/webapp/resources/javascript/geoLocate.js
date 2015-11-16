@@ -1,30 +1,34 @@
 function getLocation() {
-	alert("wibble");
-    if (navigator.geolocation) {
+	    if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else {
     	alert("Geolocation is not supported by this browser.");
     }  
 }
 function showPosition(position) {
-	alert("Latitude: " + position.coords.latitude + "Longitude: " + position.coords.longitude); 
+	//alert("Latitude: " + position.coords.latitude + "Longitude: " + position.coords.longitude); 
 	//create a wgs84 coordinate
-    wgs84=new GT_WGS84();
-    wgs84.setDegrees(position.coords.latitude, position.coords.longitude);
+   // wgs84=new GT_WGS84();
+    //wgs84.setDegrees(position.coords.latitude, position.coords.longitude);
 
     //convert to OSGB
-    osgb=wgs84.getOSGB();
-    alert(osgb.eastings +" "+ osgb.northings)
+    //osgb=wgs84.getOSGB();
+    //gridref = osgb.getGridRef(5);
+   // alert(gridref)
     
-    var OAUrl     = "https://mapping.statistics.gov.uk/arcgis/rest/services/OA/OA_2011_EW_BGC_V2/FeatureServer/0/query?where=&geometry=" +
-    osgb.eastings + "," + osgb.northings + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;	
+    
+    var PCUrl     = "http://api.postcodes.io/postcodes?lon="+position.coords.longitude+"&lat="+position.coords.latitude;
     
     $(document).ready(function(){
-		$.getJSON(OAUrl, function(result) {
-			OACode = result.features[0].attributes.OA11CD;
-			alert(OACode);
+		$.getJSON(PCUrl, function(result) {
+			PCCode = result.result[0].postcode;
+			alert(OPCCode);
 		});
     });
+    
+    
+    //var postcodeLookup = "http://www.nearby.org.uk/coord.cgi?p="+gridref+"f=lookup";
+    
     
 
 			
