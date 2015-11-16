@@ -14,12 +14,7 @@ function showPosition(position) {
 			PCCode = result.result[0].postcode;
 			alert(PCCode);
 			
-			// load default home page with loading symbol
-		    createMap(PCCode);
-		    $(document).ready(function(){					
-		    	homePageBoxes(PCCode);
-				
-			});
+			window.location.href =  'index.html?nav-search='+PCCode
 			
 		});
     });			
