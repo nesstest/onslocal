@@ -175,18 +175,22 @@ html,body {
 							placeholder="Search postcode or place name in England and Wales">
 					</div>
 					<button type="submit" class="btn btn--primary btn--nav-search"
-						onclick="eraseCookie('tab');" id="nav-search-submit">
-						<span class="icon-search-1" role="presentation"></span>
+						onclick="eraseCookie('tab');getLocation();" id="nav-search-submit">
+						<span class="icon-search-1 icon-target-1" role="presentation"></span>
 					</button>
+					
 					<script type="text/javascript">  
 			                  $('#nav-search').attr('placeholder',postcode);                   
-			                </script>
+			          </script>
+			        
 				</form>
-			</div>
-				<button type="submit" class="btn--secondary  btn--locate"
+				 <!-- >button class="btn--secondary  btn--locate"
 						onclick="getLocation()" id="locate-submit">
-						<span class="icon-search-1" role="presentation"></span>
-					</button>
+						<span class="icon-target-1" role="presentation"></span>
+					</button-->
+				
+			</div>
+				
 			
 			<article id="redbox" class="box--warning" style="margin: auto; width: 600px; margin-top: 20px; margin-bottom: 20px; display: none;" >
 			  <div class="box__inner border box--padded has-icon" >

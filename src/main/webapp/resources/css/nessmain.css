@@ -1296,7 +1296,7 @@ img {
 
 .icon-search:before {
   content: '\e807'; }
-
+  
 .icon-download:before {
   content: '\e808'; }
 
@@ -1323,6 +1323,9 @@ img {
 
 .icon-search-1:before {
   content: '\e810'; }
+  
+ .icon-target-1:before {
+  content: '\e81e'; }
 
 .icon-popup:before {
   content: '\e811'; }
