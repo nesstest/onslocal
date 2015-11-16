@@ -22,7 +22,7 @@ function showPosition(position) {
     $(document).ready(function(){
 		$.getJSON(PCUrl, function(result) {
 			PCCode = result.result[0].postcode;
-			alert(OPCCode);
+			alert(PCCode);
 		});
     });
     
