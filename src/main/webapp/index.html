@@ -81,6 +81,7 @@ html,body {
 	    postcode =  getUrlParams()["nav-search"];
 	    if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
 	    	// load default home page
+	    	getLocation();
 	    	$(document).ready(function(){				
 		    	homePageBoxes(postcode);				
 			});
@@ -175,7 +176,7 @@ html,body {
 							placeholder="Search postcode or place name in England and Wales">
 					</div>
 					<button type="submit" class="btn btn--primary btn--nav-search"
-						onclick="eraseCookie('tab');getLocation();" id="nav-search-submit">
+						onclick="eraseCookie('tab');" id="nav-search-submit">
 						<span class="icon-search-1 icon-target-1" role="presentation"></span>
 					</button>
 					
