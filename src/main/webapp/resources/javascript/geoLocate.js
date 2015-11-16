@@ -6,32 +6,23 @@ function getLocation() {
     }  
 }
 function showPosition(position) {
-	//alert("Latitude: " + position.coords.latitude + "Longitude: " + position.coords.longitude); 
-	//create a wgs84 coordinate
-   // wgs84=new GT_WGS84();
-    //wgs84.setDegrees(position.coords.latitude, position.coords.longitude);
-
-    //convert to OSGB
-    //osgb=wgs84.getOSGB();
-    //gridref = osgb.getGridRef(5);
-   // alert(gridref)
-    
-    
+	
     var PCUrl     = "http://api.postcodes.io/postcodes?lon="+position.coords.longitude+"&lat="+position.coords.latitude;
     
     $(document).ready(function(){
 		$.getJSON(PCUrl, function(result) {
 			PCCode = result.result[0].postcode;
 			alert(PCCode);
-		});
-    });
-    
-    
-    //var postcodeLookup = "http://www.nearby.org.uk/coord.cgi?p="+gridref+"f=lookup";
-    
-    
-
 			
+			// load default home page with loading symbol
+		    createMap(PCCode);
+		    $(document).ready(function(){					
+		    	homePageBoxes(PCCode);
+				
+			});
+			
+		});
+    });			
 }
 
 /**
