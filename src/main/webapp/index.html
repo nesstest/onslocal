@@ -69,12 +69,7 @@ html,body {
 	    
 	    //declare global var and set to home tab
 	    var current_tab = "tab1";
-	    var button = "false";
-	    
-	    function searchPressed(){
-	    	button= "true"
-	    }
-	    
+	   	    
 	    function getUrlParams() {
 	        var vars = {};
 	        parts = decodeURI(window.location.href).replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -83,15 +78,21 @@ html,body {
 	        return vars;
 	    }	    
 	    
+	   
+	    
 	    postcode =  getUrlParams()["nav-search"];
 	    if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
-	    	// load default home page
-	    	if (button =="true"){
-	    		getLocation();
+	    	if (window.location.href.indexOf("nav-search") > -1)
+	    	{
+	    		getLocation()
 	    	}
-	    	$(document).ready(function(){				
+	    	else
+	    	{
+	    		// load default home page
+	    		$(document).ready(function(){				
 		    	homePageBoxes(postcode);				
-			});
+				});
+	    	}
 	    }
 	    else{
 	    	postcode = postcode_reformat(postcode);
@@ -183,7 +184,7 @@ html,body {
 							placeholder="Search postcode or place name in England and Wales">
 					</div>
 					<button type="submit" class="btn btn--primary btn--nav-search"
-						onclick="searchPressed();eraseCookie('tab');" id="nav-search-submit">
+						onclick="eraseCookie('tab');" id="nav-search-submit">
 						<span class="icon-search-1 icon-target-1" role="presentation"></span>
 					</button>
 					
