@@ -69,7 +69,6 @@ html,body {
 	    
 	    //declare global var and set to home tab
 	    var current_tab = "tab1";
-	    var formSubmit = "false";
 	   	    
 	    function getUrlParams() {
 	        var vars = {};
@@ -79,23 +78,23 @@ html,body {
 	        return vars;
 	    }	 
 	    
-	    $(function(){
-	    	   $("#searchBar").submit(function() {
-	    		   formSubmit = "true";
-	    	      return false;
-	    	   });
-	    	});
+	   
     
 	    postcode =  getUrlParams()["nav-search"];
 	    if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
 	    	// load default home page
-	    	   	if(formSubmit =="true")
-	    	   		{getLocation()}
-	    	   	else{
-		    		$(document).ready(function(){				
-			    	homePageBoxes(postcode);				
-		    		});
-	    	   	}
+	    	
+	    	 $(function(){
+	    	   $("#searchBar").submit(function() {
+	    		   getLocation();
+	    		   return false;
+	    	      });
+	    		});
+	    	
+	    		$(document).ready(function(){				
+			   	 homePageBoxes(postcode);				
+		    	});
+	    	   	
 	    }
 	    else{
 	    	postcode = postcode_reformat(postcode);
