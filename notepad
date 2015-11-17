@@ -10,6 +10,10 @@ Get parent areas:
 
 http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/E00082600
 
+Get PostCode:
+
+http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/po155rr
+
 Search:
 
 http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/search?term=fareham
