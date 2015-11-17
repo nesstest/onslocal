@@ -12,7 +12,7 @@
 <link rel="stylesheet"	href="http://js.arcgis.com/3.14/dijit/themes/claro/claro.css">
 <link rel="stylesheet"	href="http://js.arcgis.com/3.14/dijit/themes/tundra/tundra.css">
 <script type="text/javascript"
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
 <!-- Latest minified and concatenated JS to go in head -->
 <!-- Latest minified and concatenated JS to go in the footer -->
 <script src="resources/javascript/footer.js" type="text/javascript"></script>
@@ -69,6 +69,7 @@ html,body {
 	    
 	    //declare global var and set to home tab
 	    var current_tab = "tab1";
+	    var formSubmit = "false";
 	   	    
 	    function getUrlParams() {
 	        var vars = {};
@@ -76,23 +77,25 @@ html,body {
 	        vars[key] = value;
 	        });
 	        return vars;
-	    }	    
+	    }	 
 	    
-	   
-	    
+	    $(function(){
+	    	   $("#searchBar").submit(function() {
+	    		   formSubmit = "true";
+	    	      return false;
+	    	   });
+	    	});
+    
 	    postcode =  getUrlParams()["nav-search"];
 	    if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
-	    	if (window.location.href.indexOf("nav-search") > -1)
-	    	{
-	    		getLocation()
-	    	}
-	    	else
-	    	{
-	    		// load default home page
-	    		$(document).ready(function(){				
-		    	homePageBoxes(postcode);				
-				});
-	    	}
+	    	// load default home page
+	    	   	if(formSubmit =="true")
+	    	   		{getLocation()}
+	    	   	else{
+		    		$(document).ready(function(){				
+			    	homePageBoxes(postcode);				
+		    		});
+	    	   	}
 	    }
 	    else{
 	    	postcode = postcode_reformat(postcode);
@@ -193,7 +196,7 @@ html,body {
 			          </script>
 			        
 				</form>
-				 <!-- >button class="btn--secondary  btn--locate"
+				 	<!-- button class="btn--secondary  btn--locate"
 						onclick="getLocation()" id="locate-submit">
 						<span class="icon-target-1" role="presentation"></span>
 					</button-->
