@@ -69,6 +69,11 @@ html,body {
 	    
 	    //declare global var and set to home tab
 	    var current_tab = "tab1";
+	    var button = "false";
+	    
+	    function buttonPressed(){
+	    	button= "true"
+	    }
 	    
 	    function getUrlParams() {
 	        var vars = {};
@@ -81,6 +86,9 @@ html,body {
 	    postcode =  getUrlParams()["nav-search"];
 	    if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
 	    	// load default home page
+	    	if (button =="true"){
+	    		getLocation();
+	    	}
 	    	$(document).ready(function(){				
 		    	homePageBoxes(postcode);				
 			});
@@ -175,7 +183,7 @@ html,body {
 							placeholder="Search postcode or place name in England and Wales">
 					</div>
 					<button type="submit" class="btn btn--primary btn--nav-search"
-						onclick="getLocation();eraseCookie('tab');" id="nav-search-submit">
+						onclick="searchPressed();eraseCookie('tab');" id="nav-search-submit">
 						<span class="icon-search-1 icon-target-1" role="presentation"></span>
 					</button>
 					
