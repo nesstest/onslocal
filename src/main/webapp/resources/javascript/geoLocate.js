@@ -12,8 +12,7 @@ function showPosition(position) {
     $(document).ready(function(){
 		$.getJSON(PCUrl, function(result) {
 			PCCode = result.result[0].postcode;
-			alert(PCCode);
-			
+			alert(PCCode);			
 			window.location.href =  'index.html?nav-search='+PCCode
 			
 		});
