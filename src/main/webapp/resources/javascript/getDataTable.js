@@ -1,10 +1,9 @@
 function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,regionCode,regionName,nationalCode,nationalName,healthName, levelname, areaname, tableType){
 
-	if(regionCode === 'undefined' || typeof regionCode === 'undefined' || typeof regionCode === null)
+	if(regionCode === 'undefined' || regionCode === 'W99999999' || typeof regionCode === 'undefined' || typeof regionCode === null)
 	{
 		regionCode = nationalCode; 
     }
-	
 	
 	if(levelname == null)
 		{levelname = "OA"}
@@ -32,6 +31,8 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				tableRow1 = "<tr><td>Total</td>"
 				tableRow2 = "<tr><td>Males</td>"
 				tableRow3 = "<tr><td>Females</td>"
+					
+					
 				
 				var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+"&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013";
 			
@@ -72,7 +73,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 										
 									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 							    	{
-										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
+										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 										all = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
 										male = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
 										female = commaSeparateNumber(result["SAPEDE 2013"].value[2]);
@@ -145,7 +146,6 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				tableRow4 = "<tr><td>3</td>";
 				tableRow5 = "<tr><td>4</td>";
 				
-				
 				var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+"&dm/CL_0000670=CI_0005569&jsontype=json-stat&totals=false&diff=2013"
 			
 				$.getJSON(URL, function(result)
@@ -193,7 +193,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 										
 									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 							    	{
-										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
+										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 										under1 = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
 										one = commaSeparateNumber(result["SAPEDE 2013"].value[2]) ;
 										two = commaSeparateNumber(result["SAPEDE 2013"].value[3]) ;
@@ -311,7 +311,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 										
 									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 							    	{
-										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
+										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 										under1 = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
 										
 										tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
@@ -415,7 +415,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 										
 									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 							    	{
-										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
+										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 										all = commaSeparateNumber(result["LC2107EW"].value[0]) ;
 										christian = commaSeparateNumber(result["LC2107EW"].value[1]) ;
 										muslim = commaSeparateNumber(result["LC2107EW"].value[5]);
@@ -528,7 +528,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 										
 									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 							    	{
-										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
+										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 										groupOne = commaSeparateNumber(result["LC2107EW"].value[1]);
 										groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]);
 										groupThree = commaSeparateNumber(result["LC2107EW"].value[3]);
@@ -647,7 +647,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 										
 									if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 							    	{
-										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Health<br>authority<br>("+healthName+")</th>";
+										tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 										 groupOne = commaSeparateNumber(result["LC2107EW"].value[0]) ;
 											groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]) ;
 											groupThree = commaSeparateNumber(result["LC2107EW"].value[1]);
