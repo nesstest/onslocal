@@ -77,16 +77,13 @@ html,body {
 	        });
 	        return vars;
 	    }	 
-	    	   
-    
+       
 	    postcode =  getUrlParams()["nav-search"];
 	    if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
 	    	// load default home page
 	    		$(document).ready(function(){				
-			   	 homePageBoxes(postcode);	
-			   	
+			   	 homePageBoxes(postcode);	  	
 		    	})
-	    	   	
 	    }
 	    else{
 	    	postcode = postcode_reformat(postcode);
