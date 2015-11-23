@@ -18,27 +18,20 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 	var tableRow4;
 	var tableRow5;
 
+	//set region code to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
 	if (regionCode == "W99999999")
 	{regionCode = "E12000001"}
 
-
 	//start to create table
-
 	if (tableType == "popSexGeog")
 	{
 
 		var start = new Date().getTime();
-
-		//set region code to valid region (NORTH EAST) to stop WDA call failing 
-		
-
 		tableHead = "<table><span class='tabletitle'>Population by sex and geography (2013)</span><thead><tr><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
-
-
 		tableRow1 = "<tr><td>Total</td>"
-			tableRow2 = "<tr><td>Males</td>"
-				tableRow3 = "<tr><td>Females</td>"
+		tableRow2 = "<tr><td>Males</td>"
+		tableRow3 = "<tr><td>Females</td>"
 
 					var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013";
 
@@ -136,8 +129,6 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 
 		tableHead = "<table><span class='tabletitle'>Age by geography (2013)</span><thead><tr><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
-
-
 		tableRow1 = "<tr><td>Under 1</td>";
 		tableRow2 = "<tr><td>1</td>";
 		tableRow3 = "<tr><td>2</td>";
@@ -185,8 +176,6 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableRow5 = tableRow5 + "<td>"+four+"</td><td>Not Available</td>";
 				}
 
-
-
 				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 				{
 					if (nationalName == "England"){
@@ -207,8 +196,6 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableRow5 = tableRow5 + "<td>"+four+"</td><td>Not Available</td>";
 				}
 
-
-
 				if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
 				{
 					tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
@@ -224,8 +211,6 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableRow5 = tableRow5 + "<td>"+four+"</td>";
 				}
 
-
-
 				if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 				{
 					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
@@ -240,7 +225,6 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableRow4 = tableRow4 + "<td>"+three+"</td>";
 					tableRow5 = tableRow5 + "<td>"+four+"</td>";
 				}
-
 
 				tableRow1 = tableRow1 + "</tr>";
 				tableRow2 = tableRow2 + "</tr>";
@@ -363,12 +347,9 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 
 		tableHead = "<table><span class='tabletitle'>Religion by geography (2011)</span><thead><tr><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
-
-		//tableHead = tableHead + "<th data-priority='persist'>"+levelname+"<br>("+areaname+")</th>";
-
 		tableRow1 = "<tr><td>Total</td>"
-			tableRow2 = "<tr><td>Christian</td>"
-				tableRow3 = "<tr><td>Muslim</td>"
+		tableRow2 = "<tr><td>Christian</td>"
+		tableRow3 = "<tr><td>Muslim</td>"
 
 					var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121&dm/CL_0000163=CI_0001887";
 
