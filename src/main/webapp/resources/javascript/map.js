@@ -629,7 +629,7 @@ function  OA_pcode_details(postcode,queryExtent) {
 	        parliCon         = result.features[0].attributes.pconnm;
 	        health_extcode   = result.features[0].attributes.ccgcd;
 	        health           = result.features[0].attributes.ccgnm;
-	        markerEnvelope   = result.features[0].attributes.oseast1m + ":" + result.features[0].attributes.osnrth1m;
+	        markerEnvelope   = result.features[0].attributes.oaeast1m + ":" + result.features[0].attributes.oanrth1m;
 	        doterm           = result.features[0].attributes.doterm; 	
 	                
 	        // check to see if postcode not obsolete (doterm === null valid)
