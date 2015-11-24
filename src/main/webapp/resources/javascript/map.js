@@ -601,7 +601,7 @@ function  OA_pcode_details(postcode,queryExtent) {
 	var doterm;
 	
 	// get layer info for postcode
-	var pcUrl     = "https://mapping.statistics.gov.uk/arcgis/rest/services/POSTCODE/ONSLocal/MapServer/0/query?where=pcds=" + "'" + postcode + "'" + "&outFields=*&returnGeometry=true&outSR=27700&f=pjson";
+	var pcUrl     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/" + postcode;
 	$(document).ready(function(){		
 	  $.getJSON(pcUrl, function(result) {		  
 		  
@@ -629,11 +629,11 @@ function  OA_pcode_details(postcode,queryExtent) {
 	        parliCon         = result.features[0].attributes.pconnm;
 	        health_extcode   = result.features[0].attributes.ccgcd;
 	        health           = result.features[0].attributes.ccgnm;
-	        markerEnvelope   = result.features[0].geometry.x + ":" + result.features[0].geometry.y;
+	        markerEnvelope   = result.features[0].attributes.oaeast1m + ":" + result.features[0].attributes.oanrth1m;
 	        doterm           = result.features[0].attributes.doterm; 	
 	                
 	        // check to see if postcode not obsolete (doterm === null valid)
-	        if(doterm == null) {        	
+	        if(doterm == "") {        	
 		        var queryExtent;       
 		    	
 		    	require([ 
