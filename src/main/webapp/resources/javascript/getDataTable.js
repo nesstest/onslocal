@@ -1,9 +1,10 @@
 function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,regionCode,regionName,nationalCode,nationalName,healthName, levelname, areaname, tableType){
 
-	if(regionCode === 'undefined' || typeof regionCode === 'undefined' || typeof regionCode === null)
+	if(regionCode === 'undefined' || regionCode === 'W92000004' || regionCode === 'W99999999' || typeof regionCode === 'undefined' || typeof regionCode === null)
 	{
-		regionCode = nationalCode; 
-	}
+		//set region code to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
+		regionCode = "E12000001"; 
+    }
 
 
 	if(levelname == null)
@@ -18,9 +19,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 	var tableRow4;
 	var tableRow5;
 
-	//set region code to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
-	if (regionCode == "W99999999")
-	{regionCode = "E12000001"}
+	
 
 	//start to create table
 	if (tableType == "popSexGeog")
