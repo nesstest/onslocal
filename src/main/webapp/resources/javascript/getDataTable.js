@@ -1,6 +1,6 @@
 function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,regionCode,regionName,nationalCode,nationalName,healthName, levelname, areaname, tableType){
 
-	if(regionCode === 'undefined' || regionCode === 'W92000004' || regionCode === 'W99999999' || typeof regionCode === 'undefined' || typeof regionCode === null)
+	if(regionCode === 'undefined' || regionCode === '' || regionCode === 'W92000004' || regionCode === 'W99999999' || typeof regionCode === 'undefined' || typeof regionCode === null)
 	{
 		//set region code to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
 		regionCode = "E12000001"; 
