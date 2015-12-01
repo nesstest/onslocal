@@ -107,8 +107,8 @@
 			    	if (ui.item.type === "Country"){
 			    		levelname = "CTRY";
 			    	}
-			    	window.location.href =  'index.html?nav-search=' + ui.item.label + '&areacode=' + ui.item.extcode + '&levelname=' + levelname;
-			    		       
+			    	window.location.href =  'index.html?nav-search=' + encodeName(ui.item.label) + '&areacode=' + ui.item.extcode + '&levelname=' + levelname;
+			    	      
 			        // Prevent default behaviour
 			        return false;
 		    	}     
@@ -137,13 +137,19 @@
 		$(function(){		
 		     $('#nav-search').keyup(function(){	
 		          if (!/\d/.test($("#nav-search").val())) { //all alpha chars - placename search
-		               $('#nav-search-submit').prop('disabled', true);		               
+		               $('#nav-search-submit').prop('disabled', true);	
+		               //var regExp1 = /^[a-z0-9]+$/i;		               
+		              // if (!$(this).val().match(/^[0-9a-z]+$/)) {
+		            	//   alert("not alpha ");
+		              // }
 		          } else {
 		               // Contains a numeric - postcode search
 		               $('#nav-search-submit').prop('disabled', false);
 		               // to do
-		               //var regExp1 = /^[a-z0-9]+$/i;		               
-		              // if (!$(this).val().match(/^[0-9a-z]+$/)) { }
+		              // var regExp1 = /^[a-z0-9]+$/i;		               
+		              // if (!$(this).val().match(/^[0-9a-z]+$/)) {
+		            	//   alert("not alpha numeric");
+		              // }
 		          }
 		     });
 		});	
@@ -160,6 +166,7 @@
 	    }
 	    
 	    searchtext =  getUrlParams()["nav-search"];
+	    
 	    if (searchtext == null || searchtext.length == 0 || typeof searchtext === 'undefined') {
 	    	// load default home page
 	    	$(document).ready(function(){
@@ -169,6 +176,8 @@
 			});
 	    }
 	    else{
+	    	
+	    	searchtext =  decodeName(searchtext);
 	    	
 	    	// Check to see if the search string contains a number.
 	        // If it does, it may be a postcode.

@@ -144,7 +144,7 @@ function WD_areaDetails(search){
 	   if(search === 'name'){
 	     // name search call 	
 		 WD_extcode       = $.getUrlVar('areacode');
-		 WD               = $.getUrlVar('nav-search');
+		 WD               = decodeName($.getUrlVar('nav-search'));
 		 levelname        = $.getUrlVar('levelname');
 	   } 
 	   else {
@@ -342,7 +342,7 @@ function LA_areaDetails(search){
    if(search === 'name'){
      // name search call 	
      LA_extcode       = $.getUrlVar('areacode');
-     LA               = $.getUrlVar('nav-search');
+     LA               = decodeName($.getUrlVar('nav-search'));
 	 levelname        = $.getUrlVar('levelname');
    } 
    else {
@@ -520,7 +520,7 @@ function GOR_areaDetails(search){
     if(search === 'name'){
 	     // name search call	  
 	   GOR_extcode       = $.getUrlVar('areacode');
-	   GOR               = $.getUrlVar('nav-search');
+	   GOR               = decodeName($.getUrlVar('nav-search'));
 	   levelname         = $.getUrlVar('levelname');	  
     } 
     else {		   
@@ -705,7 +705,7 @@ function CTRY_areaDetails(search,postcode){
     if(search === 'name'){
 	   // name search call	  
 	   CTRY_extcode      = $.getUrlVar('areacode');
-	   CTRY              = $.getUrlVar('nav-search');	   
+	   CTRY              = decodeName($.getUrlVar('nav-search'));	   
 	   OA                = "";
 	   WD                = "";
 	   WD_extcode        = "";
@@ -975,7 +975,7 @@ function  postcode_reformat(postcode) {
 function  name_reformat(placename) {
 	// strip + sign from postcode string & convert to uppercase
 	placename                = placename.replace(/\+/g, ' ');  
-	var regExp1              = /^[a-zA-Z\s]+$/;
+	var regExp1              = /^[a-zA-Z\s\\&\\'\\:\\/\\(\\)\\!\\-]+$/; 
 	
 	if(regExp1.test(placename) == false)	
 	{	 
