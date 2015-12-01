@@ -49,7 +49,7 @@ function highlightMap(details, postcode, queryExtent){
 		var xCoord        = parseInt(markerParam[0]);
 		var yCoord        = parseInt(markerParam[1]);
 		var levelname     = detailsArray[4];
-		var areacode      = detailsArray[5];;
+		var areacode      = detailsArray[5];
 		var wardName      = detailsArray[6];	
 		var laName        = detailsArray[7];
 		var gorName       = detailsArray[8];			
@@ -230,7 +230,33 @@ function highlightMap(details, postcode, queryExtent){
 			featureLayer.queryFeatures(query, function (featureSet){			    	
 				polygon = featureSet.features[0].geometry;
 				map.graphics.add(new Graphic(polygon, selSymbol));
+				if (markerEnvelope === "0:0"  ){
+				}
+				else{
+					var symbol = new esri.symbol.PictureMarkerSymbol({
+						"angle": 0,
+						"xoffset": 0,
+						"yoffset": 12,
+						"type": "esriPMS",
+						"url": "resources/images/map-marker-128.png",
+						"contentType": "image/png",
+						"width": 24,
+						"height": 24
+					});	        
+					map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));
+				}
+				
+			});			    
+		}); 
 
+		function clearHighlightArea(){
+			map.graphics.clear(polygon, selSymbol);
+			renderer = new UniqueValueRenderer(defaultSymbol, areacode);
+			featureLayer.setRenderer(renderer);
+			map.addLayer(featureLayer);
+			if (markerEnvelope === "0:0" ){
+			}
+			else{
 				var symbol = new esri.symbol.PictureMarkerSymbol({
 					"angle": 0,
 					"xoffset": 0,
@@ -242,25 +268,7 @@ function highlightMap(details, postcode, queryExtent){
 					"height": 24
 				});	        
 				map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));
-			});			    
-		}); 
-
-		function clearHighlightArea(){
-			map.graphics.clear(polygon, selSymbol);
-			renderer = new UniqueValueRenderer(defaultSymbol, areacode);
-			featureLayer.setRenderer(renderer);
-			map.addLayer(featureLayer);
-			var symbol = new esri.symbol.PictureMarkerSymbol({
-				"angle": 0,
-				"xoffset": 0,
-				"yoffset": 12,
-				"type": "esriPMS",
-				"url": "resources/images/map-marker-128.png",
-				"contentType": "image/png",
-				"width": 24,
-				"height": 24
-			});	        
-			map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));
+			}		
 		} 
 
 		featureLayer.on("mouse-out", function(evt) {
@@ -275,21 +283,24 @@ function highlightMap(details, postcode, queryExtent){
 			map.setMapCursor("default"); 
 			dijitPopup.close(dialog);
 
-			var symbol = new esri.symbol.PictureMarkerSymbol({
-				"angle": 0,
-				"xoffset": 0,
-				"yoffset": 12,
-				"type": "esriPMS",
-				"url": "resources/images/map-marker-128.png",
-				"contentType": "image/png",
-				"width": 24,
-				"height": 24
-			});
-
 			if(!selected){	      
 				map.graphics.add(new Graphic(polygon, selSymbol));	        	 
-			}	          
-			map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));	      
+			}
+			if (markerEnvelope === "0:0"  ){
+			}
+			else{
+				var symbol = new esri.symbol.PictureMarkerSymbol({
+					"angle": 0,
+					"xoffset": 0,
+					"yoffset": 12,
+					"type": "esriPMS",
+					"url": "resources/images/map-marker-128.png",
+					"contentType": "image/png",
+					"width": 24,
+					"height": 24
+				});	        
+				map.graphics.add(new esri.Graphic(new esri.geometry.Point(xCoord, yCoord, new esri.SpatialReference({ wkid: 27700 })),symbol));
+			}      
 		}	       
 
 		function showLoading() {    				
@@ -301,7 +312,7 @@ function highlightMap(details, postcode, queryExtent){
 		}
 
 		// check to see if postcode search
-		if (typeof $.getUrlVar('pcSearch') === 'undefined' ) {
+		if (typeof $.getUrlVar('pcSearch') === 'undefined' && 	/\d/.test(area)) {
 			OA_postcode_boxDetail(); 
 		}
 		else{
