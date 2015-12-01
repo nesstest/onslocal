@@ -183,8 +183,8 @@
 	        // If it does, it may be a postcode.
 	    	if(/\d/.test(searchtext)) 
 			{
-		    	postcode = postcode_reformat(searchtext);
-		    	if(postcode === 'error')
+	    		searchtext = postcode_reformat(searchtext);
+		    	if(searchtext === 'error')
 		    	{
 		    		// load default home page with error message
 		    		$(document).ready(function(){
@@ -193,9 +193,9 @@
 		    	}
 		    	else{
 		    		// load default home page with loading symbol
-				    createMap(postcode,"postcode");
+				    createMap(searchtext,"postcode");
 				    $(document).ready(function(){					
-				    	homePageBoxes(postcode);
+				    	homePageBoxes(searchtext);
 						
 					});
 		    	}
