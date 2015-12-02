@@ -975,7 +975,7 @@ function  postcode_reformat(postcode) {
 function  name_reformat(placename) {
 	// strip + sign from postcode string & convert to uppercase
 	placename                = placename.replace(/\+/g, ' ');  
-	var regExp1              = /^[a-zA-Z\s\\&\\'\\:\\/\\(\\)\\!\\-]+$/; 
+	var regExp1              = /^[a-zA-Z\s\\&\\'\\:\\/\\(\\)\\!\\-\\,]+$/; 
 	
 	if(regExp1.test(placename) == false)	
 	{	 
