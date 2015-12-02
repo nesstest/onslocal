@@ -180,7 +180,7 @@
 	    	searchtext =  decodeName(searchtext);
 	    	
 	    	// Check to see if the search string contains a number.
-	        // If it does, it may be a postcode.
+	        // If it does, it may be a postcode.-
 	    	if(/\d/.test(searchtext)) 
 			{
 	    		searchtext = postcode_reformat(searchtext);
@@ -204,7 +204,7 @@
 		    else {
 		    		// load default home page with loading symbol		    		
 		    		placename = name_reformat(searchtext);
-		    		searchtext = placename;		    		    		
+		    		searchtext = placename;	
 					createMap(placename,"name");
 					  $(document).ready(function(){					
 					     homePageBoxes(searchtext);
