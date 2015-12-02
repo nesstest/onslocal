@@ -632,12 +632,12 @@ function highlightMap(details, postcode, queryExtent){
 						
 			if (ctryName === 'England') {
 				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue;" href="index.html?nav-search=' + encodeName(postcode) + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    		 
-				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + encodeName(wardName) + '&amp;ln=' + encodeName(laName) + '&amp;lc=' +
+				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + encodeName(postcode) + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + encodeName(wardName) + '&amp;ln=' + encodeName(laName) + '&amp;lc=' +
 				laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '"> Output area </a></div>';
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';
-				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + encodeName(wardName) + '&amp;ln=' + encodeName(laName) + '&amp;lc=' + laCode +
+				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + encodeName(postcode) + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + encodeName(wardName) + '&amp;ln=' + encodeName(laName) + '&amp;lc=' + laCode +
 				 urlParams + '"> Output area </a></div>';
 			} 	    	
 			// set orange info box details    		
