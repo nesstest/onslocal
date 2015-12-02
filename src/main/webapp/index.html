@@ -135,23 +135,22 @@
 		});
 		
 		$(function(){		
-		     $('#nav-search').keyup(function(){	
-		          if (!/\d/.test($("#nav-search").val())) { //all alpha chars - placename search
-		               $('#nav-search-submit').prop('disabled', true);	
-		               //var regExp1 = /^[a-z0-9]+$/i;		               
-		              // if (!$(this).val().match(/^[0-9a-z]+$/)) {
-		            	//   alert("not alpha ");
-		              // }
-		          } else {
-		               // Contains a numeric - postcode search
-		               $('#nav-search-submit').prop('disabled', false);
-		               // to do
-		              // var regExp1 = /^[a-z0-9]+$/i;		               
-		              // if (!$(this).val().match(/^[0-9a-z]+$/)) {
-		            	//   alert("not alpha numeric");
-		              // }
-		          }
-		     });
+		   $('#nav-search').keyup(function(){	
+              var $th = $(this);
+              $th.val($th.val().replace(/[^.\\:\\&\\,\\!\\-\\/\\''a-zA-Z0-9 ]/g,
+            		  
+              function (str) {
+                 alert('Special characters not allowed');
+                 return '';
+              }));
+              
+	          if (!/\d/.test($("#nav-search").val())) { //all alpha chars - placename search		        	  
+	        	  $('#nav-search-submit').prop('disabled', true);
+	          } else {
+	              // Contains a numeric - postcode search
+	              $('#nav-search-submit').prop('disabled', false);
+	          }
+		   });
 		});	
 		
 	    //declare global var and set to home tab
@@ -203,9 +202,9 @@
 		    // name search
 		    else {
 		    		// load default home page with loading symbol		    		
-		    		placename = name_reformat(searchtext);
-		    		searchtext = placename;	
-					createMap(placename,"name");
+		    		//placename = name_reformat(searchtext);
+		    		//searchtext = placename;	
+					createMap(searchtext,"name");
 					  $(document).ready(function(){					
 					     homePageBoxes(searchtext);
 					  });	
