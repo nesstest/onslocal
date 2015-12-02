@@ -334,20 +334,20 @@ function WD_areaDetails(search){
 
 function LA_areaDetails(search){	
   $(window).load(function(){
-   postcode       = $.getUrlVar('nav-search'); 
+   postcode       = $.getUrlVar('nav-search');   
 
    var areaId, envelope, markerEnvelope, LA, GOR, CTRY, levelname; 
    var LA_extcode, GOR_extcode, CTRY_extcode, childarealist, childname;
    
-   if(search === 'name'){	  
+   if(search === 'name'){	   
      // name search call 	
      LA_extcode       = $.getUrlVar('areacode');
      LA               = decodeName($.getUrlVar('nav-search'));    
 	 levelname        = $.getUrlVar('levelname');
    } 
-   else {	
+   else {	  
 	   LA_extcode       = $.getUrlVar('areacode');
-	   LA               = decodeName($.getUrlVar('areaname'));
+	   LA               = decodeName($.getUrlVar('areaname'));	 
    }
    
    if (LA_extcode == null || LA_extcode.length == 0 || typeof LA_extcode === 'undefined') {
@@ -975,7 +975,7 @@ function  postcode_reformat(postcode) {
 function  name_reformat(placename) {
 	// strip + sign from postcode string & convert to uppercase
 	placename                = placename.replace(/\+/g, ' ');  
-	var regExp1              = /^[a-zA-Z\s\\&\\'\\:\\/\\(\\)\\!\\-]+$/; 
+	var regExp1              = /^[a-zA-Z\s\\&\\'\\:\\/\\(\\)\\!\\-\\,]+$/; 
 	
 	if(regExp1.test(placename) == false)	
 	{	 
