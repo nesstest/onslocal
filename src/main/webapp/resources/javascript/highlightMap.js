@@ -631,7 +631,7 @@ function highlightMap(details, postcode, queryExtent){
 			var urlParams1 = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 						
 			if (ctryName === 'England') {
-				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    		 
+				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue;" href="index.html?nav-search=' + encodeName(postcode) + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    		 
 				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;childname=OA&amp;areacode=' + wardCode + '&amp;areaname=' + encodeName(wardName) + '&amp;ln=' + encodeName(laName) + '&amp;lc=' +
 				laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '"> Output area </a></div>';
 			}
@@ -645,7 +645,7 @@ function highlightMap(details, postcode, queryExtent){
 					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;min-width: 211px" class="box__inner border box--padded has-icon">'+			                   
 					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
-					'<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + encodeName(laName) + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ laName + '</a>)' +  
+					'<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue;" href="index.html?nav-search='+ encodeName(postcode) + '&amp;levelname=LAD&amp;areaname=' + encodeName(laName) + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ laName + '</a>)' +  
 					regionText + 
 					'<br> - Country (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
 					'<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
