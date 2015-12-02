@@ -602,11 +602,13 @@ function highlightMap(details, postcode, queryExtent){
 
 		// set orange info box OA details for an OA area
 		function  OA_boxDetail() {	
+			
+			alert("in oa box detail");
 			var urlParams  = '&amp;cn='+ctryName+'&amp;cc='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			var urlParams1 = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			
 			if (ctryName === 'England') {
-				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    		
+				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue;" href="index.html?nav-search=' + encodeName(postcode) + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';	    		
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';
@@ -617,16 +619,17 @@ function highlightMap(details, postcode, queryExtent){
 					'<div style="background-color:white;width: -moz-max-content;width: -webkit-max-content;" class="box__inner border box--padded has-icon">'+			                   
 					'<div style="min-width:211px;color: rgb(243,113,33); font-size:large"><strong>' +area+'</strong></div>' +
 					'<div style="color: black; font-size:medium;">(Output area ' + area + ')<br><br><strong>Part of:</strong></div>' +
-					'<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=WD&amp;areaname=' + encodeName(wardName) + '&amp;areacode=' + wardCode + '&amp;ln=' + encodeName(laName) + '&amp;lc=' + laCode +
+					'<div style="margin-top:5px;font-size: small;"> - Ward (<a style="color: light blue;" href="index.html?nav-search=' + encodeName(postcode) + '&amp;levelname=WD&amp;areaname=' + encodeName(wardName) + '&amp;areacode=' + wardCode + '&amp;ln=' + encodeName(laName) + '&amp;lc=' + laCode +
 					'&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ wardName + '</a>)' +
-					'<br> - Local Authority (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=LAD&amp;areaname=' + encodeName(laName) + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ laName + '</a>)' +  
+					'<br> - Local Authority (<a style="color: light blue;" href="index.html?nav-search='+ encodeName(postcode) + '&amp;levelname=LAD&amp;areaname=' + encodeName(laName) + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ laName + '</a>)' +  
 					regionText + 
-					'<br> - Country (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">' +  ctryName + '</a>)</div>' + 
+					'<br> - Country (<a style="color: light blue;" href="index.html?nav-search='+ encodeName(postcode) + '&amp;levelname=CTRY' + urlParams1 + '">' +  ctryName + '</a>)</div>' + 
 					'</div>' +
 			'</article></div>');
 		}
 
 		function  WD_boxDetail() {
+			alert("in ward in highlight map");
 			var urlParams  = '&amp;cn='+ctryName+'&amp;cc='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			var urlParams1 = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 						
@@ -647,7 +650,7 @@ function highlightMap(details, postcode, queryExtent){
 					'<div style="color: black; font-size:medium;">(Ward)<br><br><strong>Part of:</strong></div>' +
 					'<div style="margin-top:5px;font-size: small;"> - Local Authority (<a style="color: light blue;" href="index.html?nav-search='+ encodeName(postcode) + '&amp;levelname=LAD&amp;areaname=' + encodeName(laName) + '&amp;areacode=' + laCode + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '">'+ laName + '</a>)' +  
 					regionText + 
-					'<br> - Country (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
+					'<br> - Country (<a style="color: light blue;" href="index.html?nav-search='+ encodeName(postcode) + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
 					'<div style="color: black; font-size:medium;padding-top:10px;"><strong>Drill down to :</strong></div>' +
 					'<div style="font-size: small;">' + 
 					regionDrillText +
