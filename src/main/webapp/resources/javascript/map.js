@@ -334,25 +334,20 @@ function WD_areaDetails(search){
 
 function LA_areaDetails(search){	
   $(window).load(function(){
-   postcode       = $.getUrlVar('nav-search');	
-   alert("postcode" + postcode);
+   postcode       = $.getUrlVar('nav-search'); 
 
    var areaId, envelope, markerEnvelope, LA, GOR, CTRY, levelname; 
    var LA_extcode, GOR_extcode, CTRY_extcode, childarealist, childname;
    
-   if(search === 'name'){
-	   alert("are we in name");
+   if(search === 'name'){	  
      // name search call 	
      LA_extcode       = $.getUrlVar('areacode');
      LA               = decodeName($.getUrlVar('nav-search'));    
 	 levelname        = $.getUrlVar('levelname');
    } 
-   else {
-	   
-	   alert("are we in else bit");
+   else {	
 	   LA_extcode       = $.getUrlVar('areacode');
 	   LA               = decodeName($.getUrlVar('areaname'));
-	   alert("la else one" + LA);
    }
    
    if (LA_extcode == null || LA_extcode.length == 0 || typeof LA_extcode === 'undefined') {
