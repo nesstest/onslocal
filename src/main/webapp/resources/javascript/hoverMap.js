@@ -391,8 +391,7 @@ function hoverMap(details, postcode, queryExtent){
 			}); //  getJSON(parliConUrl	
 		}  //  executeQueryTask
 
-		function  WD_boxDetail() {
-			alert("in wadrd in hover map");
+		function  WD_boxDetail() {			
 			var urlParams          = '&amp;cn='+ctryName+'&amp;cc='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			var urlParams1         = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			
