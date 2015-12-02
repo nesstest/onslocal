@@ -360,10 +360,10 @@ function hoverMap(details, postcode, queryExtent){
 						if (levelname === "WD"){ 
 							//sort this out for OA
 							if(ctryName == "Wales"){
-							  window.location.href =  'index.html?nav-search='+postcode+'&levelname=OA&areaname='+area+'&areacode='+area+'&wn='+encodeName(wardName)+'&wc='+wardCode+'&ln='+encodeName(laName)+'&lc='+laCode+urlParams;		                	  			   
+							  window.location.href =  'index.html?nav-search='+encodeName(postcode)+'&levelname=OA&areaname='+area+'&areacode='+area+'&wn='+encodeName(wardName)+'&wc='+wardCode+'&ln='+encodeName(laName)+'&lc='+laCode+urlParams;		                	  			   
 							}
 							else{
-							  window.location.href = 'index.html?nav-search='+postcode+'&levelname=OA&areaname='+area+'&areacode='+area+'&wn='+encodeName(wardName)+'&wc='+wardCode+'&ln='+encodeName(laName)+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+urlParams;
+							  window.location.href = 'index.html?nav-search='+encodeName(postcode)+'&levelname=OA&areaname='+area+'&areacode='+area+'&wn='+encodeName(wardName)+'&wc='+wardCode+'&ln='+encodeName(laName)+'&lc='+laCode+'&gn='+gorName+'&gc='+gorCode+urlParams;
 							}
 						}
 						else if (levelname === "LAD"){
@@ -391,7 +391,8 @@ function hoverMap(details, postcode, queryExtent){
 			}); //  getJSON(parliConUrl	
 		}  //  executeQueryTask
 
-		function  WD_boxDetail() {	
+		function  WD_boxDetail() {
+			alert("in wadrd in hover map");
 			var urlParams          = '&amp;cn='+ctryName+'&amp;cc='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			var urlParams1         = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			
