@@ -137,7 +137,7 @@
 		$(function(){		
 		   $('#nav-search').keyup(function(){	
               var $th = $(this);
-              $th.val($th.val().replace(/[^.\\:\\&\\,\\!\\-\\/\\''a-zA-Z0-9 ]/g,
+              $th.val($th.val().replace(/[^.\\:\\&\\,\\(\\)\\!\\/\\''a-zA-Z0-9\-\ ]/g,
             		  
               function (str) {
                  alert('Special characters not allowed');
