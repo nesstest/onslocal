@@ -129,7 +129,7 @@
 		    	
 		    .autocomplete( "instance" )._renderItem = function( ul, item ) {
 		      return $( "<li>" )
-		        .append( "<a>" + item.label + " (" + item.type + ")</a>" )			
+		        .append( "<a>" + item.label + " (" + item.type + "), " + item.parent_name + "</a>" )
 		        .appendTo( ul );
 		    };
 		});
