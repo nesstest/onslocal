@@ -335,243 +335,241 @@ function highlightMap(details, postcode, queryExtent){
 
 		function executeQueryTask(evt){
 			selected = true;
-			clearHighlightArea();
 			var selectionQuery = new esri.tasks.Query();	          
 			var tol = map.extent.getWidth()/map.width * 5;
 			var x = evt.mapPoint.x;	          
-			var y = evt.mapPoint.y;			 
-
-			// get layer info for area clicked
-			var wardUrl     = "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2011_EW_BGC/FeatureServer/0/query?where=&geometry=" +
-			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;	
-
-			var laUrl       = "https://mapping.statistics.gov.uk/arcgis/rest/services/LAD/LAD_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
-			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
-
-			var gorUrl      = "https://mapping.statistics.gov.uk/arcgis/rest/services/GOR/GOR_DEC_2010_EN_BGC/FeatureServer/0/query?where=&geometry=" +
-			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
-
-			var ctryUrl     = "https://mapping.statistics.gov.uk/arcgis/rest/services/CTRY/CTRY_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
-			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
-
-			var parliConUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
-			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
-
-			$(document).ready(function(){
-				$.getJSON(ctryUrl, function(result) {
-					ctryName = result.features[0].attributes.CTRY11NM; 
-					ctryCode = result.features[0].attributes.CTRY11CD;
-
-					$(document).ready(function(){
-						$.getJSON(laUrl, function(result) {
-							laName = (result.features[0].attributes.LAD11NM);
-							laCode = result.features[0].attributes.LAD11CD;						
-
-									$(document).ready(function(){
-										$.getJSON(parliConUrl, function(result) {
-											parliConName = result.features[0].attributes.PCON11NM;
-											parliConCode = result.features[0].attributes.PCON11CD;
-
-											$(document).ready(function(){
-												$.getJSON(wardUrl, function(result) {
-													wardName =(result.features[0].attributes.WD11NM);
-													wardCode = result.features[0].attributes.WD11CD;	
-
-													if (ctryName === 'England') {	
-														
-														var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/CCG/CCG_JUL_2015_EN_BGC_V2/FeatureServer/0/query?where=&geometry=" +
-															x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ; 	
-															
-														 $(document).ready(function(){
-															$.getJSON(healthUrl, function(result) {
-																healthName = result.features[0].attributes.CCG15NM;
-																healthCode = result.features[0].attributes.CCG15CD;
+			var y = evt.mapPoint.y;	
+			
+			var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
+			selectionQuery.geometry = queryExtent;														  
+			featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){																  
+			  var resultFeatures = features;	
+			  // Cater for user clicking in Wales on GOR layer 				
+	          if (resultFeatures && resultFeatures.length > 0) {	        	  
+	            // extcode 
+	        	
+		        clearHighlightArea();  
+		        
+				for(var i=0, il=resultFeatures.length; i<il; i++){
+					
+			    	if (levelname === "OA") {     
+						area = resultFeatures[i].attributes[areacode];
+						extcode = resultFeatures[i].attributes[areacode];
+					}
+					else {
+						area = resultFeatures[i].attributes[areaname];
+						extcode = resultFeatures[i].attributes[areacode];
+					}	 	          
+				}
 	
-															$(document).ready(function(){											 
-																$.getJSON(gorUrl, function(result) {
-																	gorName = result.features[0].attributes.GOR10NM;
-																	gorCode = result.features[0].attributes.GOR10CD;
-																	$(document).ready(function(){
-																		var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
-																		selectionQuery.geometry = queryExtent;														  
-																		featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){																  
-																			var resultFeatures = features;														
-																			for(var i=0, il=resultFeatures.length; i<il; i++){
-																				if (levelname === "OA") {     
-																					area = resultFeatures[i].attributes[areacode];
-																				}
-																				else {
-																					area = resultFeatures[i].attributes[areaname];
-																				}	 	          
-																			}														 
-																		}); //  featureLayer.selectFeatures
-	
-																		$('#selArea1').empty();	
-	
-																		if (levelname === "OA") {  														
-																			// set orange info box details    		
-																			OA_boxDetail();
-																			createTable(area, levelname);
-																			createReligion(area, levelname);
-																			getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area, 'popSexGeog');
-																			getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'ageGeog');
-																			getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'popTime');
-																			getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relGeog');
-																			getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relAgeGeog');
-																			getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relSexGeog');
-																		}  														   
-																		if (levelname ==="WD"){														  					   
-																			WD_boxDetail();
-																			createTable(wardCode, levelname);
-																			createReligion(wardCode, levelname);
-																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName, 'popSexGeog');
-																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'ageGeog');
-																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'popTime');
-																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relGeog');
-																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relAgeGeog');
-																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relSexGeog');
-																		} 														   
-																		if (levelname ==="LAD"){
-																			LA_boxDetail();
-																			createTable(laCode, levelname);
-																			createReligion(laCode, levelname);
-																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName, 'popSexGeog');
-																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'ageGeog');
-																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'popTime');
-																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relGeog');
-																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relAgeGeog');
-																			getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relSexGeog'); 
-																		}
-																		if (levelname ==="GOR"){
-																			GOR_boxDetail();
-																			createTable(gorCode, levelname);
-																			createReligion(gorCode, levelname);
-																			getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName, 'popSexGeog');
-																			getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'ageGeog');
-																			getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'popTime');
-																			getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'relGeog');
-																			getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'relAgeGeog');
-																			getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'relSexGeog');
-																		} 														   
-																		if (levelname ==="CTRY"){
-																			CTRY_boxDetail();
-																			createTable(ctryCode, levelname);
-																			createReligion(ctryCode, levelname);
-																			getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName, 'popSexGeog');
-																			getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'ageGeog');
-																			getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'popTime');
-																			getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relGeog');
-																			getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relAgeGeog');
-																			getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relSexGeog');									                	   
-																		} 													    
-																	}); //  $(document)
-																}); //  getJSON(gorUrl	
-															  }); //  $(document)
-															}); //  getJSON(healthUrl	
-														  }); //  $(document)
-													} //if (ctryName === 'England')
-
-													if (ctryName === 'Wales') {
-
-														if (area == null){
-															area = ctryCode
-														}  
-
-														if (laCode == null){
-															laCode = ctryCode
-														}  
-
-
-														if (wardCode == null){
-															wardCode = ctryCode
-														} 
-														
-														if (levelname === "GOR") {															
-														}
-														else{														
-														 var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/LHB/LHB_DEC_2014_WA_BGC/FeatureServer/0/query?where=&geometry=" +
-														     x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;														
-															
-														 $(document).ready(function(){
-															$.getJSON(healthUrl, function(result) {
-																healthName = result.features[0].attributes.LHB14NM;
-																healthCode = result.features[0].attributes.LHB14CD;
-
-															$(document).ready(function(){
-																var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
-																selectionQuery.geometry = queryExtent;													  
-																featureLayer.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW, function(features){															  
-																	var resultFeatures = features;														
-																	for(var i=0, il=resultFeatures.length; i<il; i++){
-																		if (levelname === "OA") {     
-																			area = resultFeatures[i].attributes[areacode];
-																		}
-																		else {
-																			area = resultFeatures[i].attributes[areaname];
-																		}	 	          
-																	}														 
-																}); //  featureLayer.selectFeatures
-
-																$('#selArea1').empty();
-
-																if (levelname === "OA") {    
-																	OA_boxDetail();
-																	createTable(area, levelname);
-																	createReligion(area, levelname);
-																	getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area, 'popSexGeog');
-																	getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'ageGeog');
-																	getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'popTime');
-																	getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relGeog');
-																	getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relAgeGeog');
-																	getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relSexGeog');
-																} 
-																if (levelname ==="WD"){
-																	WD_boxDetail();
-																	createTable(wardCode, levelname);
-																	createReligion(wardCode, levelname);
-																	getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName, 'popSexGeog');
-																	getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'ageGeog');
-																	getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'popTime');
-																	getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relGeog');
-																	getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relAgeGeog');
-																	getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relSexGeog');													   
-																}
-																if (levelname ==="LAD"){
-																	LA_boxDetail();
-																	createTable(laCode, levelname);
-																	createReligion(laCode, levelname);
-																	getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName, 'popSexGeog');
-																	getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'ageGeog');
-																	getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'popTime');
-																	getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relGeog');
-																	getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relAgeGeog');
-																	getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relSexGeog');
-																} 
-																if (levelname ==="CTRY"){
-																	CTRY_boxDetail();
-																	createTable(ctryCode, levelname);
-																	createReligion(ctryCode, levelname);
-																	getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName, 'popSexGeog');
-																	getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'ageGeog');
-																	getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'popTime');
-																	getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relGeog');
-																	getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relAgeGeog');
-																	getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relSexGeog');
-																}
-															 });
-															});																
-														  }); //  $(document)														
-														}
-													}	//  if (ctryName === 'Wales'
-												}); //getJSON wardUrl							    		  
-											}); // document 						    	  
-										}); //getJSON	parliConUrl		   
-												   
-							}); // document 		
-						}); //getJSON	laUrl				   
-					}); // document 		
-				}); //getJSON ctyUrl			   
-			}); // document				
+				var parliConUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
+				x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
+				
+				var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/CCG/CCG_JUL_2015_EN_BGC_V2/FeatureServer/0/query?where=&geometry=" +
+				x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ; 	
+										
+				var parentUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + extcode;
+				
+		    	$(document).ready(function(){		
+		    	   $.getJSON(parentUrl, function(res2){
+		    	    	
+		    	   	 if (res2.parent && res2.parent.length === 0) {
+		    		    // do stuff when no features were found
+		    			$('#redbox').toggle(); 
+		    		   	$('#bluebox').toggle();
+		    	  		$('#titlebox').toggle();
+		    	   		$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
+		    	   		$('#map').toggle();
+		    	      }
+		    		  else
+		    		  {		    			 
+		    			 if(levelname === "CTRY") 
+		    			 {
+		    				 ctryCode         = extcode;	    				 
+							 ctryName         = area;						
+		    			 } 	
+		    			 else {	    				
+		    				 ctryCode         = res2.parent.country.extcode;
+							 ctryName         = res2.parent.country.name;
+		    			 }	    			 
+		    			 
+						 if (ctryName === 'Wales') {
+							 
+							 healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/LHB/LHB_DEC_2014_WA_BGC/FeatureServer/0/query?where=&geometry=" +
+						     x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson";	
+													
+							 if (area == null){
+									area = ctryCode;
+							 }  
+							 
+							 if(levelname === "LAD") 
+			    			 {							
+								 laCode           = extcode;
+								 laName           = area;							 		 
+			    			 } 						 
+							 if(levelname === "WD") 
+			    			 {
+								 gorCode          = res2.parent.region.extcode;
+								 gorName          = res2.parent.region.name;
+								 laCode           = res2.parent.la.extcode;
+				    			 laName           = res2.parent.la.name;
+				    			 laCode           = res2.parent.la.extcode;
+				    			 laName           = res2.parent.la.name;
+				    			 wardCode         = extcode;
+				    			 wardName         = area;			    			 		 
+			    			 } 
+							 if(levelname === "OA") 
+			    			 {
+								 gorCode          = res2.parent.region.extcode;
+								 gorName          = res2.parent.region.name;
+								 laCode           = res2.parent.la.extcode;
+				    			 laName           = res2.parent.la.name; 
+				    			 wardCode         = res2.parent.ward.extcode;
+				    			 wardName         = res2.parent.ward.name;				    			
+			    			 } 
+							 
+							 if (laCode == null){
+									laCode = ctryCode;
+							 } 
+							 
+							 if (wardCode == null){
+									wardCode = ctryCode;
+							 }	
+								$(document).ready(function(){
+									$.getJSON(parliConUrl, function(result) {
+								   	  parliConName = result.features[0].attributes.PCON11NM;
+									  parliConCode = result.features[0].attributes.PCON11CD;
+									  
+									  $(document).ready(function(){
+										$.getJSON(healthUrl, function(result) {
+											healthName = result.features[0].attributes.LHB14NM;
+											healthCode = result.features[0].attributes.LHB14CD;
+											getTable(area);
+										});
+								  	  });
+									});
+					    		 });	
+						 }	
+						 else { //ctryname = England
+							 
+							 if(levelname === "GOR") 
+			    			 {
+								 gorCode          = extcode;
+								 gorName          = area;
+			    			 } 
+							 if(levelname === "LAD") 
+			    			 {
+								 gorCode          = res2.parent.region.extcode;
+								 gorName          = res2.parent.region.name;
+								 laCode           = extcode;
+								 laName           = area;
+			    			 } 						 
+							 if(levelname === "WD") 
+			    			 {
+								 gorCode          = res2.parent.region.extcode;
+								 gorName          = res2.parent.region.name;
+								 laCode           = res2.parent.la.extcode;
+				    			 laName           = res2.parent.la.name;
+								 wardCode         = extcode;
+				    			 wardName         = area;
+			    			 } 
+							 if(levelname === "OA") 
+			    			 {
+								 gorCode          = res2.parent.region.extcode;
+								 gorName          = res2.parent.region.name;
+								 laCode           = res2.parent.la.extcode;
+				    			 laName           = res2.parent.la.name; 
+				    			 wardCode         = res2.parent.ward.extcode;
+				    			 wardName         = res2.parent.ward.name;							 
+			    			 } 
+							 
+							 $(document).ready(function(){
+								$.getJSON(parliConUrl, function(result) {
+							   	  parliConName = result.features[0].attributes.PCON11NM;
+								  parliConCode = result.features[0].attributes.PCON11CD;
+								  
+								  $(document).ready(function(){
+									$.getJSON(healthUrl, function(result) {
+										healthName = result.features[0].attributes.CCG15NM;
+										healthCode = result.features[0].attributes.CCG15CD;									
+										getTable(area);
+									});
+							  	  });
+								});
+				    		 });
+						 }	
+						 
+						 function  getTable() {		    		    
+			    			 $('#selArea1').empty();
+			    			 
+			    			 if (levelname === "OA") { 			    		    
+									OA_boxDetail();
+									createTable(area, levelname);
+									createReligion(area, levelname);
+									getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area, 'popSexGeog');
+									getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'ageGeog');
+									getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'popTime');
+									getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relGeog');
+									getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relAgeGeog');
+									getData(area,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, area,'relSexGeog');
+								}  									
+			    			    
+			    			    if (levelname ==="WD"){	 
+									WD_boxDetail();
+									createTable(wardCode, levelname);
+									createReligion(wardCode, levelname);
+									getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName, 'popSexGeog');
+									getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'ageGeog');
+									getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'popTime');
+									getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relGeog');
+									getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relAgeGeog');
+									getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, wardName,'relSexGeog');
+								} 					
+			    			   
+			    			    if (levelname ==="LAD"){			    		    
+									LA_boxDetail();
+									createTable(laCode, levelname);
+									createReligion(laCode, levelname);
+									getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName, 'popSexGeog');
+									getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'ageGeog');
+									getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'popTime');
+									getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relGeog');
+									getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relAgeGeog');
+									getData(laCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, laName,'relSexGeog'); 
+								}				
+												
+			    			    if (levelname ==="GOR"){
+									GOR_boxDetail();
+									createTable(gorCode, levelname);
+									createReligion(gorCode, levelname);
+									getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName, 'popSexGeog');
+									getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'ageGeog');
+									getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'popTime');
+									getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'relGeog');
+									getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'relAgeGeog');
+									getData(gorCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, gorName,'relSexGeog');
+								} 
+			    			    
+			    			    if (levelname ==="CTRY"){			    		    
+									CTRY_boxDetail();
+									createTable(ctryCode, levelname);
+									createReligion(ctryCode, levelname);
+									getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName, 'popSexGeog');
+									getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'ageGeog');
+									getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'popTime');
+									getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relGeog');
+									getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relAgeGeog');
+									getData(ctryCode,laCode,laName,parliConCode,parliConName,wardCode,wardName,gorCode,gorName,ctryCode,ctryName,healthName,  levelname, ctryName,'relSexGeog');									                	   
+								}	
+						   }   
+		    		  } // else empty parent info 
+		    	  }); // document ready														
+				}); // json parent url
+			} //
+	        else {
+	        	selected = false;
+	        }  
+		  }); //  featureLayer.selectFeatures	      
 		}  //  executeQueryTask 
 
 		// set orange info box OA details for postcode
@@ -601,8 +599,8 @@ function highlightMap(details, postcode, queryExtent){
 		}	       
 
 		// set orange info box OA details for an OA area
-		function  OA_boxDetail() {
-			
+		function  OA_boxDetail() {	
+						
 			var urlParams  = '&amp;cn='+ctryName+'&amp;cc='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			var urlParams1 = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			
