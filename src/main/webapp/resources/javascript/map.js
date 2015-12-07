@@ -824,16 +824,11 @@ function  OA_pcode_details(postcode,queryExtent) {
 	
 	// get layer info for postcode
 	var pcUrl     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/" + postcode;
-	$(document).ready(function(){		
-	  $.getJSON(pcUrl, function(result) {		  
-		  
+	$(document).ready(function(){
+	  $.getJSON(pcUrl, function(result) {
 		if (result.features && result.features.length === 0) {
             // do stuff when no features were found
-			$('#redbox').toggle(); 
-	    	$('#bluebox').toggle();
-	   		$('#titlebox').toggle();
-	   		$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-	   		$('#map').toggle(); 
+			redErrorbox(); 
         }
 		else
 		{	
@@ -924,14 +919,14 @@ function  OA_pcode_details(postcode,queryExtent) {
 			           }// ready  
 	       )}  // check to see if postcode not obsolete (doterm === null valid)
 	       else {
-	    	   $('#redbox').toggle(); 
-	    	   $('#bluebox').toggle();
-	   		   $('#titlebox').toggle();
-	   		   $('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-	   		   $('#map').toggle();
+	    	   redErrorbox(); 
 	       }// postcode obsolete 
 		} // if (result.features && result.features.length === 0)      
 	})//pcUrl
+	.error(function() {  
+		redErrorbox(); 
+	})
+
   })//ready	  
 } //OA_pcode_details function
 
@@ -939,6 +934,14 @@ function  OA_pcode_details(postcode,queryExtent) {
 function detailsObj(name) {
 	var encodetxt = encodeURIComponent(name);
 	return encodetxt;
+}
+
+function redErrorbox() {
+	  $('#redbox').toggle(); 
+      $('#bluebox').toggle();
+      $('#titlebox').toggle();
+      $('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
+      $('#map').toggle(); 
 }
 
 //Read a user input postcode and strip of plus signs,
@@ -975,7 +978,7 @@ function  postcode_reformat(postcode) {
 function  name_reformat(placename) {
 	// strip + sign from postcode string & convert to uppercase
 	placename                = placename.replace(/\+/g, ' ');  
-	var regExp1              = /^[a-zA-Z\s\\&\\'\\:\\/\\(\\)\\!\\,\\-]+$/; 
+	var regExp1              = /^[a-zA-Z\s\\&\\'\\:\\/\\(\\)\\!\\,\\-]+$/;  
 	
 	if(regExp1.test(placename) == false)	
 	{	 
