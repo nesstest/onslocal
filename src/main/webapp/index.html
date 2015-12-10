@@ -184,13 +184,20 @@
 	   
 	    function checkURL(key,value) {
 	    	var urlregex               = /^[a-zA-Z0-9-\''\s\\&\\'\\:\\/\\(\\)\\!\\,\\+\\-]+$/;
-	    	if(urlregex.test(key) == false || (urlregex.test(value) == false))
+	    	
+	    	if(key.length == 0 || value.length == 0)
 	    	{
-	    		return (false);	
+	    		return (true);	
 	    	}
-	    	else {
-	    		return (true);
-	    	}
+	    	else{
+		    	if(urlregex.test(key) == false || urlregex.test(value) == false)
+		    	{
+		    		return (false);	
+		    	}
+		    	else {
+		    		return (true);
+		    	}		    	
+	    	}	
 	    } 	
 	    
 	    validateUrl();
