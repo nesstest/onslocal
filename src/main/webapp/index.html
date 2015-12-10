@@ -145,7 +145,7 @@
 		$(function(){		
 		   $('#nav-search').keyup(function(){	
               var $th = $(this);
-              $th.val($th.val().replace(/[^.\\:\\&\\,\\(\\)\\!\\/\\''a-zA-Z0-9\-\ ]/g,
+              $th.val($th.val().replace(/[^.\\:\\&\\,\\(\\)\\!\\/\\''a-zA-Zâ0-9\-\ ]/g,
             		  
               function (str) {
                  alert('Special characters not allowed');
@@ -181,9 +181,8 @@
 	       
 	        return vars;
 	    }
-	   
 	    function checkURL(key,value) {
-	    	var urlregex               = /^[a-zA-Z0-9-\''\s\\&\\'\\:\\/\\(\\)\\!\\,\\+\\-]+$/;
+	    	var urlregex               = /^[a-zA-Zâ0-9-\''\s\\&\\'\\:\\/\\(\\)\\!\\,\\+\\.\\%]+$/;
 	    	
 	    	// checking if a string is blank, null or undefined  
 	    	if((/^\s*$/).test(key) || (/^\s*$/).test(value) ) {return (true);} 
