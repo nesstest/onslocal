@@ -79,6 +79,12 @@
 	</style>
 	
 	<script type="text/javascript">
+	    // declare global vars	    
+ 	    // set to home tab
+        var current_tab = "tab1"; 
+	    // used in url param validation
+	    var invalidCnt = 0;  
+	    var searchtext;
 	    // select an area from a pre-populated list of areas
 		$(function() {
 			$( "#nav-search" ).autocomplete({
@@ -116,22 +122,24 @@
 		      close: function() {
 		    	   $('.ui-menu').css('display', 'block'); 		    
 		      }, 		      
-		      response: function(event, ui) {
+		      response: function(event, ui, ul) {
 		          if (!ui.content.length) {
 		        	  if(!/\d/.test($("#nav-search").val())) {
-		        		  var noResult = { value:"",label:"No results found",type:"" };
+		        		  var noResult = { value:"",label:"No results found",type:"",parent_name:"" };
 			              ui.content.push(noResult); 
 			             // return false;
 		        	  }
+		        	
 		          }
+		          else{
+	        		  $( "#nav-search" ).autocomplete( "instance" )._renderItem = function( ul, item ) {
+	        		      return $( "<li>" )
+	        		        .append( "<a>" + item.label + " (" + item.type + "), " + item.parent_name + "</a>" )
+	        		        .appendTo( ul );
+	        		    };
+	        	  }
 		      } // response		      
-		    }) //  $( "#nav-search" ).autocomplete({
-		    	
-		    .autocomplete( "instance" )._renderItem = function( ul, item ) {
-		      return $( "<li>" )
-		        .append( "<a>" + item.label + " (" + item.type + "), " + item.parent_name + "</a>" )
-		        .appendTo( ul );
-		    };
+		    }) //  $( "#nav-search" ).autocomplete({  
 		});
 		
 		$(function(){		
@@ -151,66 +159,93 @@
 	              $('#nav-search-submit').prop('disabled', false);
 	          }
 		   });
-		});	
-		
-	    //declare global var and set to home tab
-	    var current_tab = "tab1";
+		});			    
 	    
-	    function getUrlParams() {
+		
+		function getUrlParams() {
 	        var vars = {};
 	        parts = decodeURI(window.location.href).replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
 	        vars[key] = value;
 	        });
 	        return vars;
 	    }
-	    
-	    searchtext =  getUrlParams()["nav-search"];
-	    
-	    if (searchtext == null || searchtext.length == 0 || typeof searchtext === 'undefined') {
-	    	// load default home page
-	    	$(document).ready(function(){
-	    	    // reset placeholder
-	    		$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-		    	homePageBoxes(searchtext);				
-			});
+		
+	    function validateUrl() {
+	        var vars = {};	       
+	        parts = decodeURI(window.location.href).replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+		        vars[key] = value;
+	        	if (!checkURL(key,value)){
+	        		invalidCnt = invalidCnt + 1;
+	        	}	    
+	        });
+	       
+	        return vars;
 	    }
-	    else{
-	    	
-	    	searchtext =  decodeName(searchtext);
-	    	
-	    	// Check to see if the search string contains a number.
-	        // If it does, it may be a postcode.-
-	    	if(/\d/.test(searchtext)) 
-			{
-	    		searchtext = postcode_reformat(searchtext);
-		    	if(searchtext === 'error')
-		    	{
-		    		// load default home page with error message
-		    		$(document).ready(function(){
-		    		  homePageBoxes1();	
-		    		});  
-		    	}
-		    	else{
+	   
+	    function checkURL(key,value) {
+	    	var urlregex               = /^[a-zA-Z0-9-\''\s\\&\\'\\:\\/\\(\\)\\!\\,\\+\\-]+$/;
+	    	if(urlregex.test(key) == false || (urlregex.test(value) == false))
+	    	{
+	    		return (false);	
+	    	}
+	    	else {
+	    		return (true);
+	    	}
+	    } 	
+	    
+	    validateUrl();
+	    
+	    // valid url - continue
+	    if (invalidCnt === 0){
+	    	searchtext =  getUrlParams()["nav-search"];
+		    if (searchtext == null || searchtext.length == 0 || typeof searchtext === 'undefined') {
+		    	// load default home page
+		    	$(document).ready(function(){
+		    	    // reset placeholder
+		    		$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
+			    	homePageBoxes(searchtext);				
+				});
+		    }
+		    else{
+		    	searchtext =  decodeName(searchtext);
+		    	
+		    	// Check to see if the search string contains a number.
+		        // If it does, it may be a postcode.-
+		    	if(/\d/.test(searchtext)) 
+				{
+		    		searchtext = postcode_reformat(searchtext);
+			    	if(searchtext === 'error')
+			    	{
+			    		// load default home page with error message
+			    		$(document).ready(function(){
+			    		  homePageBoxes1();	
+			    		});  
+			    	}
+			    	else{
+			    		// load default home page with loading symbol
+					    createMap(searchtext,"postcode");
+					    $(document).ready(function(){					
+					    	homePageBoxes(searchtext);
+							
+						});
+			    	}
+			    } //if($postcode =  /\d/)
+			    // name search
+			    else {			    		
 		    		// load default home page with loading symbol
-				    createMap(searchtext,"postcode");
-				    $(document).ready(function(){					
-				    	homePageBoxes(searchtext);
-						
-					});
-		    	}
-		    } //if($postcode =  /\d/)
-		    // name search
-		    else {
-		    		// load default home page with loading symbol		    		
-		    		//placename = name_reformat(searchtext);
-		    		//searchtext = placename;	
 					createMap(searchtext,"name");
 					  $(document).ready(function(){					
 					     homePageBoxes(searchtext);
-					  });	
-		    }
-	    }	
-	    
+					});  
+			    }
+		    }	
+	    }
+	    else{ // invalid param on url
+        	  // load default home page with error message
+    		$(document).ready(function(){
+    		  homePageBoxes1();	
+    		});  
+        }
 	    function tab(tab) {
 	      document.getElementById('tab1').style.display = 'none';
 	      document.getElementById('tab2').style.display = 'none';
@@ -291,7 +326,7 @@
 			
 			    <div class="box__content">
 			      <p>
-			        Invalid postcode
+			        Invalid postcode/placename
 			      </p>			      
 			    </div>
 			    <!-- /box__content -->
