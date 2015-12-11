@@ -710,6 +710,13 @@ function  OA_pcode_details(postcode,queryExtent) {
 	       }// postcode obsolete 
 		} // if (result.features && result.features.length === 0)      
 	})//pcUrl
+	.error(function() {  
+			$('#redbox').toggle(); 
+			$('#bluebox').toggle();
+			$('#titlebox').toggle();
+			$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
+			$('#map').toggle(); 
+			})
   })//ready	  
 } //OA_pcode_details function
 

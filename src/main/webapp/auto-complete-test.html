@@ -66,9 +66,11 @@ html,body {
   <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
  
   <script>
-     $(function() {
+  
+    $(function() {
     $( "#project" ).autocomplete({
-      minLength: 3,
+     
+     minLength: 3,
      source: "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/basicsearch",
       focus: function( event, ui ) {
         $( "#project" ).val( ui.item.label );

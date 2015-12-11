@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css">
     <link rel="stylesheet" href="resources/css/styles.css">
     <script src="http://js.arcgis.com/3.14/"></script>
+    <script type='text/javascript'>
+(function (d, t) {
+  var bh = d.createElement(t), s = d.getElementsByTagName(t)[0];
+  bh.type = 'text/javascript';
+  bh.src = '//www.bugherd.com/sidebarv2.js?apikey=btol4mg1awt0gmccj3ztjg';
+  s.parentNode.insertBefore(bh, s);
+  })(document, 'script');
+</script>
     <script>
       require([
         "dojo/parser", 
@@ -52,8 +60,9 @@
           thematicFeatureLayer.setRenderer(new SimpleRenderer(null));
         
             var dataValues = esriRequest({
-              url: "phil.json",
-              callbackParamName: "callback"
+            	//url: "http://data.ons.gov.uk/ons/api/data/dataset/QS104EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&totals=true&jsontype=json-stat&dm/CL_0000035=CI_0000071&pdm/K04000001=NMD,UA,LONB,MD",
+                url: "phil.json",
+             	callbackParamName: "callback"
             });
             dataValues.then(drawFeatureLayer, dataValuesError);
 
@@ -67,9 +76,21 @@
             window.thematicMap = {};
             var dataValueMin = Infinity;
             var dataValueMax = -Infinity;
+            
+            
+            $.each(data, function(i, item) {
+                alert(data[i].PageName);
+            });​
+            
             arr.forEach(jsonDataFile, function(g) {
+                var myVar = 'something';
+              });
+            
+            
+            /*
+            arr.forEach(jsonDataFile.value, function(g) {
               if ( g.areaExtCode !== "AreaExtCode" ) {
-                var areaValue = parseFloat(parseFloat(g.areaValue.replace("$", "")).toFixed(2));
+                var areaValue = parseFloat(g.areaValue);
                 thematicMap[g.areaExtCode] = areaValue;
                 if ( areaValue < dataValueMin ) {
                 	dataValueMin = areaValue;
@@ -79,6 +100,7 @@
                 }
               }
             });
+            */
            
             // create a class breaks renderer
             var breaks = calcBreaks(dataValueMin, dataValueMax, 4);

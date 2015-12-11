@@ -89,7 +89,7 @@ function highlightMap(details, postcode, queryExtent){
 		esriConfig.defaults.io.corsEnabledServers.push("http://js.arcgis.com");			
 		esriConfig.defaults.io.corsEnabledServers.push("http://ajax.googleapis.com");	
 
-		var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");      
+		var dynamicMSLayer = new esri.layers.ArcGISDynamicMapServiceLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/ONS_Rasters/MapServer?token=v10Mt2FA_Yg1JNhlz4d6CbqenNYrqD4fL4oHXSP0yud2KCcFFMSM4Y_i0SneNw3V");      
 		var dynamicMSLayer2 = new esri.layers.ArcGISDynamicMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer");      
 		currentLayer = "street"
 		map.addLayer(dynamicMSLayer);   
