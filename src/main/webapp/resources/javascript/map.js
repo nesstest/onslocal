@@ -195,19 +195,13 @@ function WD_areaDetails(search){
 				    			    LA_extcode       = res2.parent.la.extcode;
 				    		        LA               = res2.parent.la.name;  
 				    		        OA               = "";
-				    		        parliCon_extcode = "";
-					    		    parliCon         = "";
+				    		        parliCon_extcode = res2.parent.pcon.extcode;
+					    		    parliCon         = res2.parent.pcon.name;
 					    		    health_extcode   = "";
 					    		    health           = "";
 					    		    childname        = ""; 
 					    		    markerEnvelope   = "000000" + ":" + "000000";
-				    		       // extCode          = res2.parent.
-				    		       // OA               = res2.parent.
-				    		       // parliCon_extcode = res2.parent.pcon.extcode;
-				    		       // parliCon         = res2.parent.pcon.name;
-				    		       // health_extcode   = res2.parent.ccg.extcode;
-				    		       // health           = res2.parent.ccg.name;
-					    		   					    		    
+				    		   					    		   					    		    
 					    		    details = WD + "|" + "WD11NM" + "|" + "WD/WD_DEC_2011_EW_BGC" + "|" + markerEnvelope + "|" + "WD" + "|" + "WD11CD" + "|" +
 						            WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + "|" + health + "|" + 
 						            parliCon_extcode + "|" + health_extcode + "|"  + 
@@ -378,8 +372,8 @@ function LA_areaDetails(search){
 			      WD_extcode       = "";
 			      WD               = "";
 	    		  OA               = "";
-	    		  parliCon_extcode = "";
-	  		      parliCon         = "";
+	    		  parliCon_extcode = res2.parent.pcon.extcode;
+   		          parliCon         = res2.parent.pcon.name;
 	  		      health_extcode   = "";
 	  		      health           = "";
 	  		      childname        = ""; 
@@ -540,26 +534,18 @@ function GOR_areaDetails(search){
 		    		  else
 		    			 {	
 						    CTRY_extcode     = res2.parent.country.extcode;
-		    			    CTRY             = res2.parent.country.name;
-		    			   // GOR_extcode	     = res2.parent.region.extcode;
-		    			   // GOR     	     = res2.parent.region.name;		    		        
+		    			    CTRY             = res2.parent.country.name;		    			   	    		        
 		    		        OA               = "";
 		    		        WD               = "";
 		    		        WD_extcode       = "";
 		    		        LA               = "";
 		    		        LA_extcode       = "";	    		        
-		    		        parliCon_extcode = "";
-			    		    parliCon         = "";
+		    		        parliCon_extcode = res2.parent.pcon.extcode;
+			    		    parliCon         = res2.parent.pcon.name;
 			    		    health_extcode   = "";
 			    		    health           = "";
 			    		    childname        = ""; 
-			    		    markerEnvelope   = "000000" + ":" + "000000";
-		    		       // extCode          = res2.parent.
-		    		       // OA               = res2.parent.
-		    		       // parliCon_extcode = res2.parent.pcon.extcode;
-		    		       // parliCon         = res2.parent.pcon.name;
-		    		       // health_extcode   = res2.parent.ccg.extcode;
-		    		       // health           = res2.parent.ccg.name;
+			    		    markerEnvelope   = "000000" + ":" + "000000";		    		     
 			    		   					    		    
 			    		    details = GOR + "|" + "GOR10NM" + "|" + "GOR/GOR_DEC_2010_EN_BGC" + "|" + markerEnvelope + "|" + "GOR" + "|" + "GOR10CD" + "|" +
 			                          "" + "|" + "" + "|" + GOR + "|" + CTRY + "|" + ""  + "|" + "" + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + 
@@ -663,7 +649,7 @@ function CTRY_areaDetails(search,postcode){
     var CTRY_extcode, childname, childarealist;
     
     if(search === 'name'){
-	   // name search call	  
+	   // name search call.	 "" on variables indicates not required (no parent info) 
 	   CTRY_extcode      = $.getUrlVar('areacode');
 	   CTRY              = decodeName($.getUrlVar('nav-search'));	   
 	   OA                = "";
