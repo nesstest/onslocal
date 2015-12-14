@@ -121,13 +121,7 @@ function OA_areaDetails(postcode){
 	   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'relAgeGeog');
 	   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'relSexGeog');
 	   
-	   // Open Geography URL to search for a ward and return its boundaries.
-	   // Here it is only searching for Ward Boundaries using service: 'OA/OA_2011_EW_BGC_V2' and layer: 'OA_2011_EW_BGC_V2'
-	   var url = "https://mapping.statistics.gov.uk/arcgis/rest/services/OA/OA_2011_EW_BGC_V2/MapServer/0/query?where=OA11CD" + "='" + OA_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-	   var queryParams = "OA11CD" + "='" + OA_extcode + "'";
-		    
-	   // start process with call to Open Geography to get envelope 
-	   getEnvelope(url,queryParams,details,postcode,childname);	   
+	   getEnvelope(OA_extcode,details,postcode,childname);	   
     }); // ready
   });
  }
@@ -249,15 +243,8 @@ function WD_areaDetails(search){
 									getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, WD, 'relGeog');
 									getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, WD, 'relAgeGeog');
 									getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, WD, 'relSexGeog');
-					    		    var nameSearch = WD;
 					    		    
-					    		    // Open Geography URL to search for a ward and return its boundaries.
-					    		    // Here it is only searching for Ward Boundaries using service: 'WD/WD_DEC_2011_EW_BGC' and layer: 'WD_DEC_2011_EW_BGC'
-					    		    var url         = "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2011_EW_BGC/MapServer/0/query?where=WD11CD" + "='" + WD_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-					   			    var queryParams = "WD11CD" + "='" + WD_extcode + "'";
-					   			    
-					   			    // start process with call to Open Geography to get envelope 
-					   			    getEnvelope(url,queryParams,details,nameSearch,childname);
+					    		    getEnvelope(WD_extcode,details,postcode,childname);
 					   			    
 				    			 }  //else
 					    	   }); // parentUrl
@@ -316,13 +303,7 @@ function WD_areaDetails(search){
 							getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, WD, 'relAgeGeog');
 							getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, WD, 'relSexGeog');
 							
-							// Open Geography URL to search for a ward and return its boundaries.
-			    		    // Here it is only searching for Ward Boundaries using service: 'WD/WD_DEC_2011_EW_BGC' and layer: 'WD_DEC_2011_EW_BGC'
-							var url         = "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2011_EW_BGC/MapServer/0/query?where=WD11CD" + "='" + WD_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-			   			    var queryParams = "WD11CD" + "='" + WD_extcode + "'";
-			   			    
-			   			    // start process with call to Open Geography to get envelope 
-			   			    getEnvelope(url,queryParams,details,postcode,childname);						
+							getEnvelope(WD_extcode,details,postcode,childname);												
 	   			    }	
    	   	   }//else
 	    });//childurl
@@ -428,17 +409,10 @@ function LA_areaDetails(search){
 				 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'popTime');
 				 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relGeog');
 				 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relAgeGeog');
-				 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relSexGeog');
+				 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relSexGeog');				 
 				 
-				 var nameSearch = LA;
+				 getEnvelope(LA_extcode,details,postcode,childname);
 				 
-			     // Open Geography URL to search for a ward and return its boundaries.
-		         // Here it is only searching for Ward Boundaries using service: 'LAD/LAD_DEC_2011_GB_BGC' and layer: 'LAD_DEC_2011_GB_BGC'
-			     var url = "https://mapping.statistics.gov.uk/arcgis/rest/services/LAD/LAD_DEC_2011_GB_BGC/MapServer/0/query?where=LAD11CD" + "='" + LA_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-			     var queryParams = "LAD11CD" + "='" + LA_extcode + "'";
-			    
-		         // start process with call to Open Geography to get envelope 
-		         getEnvelope(url,queryParams,details,postcode,childname);
 		    }  //else    
 	      }); // parentUrl
 	  });//ready
@@ -493,15 +467,10 @@ function LA_areaDetails(search){
 			 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'popTime');
 			 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relGeog');
 			 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relAgeGeog');
-			 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relSexGeog');
+			 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relSexGeog');			 
 			
-			// Open Geography URL to search for a ward and return its boundaries.
-	        // Here it is only searching for Ward Boundaries using service: 'LAD/LAD_DEC_2011_GB_BGC' and layer: 'LAD_DEC_2011_GB_BGC'
-		    var url = "https://mapping.statistics.gov.uk/arcgis/rest/services/LAD/LAD_DEC_2011_GB_BGC/MapServer/0/query?where=LAD11CD" + "='" + LA_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-		    var queryParams = "LAD11CD" + "='" + LA_extcode + "'";
-		    
-	        // start process with call to Open Geography to get envelope 
-	        getEnvelope(url,queryParams,details,postcode,childname);
+			 getEnvelope(LA_extcode,details,postcode,childname);
+			
 	         }	
 	   	   }//else
 	    });//childurl
@@ -627,16 +596,9 @@ function GOR_areaDetails(search){
 							 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,levelname,LA,'relGeog');
 							 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,levelname,LA,'relAgeGeog');
 							 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,levelname,LA,'relSexGeog');
-							
-			    		     var nameSearch = GOR;
-			    		    
-			    		     // Open Geography URL to search for a region and return its boundaries.
-			    		     // Here it is only searching for region Boundaries using service: 'GOR/GOR_DEC_2010_EN_BGC' and layer: 'GOR_DEC_2010_EN_BGC'
-			    		     var url         = "https://mapping.statistics.gov.uk/arcgis/rest/services/GOR/GOR_DEC_2010_EN_BGC/MapServer/0/query?where=GOR10CD" + "='" + GOR_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-			   			     var queryParams = "GOR10CD" + "='" + GOR_extcode + "'";
-			   			     
-			   			     // start process with call to Open Geography to get envelope				   			  
-			   			     getEnvelope(url,queryParams,details,nameSearch,childname);
+										    		     
+			    		     getEnvelope(GOR_extcode,details,postcode,childname);			    		    
+			    		     
 		    			}  //else
 		    	   }); // parentUrl
 		       }); // ready
@@ -684,9 +646,7 @@ function GOR_areaDetails(search){
 			getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,levelname,WD,'relAgeGeog');
 			getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,levelname,WD,'relSexGeog');
 			
-			var url         = "https://mapping.statistics.gov.uk/arcgis/rest/services/GOR/GOR_DEC_2010_EN_BGC/MapServer/0/query?where=GOR10CD" + "='" + GOR_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-			var queryParams = "GOR10CD" + "='" + GOR_extcode + "'";
-		    getEnvelope(url,queryParams,details,postcode,childname);
+			getEnvelope(GOR_extcode,details,postcode,childname);
          }	
        }//else
      });//childurl
@@ -797,14 +757,9 @@ function CTRY_areaDetails(search,postcode){
 		  getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, CTRY, 'relGeog');
 		  getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, CTRY, 'relAgeGeog');
 		  getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, CTRY, 'relSexGeog');
-		 
-		  // Open Geography URL to search for a ward and return its boundaries.
-		  // Here it is only searching for Ward Boundaries using service: 'CTRY/CTRY_DEC_2011_GB_BGC' and layer: 'CTRY_DEC_2011_GB_BGC'
-		  var url = "https://mapping.statistics.gov.uk/arcgis/rest/services/CTRY/CTRY_DEC_2011_GB_BGC/MapServer/0/query?where=CTRY11CD" + "='" + CTRY_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-		  var queryParams = "CTRY11CD" + "='" + CTRY_extcode + "'";
 		  
-		  // start process with call to Open Geography to get envelope 
-		  getEnvelope(url,queryParams,details,postcode,childname);
+		  getEnvelope(CTRY_extcode,details,postcode,childname);
+		 
        } // else res1['children'] && res1['children'].empty === 0)
     });//childUrl    
    });//ready
@@ -851,73 +806,47 @@ function  OA_pcode_details(postcode,queryExtent) {
 	                
 	        // check to see if postcode not obsolete (doterm === null valid)
 	        if(doterm == "") {         	
-		        var queryExtent;       
-		    	
-		    	require([ 
-		    	         "esri/geometry/Extent",    	         
-		    	         "esri/graphic",	        
-		    	         "esri/tasks/query",
-		    	         "esri/tasks/QueryTask",
-		    	         "dojo/domReady!"		
-		
-		    	         ], function( 
-		    	        	   Extent, Graphic, Query, QueryTask
-		    	         ) 
-		    	        {    		
-		    	   
-				    	    var query,QueryTask;    	     
-				    	    var oAUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/OA/OA_2011_EW_BGC_V2/MapServer/0/query?where=where=OA11CD" + "='" + extCode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPoint&inSR=27700&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=27700&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";	       
-				    	    var queryTask = new esri.tasks.QueryTask(oAUrl);
-				    	    var query = new Query();	    
-				    	    query.where = "OA11CD" + "='" + extCode + "'";
-				    	    query.outSpatialReference = new esri.SpatialReference({ wkid: 27700 });
-				    	    query.returnGeometry = true;
-				    	    
-				    	    queryTask.execute(query, function (featureSet) {
-					            //get the feature and it's extent then set the map to that extent
-					            var feature = featureSet.features[0];
-					            var extentPoly = new esri.geometry.Polygon(new esri.SpatialReference({ wkid: 27700 }));
-					
-					            for (var i = 0; i < feature.geometry.rings.length; i++) {
-					              extentPoly.addRing(feature.geometry.rings[i]);
-					            }
-					            
-					            var xmin_env      = extentPoly.getExtent().xmin;
-					    		var ymin_env      = extentPoly.getExtent().ymin;
-					    		var xmax_env      = extentPoly.getExtent().xmax;
-					    		var ymax_env      = extentPoly.getExtent().ymax;
-					    		
-					    		var diff = xmax_env-xmin_env;
-					    		newxmin  = xmin_env - diff;    		
-					            queryExtent = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});			      		    
+	        	// get layer info for postcode
+	        	var url     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getenvelope/" + extCode;
+	        	$(document).ready(function(){
+	        	  $.getJSON(url, function(result) {
+	        		if (result.envelope && result.envelope.length === 0) {
+	                    // do stuff when no features were found
+	        			redErrorbox(); 
+	                }
+	        		else
+	        		{	
+	        			
 									      										
-							    if(CTRY === "Wales"){
-								   details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
-								 		     WD + "|" + LA + "|" + GOR + "|" + CTRY  + "|" + WD_extcode + "|" + LA_extcode + "|" +  ""  + "|" + CTRY_extcode + "|" +
-								 		     parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	
-							    }
-							    else{
-								  details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
-										    WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" +
-										    parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	 	              
-							    }
-				  
-							    $("#Tabs").toggle(); //display tabs for data content
-				
-							    //Call createTable for OA
-							    createTable(OA, levelname);
-							    createReligion(OA, levelname);	
-						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'popSexGeog');
-						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'ageGeog');
-						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'popTime');
-						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relGeog');
-						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relAgeGeog');
-						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relSexGeog');
-				              						 	    			     
-						        highlightMap(details,postcode,queryExtent);
-			    	       })//queryTask.execute   
-			           }// ready  
-	       )}  // check to see if postcode not obsolete (doterm === null valid)
+					    if(CTRY === "Wales"){
+						   details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
+						 		     WD + "|" + LA + "|" + GOR + "|" + CTRY  + "|" + WD_extcode + "|" + LA_extcode + "|" +  ""  + "|" + CTRY_extcode + "|" +
+						 		     parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	
+					    }
+					    else{
+						  details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
+								    WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" +
+								    parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	 	              
+					    }
+		  
+					    $("#Tabs").toggle(); //display tabs for data content
+		
+					    //Call createTable for OA
+					    createTable(OA, levelname);
+					    createReligion(OA, levelname);	
+				        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'popSexGeog');
+				        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'ageGeog');
+				        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'popTime');
+				        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relGeog');
+				        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relAgeGeog');
+				        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relSexGeog');
+		              						 	    			     
+				        highlightMap(details,postcode,result.envelope);
+			    	      
+			        } // else 
+	        	  }); // json url	  
+	        	}); // $(document).ready
+	       }  // check to see if postcode not obsolete (doterm === null valid)
 	       else {
 	    	   redErrorbox(); 
 	       }// postcode obsolete 
@@ -1014,54 +943,30 @@ $.extend({
 	  }	  
   });
 
-function getEnvelope(url,queryParams,details,searchText,childname) {
+function getEnvelope(extcode,details,searchText,childname) {
 	
-	require([  
-	     "esri/geometry/Extent",			       
-	     "esri/graphic",	        
-	     "esri/tasks/query",
-	     "esri/tasks/QueryTask",
-	     "dojo/domReady!"
-	    ], function( 
-	         Extent, Graphic, Query, QueryTask
-	        ) 
-	    {
-		
-		   var query,QueryTask;
-		   var queryTask = new esri.tasks.QueryTask(url);
-		   var query = new Query();	    
-		   query.where = queryParams;
-		   query.outSpatialReference = new esri.SpatialReference({ wkid: 27700 });
-		   query.returnGeometry = true;
-		    			   			    	    
-		   queryTask.execute(query, function (featureSet) {
-		   //get the feature and it's extent then set the map to that extent
-			   var feature = featureSet.features[0];
-			   var extentPoly = new esri.geometry.Polygon(new esri.SpatialReference({ wkid: 27700 }));
-		
-			   for (var i = 0; i < feature.geometry.rings.length; i++) {
-			      extentPoly.addRing(feature.geometry.rings[i]);
-			   }
-			            
-			   var xmin_env      = extentPoly.getExtent().xmin;
-			   var ymin_env      = extentPoly.getExtent().ymin;
-			   var xmax_env      = extentPoly.getExtent().xmax;
-			   var ymax_env      = extentPoly.getExtent().ymax;
-			    		
-			   var diff = xmax_env-xmin_env;
-			   newxmin  = xmin_env - diff;    		
-			   var queryExtent = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
-			   
-			   if (childname == null || childname.length == 0 ||typeof childname === 'undefined') {
-				    highlightMap(details, searchText, queryExtent);
-			   }
-			   // call hover map
-			   else {			   
-			      hoverMap(details, searchText, queryExtent);
-		       }
-	      });
-		  
-	  });  
+	// get layer info for postcode
+	var url     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getenvelope/" + extcode;
+	$(document).ready(function(){
+	  $.getJSON(url, function(result) {
+		if (result.envelope && result.envelope.length === 0) {
+            // do stuff when no features were found
+			redErrorbox(); 
+        }
+		else
+		{	
+			
+	      if (childname == null || childname.length == 0 ||typeof childname === 'undefined') {
+		    highlightMap(details, searchText, result.envelope);
+	      }
+	      // call hover map
+	      else {			   
+	        hoverMap(details, searchText, result.envelope);
+          }
+			  
+		} // else
+	  }); // json url	  
+	}); // $(document).ready 
 }
 
 function encodeName(name) {
