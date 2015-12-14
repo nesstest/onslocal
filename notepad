@@ -18,6 +18,10 @@ Search:
 
 http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/search?term=fareham
 
+Envelope:
+
+http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getenvelope/E00082600
+
 Basic Search:
 
 http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/basicsearch?term=barn
