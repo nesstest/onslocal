@@ -1,5 +1,5 @@
 function homePageBoxes(postcode){
-	if(postcode == null || postcode.length == 0 || typeof postcode === 'undefined')
+	if(postcode == null || postcode.length == 0  || typeof postcode === 'undefined')
 	{
 		if(document.getElementById("redbox").getAttribute("style") == "display: none;")
 		{		
@@ -12,14 +12,6 @@ function homePageBoxes(postcode){
 	{
 		$("#map").toggle();
 	}
-}
-
-function homePageBoxes1(){
-	    $('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 	   
-		$("#redbox").toggle();
-		$('#bluebox').toggle();
-		$('#titlebox').toggle();
-	
 }
 
 function createMap(postcode,search){	
@@ -78,9 +70,10 @@ function createMap(postcode,search){
 
 function OA_areaDetails(postcode){
   $(window).load(function(){	
-   var areaId, envelope, markerEnvelope, LA, GOR, CTRY, WD, OA, levelname;
+   var markerEnvelope, LA, GOR, CTRY, WD, OA, levelname;
    var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, OA_extcode, childarealist, childname;  
-  
+   var parliCon, parliCon_extcode, health, health_extcode, details;
+   
    OA               = $.getUrlVar('areaname');
    OA_extcode       = $.getUrlVar('areacode');
    WD               = decodeName($.getUrlVar('wn'));   
@@ -108,7 +101,7 @@ function OA_areaDetails(postcode){
 	   $("#Tabs").toggle(); 
 	   
 	   //display tabs for data content	   
-	   if (GOR_extcode == "") {
+	   if (GOR_extcode === "") {
 			 GOR_extcode = CTRY_extcode;
 	   }  
 	   
@@ -121,13 +114,7 @@ function OA_areaDetails(postcode){
 	   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'relAgeGeog');
 	   getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, OA, 'relSexGeog');
 	   
-	   // Open Geography URL to search for a ward and return its boundaries.
-	   // Here it is only searching for Ward Boundaries using service: 'OA/OA_2011_EW_BGC_V2' and layer: 'OA_2011_EW_BGC_V2'
-	   var url = "https://mapping.statistics.gov.uk/arcgis/rest/services/OA/OA_2011_EW_BGC_V2/MapServer/0/query?where=OA11CD" + "='" + OA_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-	   var queryParams = "OA11CD" + "='" + OA_extcode + "'";
-		    
-	   // start process with call to Open Geography to get envelope 
-	   getEnvelope(url,queryParams,details,postcode,childname);	   
+	   getEnvelope(OA_extcode,details,postcode,childname);	   
     }); // ready
   });
  }
@@ -135,11 +122,11 @@ function OA_areaDetails(postcode){
 function WD_areaDetails(search){
    $(window).load(function(){
 	   
-	   postcode       = $.getUrlVar('nav-search');	
+	   var postcode       = $.getUrlVar('nav-search');	
 	
 	   var OA, LA, GOR, CTRY, WD, health, parliCon;
 	   var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, health_extcode, parliCon_extcode, levelname, childarealist, childname;
-	   var details;
+	   var details, markerEnvelope;
 	   
 	   if(search === 'name'){
 	     // name search call 	
@@ -151,11 +138,11 @@ function WD_areaDetails(search){
 		   WD_extcode       = $.getUrlVar('areacode');
 		   WD               = decodeName($.getUrlVar('areaname')); 
 	   }
-		 
+	   
 	   if (WD_extcode == null || WD_extcode.length == 0 || typeof WD_extcode === 'undefined') {
 	    	// load default home page
-	    	$(document).ready(function(){				
-		    	homePageBoxes(searchtext);				
+	    	$(document).ready(function(){
+	    		redErrorbox(); 				
 			});
 	   }
 	   else {
@@ -164,18 +151,14 @@ function WD_areaDetails(search){
 		     $(document).ready(function(){		
 	   		   $.getJSON(childUrl, function(res1){
 	   			  
-	   			  if (res1['children'] && res1['children'].empty === 0) {
-	   		            // do stuff when no features were found
-	   					$('#redbox').toggle(); 
-	   			    	$('#bluebox').toggle();
-	   			   		$('#titlebox').toggle();
-	   			   		$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-	   			   		$('#map').toggle();
+	   			  if (res1.children && res1.children.empty === 0) {
+	   		        // do stuff when no features were found
+	   				redErrorbox(); 	
 	   		      }
 	   			  else
 	   			  {	
 	   		    	  // get the children and parent details for the selected area(extcode)
-	   			      childarealist = res1['children'];		   			     
+	   			      childarealist = res1.children;		   			     
 	   			      
 	   			      if(search === 'name'){
 	   			          // name search call - require parent info		   			    	
@@ -185,12 +168,8 @@ function WD_areaDetails(search){
 				    	    $.getJSON(parentUrl, function(res2){
 				    	    	
 				    	    	 if (res2.parent && res2.parent.length === 0) {
-				    		            // do stuff when no features were found
-				    					$('#redbox').toggle(); 
-				    			    	$('#bluebox').toggle();
-				    			   		$('#titlebox').toggle();
-				    			   		$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-				    			   		$('#map').toggle();
+				    		         // do stuff when no features were found
+				    	    		 redErrorbox(); 	
 				    		      }
 				    			  else
 				    			  {	
@@ -201,19 +180,13 @@ function WD_areaDetails(search){
 				    			    LA_extcode       = res2.parent.la.extcode;
 				    		        LA               = res2.parent.la.name;  
 				    		        OA               = "";
-				    		        parliCon_extcode = "";
-					    		    parliCon         = "";
+				    		        parliCon_extcode = res2.parent.pcon.extcode;
+					    		    parliCon         = res2.parent.pcon.name;
 					    		    health_extcode   = "";
 					    		    health           = "";
 					    		    childname        = ""; 
 					    		    markerEnvelope   = "000000" + ":" + "000000";
-				    		       // extCode          = res2.parent.
-				    		       // OA               = res2.parent.
-				    		       // parliCon_extcode = res2.parent.pcon.extcode;
-				    		       // parliCon         = res2.parent.pcon.name;
-				    		       // health_extcode   = res2.parent.ccg.extcode;
-				    		       // health           = res2.parent.ccg.name;
-					    		   					    		    
+				    		   					    		   					    		    
 					    		    details = WD + "|" + "WD11NM" + "|" + "WD/WD_DEC_2011_EW_BGC" + "|" + markerEnvelope + "|" + "WD" + "|" + "WD11CD" + "|" +
 						            WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + "|" + health + "|" + 
 						            parliCon_extcode + "|" + health_extcode + "|"  + 
@@ -223,21 +196,21 @@ function WD_areaDetails(search){
 									
 								    //Call createTable for OA
 									
-								    if (OA == ""){
+								    if (OA === ""){
 										 OA = CTRY_extcode;
 								    }	  
 									 
 									//temp until we get the data
-									if (parliCon_extcode == ""){
+									if (parliCon_extcode === ""){
 										 parliCon_extcode = CTRY_extcode;
 									}
 									 
 									//temp until we get the data
-									if (health_extcode == ""){
+									if (health_extcode === ""){
 										 health_extcode = CTRY_extcode;
 									}  
 									 
-									if (GOR_extcode == ""){
+									if (GOR_extcode === ""){
 										 GOR_extcode = CTRY_extcode;
 									}   
 									
@@ -249,15 +222,8 @@ function WD_areaDetails(search){
 									getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, WD, 'relGeog');
 									getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, WD, 'relAgeGeog');
 									getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, WD, 'relSexGeog');
-					    		    var nameSearch = WD;
 					    		    
-					    		    // Open Geography URL to search for a ward and return its boundaries.
-					    		    // Here it is only searching for Ward Boundaries using service: 'WD/WD_DEC_2011_EW_BGC' and layer: 'WD_DEC_2011_EW_BGC'
-					    		    var url         = "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2011_EW_BGC/MapServer/0/query?where=WD11CD" + "='" + WD_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-					   			    var queryParams = "WD11CD" + "='" + WD_extcode + "'";
-					   			    
-					   			    // start process with call to Open Geography to get envelope 
-					   			    getEnvelope(url,queryParams,details,nameSearch,childname);
+					    		    getEnvelope(WD_extcode,details,postcode,childname);
 					   			    
 				    			 }  //else
 					    	   }); // parentUrl
@@ -289,21 +255,21 @@ function WD_areaDetails(search){
 							
 							//Call createTable for OA
 							
-							 if (OA == ""){
+							 if (OA === ""){
 								 OA = CTRY_extcode;
 							 }  
 							 
 							 //temp until we get the data
-							 if (parliCon_extcode == ""){
+							 if (parliCon_extcode === ""){
 								 parliCon_extcode = CTRY_extcode;
 							 }
 							 
 							//temp until we get the data
-							 if (health_extcode == ""){
+							 if (health_extcode === ""){
 								 health_extcode = CTRY_extcode;
 							 }  
 							 
-							 if (GOR_extcode == ""){
+							 if (GOR_extcode === ""){
 								 GOR_extcode = CTRY_extcode;
 							 }   
 							
@@ -316,13 +282,7 @@ function WD_areaDetails(search){
 							getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, WD, 'relAgeGeog');
 							getData( OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, WD, 'relSexGeog');
 							
-							// Open Geography URL to search for a ward and return its boundaries.
-			    		    // Here it is only searching for Ward Boundaries using service: 'WD/WD_DEC_2011_EW_BGC' and layer: 'WD_DEC_2011_EW_BGC'
-							var url         = "https://mapping.statistics.gov.uk/arcgis/rest/services/WD/WD_DEC_2011_EW_BGC/MapServer/0/query?where=WD11CD" + "='" + WD_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-			   			    var queryParams = "WD11CD" + "='" + WD_extcode + "'";
-			   			    
-			   			    // start process with call to Open Geography to get envelope 
-			   			    getEnvelope(url,queryParams,details,postcode,childname);						
+							getEnvelope(WD_extcode,details,postcode,childname);												
 	   			    }	
    	   	   }//else
 	    });//childurl
@@ -334,10 +294,11 @@ function WD_areaDetails(search){
 
 function LA_areaDetails(search){	
   $(window).load(function(){
-   postcode       = $.getUrlVar('nav-search');   
+   var postcode       = $.getUrlVar('nav-search');   
 
-   var areaId, envelope, markerEnvelope, LA, GOR, CTRY, levelname; 
-   var LA_extcode, GOR_extcode, CTRY_extcode, childarealist, childname;
+   var markerEnvelope, OA, WD, LA, GOR, CTRY, parliCon, health, levelname; 
+   var WD_extcode,LA_extcode, GOR_extcode, CTRY_extcode, parliCon_extcode, health_extcode;
+   var childarealist, childname, details;
    
    if(search === 'name'){	   
      // name search call 	
@@ -353,25 +314,21 @@ function LA_areaDetails(search){
    if (LA_extcode == null || LA_extcode.length == 0 || typeof LA_extcode === 'undefined') {
    	// load default home page
    	$(document).ready(function(){				
-	    	homePageBoxes(searchtext);				
-		});
+   		redErrorbox(); 					
+	});
   }
   else {
    var childUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + LA_extcode;
    $(document).ready(function(){
       $.getJSON(childUrl, function(res1){
-	    if (res1['children'] && res1['children'].empty === 0) {
+	    if (res1.children && res1.children.empty === 0) {
            // do stuff when no features were found
-		   $('#redbox').toggle(); 
-	       $('#bluebox').toggle();
-	   	   $('#titlebox').toggle();
-	   	   $('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-	   	   $('#map').toggle();
+	       redErrorbox(); 	
 	    }  
        
 	    else {
 			// get the children and parent details for the selected area(extcode)  
-		    childarealist = res1['children'];	
+		    childarealist = res1.children;	
 		    
 		    if(search === 'name'){
 	          // name search call - require parent info		   			    	
@@ -382,11 +339,7 @@ function LA_areaDetails(search){
 	    	    	
 		    	if (res2.parent && res2.parent.length === 0) {
 		            // do stuff when no features were found
-					$('#redbox').toggle(); 
-			    	$('#bluebox').toggle();
-			   		$('#titlebox').toggle();
-			   		$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-			   		$('#map').toggle();
+		    		redErrorbox(); 	
 			    }
 		    	else {
 		    		
@@ -397,8 +350,8 @@ function LA_areaDetails(search){
 			      WD_extcode       = "";
 			      WD               = "";
 	    		  OA               = "";
-	    		  parliCon_extcode = "";
-	  		      parliCon         = "";
+	    		  parliCon_extcode = res2.parent.pcon.extcode;
+   		          parliCon         = res2.parent.pcon.name;
 	  		      health_extcode   = "";
 	  		      health           = "";
 	  		      childname        = ""; 
@@ -413,11 +366,11 @@ function LA_areaDetails(search){
 			
 				 //Call createTable for OA
 		    	
-		    	 if (OA == ""){
+		    	 if (OA === ""){
 				   OA = CTRY_extcode;
 				 }  
 		    	 
-		    	 if (GOR_extcode == ""){
+		    	 if (GOR_extcode === ""){
 				   GOR_extcode = CTRY_extcode;
 				 } 
 		    	
@@ -428,17 +381,10 @@ function LA_areaDetails(search){
 				 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'popTime');
 				 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relGeog');
 				 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relAgeGeog');
-				 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relSexGeog');
+				 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relSexGeog');				 
 				 
-				 var nameSearch = LA;
+				 getEnvelope(LA_extcode,details,postcode,childname);
 				 
-			     // Open Geography URL to search for a ward and return its boundaries.
-		         // Here it is only searching for Ward Boundaries using service: 'LAD/LAD_DEC_2011_GB_BGC' and layer: 'LAD_DEC_2011_GB_BGC'
-			     var url = "https://mapping.statistics.gov.uk/arcgis/rest/services/LAD/LAD_DEC_2011_GB_BGC/MapServer/0/query?where=LAD11CD" + "='" + LA_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-			     var queryParams = "LAD11CD" + "='" + LA_extcode + "'";
-			    
-		         // start process with call to Open Geography to get envelope 
-		         getEnvelope(url,queryParams,details,postcode,childname);
 		    }  //else    
 	      }); // parentUrl
 	  });//ready
@@ -468,21 +414,21 @@ function LA_areaDetails(search){
 			
 			//Call createTable for OA
 			
-			 if (OA == ""){
+			 if (OA === ""){
 				 OA = CTRY_extcode;
 			 }  
 			 
 			 //temp until we get the data
-			 if (parliCon_extcode == ""){
+			 if (parliCon_extcode === ""){
 				 parliCon_extcode = CTRY_extcode;
 			 }
 			 
 			//temp until we get the data
-			 if (health_extcode == ""){
+			 if (health_extcode === ""){
 				 health_extcode = CTRY_extcode;
 			 }  
 			 
-			 if (GOR_extcode == ""){
+			 if (GOR_extcode === ""){
 				 GOR_extcode = CTRY_extcode;
 			 }   
 			
@@ -493,15 +439,10 @@ function LA_areaDetails(search){
 			 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'popTime');
 			 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relGeog');
 			 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relAgeGeog');
-			 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relSexGeog');
+			 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, LA, 'relSexGeog');			 
 			
-			// Open Geography URL to search for a ward and return its boundaries.
-	        // Here it is only searching for Ward Boundaries using service: 'LAD/LAD_DEC_2011_GB_BGC' and layer: 'LAD_DEC_2011_GB_BGC'
-		    var url = "https://mapping.statistics.gov.uk/arcgis/rest/services/LAD/LAD_DEC_2011_GB_BGC/MapServer/0/query?where=LAD11CD" + "='" + LA_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-		    var queryParams = "LAD11CD" + "='" + LA_extcode + "'";
-		    
-	        // start process with call to Open Geography to get envelope 
-	        getEnvelope(url,queryParams,details,postcode,childname);
+			 getEnvelope(LA_extcode,details,postcode,childname);
+			
 	         }	
 	   	   }//else
 	    });//childurl
@@ -512,11 +453,12 @@ function LA_areaDetails(search){
 
 function GOR_areaDetails(search){
 	
-	postcode = $.getUrlVar('nav-search');
+	var postcode = $.getUrlVar('nav-search');
 	
-	var areaId, envelope, markerEnvelope, GOR, CTRY, levelname; 
-    var GOR_extcode, CTRY_extcode, childname, childarealist;
-    
+	var markerEnvelope, OA, WD, LA, GOR, health, CTRY, parliCon,levelname; 
+    var WD_extcode, LA_extcode, GOR_extcode, parliCon_extcode, health_extcode, CTRY_extcode, childname, childarealist;
+    var details;
+  
     if(search === 'name'){
 	     // name search call	  
 	   GOR_extcode       = $.getUrlVar('areacode');
@@ -531,7 +473,7 @@ function GOR_areaDetails(search){
     if (GOR_extcode == null || GOR_extcode.length == 0 || typeof GOR_extcode === 'undefined') {
        	// load default home page
        	$(document).ready(function(){				
-    	   homePageBoxes(searchtext);				
+       		redErrorbox(); 					
     	});
     }    
     else {    	
@@ -540,18 +482,14 @@ function GOR_areaDetails(search){
 	     $(document).ready(function(){		
  		   $.getJSON(childUrl, function(res1){
  			  
- 			  if (res1['children'] && res1['children'].empty === 0) {
- 		          // do stuff when no features were found
- 				  $('#redbox').toggle(); 
- 			      $('#bluebox').toggle();
- 			   	  $('#titlebox').toggle();
- 			   	  $('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
- 			   	  $('#map').toggle();
+ 			  if (res1.children && res1.children.empty === 0) {
+ 		         // do stuff when no features were found
+ 				 redErrorbox(); 	
  		   }
            else
 	          {	
 	    	  // get the children and parent details for the selected area(extcode)
-		      childarealist = res1['children'];		   			     
+		      childarealist = res1.children;		   			     
 		      
 		      if(search === 'name'){
 		          // name search call - require parent info		   			    	
@@ -560,37 +498,25 @@ function GOR_areaDetails(search){
 		    	  $(document).ready(function(){		
 		    	    $.getJSON(parentUrl, function(res2){
 		    	    	
-		    	    	 if (res2.parent && res2.parent.length === 0) {
-	  		              // do stuff when no features were found
-	  					  $('#redbox').toggle(); 
-	  			    	  $('#bluebox').toggle();
-	  			   		  $('#titlebox').toggle();
-	  			   		  $('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-	  			   		  $('#map').toggle();
-		    		     }
+		    	      if (res2.parent && res2.parent.length === 0) {
+	  		             // do stuff when no features were found
+		    	    	 redErrorbox(); 	
+		    		  }
 		    		  else
 		    			 {	
 						    CTRY_extcode     = res2.parent.country.extcode;
-		    			    CTRY             = res2.parent.country.name;
-		    			   // GOR_extcode	     = res2.parent.region.extcode;
-		    			   // GOR     	     = res2.parent.region.name;		    		        
+		    			    CTRY             = res2.parent.country.name;		    			   	    		        
 		    		        OA               = "";
 		    		        WD               = "";
 		    		        WD_extcode       = "";
 		    		        LA               = "";
 		    		        LA_extcode       = "";	    		        
-		    		        parliCon_extcode = "";
-			    		    parliCon         = "";
+		    		        parliCon_extcode = res2.parent.pcon.extcode;
+			    		    parliCon         = res2.parent.pcon.name;
 			    		    health_extcode   = "";
 			    		    health           = "";
 			    		    childname        = ""; 
-			    		    markerEnvelope   = "000000" + ":" + "000000";
-		    		       // extCode          = res2.parent.
-		    		       // OA               = res2.parent.
-		    		       // parliCon_extcode = res2.parent.pcon.extcode;
-		    		       // parliCon         = res2.parent.pcon.name;
-		    		       // health_extcode   = res2.parent.ccg.extcode;
-		    		       // health           = res2.parent.ccg.name;
+			    		    markerEnvelope   = "000000" + ":" + "000000";		    		     
 			    		   					    		    
 			    		    details = GOR + "|" + "GOR10NM" + "|" + "GOR/GOR_DEC_2010_EN_BGC" + "|" + markerEnvelope + "|" + "GOR" + "|" + "GOR10CD" + "|" +
 			                          "" + "|" + "" + "|" + GOR + "|" + CTRY + "|" + ""  + "|" + "" + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + 
@@ -601,21 +527,21 @@ function GOR_areaDetails(search){
 							
 							//Call createTable for OA
 							
-							 if (OA == ""){
+							 if (OA === ""){
 								 OA = CTRY_extcode;
 							 }  
 							 
 							 //temp until we get the data
-							 if (parliCon_extcode == ""){
+							 if (parliCon_extcode === ""){
 								 parliCon_extcode = CTRY_extcode;
 							 }
 							 
 							//temp until we get the data
-							 if (health_extcode == ""){
+							 if (health_extcode === ""){
 								 health_extcode = CTRY_extcode;
 							 }  
 							 
-							 if (GOR_extcode == ""){
+							 if (GOR_extcode === ""){
 								 GOR_extcode = CTRY_extcode;
 							 }	
 							 
@@ -627,16 +553,9 @@ function GOR_areaDetails(search){
 							 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,levelname,LA,'relGeog');
 							 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,levelname,LA,'relAgeGeog');
 							 getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,levelname,LA,'relSexGeog');
-							
-			    		     var nameSearch = GOR;
-			    		    
-			    		     // Open Geography URL to search for a region and return its boundaries.
-			    		     // Here it is only searching for region Boundaries using service: 'GOR/GOR_DEC_2010_EN_BGC' and layer: 'GOR_DEC_2010_EN_BGC'
-			    		     var url         = "https://mapping.statistics.gov.uk/arcgis/rest/services/GOR/GOR_DEC_2010_EN_BGC/MapServer/0/query?where=GOR10CD" + "='" + GOR_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-			   			     var queryParams = "GOR10CD" + "='" + GOR_extcode + "'";
-			   			     
-			   			     // start process with call to Open Geography to get envelope				   			  
-			   			     getEnvelope(url,queryParams,details,nameSearch,childname);
+										    		     
+			    		     getEnvelope(GOR_extcode,details,postcode,childname);			    		    
+			    		     
 		    			}  //else
 		    	   }); // parentUrl
 		       }); // ready
@@ -667,11 +586,11 @@ function GOR_areaDetails(search){
 		    $("#Tabs").toggle(); //display tabs for data content	    
 			
 		    //Call createTable for OA					
-		    if (OA == ""){
+		    if (OA === ""){
 			  OA = CTRY_extcode;
 		    } 
 		 
-		    if (GOR_extcode == ""){
+		    if (GOR_extcode === ""){
 			  GOR_extcode = CTRY_extcode;
 		    }   
 		
@@ -684,9 +603,7 @@ function GOR_areaDetails(search){
 			getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,levelname,WD,'relAgeGeog');
 			getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,levelname,WD,'relSexGeog');
 			
-			var url         = "https://mapping.statistics.gov.uk/arcgis/rest/services/GOR/GOR_DEC_2010_EN_BGC/MapServer/0/query?where=GOR10CD" + "='" + GOR_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-			var queryParams = "GOR10CD" + "='" + GOR_extcode + "'";
-		    getEnvelope(url,queryParams,details,postcode,childname);
+			getEnvelope(GOR_extcode,details,postcode,childname);
          }	
        }//else
      });//childurl
@@ -699,11 +616,12 @@ function CTRY_areaDetails(search,postcode){
 	  
 	postcode = $.getUrlVar('nav-search');
 	
-	var areaId, envelope, markerEnvelope, CTRY, levelname; 
-    var CTRY_extcode, childname, childarealist;
+	var markerEnvelope, OA, CTRY, WD, LA, GOR, parliCon, health, levelname; 
+  var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, parliCon_extcode, health_extcode, childname, childarealist;
+  var details;
     
     if(search === 'name'){
-	   // name search call	  
+	   // name search call.	 "" on variables indicates not required (no parent info) 
 	   CTRY_extcode      = $.getUrlVar('areacode');
 	   CTRY              = decodeName($.getUrlVar('nav-search'));	   
 	   OA                = "";
@@ -744,7 +662,7 @@ function CTRY_areaDetails(search,postcode){
    if (CTRY_extcode == null || CTRY_extcode.length == 0 || typeof CTRY_extcode === 'undefined') {
 	   // load default home page
 	   $(document).ready(function(){				
-	     homePageBoxes(searchtext);				
+		   redErrorbox(); 					
 	   });
    }    
    else {  
@@ -754,17 +672,13 @@ function CTRY_areaDetails(search,postcode){
 	   $(document).ready(function(){		
 	     $.getJSON(childUrl, function(res1){
 			  
-		 if (res1['children'] && res1['children'].empty === 0) {
+		 if (res1.children && res1.children.empty === 0) {
 	        // do stuff when no features were found
-		    $('#redbox').toggle(); 
-		    $('#bluebox').toggle();
-		    $('#titlebox').toggle();
-		   	$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-		    $('#map').toggle();
+			 redErrorbox(); 	
 		 }
          else {	
 	       // get the children and parent details for the selected area(extcode)
-		   childarealist = res1['children'];	
+		   childarealist = res1.children;	
 		   
 		   details = CTRY + "|" + "CTRY11NM" + "|" + "CTRY/CTRY_DEC_2011_GB_BGC" + "|" + markerEnvelope + "|" + "CTRY" + "|" + "CTRY11CD" + "|" +
                      "" + "|" + "" + "|" + "" + "|" + CTRY + "|" + ""  + "|" + "" + "|" + ""  + "|" + CTRY_extcode + "|" +
@@ -781,11 +695,11 @@ function CTRY_areaDetails(search,postcode){
 		  $("#Tabs").toggle(); //display tabs for data content
 		
 		  //Call createTable for OA
-		  if (OA == ""){
+		  if (OA === ""){
 		    OA = CTRY_extcode;
 		  }  
 		 
-		  if (GOR_extcode == ""){
+		  if (GOR_extcode === ""){
 		    GOR_extcode = CTRY_extcode;
 		  } 
 		
@@ -797,14 +711,9 @@ function CTRY_areaDetails(search,postcode){
 		  getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, CTRY, 'relGeog');
 		  getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, CTRY, 'relAgeGeog');
 		  getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health,  levelname, CTRY, 'relSexGeog');
-		 
-		  // Open Geography URL to search for a ward and return its boundaries.
-		  // Here it is only searching for Ward Boundaries using service: 'CTRY/CTRY_DEC_2011_GB_BGC' and layer: 'CTRY_DEC_2011_GB_BGC'
-		  var url = "https://mapping.statistics.gov.uk/arcgis/rest/services/CTRY/CTRY_DEC_2011_GB_BGC/MapServer/0/query?where=CTRY11CD" + "='" + CTRY_extcode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";
-		  var queryParams = "CTRY11CD" + "='" + CTRY_extcode + "'";
 		  
-		  // start process with call to Open Geography to get envelope 
-		  getEnvelope(url,queryParams,details,postcode,childname);
+		  getEnvelope(CTRY_extcode,details,postcode,childname);
+		 
        } // else res1['children'] && res1['children'].empty === 0)
     });//childUrl    
    });//ready
@@ -814,13 +723,13 @@ function CTRY_areaDetails(search,postcode){
 
 // populate area details
 // OA details
-function  OA_pcode_details(postcode,queryExtent) {	
+function  OA_pcode_details(postcode) {	
 	var levelname;
 	levelname = $.getUrlVar('levelname');	
 	
-	var areaId, envelope, extCode, markerEnvelope, health, parliCon, OA, LA, GOR, CTRY, WD, OA_AreaId, LA_AreaId, GOR_AreaId,  CTRY_AreaId, health_AreaId, parliCon_AreaId;
-	var WD_AreaId, WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, health_extcode, parliCon_extcode;
-	var doterm;
+	var extCode, markerEnvelope, health, parliCon, OA, LA, GOR, CTRY, WD; 
+	var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, health_extcode, parliCon_extcode;
+	var doterm, details;
 	
 	// get layer info for postcode
 	var pcUrl     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/" + postcode;
@@ -850,74 +759,48 @@ function  OA_pcode_details(postcode,queryExtent) {
 	        doterm           = result.features[0].attributes.doterm; 	
 	                
 	        // check to see if postcode not obsolete (doterm === null valid)
-	        if(doterm == "") {         	
-		        var queryExtent;       
-		    	
-		    	require([ 
-		    	         "esri/geometry/Extent",    	         
-		    	         "esri/graphic",	        
-		    	         "esri/tasks/query",
-		    	         "esri/tasks/QueryTask",
-		    	         "dojo/domReady!"		
-		
-		    	         ], function( 
-		    	        	   Extent, Graphic, Query, QueryTask
-		    	         ) 
-		    	        {    		
-		    	   
-				    	    var query,QueryTask;    	     
-				    	    var oAUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/OA/OA_2011_EW_BGC_V2/MapServer/0/query?where=where=OA11CD" + "='" + extCode + "'" + "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPoint&inSR=27700&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=27700&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson";	       
-				    	    var queryTask = new esri.tasks.QueryTask(oAUrl);
-				    	    var query = new Query();	    
-				    	    query.where = "OA11CD" + "='" + extCode + "'";
-				    	    query.outSpatialReference = new esri.SpatialReference({ wkid: 27700 });
-				    	    query.returnGeometry = true;
-				    	    
-				    	    queryTask.execute(query, function (featureSet) {
-					            //get the feature and it's extent then set the map to that extent
-					            var feature = featureSet.features[0];
-					            var extentPoly = new esri.geometry.Polygon(new esri.SpatialReference({ wkid: 27700 }));
-					
-					            for (var i = 0; i < feature.geometry.rings.length; i++) {
-					              extentPoly.addRing(feature.geometry.rings[i]);
-					            }
-					            
-					            var xmin_env      = extentPoly.getExtent().xmin;
-					    		var ymin_env      = extentPoly.getExtent().ymin;
-					    		var xmax_env      = extentPoly.getExtent().xmax;
-					    		var ymax_env      = extentPoly.getExtent().ymax;
-					    		
-					    		var diff = xmax_env-xmin_env;
-					    		newxmin  = xmin_env - diff;    		
-					            queryExtent = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});			      		    
+	        if(doterm === "") {         	
+	        	// get layer info for postcode
+	        	var url     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getenvelope/" + extCode;
+	        	$(document).ready(function(){
+	        	  $.getJSON(url, function(result) {
+	        		if (result.envelope && result.envelope.length === 0) {
+	                    // do stuff when no features were found
+	        			redErrorbox(); 
+	                }
+	        		else
+	        		{	
+	        			
 									      										
-							    if(CTRY === "Wales"){
-								   details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
-								 		     WD + "|" + LA + "|" + GOR + "|" + CTRY  + "|" + WD_extcode + "|" + LA_extcode + "|" +  ""  + "|" + CTRY_extcode + "|" +
-								 		     parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	
-							    }
-							    else{
-								  details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
-										    WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" +
-										    parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	 	              
-							    }
-				  
-							    $("#Tabs").toggle(); //display tabs for data content
-				
-							    //Call createTable for OA
-							    createTable(OA, levelname);
-							    createReligion(OA, levelname);	
-						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'popSexGeog');
-						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'ageGeog');
-						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'popTime');
-						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relGeog');
-						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relAgeGeog');
-						        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relSexGeog');
-				              						 	    			     
-						        highlightMap(details,postcode,queryExtent);
-			    	       })//queryTask.execute   
-			           }// ready  
-	       )}  // check to see if postcode not obsolete (doterm === null valid)
+					    if(CTRY === "Wales"){
+						   details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
+						 		     WD + "|" + LA + "|" + GOR + "|" + CTRY  + "|" + WD_extcode + "|" + LA_extcode + "|" +  ""  + "|" + CTRY_extcode + "|" +
+						 		     parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	
+					    }
+					    else{
+						  details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
+								    WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" +
+								    parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	 	              
+					    }
+		  
+					    $("#Tabs").toggle(); //display tabs for data content
+		
+					    //Call createTable for OA
+					    createTable(OA, levelname);
+					    createReligion(OA, levelname);	
+				        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'popSexGeog');
+				        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'ageGeog');
+				        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'popTime');
+				        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relGeog');
+				        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relAgeGeog');
+				        getData(OA,LA_extcode,LA,parliCon_extcode,parliCon,WD_extcode,WD,GOR_extcode,GOR,CTRY_extcode,CTRY,health, levelname, OA, 'relSexGeog');
+		              						 	    			     
+				        highlightMap(details,postcode,result.envelope);
+			    	      
+			        } // else 
+	        	  }); // json url	  
+	        	}); // $(document).ready
+	       }  // check to see if postcode not obsolete (doterm === null valid)
 	       else {
 	    	   redErrorbox(); 
 	       }// postcode obsolete 
@@ -925,9 +808,9 @@ function  OA_pcode_details(postcode,queryExtent) {
 	})//pcUrl
 	.error(function() {  
 		redErrorbox(); 
-	})
+	});
 
-  })//ready	  
+  });//ready	  
 } //OA_pcode_details function
 
 
@@ -951,7 +834,7 @@ function  postcode_reformat(postcode) {
    postcode                     = postcode.replace(/\+/g, '');    	
    var regExp1                  = /^([a-zA-Z]){1}([0-9][0-9]|[0-9]|[a-zA-Z][0-9][a-zA-Z]|[a-zA-Z][0-9][0-9]|[a-zA-Z][0-9]){1}([ ])([0-9][a-zA-z][a-zA-z]){1}$/;
  
-   if(regExp1.test(postcode) == false)	
+   if(regExp1.test(postcode) === false)	
    {	 
 	   var regExp2              = /^([A-Z]{1,2}[\dA-Z]{1,2})[ ]?(\d[A-Z]{2})$/i; // case insensitive 
 
@@ -980,7 +863,7 @@ function  name_reformat(placename) {
 	placename                = placename.replace(/\+/g, ' ');  
 	var regExp1              = /^[a-zA-Z\s\\&\\'\\:\\/\\(\\)\\!\\,\\-]+$/;  
 	
-	if(regExp1.test(placename) == false)	
+	if(regExp1.test(placename) === false)	
 	{	 
 		  
 		// to do	  
@@ -1014,54 +897,30 @@ $.extend({
 	  }	  
   });
 
-function getEnvelope(url,queryParams,details,searchText,childname) {
+function getEnvelope(extcode,details,searchText,childname) {
 	
-	require([  
-	     "esri/geometry/Extent",			       
-	     "esri/graphic",	        
-	     "esri/tasks/query",
-	     "esri/tasks/QueryTask",
-	     "dojo/domReady!"
-	    ], function( 
-	         Extent, Graphic, Query, QueryTask
-	        ) 
-	    {
-		
-		   var query,QueryTask;
-		   var queryTask = new esri.tasks.QueryTask(url);
-		   var query = new Query();	    
-		   query.where = queryParams;
-		   query.outSpatialReference = new esri.SpatialReference({ wkid: 27700 });
-		   query.returnGeometry = true;
-		    			   			    	    
-		   queryTask.execute(query, function (featureSet) {
-		   //get the feature and it's extent then set the map to that extent
-			   var feature = featureSet.features[0];
-			   var extentPoly = new esri.geometry.Polygon(new esri.SpatialReference({ wkid: 27700 }));
-		
-			   for (var i = 0; i < feature.geometry.rings.length; i++) {
-			      extentPoly.addRing(feature.geometry.rings[i]);
-			   }
-			            
-			   var xmin_env      = extentPoly.getExtent().xmin;
-			   var ymin_env      = extentPoly.getExtent().ymin;
-			   var xmax_env      = extentPoly.getExtent().xmax;
-			   var ymax_env      = extentPoly.getExtent().ymax;
-			    		
-			   var diff = xmax_env-xmin_env;
-			   newxmin  = xmin_env - diff;    		
-			   var queryExtent = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
-			   
-			   if (childname == null || childname.length == 0 ||typeof childname === 'undefined') {
-				    highlightMap(details, searchText, queryExtent);
-			   }
-			   // call hover map
-			   else {			   
-			      hoverMap(details, searchText, queryExtent);
-		       }
-	      });
-		  
-	  });  
+	// get layer info for postcode
+	var url     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getenvelope/" + extcode;
+	$(document).ready(function(){
+	  $.getJSON(url, function(result) {
+		if (result.envelope && result.envelope.length === 0) {
+            // do stuff when no features were found
+			redErrorbox(); 
+        }
+		else
+		{	
+			
+	      if (childname == null || childname.length == 0 ||typeof childname === 'undefined') {
+		    highlightMap(details, searchText, result.envelope);
+	      }
+	      // call hover map
+	      else {			   
+	        hoverMap(details, searchText, result.envelope);
+          }
+			  
+		} // else
+	  }); // json url	  
+	}); // $(document).ready 
 }
 
 function encodeName(name) {

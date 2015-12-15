@@ -1,4 +1,4 @@
-function highlightMap(details, postcode, queryExtent){	
+function highlightMap(details, postcode, envelope){	
 	
 	dojoConfig = {
 			locale: "en",
@@ -68,7 +68,19 @@ function highlightMap(details, postcode, queryExtent){
 		var polygon;
 		var selected = false;
 
-		loading = dojo.byId("loadingImg");  //loading image. id   
+		loading = dojo.byId("loadingImg");  //loading image. id 		
+		
+		// reformat envelope value xmin:nnnnnn,ymin:nnnnnn,xmax:nnnnnn,ymax:nnnnnn 
+		// to xmin,ymin,xmax,ymax 		
+		var param         = envelope.split(':');					            
+	    var xmin_env      = parseInt(param[0]); 
+	    var ymin_env      = parseInt(param[1]);
+	    var xmax_env      = parseInt(param[2]);
+	    var ymax_env      = parseInt(param[3]);
+	   			    		
+	    var diff = xmax_env-xmin_env;
+	    newxmin  = xmin_env - diff;    		
+	    var queryExtent = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
 		
 		var bbox = new esri.geometry.Extent(queryExtent);
 		map = new Map("map", { 

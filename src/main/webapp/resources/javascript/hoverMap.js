@@ -1,4 +1,4 @@
-function hoverMap(details, postcode, queryExtent){
+function hoverMap(details, postcode, envelope){
 
 	dojoConfig = {
 			locale: "en",
@@ -72,6 +72,18 @@ function hoverMap(details, postcode, queryExtent){
 
 		var reformList    = childarealist.replace(/,/g, "','");	
 		var childAreaDef  = childcode + " IN ('" + reformList + "')"; 	
+		
+		// reformat envelope value xmin:nnnnnn,ymin:nnnnnn,xmax:nnnnnn,ymax:nnnnnn 
+		// to xmin,ymin,xmax,ymax 		
+		var param         = envelope.split(':');					            
+	    var xmin_env      = parseInt(param[0]); 
+	    var ymin_env      = parseInt(param[1]);
+	    var xmax_env      = parseInt(param[2]);
+	    var ymax_env      = parseInt(param[3]);
+	   			    		
+	    var diff = xmax_env-xmin_env;
+	    newxmin  = xmin_env - diff;    		
+	    var queryExtent = new esri.geometry.Extent({xmin:newxmin,ymin:ymin_env,xmax:xmax_env,ymax:ymax_env,spatialReference:{wkid:27700}});
 		
 		var bbox = new esri.geometry.Extent(queryExtent);
 
@@ -391,7 +403,8 @@ function hoverMap(details, postcode, queryExtent){
 			}); //  getJSON(parliConUrl	
 		}  //  executeQueryTask
 
-		function  WD_boxDetail() {			
+		function  WD_boxDetail() {
+			
 			var urlParams          = '&amp;cn='+ctryName+'&amp;cc='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			var urlParams1         = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			
