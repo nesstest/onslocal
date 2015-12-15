@@ -1,5 +1,5 @@
 function homePageBoxes(postcode){
-	if(postcode == null || postcode.length == 0 || typeof postcode === 'undefined')
+	if(postcode == null || postcode.length == 0  || typeof postcode === 'undefined')
 	{
 		if(document.getElementById("redbox").getAttribute("style") == "display: none;")
 		{		
@@ -12,14 +12,6 @@ function homePageBoxes(postcode){
 	{
 		$("#map").toggle();
 	}
-}
-
-function homePageBoxes1(){
-	    $('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 	   
-		$("#redbox").toggle();
-		$('#bluebox').toggle();
-		$('#titlebox').toggle();
-	
 }
 
 function createMap(postcode,search){	
@@ -78,9 +70,10 @@ function createMap(postcode,search){
 
 function OA_areaDetails(postcode){
   $(window).load(function(){	
-   var areaId, envelope, markerEnvelope, LA, GOR, CTRY, WD, OA, levelname;
+   var markerEnvelope, LA, GOR, CTRY, WD, OA, levelname;
    var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, OA_extcode, childarealist, childname;  
-  
+   var parliCon, parliCon_extcode, health, health_extcode, details;
+   
    OA               = $.getUrlVar('areaname');
    OA_extcode       = $.getUrlVar('areacode');
    WD               = decodeName($.getUrlVar('wn'));   
@@ -108,7 +101,7 @@ function OA_areaDetails(postcode){
 	   $("#Tabs").toggle(); 
 	   
 	   //display tabs for data content	   
-	   if (GOR_extcode == "") {
+	   if (GOR_extcode === "") {
 			 GOR_extcode = CTRY_extcode;
 	   }  
 	   
@@ -129,11 +122,11 @@ function OA_areaDetails(postcode){
 function WD_areaDetails(search){
    $(window).load(function(){
 	   
-	   postcode       = $.getUrlVar('nav-search');	
+	   var postcode       = $.getUrlVar('nav-search');	
 	
 	   var OA, LA, GOR, CTRY, WD, health, parliCon;
 	   var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, health_extcode, parliCon_extcode, levelname, childarealist, childname;
-	   var details;
+	   var details, markerEnvelope;
 	   
 	   if(search === 'name'){
 	     // name search call 	
@@ -145,11 +138,11 @@ function WD_areaDetails(search){
 		   WD_extcode       = $.getUrlVar('areacode');
 		   WD               = decodeName($.getUrlVar('areaname')); 
 	   }
-		 
+	   
 	   if (WD_extcode == null || WD_extcode.length == 0 || typeof WD_extcode === 'undefined') {
 	    	// load default home page
-	    	$(document).ready(function(){				
-		    	homePageBoxes(searchtext);				
+	    	$(document).ready(function(){
+	    		redErrorbox(); 				
 			});
 	   }
 	   else {
@@ -158,18 +151,14 @@ function WD_areaDetails(search){
 		     $(document).ready(function(){		
 	   		   $.getJSON(childUrl, function(res1){
 	   			  
-	   			  if (res1['children'] && res1['children'].empty === 0) {
-	   		            // do stuff when no features were found
-	   					$('#redbox').toggle(); 
-	   			    	$('#bluebox').toggle();
-	   			   		$('#titlebox').toggle();
-	   			   		$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-	   			   		$('#map').toggle();
+	   			  if (res1.children && res1.children.empty === 0) {
+	   		        // do stuff when no features were found
+	   				redErrorbox(); 	
 	   		      }
 	   			  else
 	   			  {	
 	   		    	  // get the children and parent details for the selected area(extcode)
-	   			      childarealist = res1['children'];		   			     
+	   			      childarealist = res1.children;		   			     
 	   			      
 	   			      if(search === 'name'){
 	   			          // name search call - require parent info		   			    	
@@ -179,12 +168,8 @@ function WD_areaDetails(search){
 				    	    $.getJSON(parentUrl, function(res2){
 				    	    	
 				    	    	 if (res2.parent && res2.parent.length === 0) {
-				    		            // do stuff when no features were found
-				    					$('#redbox').toggle(); 
-				    			    	$('#bluebox').toggle();
-				    			   		$('#titlebox').toggle();
-				    			   		$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-				    			   		$('#map').toggle();
+				    		         // do stuff when no features were found
+				    	    		 redErrorbox(); 	
 				    		      }
 				    			  else
 				    			  {	
@@ -211,21 +196,21 @@ function WD_areaDetails(search){
 									
 								    //Call createTable for OA
 									
-								    if (OA == ""){
+								    if (OA === ""){
 										 OA = CTRY_extcode;
 								    }	  
 									 
 									//temp until we get the data
-									if (parliCon_extcode == ""){
+									if (parliCon_extcode === ""){
 										 parliCon_extcode = CTRY_extcode;
 									}
 									 
 									//temp until we get the data
-									if (health_extcode == ""){
+									if (health_extcode === ""){
 										 health_extcode = CTRY_extcode;
 									}  
 									 
-									if (GOR_extcode == ""){
+									if (GOR_extcode === ""){
 										 GOR_extcode = CTRY_extcode;
 									}   
 									
@@ -270,21 +255,21 @@ function WD_areaDetails(search){
 							
 							//Call createTable for OA
 							
-							 if (OA == ""){
+							 if (OA === ""){
 								 OA = CTRY_extcode;
 							 }  
 							 
 							 //temp until we get the data
-							 if (parliCon_extcode == ""){
+							 if (parliCon_extcode === ""){
 								 parliCon_extcode = CTRY_extcode;
 							 }
 							 
 							//temp until we get the data
-							 if (health_extcode == ""){
+							 if (health_extcode === ""){
 								 health_extcode = CTRY_extcode;
 							 }  
 							 
-							 if (GOR_extcode == ""){
+							 if (GOR_extcode === ""){
 								 GOR_extcode = CTRY_extcode;
 							 }   
 							
@@ -309,10 +294,11 @@ function WD_areaDetails(search){
 
 function LA_areaDetails(search){	
   $(window).load(function(){
-   postcode       = $.getUrlVar('nav-search');   
+   var postcode       = $.getUrlVar('nav-search');   
 
-   var areaId, envelope, markerEnvelope, LA, GOR, CTRY, levelname; 
-   var LA_extcode, GOR_extcode, CTRY_extcode, childarealist, childname;
+   var markerEnvelope, OA, WD, LA, GOR, CTRY, parliCon, health, levelname; 
+   var WD_extcode,LA_extcode, GOR_extcode, CTRY_extcode, parliCon_extcode, health_extcode;
+   var childarealist, childname, details;
    
    if(search === 'name'){	   
      // name search call 	
@@ -328,25 +314,21 @@ function LA_areaDetails(search){
    if (LA_extcode == null || LA_extcode.length == 0 || typeof LA_extcode === 'undefined') {
    	// load default home page
    	$(document).ready(function(){				
-	    	homePageBoxes(searchtext);				
-		});
+   		redErrorbox(); 					
+	});
   }
   else {
    var childUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + LA_extcode;
    $(document).ready(function(){
       $.getJSON(childUrl, function(res1){
-	    if (res1['children'] && res1['children'].empty === 0) {
+	    if (res1.children && res1.children.empty === 0) {
            // do stuff when no features were found
-		   $('#redbox').toggle(); 
-	       $('#bluebox').toggle();
-	   	   $('#titlebox').toggle();
-	   	   $('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-	   	   $('#map').toggle();
+	       redErrorbox(); 	
 	    }  
        
 	    else {
 			// get the children and parent details for the selected area(extcode)  
-		    childarealist = res1['children'];	
+		    childarealist = res1.children;	
 		    
 		    if(search === 'name'){
 	          // name search call - require parent info		   			    	
@@ -357,11 +339,7 @@ function LA_areaDetails(search){
 	    	    	
 		    	if (res2.parent && res2.parent.length === 0) {
 		            // do stuff when no features were found
-					$('#redbox').toggle(); 
-			    	$('#bluebox').toggle();
-			   		$('#titlebox').toggle();
-			   		$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-			   		$('#map').toggle();
+		    		redErrorbox(); 	
 			    }
 		    	else {
 		    		
@@ -388,11 +366,11 @@ function LA_areaDetails(search){
 			
 				 //Call createTable for OA
 		    	
-		    	 if (OA == ""){
+		    	 if (OA === ""){
 				   OA = CTRY_extcode;
 				 }  
 		    	 
-		    	 if (GOR_extcode == ""){
+		    	 if (GOR_extcode === ""){
 				   GOR_extcode = CTRY_extcode;
 				 } 
 		    	
@@ -436,21 +414,21 @@ function LA_areaDetails(search){
 			
 			//Call createTable for OA
 			
-			 if (OA == ""){
+			 if (OA === ""){
 				 OA = CTRY_extcode;
 			 }  
 			 
 			 //temp until we get the data
-			 if (parliCon_extcode == ""){
+			 if (parliCon_extcode === ""){
 				 parliCon_extcode = CTRY_extcode;
 			 }
 			 
 			//temp until we get the data
-			 if (health_extcode == ""){
+			 if (health_extcode === ""){
 				 health_extcode = CTRY_extcode;
 			 }  
 			 
-			 if (GOR_extcode == ""){
+			 if (GOR_extcode === ""){
 				 GOR_extcode = CTRY_extcode;
 			 }   
 			
@@ -475,11 +453,12 @@ function LA_areaDetails(search){
 
 function GOR_areaDetails(search){
 	
-	postcode = $.getUrlVar('nav-search');
+	var postcode = $.getUrlVar('nav-search');
 	
-	var areaId, envelope, markerEnvelope, GOR, CTRY, levelname; 
-    var GOR_extcode, CTRY_extcode, childname, childarealist;
-    
+	var markerEnvelope, OA, WD, LA, GOR, health, CTRY, parliCon,levelname; 
+    var WD_extcode, LA_extcode, GOR_extcode, parliCon_extcode, health_extcode, CTRY_extcode, childname, childarealist;
+    var details;
+  
     if(search === 'name'){
 	     // name search call	  
 	   GOR_extcode       = $.getUrlVar('areacode');
@@ -494,7 +473,7 @@ function GOR_areaDetails(search){
     if (GOR_extcode == null || GOR_extcode.length == 0 || typeof GOR_extcode === 'undefined') {
        	// load default home page
        	$(document).ready(function(){				
-    	   homePageBoxes(searchtext);				
+       		redErrorbox(); 					
     	});
     }    
     else {    	
@@ -503,18 +482,14 @@ function GOR_areaDetails(search){
 	     $(document).ready(function(){		
  		   $.getJSON(childUrl, function(res1){
  			  
- 			  if (res1['children'] && res1['children'].empty === 0) {
- 		          // do stuff when no features were found
- 				  $('#redbox').toggle(); 
- 			      $('#bluebox').toggle();
- 			   	  $('#titlebox').toggle();
- 			   	  $('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
- 			   	  $('#map').toggle();
+ 			  if (res1.children && res1.children.empty === 0) {
+ 		         // do stuff when no features were found
+ 				 redErrorbox(); 	
  		   }
            else
 	          {	
 	    	  // get the children and parent details for the selected area(extcode)
-		      childarealist = res1['children'];		   			     
+		      childarealist = res1.children;		   			     
 		      
 		      if(search === 'name'){
 		          // name search call - require parent info		   			    	
@@ -523,14 +498,10 @@ function GOR_areaDetails(search){
 		    	  $(document).ready(function(){		
 		    	    $.getJSON(parentUrl, function(res2){
 		    	    	
-		    	    	 if (res2.parent && res2.parent.length === 0) {
-	  		              // do stuff when no features were found
-	  					  $('#redbox').toggle(); 
-	  			    	  $('#bluebox').toggle();
-	  			   		  $('#titlebox').toggle();
-	  			   		  $('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-	  			   		  $('#map').toggle();
-		    		     }
+		    	      if (res2.parent && res2.parent.length === 0) {
+	  		             // do stuff when no features were found
+		    	    	 redErrorbox(); 	
+		    		  }
 		    		  else
 		    			 {	
 						    CTRY_extcode     = res2.parent.country.extcode;
@@ -556,21 +527,21 @@ function GOR_areaDetails(search){
 							
 							//Call createTable for OA
 							
-							 if (OA == ""){
+							 if (OA === ""){
 								 OA = CTRY_extcode;
 							 }  
 							 
 							 //temp until we get the data
-							 if (parliCon_extcode == ""){
+							 if (parliCon_extcode === ""){
 								 parliCon_extcode = CTRY_extcode;
 							 }
 							 
 							//temp until we get the data
-							 if (health_extcode == ""){
+							 if (health_extcode === ""){
 								 health_extcode = CTRY_extcode;
 							 }  
 							 
-							 if (GOR_extcode == ""){
+							 if (GOR_extcode === ""){
 								 GOR_extcode = CTRY_extcode;
 							 }	
 							 
@@ -615,11 +586,11 @@ function GOR_areaDetails(search){
 		    $("#Tabs").toggle(); //display tabs for data content	    
 			
 		    //Call createTable for OA					
-		    if (OA == ""){
+		    if (OA === ""){
 			  OA = CTRY_extcode;
 		    } 
 		 
-		    if (GOR_extcode == ""){
+		    if (GOR_extcode === ""){
 			  GOR_extcode = CTRY_extcode;
 		    }   
 		
@@ -645,8 +616,9 @@ function CTRY_areaDetails(search,postcode){
 	  
 	postcode = $.getUrlVar('nav-search');
 	
-	var areaId, envelope, markerEnvelope, CTRY, levelname; 
-    var CTRY_extcode, childname, childarealist;
+	var markerEnvelope, OA, CTRY, WD, LA, GOR, parliCon, health, levelname; 
+  var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, parliCon_extcode, health_extcode, childname, childarealist;
+  var details;
     
     if(search === 'name'){
 	   // name search call.	 "" on variables indicates not required (no parent info) 
@@ -690,7 +662,7 @@ function CTRY_areaDetails(search,postcode){
    if (CTRY_extcode == null || CTRY_extcode.length == 0 || typeof CTRY_extcode === 'undefined') {
 	   // load default home page
 	   $(document).ready(function(){				
-	     homePageBoxes(searchtext);				
+		   redErrorbox(); 					
 	   });
    }    
    else {  
@@ -700,17 +672,13 @@ function CTRY_areaDetails(search,postcode){
 	   $(document).ready(function(){		
 	     $.getJSON(childUrl, function(res1){
 			  
-		 if (res1['children'] && res1['children'].empty === 0) {
+		 if (res1.children && res1.children.empty === 0) {
 	        // do stuff when no features were found
-		    $('#redbox').toggle(); 
-		    $('#bluebox').toggle();
-		    $('#titlebox').toggle();
-		   	$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
-		    $('#map').toggle();
+			 redErrorbox(); 	
 		 }
          else {	
 	       // get the children and parent details for the selected area(extcode)
-		   childarealist = res1['children'];	
+		   childarealist = res1.children;	
 		   
 		   details = CTRY + "|" + "CTRY11NM" + "|" + "CTRY/CTRY_DEC_2011_GB_BGC" + "|" + markerEnvelope + "|" + "CTRY" + "|" + "CTRY11CD" + "|" +
                      "" + "|" + "" + "|" + "" + "|" + CTRY + "|" + ""  + "|" + "" + "|" + ""  + "|" + CTRY_extcode + "|" +
@@ -727,11 +695,11 @@ function CTRY_areaDetails(search,postcode){
 		  $("#Tabs").toggle(); //display tabs for data content
 		
 		  //Call createTable for OA
-		  if (OA == ""){
+		  if (OA === ""){
 		    OA = CTRY_extcode;
 		  }  
 		 
-		  if (GOR_extcode == ""){
+		  if (GOR_extcode === ""){
 		    GOR_extcode = CTRY_extcode;
 		  } 
 		
@@ -755,13 +723,13 @@ function CTRY_areaDetails(search,postcode){
 
 // populate area details
 // OA details
-function  OA_pcode_details(postcode,queryExtent) {	
+function  OA_pcode_details(postcode) {	
 	var levelname;
 	levelname = $.getUrlVar('levelname');	
 	
-	var areaId, envelope, extCode, markerEnvelope, health, parliCon, OA, LA, GOR, CTRY, WD, OA_AreaId, LA_AreaId, GOR_AreaId,  CTRY_AreaId, health_AreaId, parliCon_AreaId;
-	var WD_AreaId, WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, health_extcode, parliCon_extcode;
-	var doterm;
+	var extCode, markerEnvelope, health, parliCon, OA, LA, GOR, CTRY, WD; 
+	var WD_extcode, LA_extcode, GOR_extcode, CTRY_extcode, health_extcode, parliCon_extcode;
+	var doterm, details;
 	
 	// get layer info for postcode
 	var pcUrl     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/" + postcode;
@@ -791,7 +759,7 @@ function  OA_pcode_details(postcode,queryExtent) {
 	        doterm           = result.features[0].attributes.doterm; 	
 	                
 	        // check to see if postcode not obsolete (doterm === null valid)
-	        if(doterm == "") {         	
+	        if(doterm === "") {         	
 	        	// get layer info for postcode
 	        	var url     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getenvelope/" + extCode;
 	        	$(document).ready(function(){
@@ -840,9 +808,9 @@ function  OA_pcode_details(postcode,queryExtent) {
 	})//pcUrl
 	.error(function() {  
 		redErrorbox(); 
-	})
+	});
 
-  })//ready	  
+  });//ready	  
 } //OA_pcode_details function
 
 
@@ -866,7 +834,7 @@ function  postcode_reformat(postcode) {
    postcode                     = postcode.replace(/\+/g, '');    	
    var regExp1                  = /^([a-zA-Z]){1}([0-9][0-9]|[0-9]|[a-zA-Z][0-9][a-zA-Z]|[a-zA-Z][0-9][0-9]|[a-zA-Z][0-9]){1}([ ])([0-9][a-zA-z][a-zA-z]){1}$/;
  
-   if(regExp1.test(postcode) == false)	
+   if(regExp1.test(postcode) === false)	
    {	 
 	   var regExp2              = /^([A-Z]{1,2}[\dA-Z]{1,2})[ ]?(\d[A-Z]{2})$/i; // case insensitive 
 
@@ -895,7 +863,7 @@ function  name_reformat(placename) {
 	placename                = placename.replace(/\+/g, ' ');  
 	var regExp1              = /^[a-zA-Z\s\\&\\'\\:\\/\\(\\)\\!\\,\\-]+$/;  
 	
-	if(regExp1.test(placename) == false)	
+	if(regExp1.test(placename) === false)	
 	{	 
 		  
 		// to do	  

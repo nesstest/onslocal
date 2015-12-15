@@ -128,8 +128,7 @@
 		        		  var noResult = { value:"",label:"No results found",type:"",parent_name:"" };
 			              ui.content.push(noResult); 
 			             // return false;
-		        	  }
-		        	
+		        	  }		        	
 		          }
 		          else{
 	        		  $( "#nav-search" ).autocomplete( "instance" )._renderItem = function( ul, item ) {
@@ -222,7 +221,7 @@
 			    	{
 			    		// load default home page with error message
 			    		$(document).ready(function(){
-			    		  homePageBoxes1();	
+			    			redErrorbox();
 			    		});  
 			    	}
 			    	else{
@@ -247,7 +246,7 @@
 	    else{ // invalid param on url
         	  // load default home page with error message
     		$(document).ready(function(){
-    		  homePageBoxes1();	
+    			redErrorbox();	
     		});  
         }
 	    function tab(tab) {
