@@ -331,30 +331,30 @@ function hoverMap(details, postcode, envelope){
 				}
 			});
 			
-			var healthUrl;
+			//var healthUrl;
 			
-			if(ctryName == "Wales"){
-			   healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/LHB/LHB_DEC_2014_WA_BGC/FeatureServer/0/query?where=&geometry=" +
-			   x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
+			//if(ctryName == "Wales"){
+			//   healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/LHB/LHB_DEC_2014_WA_BGC/FeatureServer/0/query?where=&geometry=" +
+			//   x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 			   
-			   $(document).ready(function(){
-					$.getJSON(healthUrl, function(result) {
-						healthName = result.features[0].attributes.LHB14NM;
-						healthCode = result.features[0].attributes.LHB14CD;
-					});
-				}); 
-			}
-			else{				
-			  healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/CCG/CCG_JUL_2015_EN_BGC_V2/FeatureServer/0/query?where=&geometry=" +
-			  x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
+			//   $(document).ready(function(){
+			//		$.getJSON(healthUrl, function(result) {
+			//			healthName = result.features[0].attributes.LHB14NM;
+			//			healthCode = result.features[0].attributes.LHB14CD;
+			//		});
+			//	}); 
+			//}
+			//else{				
+			 // healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/CCG/CCG_JUL_2015_EN_BGC_V2/FeatureServer/0/query?where=&geometry=" +
+			 // x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 			  
-			  $(document).ready(function(){
-					$.getJSON(healthUrl, function(result) {
-						healthName = result.features[0].attributes.CCG15NM;
-						healthCode = result.features[0].attributes.CCG15CD;
-					}); 
-				}); 
-			}			
+			  //$(document).ready(function(){
+				//	$.getJSON(healthUrl, function(result) {
+				//		healthName = result.features[0].attributes.CCG15NM;
+				//		healthCode = result.features[0].attributes.CCG15CD;
+				//	}); 
+				//}); 
+			//}			
 
 			var parliConUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
 			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
