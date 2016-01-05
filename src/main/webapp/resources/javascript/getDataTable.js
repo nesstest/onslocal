@@ -397,7 +397,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					muslim = commaSeparateNumber(result["LC2107EW"].value[25]);
 					tableRow1 = tableRow1 + "<td>"+all+"</td>";//<td>Not Available</td>";
 					tableRow2 = tableRow2 + "<td>"+christian+"</td>";//<td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+muslim+"</td><td>";//Not Available</td>";
+					tableRow3 = tableRow3 + "<td>"+muslim+"</td>";//<td>Not Available</td>";
 				}
 
 
@@ -732,4 +732,3 @@ function commaSeparateNumber(val){
 	 }
   return val;
 }
-
