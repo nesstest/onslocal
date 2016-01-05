@@ -88,9 +88,9 @@ function OA_areaDetails(postcode){
    levelname        = $.getUrlVar('levelname');
    childname        = $.getUrlVar('childname');
    parliCon 		= $.getUrlVar('pn');
-   health 			= $.getUrlVar('hn');  
+   health 			= "";//$.getUrlVar('hn');  
    parliCon_extcode	= $.getUrlVar('pc');
-   health_extcode 	= $.getUrlVar('hc');  
+   health_extcode 	= "";//$.getUrlVar('hc');  
    
    $(document).ready(function(){	   
 
@@ -242,9 +242,9 @@ function WD_areaDetails(search){
 						   levelname        = $.getUrlVar('levelname');
 						   childname        = $.getUrlVar('childname');
 						   parliCon 		= $.getUrlVar('pn');
-						   health 			= $.getUrlVar('hn');  
+						   health 			= "";$.getUrlVar('hn');  
 						   parliCon_extcode	= $.getUrlVar('pc');
-						   health_extcode 	= $.getUrlVar('hc');
+						   health_extcode 	= "";$.getUrlVar('hc');
 						   
 						   details = WD + "|" + "WD11NM" + "|" + "WD/WD_DEC_2011_EW_BGC" + "|" + markerEnvelope + "|" + "WD" + "|" + "WD11CD" + "|" +
 				           WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + "|" + health + "|" + 
@@ -401,9 +401,9 @@ function LA_areaDetails(search){
     	   levelname        = $.getUrlVar('levelname');
     	   childname        = $.getUrlVar('childname');
     	   parliCon 		= $.getUrlVar('pn');
-    	   health 			= $.getUrlVar('hn');
+    	   health 			= "";//$.getUrlVar('hn');
     	   parliCon_extcode	= $.getUrlVar('pc');
-    	   health_extcode 	= $.getUrlVar('hc');
+    	   health_extcode 	= "";//$.getUrlVar('hc');
 		   
 		   details = LA + "|" + "LAD11NM" + "|" + "LAD/LAD_DEC_2011_GB_BGC" + "|" + markerEnvelope + "|" + "LAD" + "|" + "LAD11CD" + "|" +
 	          "" + "|" + LA + "|" + GOR + "|" + CTRY + "|" + ""  + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + "|" + 
@@ -574,9 +574,9 @@ function GOR_areaDetails(search){
 		    levelname        = $.getUrlVar('levelname');
 		    childname        = $.getUrlVar('childname');
 		    parliCon 		 = $.getUrlVar('pn');
-		    health 			 = $.getUrlVar('hn');
+		    health 			 = "";//$.getUrlVar('hn');
 		    parliCon_extcode = $.getUrlVar('pc');
-		    health_extcode 	 = $.getUrlVar('hc');
+		    health_extcode 	 = "";//$.getUrlVar('hc');
 		   
 		    details = GOR + "|" + "GOR10NM" + "|" + "GOR/GOR_DEC_2010_EN_BGC" + "|" + markerEnvelope + "|" + "GOR" + "|" + "GOR10CD" + "|" +
               "" + "|" + "" + "|" + GOR + "|" + CTRY + "|" + ""  + "|" + "" + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + 
@@ -654,9 +654,9 @@ function CTRY_areaDetails(search,postcode){
 	  levelname          = $.getUrlVar('levelname');
 	  childname          = $.getUrlVar('childname');
 	  parliCon 		     = $.getUrlVar('pn');
-	  health 		     = $.getUrlVar('hn');
+	  health 		     = "";//$.getUrlVar('hn');
 	  parliCon_extcode   = $.getUrlVar('pc');
-	  health_extcode     = $.getUrlVar('hc');
+	  health_extcode     = "";//$.getUrlVar('hc');
    }
     
    if (CTRY_extcode == null || CTRY_extcode.length == 0 || typeof CTRY_extcode === 'undefined') {
@@ -753,8 +753,8 @@ function  OA_pcode_details(postcode) {
 	        OA               = result.features[0].attributes.oa11cd;
 	        parliCon_extcode = result.features[0].attributes.pconcd;
 	        parliCon         = result.features[0].attributes.pconnm;
-	        health_extcode   = result.features[0].attributes.ccgcd;
-	        health           = result.features[0].attributes.ccgnm;
+	        health_extcode   = "";//result.features[0].attributes.ccgcd;
+	        health           = "";//result.features[0].attributes.ccgnm;
 	        markerEnvelope   = result.features[0].attributes.oaeast1m + ":" + result.features[0].attributes.oanrth1m;
 	        doterm           = result.features[0].attributes.doterm; 	
 	                
