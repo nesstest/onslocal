@@ -68,17 +68,17 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 				{
 					if (nationalName == "England"){
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
+						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 					}
 					else{
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
+						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 					}
 					all = commaSeparateNumber(resultStat["SAPEDE 2013"].value[6]) ;
 					male = commaSeparateNumber(resultStat["SAPEDE 2013"].value[7]) ;
 					female = commaSeparateNumber(resultStat["SAPEDE 2013"].value[8]);
-					tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+male+"</td><td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+female+"</td><td>Not Available</td>";
+					tableRow1 = tableRow1 + "<td>"+all+"</td>";//<td>Not Available</td>";
+					tableRow2 = tableRow2 + "<td>"+male+"</td>";//<td>Not Available</td>";
+					tableRow3 = tableRow3 + "<td>"+female+"</td>";//<td>Not Available</td>";
 				}
 
 
@@ -123,7 +123,8 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 	}
 
 	if (tableType == "ageGeog")
-	{
+	{		
+		
 		var start = new Date().getTime();
 
 		tableHead = "<table><span class='tabletitle'>Age by geography (2013)</span><thead><tr><th data-priority='persist'></th>";
@@ -178,21 +179,21 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 				{
 					if (nationalName == "England"){
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
+						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 					}
 					else{
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
+						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 					}
 					under1 = commaSeparateNumber(result["SAPEDE 2013"].value[6]) ;
 					one = commaSeparateNumber(result["SAPEDE 2013"].value[10]) ;
 					two = commaSeparateNumber(result["SAPEDE 2013"].value[14]) ;
 					three = commaSeparateNumber(result["SAPEDE 2013"].value[18]) ;
 					four = commaSeparateNumber(result["SAPEDE 2013"].value[22]) ;
-					tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+one+"</td><td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+two+"</td><td>Not Available</td>";
-					tableRow4 = tableRow4 + "<td>"+three+"</td><td>Not Available</td>";
-					tableRow5 = tableRow5 + "<td>"+four+"</td><td>Not Available</td>";
+					tableRow1 = tableRow1 + "<td>"+under1+"</td>";//<td>Not Available</td>";
+					tableRow2 = tableRow2 + "<td>"+one+"</td>";//<td>Not Available</td>";
+					tableRow3 = tableRow3 + "<td>"+two+"</td>";//<td>Not Available</td>";
+					tableRow4 = tableRow4 + "<td>"+three+"</td>";//<td>Not Available</td>";
+					tableRow5 = tableRow5 + "<td>"+four+"</td>";//<td>Not Available</td>";
 				}
 
 				if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
@@ -289,14 +290,14 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 				{
 					if (nationalName == "England"){
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
+						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 					}
 					else{
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
+						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 					}
 					under1 = commaSeparateNumber(result["SAPEDE 2013"].value[2]) ;
 
-					tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
+					tableRow1 = tableRow1 + "<td>"+under1+"</td>";//<td>Not Available</td>";
 
 				}
 
@@ -386,17 +387,17 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 				{
 					if (nationalName == "England"){
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
+						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 					}
 					else{
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
+						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 					}
 					all = commaSeparateNumber(result["LC2107EW"].value[20]) ;
 					christian = commaSeparateNumber(result["LC2107EW"].value[21]) ;
 					muslim = commaSeparateNumber(result["LC2107EW"].value[25]);
-					tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+christian+"</td><td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+muslim+"</td><td>Not Available</td>";
+					tableRow1 = tableRow1 + "<td>"+all+"</td>";//<td>Not Available</td>";
+					tableRow2 = tableRow2 + "<td>"+christian+"</td>";//<td>Not Available</td>";
+					tableRow3 = tableRow3 + "<td>"+muslim+"</td><td>";//Not Available</td>";
 				}
 
 
@@ -498,17 +499,17 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 				{
 					if (nationalName == "England"){
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
+						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 					}
 					else{
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
+						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 					}
 					groupOne = commaSeparateNumber(result["LC2107EW"].value[17]);
 					groupTwo = commaSeparateNumber(result["LC2107EW"].value[18]);
 					groupThree = commaSeparateNumber(result["LC2107EW"].value[19]);
-					tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
+					tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";//<td>Not Available</td>";
+					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";//<td>Not Available</td>";
+					tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";//<td>Not Available</td>";
 				}
 
 
@@ -571,12 +572,10 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				tableRow3 = "<tr><th style='border-top:1px solid black;' rowspan='2'><font size='2'>Muslim</font></th><td>Male</td>"
 					tableRow4 = "<tr><td>Female</td>"
 
-
 						var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070,CI_0000074&dm/CL_0000035=CI_0000071,CI_0000070&dm/CL_0000163=CI_0001887";
 
 		$.getJSON(URL, function(result)
 				{
-
 
 			if(levelname =="OA")
 			{
@@ -615,19 +614,19 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
 				{
 					if (nationalName == "England"){
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
+						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 					}
 					else{
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th><th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
+						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 					}
 					groupOne = commaSeparateNumber(result["LC2107EW"].value[8]) ;
 					groupTwo = commaSeparateNumber(result["LC2107EW"].value[10]) ;
 					groupThree = commaSeparateNumber(result["LC2107EW"].value[9]);
 					groupFour = commaSeparateNumber(result["LC2107EW"].value[11]);
-					tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
-					tableRow4 = tableRow4 + "<td>"+groupFour+"</td><td>Not Available</td>";
+					tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";//<td>Not Available</td>";
+					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";//<td>Not Available</td>";
+					tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";//<td>Not Available</td>";
+					tableRow4 = tableRow4 + "<td>"+groupFour+"</td>";//<td>Not Available</td>";
 				}
 
 
@@ -659,9 +658,8 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
 					tableRow4 = tableRow4 + "<td>"+groupFour+"</td>";
 				}
-
-
-
+				
+				
 				tableRow1 = tableRow1 + "</tr>";
 				tableRow2 = tableRow2 + "</tr>";
 				tableRow3 = tableRow3 + "</tr>";
@@ -676,13 +674,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 
 
 				});	
-
-
-
-
 	}
-
-
 }
 
 function completeTable(tableHead, tableBody, tableRows, tableType){
