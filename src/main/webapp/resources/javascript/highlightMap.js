@@ -377,8 +377,8 @@ function highlightMap(details, postcode, envelope){
 				var parliConUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
 				x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 				
-				var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/CCG/CCG_JUL_2015_EN_BGC_V2/FeatureServer/0/query?where=&geometry=" +
-				x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ; 	
+				//var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/CCG/CCG_JUL_2015_EN_BGC_V2/FeatureServer/0/query?where=&geometry=" +
+				//x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ; 	
 										
 				var parentUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + extcode;
 				
@@ -407,8 +407,8 @@ function highlightMap(details, postcode, envelope){
 		    			 
 						 if (ctryName === 'Wales') {
 							 
-							 healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/LHB/LHB_DEC_2014_WA_BGC/FeatureServer/0/query?where=&geometry=" +
-						     x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson";	
+							 //healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/LHB/LHB_DEC_2014_WA_BGC/FeatureServer/0/query?where=&geometry=" +
+						    // x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson";	
 													
 							 if (area == null){
 									area = ctryCode;
@@ -452,13 +452,13 @@ function highlightMap(details, postcode, envelope){
 								   	  parliConName = result.features[0].attributes.PCON11NM;
 									  parliConCode = result.features[0].attributes.PCON11CD;
 									  
-									  $(document).ready(function(){
-										$.getJSON(healthUrl, function(result) {
-											healthName = result.features[0].attributes.LHB14NM;
-											healthCode = result.features[0].attributes.LHB14CD;
+									 // $(document).ready(function(){
+										//$.getJSON(healthUrl, function(result) {
+										//	healthName = result.features[0].attributes.LHB14NM;
+										//	healthCode = result.features[0].attributes.LHB14CD;
 											getTable(area);
-										});
-								  	  });
+										//});
+								  	 // });
 									});
 					    		 });	
 						 }	
@@ -500,13 +500,13 @@ function highlightMap(details, postcode, envelope){
 							   	  parliConName = result.features[0].attributes.PCON11NM;
 								  parliConCode = result.features[0].attributes.PCON11CD;
 								  
-								  $(document).ready(function(){
-									$.getJSON(healthUrl, function(result) {
-										healthName = result.features[0].attributes.CCG15NM;
-										healthCode = result.features[0].attributes.CCG15CD;									
+								//  $(document).ready(function(){
+								//	$.getJSON(healthUrl, function(result) {
+									//	healthName = result.features[0].attributes.CCG15NM;
+									//	healthCode = result.features[0].attributes.CCG15CD;									
 										getTable(area);
-									});
-							  	  });
+								//	});
+							  	 // });
 								});
 				    		 });
 						 }	
