@@ -354,15 +354,27 @@ function hoverMap(details, postcode, envelope){
 				//		healthCode = result.features[0].attributes.CCG15CD;
 				//	}); 
 				//}); 
-			//}			
-
-			var parliConUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
-			x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
-
-			$(document).ready(function(){
-				$.getJSON(parliConUrl, function(result) {
-					parliConName = result.features[0].attributes.PCON11NM;
-					parliConCode = result.features[0].attributes.PCON11CD;
+			//}	    
+			
+			
+			var parentUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + area;
+			
+	    	$(document).ready(function(){		
+	    	   $.getJSON(parentUrl, function(res2){
+	    	    	
+	    	   	 if (res2.parent && res2.parent.length === 0) {
+	    		    // do stuff when no features were found
+	    			$('#redbox').toggle(); 
+	    		   	$('#bluebox').toggle();
+	    	  		$('#titlebox').toggle();
+	    	   		$('#nav-search').attr('placeholder',"Search postcode or place name in England and Wales"); 
+	    	   		$('#map').toggle();
+	    	      }
+	    		  else
+	    		  {	
+	    			 parliConCode         = res2.parent.pcon.extcode;
+				     parliConName         = res2.parent.pcon.name;  
+	    		  }
 					
 					if (area !== ""){
 						
@@ -399,8 +411,8 @@ function hoverMap(details, postcode, envelope){
 							}
 						}		                	  
 					} 
-				}); //  $(document)
-			}); //  getJSON(parliConUrl	
+	    	   });
+	    	});
 		}  //  executeQueryTask
 
 		function  WD_boxDetail() {
