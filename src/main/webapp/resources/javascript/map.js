@@ -146,7 +146,7 @@ function WD_areaDetails(search){
 			});
 	   }
 	   else {
-			 var childUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + WD_extcode;
+			 var childUrl = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + WD_extcode;
 		    
 		     $(document).ready(function(){		
 	   		   $.getJSON(childUrl, function(res1){
@@ -162,7 +162,7 @@ function WD_areaDetails(search){
 	   			      
 	   			      if(search === 'name'){
 	   			          // name search call - require parent info		   			    	
-	   			    	  var parentUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + WD_extcode;
+	   			    	  var parentUrl = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + WD_extcode;
 	
 				    	  $(document).ready(function(){		
 				    	    $.getJSON(parentUrl, function(res2){
@@ -318,7 +318,7 @@ function LA_areaDetails(search){
 	});
   }
   else {
-   var childUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + LA_extcode;
+   var childUrl = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + LA_extcode;
    $(document).ready(function(){
       $.getJSON(childUrl, function(res1){
 	    if (res1.children && res1.children.empty === 0) {
@@ -332,7 +332,7 @@ function LA_areaDetails(search){
 		    
 		    if(search === 'name'){
 	          // name search call - require parent info		   			    	
-	    	  var parentUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + LA_extcode;
+	    	  var parentUrl = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + LA_extcode;
 	    	  
 	    	  $(document).ready(function(){		
 	    	    $.getJSON(parentUrl, function(res2){
@@ -477,7 +477,7 @@ function GOR_areaDetails(search){
     	});
     }    
     else {    	
-		 var childUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + GOR_extcode;
+		 var childUrl = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + GOR_extcode;
 	    
 	     $(document).ready(function(){		
  		   $.getJSON(childUrl, function(res1){
@@ -493,7 +493,7 @@ function GOR_areaDetails(search){
 		      
 		      if(search === 'name'){
 		          // name search call - require parent info		   			    	
-		    	  var parentUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + GOR_extcode;
+		    	  var parentUrl = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + GOR_extcode;
 	
 		    	  $(document).ready(function(){		
 		    	    $.getJSON(parentUrl, function(res2){
@@ -667,7 +667,7 @@ function CTRY_areaDetails(search,postcode){
    }    
    else {  
 	   
-	   var childUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + CTRY_extcode;
+	   var childUrl = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + CTRY_extcode;
 	    
 	   $(document).ready(function(){		
 	     $.getJSON(childUrl, function(res1){
@@ -732,7 +732,7 @@ function  OA_pcode_details(postcode) {
 	var doterm, details;
 	
 	// get layer info for postcode
-	var pcUrl     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/" + postcode;
+	var pcUrl     = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/" + postcode;
 	$(document).ready(function(){
 	  $.getJSON(pcUrl, function(result) {
 		if (result.features && result.features.length === 0) {
@@ -761,7 +761,7 @@ function  OA_pcode_details(postcode) {
 	        // check to see if postcode not obsolete (doterm === null valid)
 	        if(doterm === "") {         	
 	        	// get layer info for postcode
-	        	var url     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getenvelope/" + extCode;
+	        	var url     = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getenvelope/" + extCode;
 	        	$(document).ready(function(){
 	        	  $.getJSON(url, function(result) {
 	        		if (result.envelope && result.envelope.length === 0) {
@@ -900,7 +900,7 @@ $.extend({
 function getEnvelope(extcode,details,searchText,childname) {
 	
 	// get layer info for postcode
-	var url     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getenvelope/" + extcode;
+	var url     = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getenvelope/" + extcode;
 	$(document).ready(function(){
 	  $.getJSON(url, function(result) {
 		if (result.envelope && result.envelope.length === 0) {

@@ -380,7 +380,7 @@ function highlightMap(details, postcode, envelope){
 				//var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/CCG/CCG_JUL_2015_EN_BGC_V2/FeatureServer/0/query?where=&geometry=" +
 				//x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ; 	
 										
-				var parentUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + extcode;
+				var parentUrl = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + extcode;
 				
 		    	$(document).ready(function(){		
 		    	   $.getJSON(parentUrl, function(res2){

@@ -1,30 +1,30 @@
 Get child areas:
 
-http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildren/E05002319
+http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildren/E05002319
 
 Get child extcodes:
 
-http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/E05002319
+http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/E05002319
 
 Get parent areas:
 
-http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/E00082600
+http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/E00082600
 
 Get PostCode:
 
-http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/po155rr
+http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/po155rr
 
 Search:
 
-http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/search?term=fareham
+http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/search?term=fareham
 
 Envelope:
 
-http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getenvelope/E00082600
+http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getenvelope/E00082600
 
 Basic Search:
 
-http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/basicsearch?term=barn
+http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/basicsearch?term=barn
 
 AUTOCOMPLETE EXAMPLE
 <!doctype html>
@@ -39,7 +39,7 @@ AUTOCOMPLETE EXAMPLE
   <script>
   $(function() {
     $( "#birds" ).autocomplete({
-      source: "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/search",
+      source: "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/search",
       minLength: 3
     });
   });
