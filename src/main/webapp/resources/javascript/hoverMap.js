@@ -357,7 +357,7 @@ function hoverMap(details, postcode, envelope){
 			//}	    
 			
 			
-			var parentUrl = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + area;
+			var parentUrl = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getparent/" + area;
 			
 	    	$(document).ready(function(){		
 	    	   $.getJSON(parentUrl, function(res2){
