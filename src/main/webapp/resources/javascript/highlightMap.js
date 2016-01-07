@@ -374,8 +374,8 @@ function highlightMap(details, postcode, envelope){
 					}	 	          
 				}
 	
-				var parliConUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
-				x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
+				//var parliConUrl = "https://mapping.statistics.gov.uk/arcgis/rest/services/PCON/PCON_DEC_2011_GB_BGC/FeatureServer/0/query?where=&geometry=" +
+				//x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ;
 				
 				//var healthUrl   = "https://mapping.statistics.gov.uk/arcgis/rest/services/CCG/CCG_JUL_2015_EN_BGC_V2/FeatureServer/0/query?where=&geometry=" +
 				//x + "," + y + "&geometryType=esriGeometryPoint&inSR=27700&outFields=*&returnGeometry=false&outSR=27700&f=pjson" ; 	
@@ -428,7 +428,8 @@ function highlightMap(details, postcode, envelope){
 				    			 laCode           = res2.parent.la.extcode;
 				    			 laName           = res2.parent.la.name;
 				    			 wardCode         = extcode;
-				    			 wardName         = area;			    			 		 
+				    			 wardName         = area;
+				    			
 			    			 } 
 							 if(levelname === "OA") 
 			    			 {
@@ -447,20 +448,18 @@ function highlightMap(details, postcode, envelope){
 							 if (wardCode == null){
 									wardCode = ctryCode;
 							 }	
-								$(document).ready(function(){
-									$.getJSON(parliConUrl, function(result) {
-								   	  parliConName = result.features[0].attributes.PCON11NM;
-									  parliConCode = result.features[0].attributes.PCON11CD;
+							 
+							 parliConCode     = res2.parent.pcon.extcode;
+							 parliConName     = res2.parent.pcon.name; 
 									  
-									 // $(document).ready(function(){
-										//$.getJSON(healthUrl, function(result) {
-										//	healthName = result.features[0].attributes.LHB14NM;
-										//	healthCode = result.features[0].attributes.LHB14CD;
-											getTable(area);
-										//});
-								  	 // });
-									});
-					    		 });	
+						 // $(document).ready(function(){
+							//$.getJSON(healthUrl, function(result) {
+							//	healthName = result.features[0].attributes.LHB14NM;
+							//	healthCode = result.features[0].attributes.LHB14CD;
+								getTable(area);
+							//});
+					  	 // });
+							
 						 }	
 						 else { //ctryname = England
 							 
@@ -495,20 +494,16 @@ function highlightMap(details, postcode, envelope){
 				    			 wardName         = res2.parent.ward.name;							 
 			    			 } 
 							 
-							 $(document).ready(function(){
-								$.getJSON(parliConUrl, function(result) {
-							   	  parliConName = result.features[0].attributes.PCON11NM;
-								  parliConCode = result.features[0].attributes.PCON11CD;
-								  
-								//  $(document).ready(function(){
-								//	$.getJSON(healthUrl, function(result) {
-									//	healthName = result.features[0].attributes.CCG15NM;
-									//	healthCode = result.features[0].attributes.CCG15CD;									
-										getTable(area);
-								//	});
-							  	 // });
-								});
-				    		 });
+							 parliConCode         = res2.parent.pcon.extcode;
+							 parliConName         = res2.parent.pcon.name; 
+															  
+						//  $(document).ready(function(){
+						//	$.getJSON(healthUrl, function(result) {
+							//	healthName = result.features[0].attributes.CCG15NM;
+							//	healthCode = result.features[0].attributes.CCG15CD;									
+								getTable(area);
+						//	});
+					  	 // });
 						 }	
 						 
 						 function  getTable() {		    		    
