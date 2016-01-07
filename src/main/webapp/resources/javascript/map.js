@@ -184,7 +184,7 @@ function WD_areaDetails(){
    parliCon_extcode	= $.getUrlVar('pc');
    health_extcode 	= $.getUrlVar('hc');  
    
-   jsonFile1 = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + WD_extcode;
+   jsonFile1 = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + WD_extcode;
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
     	  
@@ -291,7 +291,7 @@ function LA_areaDetails(){
    parliCon_extcode	= $.getUrlVar('pc');
    health_extcode 	= $.getUrlVar('hc');
    
-   jsonFile1 = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + LA_extcode;
+   jsonFile1 = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + LA_extcode;
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
     	  
@@ -396,7 +396,7 @@ function GOR_areaDetails(){
     parliCon_extcode = $.getUrlVar('pc');
     health_extcode 	 = $.getUrlVar('hc');
    
-    jsonFile1 = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + GOR_extcode;
+    jsonFile1 = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + GOR_extcode;
     $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
     	  
@@ -500,7 +500,7 @@ function CTRY_areaDetails(){
     parliCon_extcode = $.getUrlVar('pc');
     health_extcode 	 = $.getUrlVar('hc');
     
-    jsonFile1 = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + CTRY_extcode;
+    jsonFile1 = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + CTRY_extcode;
     $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
     	  
@@ -601,7 +601,7 @@ function  OA_pcode_details(postcode,queryExtent) {
 	var doterm;
 	
 	// get layer info for postcode
-	var pcUrl     = "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/" + postcode;
+	var pcUrl     = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/" + postcode;
 	$(document).ready(function(){		
 	  $.getJSON(pcUrl, function(result) {		  
 		  
