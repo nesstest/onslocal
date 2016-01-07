@@ -184,7 +184,7 @@ function WD_areaDetails(){
    parliCon_extcode	= $.getUrlVar('pc');
    health_extcode 	= $.getUrlVar('hc');  
    
-   jsonFile1 = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + WD_extcode;
+    jsonFile1 = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getchildrenextcode/" + WD_extcode;
    $(document).ready(function(){
       $.getJSON(jsonFile1, function(res1){
     	  
