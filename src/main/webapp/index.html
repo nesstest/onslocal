@@ -12,8 +12,8 @@
 	<link rel="stylesheet"	href="http://js.arcgis.com/3.15/dijit/themes/claro/claro.css">
 	<link rel="stylesheet"	href="http://js.arcgis.com/3.15/dijit/themes/tundra/tundra.css">
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
-	<script type="text/javascript"
-		src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+	
 	<!-- Latest minified and concatenated JS to go in head -->
 	<!-- Latest minified and concatenated JS to go in the footer -->
 	<script src="resources/javascript/footer.js" type="text/javascript"></script>
@@ -27,7 +27,7 @@
 	<script src="resources/javascript/getDataTable.js" type="text/javascript"></script>
 	<script src="resources/javascript/cookiesHandler.js" type="text/javascript"></script>
 	<script defer src="http://js.arcgis.com/3.15/" type="text/javascript"></script>
-	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>	
 	
 	<style type="text/css">
 	html,body {
@@ -98,7 +98,7 @@
 		$(function() {
 			$( "#nav-search" ).autocomplete({
 		      minLength: 3,
-		      source: "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/search",
+		      source: "http://onsdata-glassfishtest.rhcloud.com/data-web/rs/nessdata/search",
 		   
 		      select: function( event, ui ) {
 		    	
@@ -262,9 +262,11 @@
 	      document.getElementById('tab1').style.display = 'none';
 	      document.getElementById('tab2').style.display = 'none';
 	      document.getElementById('tab3').style.display = 'none';
+	      document.getElementById('tab4').style.display = 'none';
 	      document.getElementById('li_tab1').setAttribute("class", "");
 	      document.getElementById('li_tab2').setAttribute("class", "");
 	      document.getElementById('li_tab3').setAttribute("class", "");
+	      document.getElementById('li_tab4').setAttribute("class", "");
 	      document.getElementById(tab).style.display = 'block';	    
 	      document.getElementById('li_'+ tab).setAttribute("class", "current");
 	      current_tab = tab;
@@ -279,14 +281,18 @@
     	    	var originalValueText = $("#detail-text").text();
     			$("#detail-text").text(originalValueText == "More Detail" ? "Less Detail" : "More Detail" );
     			$("#detail-text-rel").text(originalValueText == "More Detail" ? "Less Detail" : "More Detail" );
+    			$("#detail-text-eco").text(originalValueText == "More Detail" ? "Less Detail" : "More Detail" );
+    			$("#detail-text-housing").text(originalValueText == "More Detail" ? "Less Detail" : "More Detail" );
     		    $("#tables").toggle();
     		    $("#tables-rel").toggle();
+    		    $("#tables-eco").toggle();
+    		    $("#tables-housing").toggle();
     	   });
 	    });
 	</script>
 </head>
 
-<body class="tundra">	
+<body class="tundra">
 	<div class="wrapper panel--mar nav-panels">
 		<div class="grid-wrap">
 			<header>
@@ -324,7 +330,6 @@
 					   $('#nav-search').attr('placeholder',searchtext);                   
 			       </script>
 				</form>
-				
 			</div>
 			
 			<article id="redbox" class="box--warning" style="margin: auto; width: 600px; margin-top: 20px; margin-bottom: 20px; display: none;" >
@@ -384,6 +389,7 @@
 				<li id="li_tab1" class="current" onclick="tab('tab1')"><a>Population</a></li>
 				<li id="li_tab2" onclick="tab('tab2')"><a>Religion</a></li>
 				<li id="li_tab3" onclick="tab('tab3')"><a>Economy</a></li>
+				<li id="li_tab4" onclick="tab('tab4')"><a>Housing</a></li>
 			</ul>
 			<div id="Content_Area">
 				<div id="tab1">
@@ -461,10 +467,7 @@
 								<div id="popSexGeog">
 									<!-- contents created from getDataTable.js -->
 									<br>
-
-
 								</div>
-
 							</div>
 
 							<div>
@@ -473,8 +476,6 @@
 									sex; multiple geographies</p>
 							</div>
 
-
-
 							<div class="download_btn" onClick="download(current_tab, 'xlsx')">
 								.XLSX (166MB) <span class="icon icon-download"
 									role="presentation"></span>
@@ -482,27 +483,19 @@
 							<div class="download_btn" onClick="download(current_tab, 'csv')">
 								.CSV (36MB) <span class="icon icon-download" role="presentation"></span>
 							</div>
-
-
 							<br> <br> <br>
-
 						</div>
 
 						<!-- Table 2 -->
-
-
 						<div>
 							<div id="myDiv" class="container2 zigzag">
 								<!-- script>getData("E00116582",'OA','areaname','ageGeog');</script> -->
 								<div id="ageGeog">
 									<!-- contents created from getDataTable.js -->
 									<br>
-
-
-								</div>
-
+								</div> 
 							</div>
-
+							
 							<div>
 								<p class="tablesubtitle">Download full table</p>
 								<p class="tablesubsubtitle">Download contents: population by
@@ -517,7 +510,6 @@
 								.CSV (36MB) <span class="icon icon-download" role="presentation"></span>
 							</div>
 							<br> <br> <br>
-
 						</div>
 
 
@@ -529,10 +521,7 @@
 								<div id="popTime">
 									<!-- contents created from getDataTable.js -->
 									<br>
-
-
 								</div>
-
 							</div>
 
 							<div>
@@ -550,7 +539,6 @@
 								.CSV (36MB) <span class="icon icon-download" role="presentation"></span>
 							</div>
 							<br> <br> <br>
-
 						</div>
 					</div>
 				</div>
@@ -675,11 +663,8 @@
 								<div id="relGeog">
 									<!-- contents created from getDataTable.js -->
 									<br>
-
-
 								</div>
-
-							</div>
+							</div>						
 
 							<div>
 								<p class="tablesubtitle">Download full table</p>
@@ -712,8 +697,8 @@
 									<br>
 								</div>
 							</div>
-
-							<div>
+							
+							<div>						
 								<p class="tablesubtitle">Download full table</p>
 								<p class="tablesubsubtitle">Download contents: religion by
 									age (grouped from 0-15 to 75 and over); multiple religions;
@@ -757,22 +742,364 @@
 							<div class="download_btn" onClick="download(current_tab, 'csv')">
 								.CSV (39MB) <span class="icon icon-download" role="presentation"></span>
 							</div>
-							<br> <br> <br>
+							<br><br><br>
+						</div>
+					</div>
+				</div>		
+			
+				<div id="tab3" style="display: none;">
+					<div id="economyChart" style="display: none;">
+						<article class="wrapper">
+							<div class="grid-wrap panel panel--separated--bottom">
+								<div class="grid-col desktop-grid-one-half">
+									<header>
+										<h2>Economy</h2>
+									</header>
+									<dl
+										class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+										<dt class="grid-col desktop-grid-one-half">
+											<h3 class="stat__figure delta">
+												<a href="#">Economic Activity</a>
+											</h3>
+										</dt>
+										<dd class="grid-col desktop-grid-one-half flush">
+											<div class="stat__figure delta" id="ks601ew-activity"></div>
+											<div class="stat__figure delta">
+												<span class="stat__description">2011</span>
+											</div>
+										</dd>
+									</dl>
+									<dl
+										class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
+										<dt class="grid-col desktop-grid-one-half">
+											<h3 class="stat__figure delta">
+												<a href="#">Employee part-time</a>
+											</h3>
+										</dt>
+										<dd class="grid-col desktop-grid-one-half flush">
+											<div class="stat__figure delta" id="ks601ew-parttime">
 
+											</div>
+											<div class="stat__figure delta">
+												<span class="stat__description">2011</span>
+											</div>
+										</dd>
+									</dl>
+									<dl
+										class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+										<dt class="grid-col desktop-grid-one-half">
+											<h3 class="stat__figure delta">
+												<a href="#">Employee full-time</a>
+											</h3>
+										</dt>
+										<dd class="grid-col desktop-grid-one-half flush">
+											<div class="stat__figure delta" id="ks601ew-fulltime"></div>
+											<div class="stat__figure delta">
+												<span class="stat__description">2011</span>
+											</div>
+										</dd>
+									</dl>
+									<dl
+										class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+										<dt class="grid-col desktop-grid-one-half">
+											<h3 class="stat__figure delta">
+												<a href="#">Self employed</a>
+											</h3>
+										</dt>
+										<dd class="grid-col desktop-grid-one-half flush">
+											<div class="stat__figure delta" id="ks601ew-selfemployed">
+											</div>
+											<div class="stat__figure delta">
+												<span class="stat__description">2011</span>
+											</div>
+										</dd>
+									</dl>
+									<dl
+										class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
+										<dt class="grid-col desktop-grid-one-half">
+											<h3 class="stat__figure delta">
+												<a href="#">Unemployed</a>
+											</h3>
+										</dt>
+										<dd class="grid-col desktop-grid-one-half flush">
+											<div class="stat__figure delta" id="ks601ew-unemployed"></div>
+											<div class="stat__figure delta">
+												<span class="stat__description">2011</span>
+											</div>
+										</dd>
+									</dl>
+									<dl class="grid-wrap panel flush--top flush--bottom">
+										<dt class="grid-col desktop-grid-one-half">
+											<h3 class="stat__figure delta">
+												<a href="#">Full-time student</a>
+											</h3>
+										</dt>
+										<dd class="grid-col desktop-grid-one-half flush">
+											<div class="stat__figure delta" id="ks601ew-student"></div>
+											<div class="stat__figure delta">
+												<span class="stat__description">2011</span>
+											</div>
+										</dd>
+									</dl>
+								</div>
+								<div class="grid-col desktop-grid-one-half" id="economy-bar"
+									data-chart="stacked-bar" style="width: 450px"></div>
+							</div>
+						</article>
+					</div>
+
+					<div id="additional-economy-data"
+						class="accordion is-collapsed show-more" style="display: none;">
+						<h2 id="detail-text-eco" class="accordion__title delta"
+							aria-controls="content-0">More Detail</h2>
+						<div id="content-3" class="accordion__content"
+							aria-labelledby="sc-0"></div>
+					</div>
+					<div class="show-tables" id="tables-eco" style="display: none;">
+					
+						<!-- Table 1 -->
+						<div>
+							<div id="myDiv" class="container2 zigzag">
+								<div id="ecoActiv">
+									<!-- contents created from getDataTable.js -->
+									<br>
+								</div>
+							</div>
+
+							<div>
+								<p class="tablesubtitle">Download full table</p>
+								<p class="tablesubsubtitle">Download contents: economic activity by
+									sex by age; multiple geographies</p>
+							</div>
+
+							<div class="download_btn" onClick="download(current_tab, 'xlsx', 'table1')">
+								.XLSX (166MB) <span class="icon icon-download"
+									role="presentation"></span>
+							</div>
+							
+							<div class="download_btn" onClick="download(current_tab, 'csv', 'table1')">
+								.CSV (39MB) <span class="icon icon-download" role="presentation"></span>
+							</div>
+							<br><br><br>
 						</div>
 						
+						<!-- Table 2 -->
+						<div>
+							<div id="myDiv" class="container2 zigzag">
+								<div id="ecoIndustry">
+									<!-- contents created from getDataTable.js -->
+									<br>
+								</div>
+							</div>
 
+							<div>
+								<p class="tablesubtitle">Download full table</p>
+								<p class="tablesubsubtitle">Download contents: industry; multiple geographies</p>
+							</div>
+
+							<div class="download_btn" onClick="download(current_tab, 'xlsx', 'table2')">
+								.XLSX (166MB) <span class="icon icon-download"
+									role="presentation"></span>
+							</div>
+							
+							<div class="download_btn" onClick="download(current_tab, 'csv', 'table2')">
+								.CSV (39MB) <span class="icon icon-download" role="presentation"></span>
+							</div>
+							<br><br><br>
+						</div>
+						
+						<!-- Table 3 -->
+						<div>
+							<div id="myDiv" class="container2 zigzag">
+								<div id="ecoOccupation">
+									<!-- contents created from getDataTable.js -->
+									<br>
+								</div>
+							</div>
+
+							<div>
+								<p class="tablesubtitle">Download full table</p>
+								<p class="tablesubsubtitle">Download contents: occupation by sex; multiple geographies</p>
+							</div>
+
+							<div class="download_btn" onClick="download(current_tab, 'xlsx', 'table3')">
+								.XLSX (166MB) <span class="icon icon-download"
+									role="presentation"></span>
+							</div>
+							
+							<div class="download_btn" onClick="download(current_tab, 'csv', 'table3')">
+								.CSV (39MB) <span class="icon icon-download" role="presentation"></span>
+							</div>
+							<br><br><br>
+						</div>
+					</div>					
+				</div>
+				
+				<div id="tab4" style="display: none;">
+					<div id="housingChart" style="display: none;">
+						<article class="wrapper">
+							<div class="grid-wrap panel panel--separated--bottom">
+								<div class="grid-col desktop-grid-one-half">
+									<header>
+										<h2>Housing</h2>
+									</header>
+									<dl
+										class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+										<dt class="grid-col desktop-grid-one-half">
+											<h3 class="stat__figure delta">
+												<a href="#">Accommodation Total</a>
+											</h3>
+										</dt>
+										<dd class="grid-col desktop-grid-one-half flush">
+											<div class="stat__figure delta" id="qs401ew-all"></div>
+											<div class="stat__figure delta">
+												<span class="stat__description">2011</span>
+											</div>
+										</dd>
+									</dl>											
+									<dl
+										class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+										<dt class="grid-col desktop-grid-one-half">
+											<h3 class="stat__figure delta">
+												<a href="#">Whole house or bungalow</a>
+											</h3>
+										</dt>
+										<dd class="grid-col desktop-grid-one-half flush">
+											<div class="stat__figure delta" id="qs401ew-unshared_house"></div>
+											<div class="stat__figure delta">
+												<span class="stat__description">2011</span>
+											</div>
+										</dd>
+									</dl>
+									<dl
+										class="grid-wrap flush--top flush--bottom panel panel--separated--bottom ">
+										<dt class="grid-col desktop-grid-one-half">
+											<h3 class="stat__figure delta">
+												<a href="#">Flat, maisonette or apartment</a>
+											</h3>
+										</dt>
+										<dd class="grid-col desktop-grid-one-half flush">
+											<div class="stat__figure delta" id="qs401ew-unshared_flat">
+											</div>
+											<div class="stat__figure delta">
+												<span class="stat__description">2011</span>
+											</div>
+										</dd>
+									</dl>
+									<dl
+										class="grid-wrap flush--top flush--bottom panel panel--separated--bottom">
+										<dt class="grid-col desktop-grid-one-half">
+											<h3 class="stat__figure delta">
+												<a href="#">Caravan or other mobile or temporary structure</a>
+											</h3>
+										</dt>
+										<dd class="grid-col desktop-grid-one-half flush">
+											<div class="stat__figure delta" id="qs401ew-unshared_caravan"></div>
+											<div class="stat__figure delta">
+												<span class="stat__description">2011</span>
+											</div>
+										</dd>
+									</dl>
+									<dl class="grid-wrap panel flush--top flush--bottom">
+										<dt class="grid-col desktop-grid-one-half">
+											<h3 class="stat__figure delta">
+												<a href="#">Shared dwelling</a>
+											</h3>
+										</dt>
+										<dd class="grid-col desktop-grid-one-half flush">
+											<div class="stat__figure delta" id="qs401ew-shared"></div>
+											<div class="stat__figure delta">
+												<span class="stat__description">2011</span>
+											</div>
+										</dd>
+									</dl>
+								</div>
+								<div class="grid-col desktop-grid-one-half" id="housing-bar"
+									data-chart="stacked-bar" style="width: 450px"></div>
+							</div>
+						</article>
 					</div>
-				</div>
-				<div id="tab3" style="display: none;">
-					<header>
-						<h2>Economy data to follow</h2>
-					</header>
-				</div>
+
+					<div id="additional-housing-data"
+						class="accordion is-collapsed show-more" style="display: none;">
+						<h2 id="detail-text-housing" class="accordion__title delta"
+							aria-controls="content-0">More Detail</h2>
+						<div id="content-3" class="accordion__content"
+							aria-labelledby="sc-0"></div>
+					</div>				
+
+				<div class="show-tables" id="tables-housing" style="display: none;">
+	
+					<!-- Table 1 -->
+					<div>
+						<div id="myDiv" class="container2 zigzag">
+							<div id="housingHeating">
+								<!-- contents created from getDataTable.js -->
+								<br>
+							</div>
+						</div>
+						<div>
+							<p class="tablesubtitle">Download full table</p>
+							<p class="tablesubsubtitle">Download contents: central heating by
+								geography; multiple geographies</p>
+						</div>
+						<div class="download_btn" onClick="download(current_tab, 'xlsx', 'table1')">
+							.XLSX (166MB) <span class="icon icon-download"
+								role="presentation"></span>
+						</div>
+						<div class="download_btn" onClick="download(current_tab, 'csv', 'table1')">
+							.CSV (39MB) <span class="icon icon-download" role="presentation"></span>
+						</div>
+						<br><br><br>
+					</div>	
+					<!-- Table 2 -->
+					<div>
+						<div id="myDiv" class="container2 zigzag">
+							<div id="housingBedroom">
+								<!-- contents created from getDataTable.js -->
+								<br>
+							</div>
+						</div>
+						<div>
+							<p class="tablesubtitle">Download full table</p>
+							<p class="tablesubsubtitle">Download contents: Persons per bedroom by
+								geography; multiple geographies</p>
+						</div>
+						<div class="download_btn" onClick="download(current_tab, 'xlsx', 'table2')">
+							.XLSX (166MB) <span class="icon icon-download"
+								role="presentation"></span>
+						</div>
+						<div class="download_btn" onClick="download(current_tab, 'csv', 'table2')">
+							.CSV (39MB) <span class="icon icon-download" role="presentation"></span>
+						</div>
+						<br><br><br>
+					</div>	
+					<!-- Table 3 -->
+					<div>
+						<div id="myDiv" class="container2 zigzag">
+							<div id="housingCar">
+								<!-- contents created from getDataTable.js -->
+								<br>
+							</div>
+						</div>
+						<div>
+							<p class="tablesubtitle">Download full table</p>
+							<p class="tablesubsubtitle">Download contents: Car or van availability by
+								geography; multiple geographies</p>
+						</div>
+						<div class="download_btn" onClick="download(current_tab, 'xlsx', 'table3')">
+							.XLSX (166MB) <span class="icon icon-download"
+								role="presentation"></span>
+						</div>
+						<div class="download_btn" onClick="download(current_tab, 'csv', 'table3')">
+							.CSV (39MB) <span class="icon icon-download" role="presentation"></span>
+						</div>
+						<br><br><br>
+					</div>	
+				  </div>
+			    </div> 			
 			</div>
 		</div>
-
-
 
 		<!-- run cookie code to comtrol tabs -->
 		<script type="text/javascript">
