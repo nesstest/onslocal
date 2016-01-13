@@ -389,8 +389,6 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableRow3 = tableRow3 + "<td>"+muslim+"</td>";//<td>Not Available</td>";
 				}
 
-
-
 				if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
 				{
 					tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
@@ -402,8 +400,6 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableRow3 = tableRow3 + "<td>"+muslim+"</td>";
 				}
 
-
-
 				if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 				{
 					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
@@ -414,8 +410,6 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableRow2 = tableRow2 + "<td>"+christian+"</td>";
 					tableRow3 = tableRow3 + "<td>"+muslim+"</td>";
 				}
-
-
 
 				tableRow1 = tableRow1 + "</tr>";
 				tableRow2 = tableRow2 + "</tr>";
@@ -579,7 +573,6 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
 					tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
 					tableRow4 = tableRow4 + "<td>"+groupFour+"</td><td>Not Available</td>";
-
 				}
 
 				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
@@ -1075,7 +1068,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
                         electric_ch = commaSeparateNumber(resultWard["QS415EW"].value[3]);
                         oil_ch      = commaSeparateNumber(resultWard["QS415EW"].value[4]);
                         solid_ch    = commaSeparateNumber(resultWard["QS415EW"].value[5]);
-                       tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
+                        tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
                         tableRow2 = tableRow2 + "<td>"+no_ch+"</td><td>Not Available</td>";
                         tableRow3 = tableRow3 + "<td>"+gas_ch+"</td><td>Not Available</td>";
                         tableRow4 = tableRow4 + "<td>"+electric_ch+"</td><td>Not Available</td>";
@@ -1138,8 +1131,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
                         tableRow4   = tableRow4 + "<td>"+electric_ch+"</td>";
                         tableRow5   = tableRow5 + "<td>"+oil_ch+"</td>";
                         tableRow6   = tableRow6 + "<td>"+solid_ch+"</td>";
-                  }
-                  
+                  }                  
     
                   tableRow1 = tableRow1 + "</tr>";
                   tableRow2 = tableRow2 + "</tr>";
@@ -1167,8 +1159,8 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
            tableRow1 = "<tr><td>Total</td>"
            tableRow2 = "<tr><td>Up to 0.5 persons per bedroom</td>"
            tableRow3 = "<tr><td>Over 0.5 and up to 1.0 persons per bedroom</td>"
-        tableRow4 = "<tr><td>Over 1.0 and up to 1.5 persons per bedroom</td>"
-        tableRow5 = "<tr><td>Over 1.5 persons per bedroom</td>"   
+           tableRow4 = "<tr><td>Over 1.0 and up to 1.5 persons per bedroom</td>"
+           tableRow5 = "<tr><td>Over 1.5 persons per bedroom</td>"   
            var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/QS414EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false";
     
            $.getJSON(URL, function(result)
@@ -1200,7 +1192,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
                         over_pt5_to_1       = commaSeparateNumber(resultWard["QS414EW"].value[2]);
                         over_1_to_1pt5      = commaSeparateNumber(resultWard["QS414EW"].value[3]);
                         over_1pt5           = commaSeparateNumber(resultWard["QS414EW"].value[4]);
-                         tableRow1           = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
+                        tableRow1           = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
                         tableRow2           = tableRow2 + "<td>"+up_to_pt5+"</td><td>Not Available</td>";
                         tableRow3           = tableRow3 + "<td>"+over_pt5_to_1+"</td><td>Not Available</td>";
                         tableRow4           = tableRow4 + "<td>"+over_1_to_1pt5+"</td><td>Not Available</td>";
@@ -1282,8 +1274,8 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
            tableRow1 = "<tr><td>Total</td>"
            tableRow2 = "<tr><td>No cars or vans in household</td>"
            tableRow3 = "<tr><td>1 car or van in household</td>"
-        tableRow4 = "<tr><td>2 cars or vans in household</td>"
-        tableRow5 = "<tr><td>3 cars or vans in household</td>"    
+           tableRow4 = "<tr><td>2 cars or vans in household</td>"
+           tableRow5 = "<tr><td>3 cars or vans in household</td>"    
            tableRow6 = "<tr><td>4 or more cars or vans in household</td>"       
            var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/KS404EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false";
     
