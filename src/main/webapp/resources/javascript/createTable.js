@@ -108,7 +108,7 @@ function createReligion(extcode, levelname){
 	else{
 		//call WDA API for Statistical level Data
 		var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+
-		"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121&dm/CL_0000163=CI_0001887";
+		"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121&dm/CL_0000163=CI_0001887";		
 	}
 	
 	
@@ -139,6 +139,159 @@ function createReligion(extcode, levelname){
 			createBarChart(christian, muslim, buddhist, sikh, other);
 		});	
 	});		
+}
+
+function createEconomy(extcode, levelname){
+	if(document.getElementById("economyChart").getAttribute("style") == "display: none;")
+	{
+		$("#economyChart").toggle();
+		$("#additional-economy-data").toggle();
+	}
+		
+	if (levelname =="WD")
+		{
+		//call WDA API 	for administrative level Data
+		var URL1 = "http://data.ons.gov.uk/ons/api/data/dataset/KS601EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+extcode+
+		"&jsontype=json-stat&totals=false";
+		
+		var URL2 = "http://data.ons.gov.uk/ons/api/data/dataset/KS602EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+extcode+
+		"&jsontype=json-stat&totals=false";
+		
+		var URL3 = "http://data.ons.gov.uk/ons/api/data/dataset/KS603EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+extcode+
+		"&jsontype=json-stat&totals=false";
+		
+		}
+	else{
+		//call WDA API for Statistical level Data
+		var URL1  = "http://data.ons.gov.uk/ons/api/data/dataset/KS601EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+
+		"&jsontype=json-stat&totals=false";	
+		
+		var URL2  = "http://data.ons.gov.uk/ons/api/data/dataset/KS602EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+
+		"&jsontype=json-stat&totals=false";	
+		
+		var URL3  = "http://data.ons.gov.uk/ons/api/data/dataset/KS603EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+
+		"&jsontype=json-stat&totals=false";	
+	}	
+	
+	$(document).ready(function(){
+		$.getJSON(URL1, function(result){
+			
+			activity       = result["KS601EW Segment_1"].value[0];			
+			parttime       = result["KS601EW Segment_1"].value[1];
+			fulltime       = result["KS601EW Segment_1"].value[2];
+			selfemployed   = result["KS601EW Segment_1"].value[3];
+			unemployed     = result["KS601EW Segment_1"].value[4];
+			student        = result["KS601EW Segment_1"].value[5];
+			
+			$('#ks601ew-activity').empty();
+			$('#ks601ew-parttime').empty();
+			$('#ks601ew-fulltime').empty();
+			$('#ks601ew-selfemployed').empty();
+			$('#ks601ew-unemployed').empty();
+			$('#ks601ew-student').empty();
+			
+			$('#ks601ew-activity').append(commaSeparateNumber(activity));
+			$('#ks601ew-parttime').append(commaSeparateNumber(parttime));
+			$('#ks601ew-fulltime').append(commaSeparateNumber(fulltime));
+			$('#ks601ew-selfemployed').append(commaSeparateNumber(selfemployed));
+			$('#ks601ew-unemployed').append(commaSeparateNumber(unemployed));
+			$('#ks601ew-student').append(commaSeparateNumber(student));
+			
+			
+			//all persons
+			age16_24_unemployed    = result["KS601EW Segment_4"].value[0];
+			age50_75_unemployed    = result["KS601EW Segment_4"].value[1];
+			neverworked_unemployed = result["KS601EW Segment_4"].value[2];
+			longterm_unemployed    = result["KS601EW Segment_4"].value[3];				
+			
+			$(document).ready(function(){
+				$.getJSON(URL2, function(result){	
+				    
+					//males
+					age16_24_unemployed_m    = result["KS602EW Segment_4"].value[0];
+					age50_75_unemployed_m    = result["KS602EW Segment_4"].value[1];
+					neverworked_unemployed_m = result["KS602EW Segment_4"].value[2];
+					longterm_unemployed_m    = result["KS602EW Segment_4"].value[3];
+					
+					$(document).ready(function(){
+						$.getJSON(URL3, function(result){	
+							
+							//females
+							age16_24_unemployed_f   = result["KS603EW Segment_4"].value[0];
+							age50_75_unemployed_f    = result["KS603EW Segment_4"].value[1];
+							neverworked_unemployed_f = result["KS603EW Segment_4"].value[2];
+							longterm_unemployed_f    = result["KS603EW Segment_4"].value[3];							
+			
+			                createEconomicBarChart(age16_24_unemployed,	age50_75_unemployed, neverworked_unemployed, longterm_unemployed, age16_24_unemployed_m, age50_75_unemployed_m, neverworked_unemployed_m, longterm_unemployed_m, age16_24_unemployed_f, age50_75_unemployed_f, neverworked_unemployed_f, longterm_unemployed_f);							
+						});	
+					});		
+				});	
+			});					
+		});	
+	});		
+}
+
+function createHousing(extcode, levelname){
+	
+    if(document.getElementById("housingChart").getAttribute("style") == "display: none;")
+    {
+           $("#housingChart").toggle();
+           $("#additional-housing-data").toggle();
+    }  
+           
+    if (levelname =="WD")
+           {
+           //call WDA API       for administrative level Data
+           var URL1 = "http://data.ons.gov.uk/ons/api/data/dataset/QS401EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+extcode+
+           "&jsontype=json-stat&totals=false";      
+           var URL2  = "http://data.ons.gov.uk/ons/api/data/dataset/LC4101EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+extcode+
+           "&jsontype=json-stat&totals=false";      
+           }
+    else{
+           //call WDA API for Statistical level Data
+           var URL1  = "http://data.ons.gov.uk/ons/api/data/dataset/QS401EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+
+           "&jsontype=json-stat&totals=false";      
+           var URL2  = "http://data.ons.gov.uk/ons/api/data/dataset/LC4101EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+
+           "&jsontype=json-stat&totals=false";      
+    }      
+    
+    $(document).ready(function(){ 
+           $.getJSON(URL1, function(result){
+                  //Accommodation type – People
+                  all               = result["QS401EW"].value[0]; 
+                  unshared_house    = result["QS401EW"].value[1];
+                  unshared_flat     = result["QS401EW"].value[2];
+                  unshared_caravan  = result["QS401EW"].value[3];
+                  shared            = result["QS401EW"].value[4];
+                  
+                  $('#qs401ew-all').empty();
+                  $('#qs401ew-unshared_house').empty();
+                  $('#qs401ew-unshared_flat').empty();
+                  $('#qs401ew-unshared_caravan').empty();
+                  $('#qs401ew-shared').empty();
+                  
+                  $('#qs401ew-all').append(commaSeparateNumber(all));
+                  $('#qs401ew-unshared_house').append(commaSeparateNumber(unshared_house));
+                  $('#qs401ew-unshared_flat').append(commaSeparateNumber(unshared_flat));
+                  $('#qs401ew-unshared_caravan').append(commaSeparateNumber(unshared_caravan));
+                  $('#qs401ew-shared').append(commaSeparateNumber(shared));
+                  
+                  $(document).ready(function(){
+                        $.getJSON(URL2, function(result){
+                               //Tenure by household composition
+                               tenure_total         = result["LC4101EW"].value[0];
+                               ownedShared_total    = result["LC4101EW"].value[1];
+                               owned_outright       = result["LC4101EW"].value[2];
+                               owned_other          = result["LC4101EW"].value[3];
+                               rented_total         = result["LC4101EW"].value[4];
+                               social_rented        = result["LC4101EW"].value[5];
+                               private_rented       = result["LC4101EW"].value[6];    
+                  
+                          createHousingBarChart(tenure_total, ownedShared_total, owned_outright, owned_other, rented_total, social_rented, private_rented);           
+                        });    
+                  });                               
+           });    
+    });           
 }
 
 function commaSeparateNumber(val){

@@ -204,3 +204,86 @@ function createBarChart(var1, var2, var3, var4, var5) {
 	     }			
 	 })				
 }
+
+function createEconomicBarChart(var1, var2, var3, var4, var5, var6, var7, var8, var9, var10, var11, var12) {
+		
+    $('#economy-bar').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Economic activity unemployed'
+        },
+        xAxis: {
+            categories: ['Percentage of unemployed: Age 16-24', 'Percentage of unemployed: Age 50-74', 'Percentage of unemployed: Never worked', 'Percentage of long term unemployed']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+              text: null
+            }
+        },
+        legend: {
+            reversed: true
+        },
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+            shared: true
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal'
+            }
+        },
+        series: [{
+            name: 'Females',
+            data: [age16_24_unemployed_f, age50_75_unemployed_f, neverworked_unemployed_f, longterm_unemployed_f]
+        
+        }, {
+            name: 'Males',
+            data: [age16_24_unemployed_m, age50_75_unemployed_m, neverworked_unemployed_m, longterm_unemployed_m]
+        }, {
+            name: 'All persons',
+            data: [age16_24_unemployed,	age50_75_unemployed, neverworked_unemployed, longterm_unemployed]
+        }]
+    });
+}
+function createHousingBarChart(var1, var2, var3, var4, var5, var6, var7) {	
+    
+    $('#housing-bar').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Tenure by household, 2011'
+        },
+        xAxis: {
+            categories: ['Tenure Total', 'Owned or shared ownership: Total', 'Owned outright', 'Owned with a mortage or loan or shared ownership','Rented or living rent free: Total','Social rented','Private rented or living rent free']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+              text: null
+            }
+        },
+        legend: {
+                   backgroundColor: '#666666',
+                   shadow: false
+              },
+        tooltip: {
+                   shared: false,
+                   formatter: function () {
+                   return (this.x, 'Count: ' + commaSeparateNumber(this.y) + '<br/>');
+                   }
+              },
+              plotOptions: {
+                column: {
+                   stacking: 'normal'
+                }
+           },
+        series: [{
+            name: 'Housing',
+            data: [tenure_total, ownedShared_total, owned_outright, owned_other, rented_total, social_rented, private_rented]   
+        }]
+    });
+}
