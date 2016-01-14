@@ -245,14 +245,14 @@ function createHousing(extcode, levelname){
            var URL1 = "http://data.ons.gov.uk/ons/api/data/dataset/QS401EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+extcode+
            "&jsontype=json-stat&totals=false";      
            var URL2  = "http://data.ons.gov.uk/ons/api/data/dataset/LC4101EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+extcode+
-           "&jsontype=json-stat&totals=false";      
+           "&jsontype=json-stat&totals=true&dm/CL_0000491=CI_0003188,CI_0003189,CI_0000117,CI_0003193,CI_0003192,CI_0003191,CI_0003190";      
            }
     else{
            //call WDA API for Statistical level Data
            var URL1  = "http://data.ons.gov.uk/ons/api/data/dataset/QS401EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+
            "&jsontype=json-stat&totals=false";      
            var URL2  = "http://data.ons.gov.uk/ons/api/data/dataset/LC4101EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+extcode+
-           "&jsontype=json-stat&totals=false";      
+           "&jsontype=json-stat&totals=true&dm/CL_0000491=CI_0003188,CI_0003189,CI_0000117,CI_0003193,CI_0003192,CI_0003191,CI_0003190";     
     }      
     
     $(document).ready(function(){ 
