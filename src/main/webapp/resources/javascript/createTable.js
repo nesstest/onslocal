@@ -257,14 +257,13 @@ function createHousing(extcode, levelname){
     
     $(document).ready(function(){ 
            $.getJSON(URL1, function(result){
-                  //Accommodation type – People
-        	      all        = result["LC2107EW"].value[0];
-   			      christian  = result["LC2107EW"].value[1];
-   			      muslim     = result["LC2107EW"].value[5];
-   			      buddhist   = result["LC2107EW"].value[2];
-   			      sikh       = result["LC2107EW"].value[6];
-   			      other      = result["LC2107EW"].value[7];
-                  
+                  //Accommodation type – People   			      
+   			      all               = result["QS401EW"].value[0]; 
+                  unshared_house    = result["QS401EW"].value[1];
+                  unshared_flat     = result["QS401EW"].value[2];
+                  unshared_caravan  = result["QS401EW"].value[3];
+                  shared            = result["QS401EW"].value[4];
+   			                        
                   $('#qs401ew-all').empty();
                   $('#qs401ew-unshared_house').empty();
                   $('#qs401ew-unshared_flat').empty();
