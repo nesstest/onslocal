@@ -33,15 +33,31 @@ function hoverMap(details, postcode, envelope){
 	         "esri/layers/ArcGISDynamicMapServiceLayer",
 	         "esri/SpatialReference",
 	         "esri/domUtils",
+	         "dojo/has",
+	         "dojo/sniff",
 	         "dojo/domReady!"		
 	         ], function( 
 	        		 Map, esriConfig, HomeButton, parser, Extent, FeatureLayer, 
 	        		 SimpleLineSymbol, SimpleFillSymbol, TextSymbol,SimpleRenderer, UniqueValueRenderer, Color, on, dom, Graphic, 
 	        		 esriLang, number, domStyle, TooltipDialog, dijitPopup, Query, QueryTask, ArcGISDynamicMapServiceLayer,
-	        		 SpatialReference, domUtils 
+	        		 SpatialReference, domUtils, has, sniff 
 	         ) 
 	         { 
-
+  
+		  // --------------------------------------------------------------------
+		  // Environment is running on the browser platform
+		  // check if the device supports touch
+		  // touch-events
+		  // --------------------------------------------------------------------
+		  if (has("host-browser") && has("touch")) {
+		    // touch specific code
+			 alert("touch specific"); 
+		  }
+		  else {
+		    // non-touch specific code
+			  alert("non-touch specific"); 
+		  }
+		  
 		parser.parse();
 		var detailsArray = details.split("|");	
 		
