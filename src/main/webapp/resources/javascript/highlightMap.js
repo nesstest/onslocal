@@ -35,13 +35,11 @@ function highlightMap(details, postcode, envelope){
 	         "esri/geometry/Point",
 	         "esri/domUtils",
 	         "dojo/has",
-	         "dojo/sniff",
-	         "dojo/domReady!"		
-
+	         "dojo/domReady!"
 	         ], function( 
 	        		 Map, esriConfig, HomeButton, parser, Extent, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, TextSymbol, SimpleRenderer, UniqueValueRenderer, 
 	        		 Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, Query, QueryTask, PictureMarkerSymbol,
-	        		 ArcGISDynamicMapServiceLayer, SpatialReference, Point, domUtils, has, sniff 
+	        		 ArcGISDynamicMapServiceLayer, SpatialReference, Point, domUtils, has
 	         ) 
 	         { 
 		
@@ -50,7 +48,7 @@ function highlightMap(details, postcode, envelope){
 		  // check if the device supports touch
 		  // touch-events
 		  // --------------------------------------------------------------------
-		  if (has("host-browser") && has("touch")) {
+		  if (has("touch")) {
 		    // touch specific code
 			 alert("touch specific"); 
 		  }
@@ -59,24 +57,7 @@ function highlightMap(details, postcode, envelope){
 			  alert("non-touch specific"); 
 		  }
 		  
-		 // if(sniff("android") > 5 && sniff("chrome") > 44) {
-		    // --------------------------------------------------------------------
-		    // Android Platform:
-		    // Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58K)
-		    // AppleWebKit/537.36 (KHTML, like Gecko)
-		    // Chrome/46.0.2490.76 Mobile Safari/537.36
-		    // --------------------------------------------------------------------
-		  //  console.log("Android Platform: %s", navigator.userAgent);
-		 // }
-		 // else if(sniff("ios") > 8 && sniff("safari") > 7) {
-		    // --------------------------------------------------------------------
-		    // iOS Platform: Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X)
-		    // AppleWebKit/601.1.46 (KHTML, like Gecko)
-		    // Version/9.0 Mobile/13B143 Safari/601.1
-		    // --------------------------------------------------------------------
-		  //  console.log("iOS Platform: %s", navigator.userAgent);
-		//  }
-             
+		
 		parser.parse();				
 
 		var detailsArray = details.split("|");

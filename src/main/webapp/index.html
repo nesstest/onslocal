@@ -2,8 +2,10 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="viewport"
-		content="initial-scale=1, maximum-scale=1, user-scalable=no">
+	<!--<meta name="viewport"
+		content="initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes" />	
 	<meta name="apple-mobile-web-app-status-bar-style" content="#58595B">
 	<title></title>
 	<!-- Latest compiled and minified CSS to go in head -->
@@ -293,7 +295,7 @@
 	</script>
 </head>
 
-<body class="tundra">
+<body onorientationchange="orientationChanged();" onresize="resizeHandler(); class="tundra">
 	<div class="wrapper panel--mar nav-panels">
 		<div class="grid-wrap">
 			<header>
