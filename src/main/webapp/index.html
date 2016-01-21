@@ -4,14 +4,14 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<!--<meta name="viewport"
 		content="initial-scale=1, maximum-scale=1, user-scalable=no"> -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<meta name="apple-mobile-web-app-capable" content="yes" />	
 	<meta name="apple-mobile-web-app-status-bar-style" content="#58595B">
 	<title></title>
 	<!-- Latest compiled and minified CSS to go in head -->
 	<link href="resources/css/nessmain.css" rel="stylesheet" type="text/css">
 	<link href="resources/css/showmore.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet"	href="http://js.arcgis.com/3.15/esri/css/esri.css">
+	<link rel="stylesheet"	href="http://js.arcgis.com/3.15/esri/css/esri.css">	
 	<link rel="stylesheet"	href="http://js.arcgis.com/3.15/dijit/themes/claro/claro.css">
 	<link rel="stylesheet"	href="http://js.arcgis.com/3.15/dijit/themes/tundra/tundra.css">
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
@@ -295,7 +295,7 @@
 	</script>
 </head>
 
-<body onorientationchange="orientationChanged();" onresize="resizeHandler(); class="tundra">
+<body class="tundra">
 	<div class="wrapper panel--mar nav-panels">
 		<div class="grid-wrap">
 			<header>
@@ -382,8 +382,7 @@
 			  <img id="loadingImg" src="resources/images/loading.gif" style="position:absolute; margin-top: 220px; margin-left: 480px; z-index:100; height: 60px; border-style: none;"/>
 			  <div id="mapFailed" style="position:absolute;margin-left: 480px; margin-top: 220px;background-color: white ;font-size: 14px;color:red;font-family: Verdana, Arial, Helvetica, sans-serif;font-weight: bold; z-index: 35;"></div>
 			  <input type="image" id="btnSwap" src="resources/images/aerial.jpg" alt="Submit button"style="position:absolute; margin-top: 10px; right: 30px; z-index:100; border-style: none;">
-			</div>
-			
+			</div>			
 			<div id="selArea1"></div>
 		</div>
 

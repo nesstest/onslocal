@@ -35,11 +35,17 @@ function highlightMap(details, postcode, envelope){
 	         "esri/geometry/Point",
 	         "esri/domUtils",
 	         "dojo/has",
+	         "dojox/mobile", 
+	         "dojox/mobile/parser", 
+	         "esri/sniff",
+	         "dojox/mobile/deviceTheme",
+	         "dojox/mobile/View",
+	         "esri/dijit/PopupMobile",
 	         "dojo/domReady!"
 	         ], function( 
 	        		 Map, esriConfig, HomeButton, parser, Extent, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, TextSymbol, SimpleRenderer, UniqueValueRenderer, 
 	        		 Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, Query, QueryTask, PictureMarkerSymbol,
-	        		 ArcGISDynamicMapServiceLayer, SpatialReference, Point, domUtils, has
+	        		 ArcGISDynamicMapServiceLayer, SpatialReference, Point, domUtils, has, mobile, parser, dTheme, MobilePopup
 	         ) 
 	         { 
 		
@@ -58,7 +64,7 @@ function highlightMap(details, postcode, envelope){
 		  }
 		  
 		
-		parser.parse();				
+		parser.parse();		 
 
 		var detailsArray = details.split("|");
 		
