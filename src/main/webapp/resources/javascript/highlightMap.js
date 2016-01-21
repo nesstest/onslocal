@@ -33,33 +33,17 @@ function highlightMap(details, postcode, envelope){
 	         "esri/layers/ArcGISDynamicMapServiceLayer",
 	         "esri/SpatialReference",
 	         "esri/geometry/Point",
-	         "esri/domUtils",
-	         "dojo/has",
-	         "dojox/mobile", 
-	         "dojox/mobile/parser", 
+	         "esri/domUtils",	        
+	         "dojox/mobile",	         
 	         "esri/sniff",	        
 	         "dojox/mobile/View",	        
 	         "dojo/domReady!"
 	         ], function( 
 	        		 Map, esriConfig, HomeButton, parser, Extent, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, TextSymbol, SimpleRenderer, UniqueValueRenderer, 
 	        		 Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, Query, QueryTask, PictureMarkerSymbol,
-	        		 ArcGISDynamicMapServiceLayer, SpatialReference, Point, domUtils, has, mobile, parser
+	        		 ArcGISDynamicMapServiceLayer, SpatialReference, Point, domUtils,mobile
 	         ) 
-	         { 
-		
-		  // --------------------------------------------------------------------
-		  // Environment is running on the browser platform
-		  // check if the device supports touch
-		  // touch-events
-		  // --------------------------------------------------------------------
-		  if (has("touch")) {
-		    // touch specific code
-			 alert("touch specific"); 
-		  }
-		  else {
-		    // non-touch specific code
-			  alert("non-touch specific"); 
-		  }
+	         { 	 
 		  
 		parser.parse();	
 
@@ -238,7 +222,7 @@ function highlightMap(details, postcode, envelope){
 			//map.disableMapNavigation();
 			map.disableKeyboardNavigation();
 			map.enablePan();
-			//map.disableRubberBandZoom();
+			map.disableRubberBandZoom();
 			map.enableScrollWheelZoom();
 			map.graphics.enableMouseEvents();
 			map.graphics.on("mouse-out", closeDialog);
