@@ -224,10 +224,12 @@ function highlightMap(details, postcode, envelope){
 			map.enablePan();
 			map.disableRubberBandZoom();
 			map.enableScrollWheelZoom();
+			map.disableDoubleClickZoom();
 			map.graphics.enableMouseEvents();
 			map.graphics.on("mouse-out", closeDialog);
 			map.on("mouse-drag-end", closeDialog);
 			map.graphics.on("click", closeDialog);
+			
 			var query = new Query();
 			
 			if (levelname === "OA") {				   
