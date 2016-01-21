@@ -39,13 +39,12 @@ function highlightMap(details, postcode, envelope){
 	         "dojox/mobile/parser", 
 	         "esri/sniff",
 	         "dojox/mobile/deviceTheme",
-	         "dojox/mobile/View",
-	         "esri/dijit/PopupMobile",
+	         "dojox/mobile/View",	        
 	         "dojo/domReady!"
 	         ], function( 
 	        		 Map, esriConfig, HomeButton, parser, Extent, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, TextSymbol, SimpleRenderer, UniqueValueRenderer, 
 	        		 Color, on, dom, Graphic, esriLang, number, domStyle, TooltipDialog, dijitPopup, Query, QueryTask, PictureMarkerSymbol,
-	        		 ArcGISDynamicMapServiceLayer, SpatialReference, Point, domUtils, has, mobile, parser, dTheme, MobilePopup
+	        		 ArcGISDynamicMapServiceLayer, SpatialReference, Point, domUtils, has, mobile, parser, dTheme
 	         ) 
 	         { 
 		
