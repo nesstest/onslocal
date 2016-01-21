@@ -42,21 +42,7 @@ function hoverMap(details, postcode, envelope){
 	        		 SpatialReference, domUtils, has
 	         ) 
 	         { 
-  
-		  // --------------------------------------------------------------------
-		  // Environment is running on the browser platform
-		  // check if the device supports touch
-		  // touch-events
-		  // --------------------------------------------------------------------
-		  if (has("touch")) {
-		    // touch specific code
-			 alert("touch specific"); 
-		  }
-		  else {
-		    // non-touch specific code
-			  alert("non-touch specific"); 
-		  }
-		  
+  		  
 		parser.parse();
 		var detailsArray = details.split("|");	
 		
@@ -295,6 +281,7 @@ function hoverMap(details, postcode, envelope){
 			map.enablePan();
 			map.disableRubberBandZoom();
 			map.enableScrollWheelZoom();
+			map.disableDoubleClickZoom();
 			map.graphics.enableMouseEvents();
 			map.graphics.on("mouse-out", closeDialog);
 			map.on("mouse-drag-end", closeDialog);
