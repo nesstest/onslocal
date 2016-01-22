@@ -46,6 +46,20 @@ function highlightMap(details, postcode, envelope){
 	         { 	 
 		  
 		parser.parse();	
+		
+		 var supportsOrientationChange = "onorientationchange" in window,
+         orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+
+         window.addEventListener(orientationEvent, function () {
+              orientationChanged();
+         }, false);
+         
+         function orientationChanged() {
+           if (map) {
+             map.reposition();
+             map.resize();
+           }
+        }
 
 		var detailsArray = details.split("|");
 		
@@ -68,7 +82,7 @@ function highlightMap(details, postcode, envelope){
 		var parliConName  = detailsArray[14];		
 		var healthName    = detailsArray[15];
 		var parliConCode  = detailsArray[16];
-		var healthCode    = detailsArray[17];			
+		var healthCode    = detailsArray[17];		
 
 		var markerEnvelope = xCoord + ":" + yCoord;
 
@@ -522,18 +536,18 @@ function highlightMap(details, postcode, envelope){
 			'</article></div>');			   
 		}
 
-		function  LA_boxDetail() {	
+		function  LA_boxDetail() {			
 			var urlParams  = '&amp;cn='+ctryName+'&amp;cc='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			var urlParams1 = '&amp;areaname='+ctryName+'&amp;areacode='+ctryCode+'&amp;pn='+parliConName+'&amp;pc='+parliConCode+'&amp;hn='+healthName+'&amp;hc='+ healthCode + '&amp;markerenvelope=' + markerEnvelope + '&amp;pcSearch=false';
 			var regionText, regionDrillText;
 			
 			if (ctryName === 'England') {	    		
 				regionText = '<div style="font-size: small;"> - Region (<a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=GOR&amp;areaname=' + gorName + '&amp;areacode=' + gorCode + urlParams + '">' + gorName + '</a>)';
-				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + encodeName(laName) + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '"> Ward </a></div>' ;
+				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + encodeName(laName) + '&amp;gn=' + gorName + '&amp;gc=' + gorCode + urlParams + '"> Ward </a></div>';
 			}
 			else{
 				regionText = '<span style="display:none;"></span>';
-				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + encodeName(laName) + urlParams + '"> Ward </a></div>' ;
+				regionDrillText  = '- <a style="color: light blue;" href="index.html?nav-search=' + postcode + '&amp;levelname=LAD&amp;childname=WD&amp;areacode=' + laCode + '&amp;areaname=' + encodeName(laName) + urlParams + '"> Ward </a></div>';
 			} 
 			// set orange info box details    		
 			$('#selArea1').append('<div id="innerDIV"> <article class="box box--orange box--orange--separated-left">' +
