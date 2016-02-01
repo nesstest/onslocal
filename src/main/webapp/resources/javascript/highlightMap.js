@@ -47,20 +47,6 @@ function highlightMap(details, postcode, envelope){
 		  
 		parser.parse();	
 		
-		 var supportsOrientationChange = "onorientationchange" in window,
-         orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-
-         window.addEventListener(orientationEvent, function () {
-              orientationChanged();
-         }, false);
-         
-         function orientationChanged() {
-           if (map) {
-             map.reposition();
-             map.resize();
-           }
-        }
-
 		var detailsArray = details.split("|");
 		
 		var area          = detailsArray[0];            // ie OA,WD,LA,GOR,CTRY
@@ -281,8 +267,7 @@ function highlightMap(details, postcode, envelope){
 						"height": 24
 					});	        
 					map.graphics.add(new Graphic(new Point(xCoord, yCoord, new SpatialReference({ wkid: 27700 })),symbol));
-				}
-				
+				}				
 			});			    
 		}); 
 
@@ -717,8 +702,7 @@ function highlightMap(details, postcode, envelope){
 				    			 laCode           = res2.parent.la.extcode;
 				    			 laName           = res2.parent.la.name;
 				    			 wardCode         = extcode;
-				    			 wardName         = area;
-				    			
+				    			 wardName         = area;				    			
 			    			 } 
 							 
 							 if(levelname === "OA") 
@@ -748,8 +732,7 @@ function highlightMap(details, postcode, envelope){
 							//	healthCode = result.features[0].attributes.LHB14CD;
 								getTable(area);
 							//});
-					  	 // });
-							
+					  	 // });							
 						 }	
 						 else { //ctryname = England
 							 
