@@ -25,103 +25,137 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 	//start to create table
 	if (tableType == "popSexGeog")
 	{
-
 		var start = new Date().getTime();
 		tableHead = "<table><span class='tabletitle'>Population by sex and geography (2013)</span><thead><tr><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
 		tableRow1 = "<tr><td>Total</td>"
 		tableRow2 = "<tr><td>Males</td>"
 		tableRow3 = "<tr><td>Females</td>"
+			
+		var inputAreas, input, url;
+		inputAreas   = '\"'+ OA + '\", \"' + wardCode + '\", \"' + laCode + '\",  \"' + regionCode + '\",  \"' + nationalCode + '\"';
+						
+		url   = 'http://onsdatarp-glassfishtest.rhcloud.com/datarp-web/rs/nessdatarp/getdatatable';
+		input = '{ "table":"population", "areas":['+ inputAreas+ '] }';			
 
-					var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013";
-
-		$.getJSON(URL, function(resultStat)
-				{
+		$(document).ready(function(){
+		  $.ajax({url:url, type:'post', data :  input, contentType: 'application/json', success: function(result) { 
 
 			if(levelname =="OA")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-				all = commaSeparateNumber(resultStat["SAPEDE 2013"].value[9]) ;
-				male = commaSeparateNumber(resultStat["SAPEDE 2013"].value[10]) ;
-				female = commaSeparateNumber(resultStat["SAPEDE 2013"].value[11]);
+				popSexGeogTable(0, result);
+				tableRow1 = tableRow1 + "<td>"+all+"</td>";
+				tableRow2 = tableRow2 + "<td>"+male+"</td>";
+				tableRow3 = tableRow3 + "<td>"+female+"</td>";
+			}
+		
+			if(levelname == "WD" || levelname =="OA")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
+				if(OA === 'E92000001' && wardCode != ""){					
+					popSexGeogTable(0, result);										
+				}
+				else {
+					popSexGeogTable(1, result);
+				}
+				
+				tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
+				tableRow2 = tableRow2 + "<td>"+male+"</td><td>Not Available</td>";
+				tableRow3 = tableRow3 + "<td>"+female+"</td><td>Not Available</td>";
+			}
+
+			if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
+			{
+				if (nationalName == "England"){
+					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
+				}
+				else{
+					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
+				}
+				
+				if(OA === 'E92000001' && wardCode != ""){					
+					popSexGeogTable(1, result);										
+				}
+				else if(OA === 'E92000001' && wardCode == ""){				   
+					popSexGeogTable(0, result);
+				}
+				else{
+					popSexGeogTable(2, result);				 	
+				}
+				
+				tableRow1 = tableRow1 + "<td>"+all+"</td>";//<td>Not Available</td>";
+				tableRow2 = tableRow2 + "<td>"+male+"</td>";//<td>Not Available</td>";
+				tableRow3 = tableRow3 + "<td>"+female+"</td>";//<td>Not Available</td>";
+			}
+
+			if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+				
+				if(OA === 'E92000001' && wardCode != ""){					
+					popSexGeogTable(2, result);										
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+					popSexGeogTable(1, result);
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
+					popSexGeogTable(0, result);
+				}
+				else{
+					popSexGeogTable(3, result);				 
+				}
+				
 				tableRow1 = tableRow1 + "<td>"+all+"</td>";
 				tableRow2 = tableRow2 + "<td>"+male+"</td>";
 				tableRow3 = tableRow3 + "<td>"+female+"</td>";
 			}
 
-			var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013";
-
-			$.getJSON(URL, function(resultWard)
-					{
-
-				if(levelname == "WD" || levelname =="OA")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-					all = commaSeparateNumber(resultWard["SAPEDE 2013"].value[0]) ;
-					male = commaSeparateNumber(resultWard["SAPEDE 2013"].value[1]) ;
-					female = commaSeparateNumber(resultWard["SAPEDE 2013"].value[2]);
-					tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+male+"</td><td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+female+"</td><td>Not Available</td>";
+			if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
+				
+				if(OA === 'E92000001' && wardCode != ""){					
+					popSexGeogTable(3, result);										
 				}
-
-
-				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
-				{
-					if (nationalName == "England"){
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
-					}
-					else{
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
-					}
-					all = commaSeparateNumber(resultStat["SAPEDE 2013"].value[6]) ;
-					male = commaSeparateNumber(resultStat["SAPEDE 2013"].value[7]) ;
-					female = commaSeparateNumber(resultStat["SAPEDE 2013"].value[8]);
-					tableRow1 = tableRow1 + "<td>"+all+"</td>";//<td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+male+"</td>";//<td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+female+"</td>";//<td>Not Available</td>";
+				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+					popSexGeogTable(2, result);
 				}
-
-
-
-				if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-					all = commaSeparateNumber(resultStat["SAPEDE 2013"].value[3]) ;
-					male = commaSeparateNumber(resultStat["SAPEDE 2013"].value[4]) ;
-					female = commaSeparateNumber(resultStat["SAPEDE 2013"].value[5]);
-					tableRow1 = tableRow1 + "<td>"+all+"</td>";
-					tableRow2 = tableRow2 + "<td>"+male+"</td>";
-					tableRow3 = tableRow3 + "<td>"+female+"</td>";
+				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+					popSexGeogTable(1, result);
 				}
-
-
-
-				if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-					all = commaSeparateNumber(resultStat["SAPEDE 2013"].value[0]) ;
-					male = commaSeparateNumber(resultStat["SAPEDE 2013"].value[1]) ;
-					female = commaSeparateNumber(resultStat["SAPEDE 2013"].value[2]);
-					tableRow1 = tableRow1 + "<td>"+all+"</td>";
-					tableRow2 = tableRow2 + "<td>"+male+"</td>";
-					tableRow3 = tableRow3 + "<td>"+female+"</td>";
+				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+					popSexGeogTable(0, result);
 				}
+				else{
+					popSexGeogTable(4, result);				  
+				}
+				
+				tableRow1 = tableRow1 + "<td>"+all+"</td>";
+				tableRow2 = tableRow2 + "<td>"+male+"</td>";
+				tableRow3 = tableRow3 + "<td>"+female+"</td>";
+			}
 
+			tableRow1 = tableRow1 + "</tr>";
+			tableRow2 = tableRow2 + "</tr>";
+			tableRow3 = tableRow3 + "</tr>";
+			var tableRows = tableRow1 + tableRow2 + tableRow3;
 
-				tableRow1 = tableRow1 + "</tr>";
-				tableRow2 = tableRow2 + "</tr>";
-				tableRow3 = tableRow3 + "</tr>";
-				var tableRows = tableRow1 + tableRow2 + tableRow3;
+			completeTable(tableHead, tableBody, tableRows, tableType); 	
 
-				completeTable(tableHead, tableBody, tableRows, tableType); 	
-
-				var end = new Date().getTime();
-				var time = end - start;
-				console.log('Execution time: ' + time/1000);
-					});				
-				});	
-	}
+			var end = new Date().getTime();
+			var time = end - start;
+			console.log('Execution time: ' + time/1000);
+		  }}); //  $.ajax	
+		  
+		  function popSexGeogTable(val, result) {
+		 	 all         = commaSeparateNumber(result[val].total_All_Ages_Total_All_Persons) ;
+		     male        = commaSeparateNumber(result[val].total_All_Ages_Male) ;
+			 female      = commaSeparateNumber(result[val].total_All_Ages_Female);
+			 return all, male, female;	
+		  }	
+		}); // function	  
+	} // if (tableType == "popSexGeog")
 
 	if (tableType == "ageGeog")
 	{		
@@ -135,21 +169,88 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 		tableRow3 = "<tr><td>2</td>";
 		tableRow4 = "<tr><td>3</td>";
 		tableRow5 = "<tr><td>4</td>";
+     
+		var inputAreas, input, url;
+		inputAreas   = '\"'+ OA + '\", \"' + wardCode + '\", \"' + laCode + '\",  \"' + regionCode + '\",  \"' + nationalCode + '\"';
+						
+		url   = 'http://onsdatarp-glassfishtest.rhcloud.com/datarp-web/rs/nessdatarp/getdatatable';
+		input = '{ "table":"population", "areas":['+ inputAreas+ '] }';			
 
-
-		var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&dm/CL_0000670=CI_0005569&jsontype=json-stat&totals=false&diff=2013"
-
-		$.getJSON(URL, function(result)
-				{
+		$(document).ready(function(){
+		  $.ajax({url:url, type:'post', data :  input, contentType: 'application/json', success: function(result) { 
 
 			if(levelname =="OA")
 			{
-				tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-				under1 = commaSeparateNumber(result["SAPEDE 2013"].value[7]) ;
-				one = commaSeparateNumber(result["SAPEDE 2013"].value[11]) ;
-				two = commaSeparateNumber(result["SAPEDE 2013"].value[15]) ;
-				three = commaSeparateNumber(result["SAPEDE 2013"].value[19]) ;
-				four = commaSeparateNumber(result["SAPEDE 2013"].value[23]) ;
+				tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";	
+				ageGeogTable(0, result);				
+				tableRow1 = tableRow1 + "<td>"+under1+"</td>";
+				tableRow2 = tableRow2 + "<td>"+one+"</td>";
+				tableRow3 = tableRow3 + "<td>"+two+"</td>";
+				tableRow4 = tableRow4 + "<td>"+three+"</td>";
+				tableRow5 = tableRow5 + "<td>"+four+"</td>";
+			}
+			
+			if(levelname == "WD" || levelname =="OA")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
+				
+				if(OA === 'E92000001' && wardCode != ""){					
+					ageGeogTable(0, result);										
+				}
+				else {
+					ageGeogTable(1, result);
+				}	
+				
+				tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
+				tableRow2 = tableRow2 + "<td>"+one+"</td><td>Not Available</td>";
+				tableRow3 = tableRow3 + "<td>"+two+"</td><td>Not Available</td>";
+				tableRow4 = tableRow4 + "<td>"+three+"</td><td>Not Available</td>";
+				tableRow5 = tableRow5 + "<td>"+four+"</td><td>Not Available</td>";
+			}
+
+			if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
+			{
+				if (nationalName == "England"){
+					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
+				}
+				else{
+					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
+				}
+				
+				if(OA === 'E92000001' && wardCode != ""){					
+					ageGeogTable(1, result);										
+				}
+				else if(OA === 'E92000001' && wardCode == ""){				   
+					ageGeogTable(0, result);
+				}
+				else{
+					ageGeogTable(2, result);				 	
+				}	
+				
+				tableRow1 = tableRow1 + "<td>"+under1+"</td>";//<td>Not Available</td>";
+				tableRow2 = tableRow2 + "<td>"+one+"</td>";//<td>Not Available</td>";
+				tableRow3 = tableRow3 + "<td>"+two+"</td>";//<td>Not Available</td>";
+				tableRow4 = tableRow4 + "<td>"+three+"</td>";//<td>Not Available</td>";
+				tableRow5 = tableRow5 + "<td>"+four+"</td>";//<td>Not Available</td>";
+			}
+
+			if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+				
+				if(OA === 'E92000001' && wardCode != ""){					
+					ageGeogTable(2, result);										
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+					ageGeogTable(1, result);
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
+					ageGeogTable(0, result);
+				}
+				else{
+					ageGeogTable(3, result);				 
+				}
+				
 				tableRow1 = tableRow1 + "<td>"+under1+"</td>";
 				tableRow2 = tableRow2 + "<td>"+one+"</td>";
 				tableRow3 = tableRow3 + "<td>"+two+"</td>";
@@ -157,92 +258,58 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				tableRow5 = tableRow5 + "<td>"+four+"</td>";
 			}
 
-			var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&dm/CL_0000670=CI_0005569&jsontype=json-stat&totals=false&diff=2013"
-
-			$.getJSON(URL, function(resultWard)
-					{
-
-				if(levelname == "WD" || levelname =="OA")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-					under1 = commaSeparateNumber(resultWard["SAPEDE 2013"].value[1]) ;
-					one = commaSeparateNumber(resultWard["SAPEDE 2013"].value[2]) ;
-					two = commaSeparateNumber(resultWard["SAPEDE 2013"].value[3]) ;
-					three = commaSeparateNumber(resultWard["SAPEDE 2013"].value[4]) ;
-					four = commaSeparateNumber(resultWard["SAPEDE 2013"].value[5]) ;
-					tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+one+"</td><td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+two+"</td><td>Not Available</td>";
-					tableRow4 = tableRow4 + "<td>"+three+"</td><td>Not Available</td>";
-					tableRow5 = tableRow5 + "<td>"+four+"</td><td>Not Available</td>";
+			if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
+				
+				if(OA === 'E92000001' && wardCode != ""){					
+					ageGeogTable(3, result);										
 				}
-
-				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
-				{
-					if (nationalName == "England"){
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
-					}
-					else{
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
-					}
-					under1 = commaSeparateNumber(result["SAPEDE 2013"].value[6]) ;
-					one = commaSeparateNumber(result["SAPEDE 2013"].value[10]) ;
-					two = commaSeparateNumber(result["SAPEDE 2013"].value[14]) ;
-					three = commaSeparateNumber(result["SAPEDE 2013"].value[18]) ;
-					four = commaSeparateNumber(result["SAPEDE 2013"].value[22]) ;
-					tableRow1 = tableRow1 + "<td>"+under1+"</td>";//<td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+one+"</td>";//<td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+two+"</td>";//<td>Not Available</td>";
-					tableRow4 = tableRow4 + "<td>"+three+"</td>";//<td>Not Available</td>";
-					tableRow5 = tableRow5 + "<td>"+four+"</td>";//<td>Not Available</td>";
+				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+					ageGeogTable(2, result);
 				}
-
-				if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-					under1 = commaSeparateNumber(result["SAPEDE 2013"].value[5]) ;
-					one = commaSeparateNumber(result["SAPEDE 2013"].value[9]) ;
-					two = commaSeparateNumber(result["SAPEDE 2013"].value[13]) ;
-					three = commaSeparateNumber(result["SAPEDE 2013"].value[17]) ;
-					four = commaSeparateNumber(result["SAPEDE 2013"].value[21]) ;
-					tableRow1 = tableRow1 + "<td>"+under1+"</td>";
-					tableRow2 = tableRow2 + "<td>"+one+"</td>";
-					tableRow3 = tableRow3 + "<td>"+two+"</td>";
-					tableRow4 = tableRow4 + "<td>"+three+"</td>";
-					tableRow5 = tableRow5 + "<td>"+four+"</td>";
+				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+					ageGeogTable(1, result);
 				}
-
-				if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-					under1 = commaSeparateNumber(result["SAPEDE 2013"].value[4]) ;
-					one = commaSeparateNumber(result["SAPEDE 2013"].value[8]) ;
-					two = commaSeparateNumber(result["SAPEDE 2013"].value[12]) ;
-					three = commaSeparateNumber(result["SAPEDE 2013"].value[16]) ;
-					four = commaSeparateNumber(result["SAPEDE 2013"].value[20]) ;
-					tableRow1 = tableRow1 + "<td>"+under1+"</td>";
-					tableRow2 = tableRow2 + "<td>"+one+"</td>";
-					tableRow3 = tableRow3 + "<td>"+two+"</td>";
-					tableRow4 = tableRow4 + "<td>"+three+"</td>";
-					tableRow5 = tableRow5 + "<td>"+four+"</td>";
+				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+					ageGeogTable(0, result);
 				}
+				else{
+					ageGeogTable(4, result);				  
+				}	
+				
+				tableRow1 = tableRow1 + "<td>"+under1+"</td>";
+				tableRow2 = tableRow2 + "<td>"+one+"</td>";
+				tableRow3 = tableRow3 + "<td>"+two+"</td>";
+				tableRow4 = tableRow4 + "<td>"+three+"</td>";
+				tableRow5 = tableRow5 + "<td>"+four+"</td>";
+			}
 
-				tableRow1 = tableRow1 + "</tr>";
-				tableRow2 = tableRow2 + "</tr>";
-				tableRow3 = tableRow3 + "</tr>";
-				tableRow4 = tableRow4 + "</tr>";
-				tableRow5 = tableRow5 + "</tr>";
-				var tableRows = tableRow1 + tableRow2 + tableRow3 + tableRow4 + tableRow5;
+			tableRow1 = tableRow1 + "</tr>";
+			tableRow2 = tableRow2 + "</tr>";
+			tableRow3 = tableRow3 + "</tr>";
+			tableRow4 = tableRow4 + "</tr>";
+			tableRow5 = tableRow5 + "</tr>";
+			var tableRows = tableRow1 + tableRow2 + tableRow3 + tableRow4 + tableRow5;
 
-				completeTable(tableHead, tableBody, tableRows, tableType); 	
-				var end = new Date().getTime();
-				var time = end - start;
-				console.log('Execution time: ' + time/1000);
-					});				
-
-
-				});	
-	}
+			completeTable(tableHead, tableBody, tableRows, tableType); 	
+			var end = new Date().getTime();
+			var time = end - start;
+			console.log('Execution time: ' + time/1000);
+		  }}); //  $.ajax	
+		  
+		  function ageGeogTable(val, result) {
+	    	 under1      = commaSeparateNumber(result[val].v_0_Total_All_Persons);
+			 one         = commaSeparateNumber(result[val].v_1_Total_All_Persons);
+			 two         = commaSeparateNumber(result[val].v_2_Total_All_Persons);
+			 three       = commaSeparateNumber(result[val].v_3_Total_All_Persons);
+			 four        = commaSeparateNumber(result[val].v_4_Total_All_Persons);	
+		     return under1, one, two, three, four;	
+		  }	
+		  
+		}); // function	 		
+		
+	} // if (tableType == "ageGeog")
 
 	if (tableType == "popTime")
 	{
@@ -252,83 +319,118 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 		tableBody = "<tbody>";
 
 		tableRow1 = "<tr><td>2013</td>";
+		
+		var inputAreas, input, url;
+		inputAreas   = '\"'+ OA + '\", \"' + wardCode + '\", \"' + laCode + '\",  \"' + regionCode + '\",  \"' + nationalCode + '\"';
+						
+		url   = 'http://onsdatarp-glassfishtest.rhcloud.com/datarp-web/rs/nessdatarp/getdatatable';
+		input = '{ "table":"population", "areas":['+ inputAreas+ '] }';			
 
-
-		var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&dm/CL_0000670=CI_0005569&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013"
-
-		$.getJSON(URL, function(result)
-				{
+		$(document).ready(function(){
+		  $.ajax({url:url, type:'post', data :  input, contentType: 'application/json', success: function(result) {
 
 			if(levelname =="OA")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-				under1 = commaSeparateNumber(result["SAPEDE 2013"].value[3]) ;
-
-				tableRow1 = tableRow1 + "<td>"+under1+"</td>";
-
+				popTimeTable(0, result);
+				tableRow1 = tableRow1 + "<td>"+all+"</td>";
+			}
+			
+			if(levelname == "WD" || levelname =="OA")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
+				
+				if(OA === 'E92000001' && wardCode != ""){					
+					popTimeTable(0, result);										
+				}
+				else {
+					popTimeTable(1, result);
+				}	
+				
+				tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
 			}
 
-			var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/SAPEDE.json?context=Social&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&dm/CL_0000670=CI_0005569&dm/CL_0000671=CI_0005558&jsontype=json-stat&totals=false&diff=2013"
-
-			$.getJSON(URL, function(resultWard)
-					{
-
-				if(levelname == "WD" || levelname =="OA")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-					under1 = commaSeparateNumber(resultWard["SAPEDE 2013"].value[0]) ;
-
-					tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
-
+			if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
+			{
+				if (nationalName == "England"){
+					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 				}
-
-
-
-				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
-				{
-					if (nationalName == "England"){
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
-					}
-					else{
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
-					}
-					under1 = commaSeparateNumber(result["SAPEDE 2013"].value[2]) ;
-
-					tableRow1 = tableRow1 + "<td>"+under1+"</td>";//<td>Not Available</td>";
-
+				else{
+					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 				}
-
-
-
-				if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-					under1 = commaSeparateNumber(result["SAPEDE 2013"].value[1]) ;
-
-					tableRow1 = tableRow1 + "<td>"+under1+"</td>";
-
+				
+				if(OA === 'E92000001' && wardCode != ""){					
+					popTimeTable(1, result);										
 				}
-
-
-				if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-					under1 = commaSeparateNumber(result["SAPEDE 2013"].value[0]) ;
-
-					tableRow1 = tableRow1 + "<td>"+under1+"</td>";
-
+				else if(OA === 'E92000001' && wardCode == ""){				   
+					popTimeTable(0, result);
 				}
+				else{
+					popTimeTable(2, result);				 	
+				}
+				
+				tableRow1 = tableRow1 + "<td>"+all+"</td>";//<td>Not Available</td>";
+			}
 
-				tableRow1 = tableRow1 + "</tr>";
-				var tableRows = tableRow1;
+			if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+				
+				if(OA === 'E92000001' && wardCode != ""){					
+					popTimeTable(2, result);										
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+					popTimeTable(1, result);
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
+					popTimeTable(0, result);
+				}
+				else{
+					popTimeTable(3, result);				 
+				}
+				
+				tableRow1 = tableRow1 + "<td>"+all+"</td>";
+			}
 
-				completeTable(tableHead, tableBody, tableRows, tableType); 		
-				var end = new Date().getTime();
-				var time = end - start;
-				console.log('Execution time: ' + time/1000);
-					});	
-			});
-	}
+			if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
+				
+				if(OA === 'E92000001' && wardCode != ""){					
+					popTimeTable(3, result);										
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+					popTimeTable(2, result);
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+					popTimeTable(1, result);
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+					popTimeTable(0, result);
+				}
+				else{
+					popTimeTable(4, result);				  
+				}
+				
+				tableRow1 = tableRow1 + "<td>"+all+"</td>";
+			}
+
+			tableRow1 = tableRow1 + "</tr>";
+			var tableRows = tableRow1;
+
+			completeTable(tableHead, tableBody, tableRows, tableType); 		
+			var end = new Date().getTime();
+			var time = end - start;
+			console.log('Execution time: ' + time/1000);
+		  }}); //  $.ajax	
+		  
+		  function popTimeTable(val, result) {
+			 all    = commaSeparateNumber(result[val].total_All_Ages_Total_All_Persons);
+			 return all;	
+		  }	
+		  
+		}); // function	 	  
+	} // if (tableType == "popTime")
 
 	if (tableType == "relGeog")
 	{
@@ -339,299 +441,394 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 		tableRow1 = "<tr><td>Total</td>"
 		tableRow2 = "<tr><td>Christian</td>"
 		tableRow3 = "<tr><td>Muslim</td>"
+		
+		var inputAreas, input, url;
+		inputAreas   = '\"'+ OA + '\", \"' + wardCode + '\", \"' + laCode + '\",  \"' + regionCode + '\",  \"' + nationalCode + '\"';
+						
+		url   = 'http://onsdatarp-glassfishtest.rhcloud.com/datarp-web/rs/nessdatarp/getdatatable';
+		input = '{ "table":"religion", "areas":['+ inputAreas+ '] }';		
 
-					var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121&dm/CL_0000163=CI_0001887";
-
-		$.getJSON(URL, function(result)
-				{
+		$(document).ready(function(){
+		  $.ajax({url:url, type:'post', data :  input, contentType: 'application/json', success: function(result) { 
 
 			if(levelname =="OA")
-			{
+			{				
 				tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-				all = commaSeparateNumber(result["LC2107EW"].value[30]) ;
-				christian = commaSeparateNumber(result["LC2107EW"].value[31]) ;
-				muslim = commaSeparateNumber(result["LC2107EW"].value[35]);
-				tableRow1 = tableRow1 + "<td>"+all+"</td>";
-				tableRow2 = tableRow2 + "<td>"+christian+"</td>";
-				tableRow3 = tableRow3 + "<td>"+muslim+"</td>";
+				relGeogTable(0, result);		
+				tableRow1   = tableRow1 + "<td>"+all+"</td>";
+				tableRow2   = tableRow2 + "<td>"+christian+"</td>";
+				tableRow3   = tableRow3 + "<td>"+muslim+"</td>";
+			}		
+
+			if(levelname == "WD" || levelname =="OA")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
+				if(OA === 'E92000001' && wardCode != ""){					
+					relGeogTable(0, result);										
+				}
+				else{
+					relGeogTable(1, result);
+				}
+				
+				tableRow1   = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
+				tableRow2   = tableRow2 + "<td>"+christian+"</td><td>Not Available</td>";
+				tableRow3   = tableRow3 + "<td>"+muslim+"</td><td>Not Available</td>";
 			}
 
-			var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121&dm/CL_0000163=CI_0001887";
-
-			$.getJSON(URL, function(resultWard)
-					{
-
-				if(levelname == "WD" || levelname =="OA")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-					all = commaSeparateNumber(resultWard["LC2107EW"].value[0]) ;
-					christian = commaSeparateNumber(resultWard["LC2107EW"].value[1]) ;
-					muslim = commaSeparateNumber(resultWard["LC2107EW"].value[5]);
-					tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+christian+"</td><td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+muslim+"</td><td>Not Available</td>";
+			if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
+			{
+				if (nationalName == "England"){
+					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
 				}
-
-
-				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
-				{
-					if (nationalName == "England"){
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
-					}
-					else{
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
-					}
-					all = commaSeparateNumber(result["LC2107EW"].value[20]) ;
-					christian = commaSeparateNumber(result["LC2107EW"].value[21]) ;
-					muslim = commaSeparateNumber(result["LC2107EW"].value[25]);
-					tableRow1 = tableRow1 + "<td>"+all+"</td>";//<td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+christian+"</td>";//<td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+muslim+"</td>";//<td>Not Available</td>";
+				else{
+					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 				}
-
-				if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-					all = commaSeparateNumber(result["LC2107EW"].value[10]) ;
-					christian = commaSeparateNumber(result["LC2107EW"].value[11]) ;
-					muslim = commaSeparateNumber(result["LC2107EW"].value[15]);
-					tableRow1 = tableRow1 + "<td>"+all+"</td>";
-					tableRow2 = tableRow2 + "<td>"+christian+"</td>";
-					tableRow3 = tableRow3 + "<td>"+muslim+"</td>";
+				if(OA === 'E92000001' && wardCode != ""){					
+					relGeogTable(1, result);										
 				}
-
-				if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-					all = commaSeparateNumber(result["LC2107EW"].value[0]) ;
-					christian = commaSeparateNumber(result["LC2107EW"].value[1]) ;
-					muslim = commaSeparateNumber(result["LC2107EW"].value[5]);
-					tableRow1 = tableRow1 + "<td>"+all+"</td>";
-					tableRow2 = tableRow2 + "<td>"+christian+"</td>";
-					tableRow3 = tableRow3 + "<td>"+muslim+"</td>";
+				else if(OA === 'E92000001' && wardCode == ""){				   
+				    relGeogTable(0, result);
 				}
+				else{
+				  relGeogTable(2, result);				 	
+				}				
+				
+				tableRow1   = tableRow1 + "<td>"+all+"</td>";//<td>Not Available</td>";
+				tableRow2   = tableRow2 + "<td>"+christian+"</td>";//<td>Not Available</td>";
+				tableRow3   = tableRow3 + "<td>"+muslim+"</td>";//<td>Not Available</td>";
+			}
 
-				tableRow1 = tableRow1 + "</tr>";
-				tableRow2 = tableRow2 + "</tr>";
-				tableRow3 = tableRow3 + "</tr>";
-				var tableRows = tableRow1 + tableRow2 + tableRow3;
-				completeTable(tableHead, tableBody, tableRows, tableType); 		
-				var end = new Date().getTime();
-				var time = end - start;
-				console.log('Execution time: ' + time/1000);
-					});				
+			if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
+			{
+				
+				tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+				if(OA === 'E92000001' && wardCode != ""){					
+					relGeogTable(2, result);										
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+				    relGeogTable(1, result);
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
+				    relGeogTable(0, result);
+				}
+				else{
+				  relGeogTable(3, result);				 
+				}
+											    
+				tableRow1   = tableRow1 + "<td>"+all+"</td>";				
+				tableRow2   = tableRow2 + "<td>"+christian+"</td>";				
+				tableRow3   = tableRow3 + "<td>"+muslim+"</td>";
+			}
 
+			if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+			{				
+				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
+				if(OA === 'E92000001' && wardCode != ""){					
+					relGeogTable(3, result);										
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+				    relGeogTable(2, result);
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+				    relGeogTable(1, result);
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+				    relGeogTable(0, result);
+				}
+				else{
+				  relGeogTable(4, result);				  
+				}			
+				
+				tableRow1   = tableRow1 + "<td>"+all+"</td>";
+				tableRow2   = tableRow2 + "<td>"+christian+"</td>";
+				tableRow3   = tableRow3 + "<td>"+muslim+"</td>";
+			}
 
-				});	
-
-	}
-
+			tableRow1 = tableRow1 + "</tr>";
+			tableRow2 = tableRow2 + "</tr>";
+			tableRow3 = tableRow3 + "</tr>";
+			var tableRows = tableRow1 + tableRow2 + tableRow3;
+			completeTable(tableHead, tableBody, tableRows, tableType); 		
+			var end = new Date().getTime();
+			var time = end - start;
+			console.log('Execution time: ' + time/1000);
+		 }});
+		  		  
+		 function relGeogTable(val, result) {
+		    all 	    = commaSeparateNumber(result[val].t_All_cat_Sex_T_All_cat_Age_T_All_cat_rel);
+			christian   = commaSeparateNumber(result[val].t_All_cat_Sex_T_All_cat_Age_Christian);
+			muslim      = commaSeparateNumber(result[val].t_All_cat_Sex_T_All_cat_Age_Muslim);
+			return all, christian, muslim;	
+	    }
+		  
+	 });		
+    }
 
 	if (tableType == "relAgeGeog")
 	{
 		var start = new Date().getTime();
 
 		tableHead = "<table><span class='tabletitle'>Religion by age and geography (2011)</span><thead><tr><th data-priority='persist'></th><th data-priority='persist'></th>";
-		tableBody = "<tbody>";
-
-		//tableHead = tableHead + "<th data-priority='persist'>"+levelname+"<br>("+areaname+")</th>";
+		tableBody = "<tbody>";	
 
 		tableRow1 = "<tr><th style='border-top:1px solid black;' rowspan='3'><font size='2'>Christian</font></th><td>0-15</td>"
-			tableRow2 = "<tr><td>16-24</td>"
-				tableRow3 = "<tr><td>25-34</td>"
+		tableRow2 = "<tr><td>16-24</td>"
+		tableRow3 = "<tr><td>25-34</td>"
+		
+		var inputAreas, input, url;
+		inputAreas   = '\"'+ OA + '\", \"' + wardCode + '\", \"' + laCode + '\",  \"' + regionCode + '\",  \"' + nationalCode + '\"';
+				
+		url   = 'http://onsdatarp-glassfishtest.rhcloud.com/datarp-web/rs/nessdatarp/getdatatable';
+		input = '{ "table":"religion", "areas":['+ inputAreas+ '] }';			
 
-					var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070&dm/CL_0000035=CI_0000121";
-
-		$.getJSON(URL, function(result)
-				{
-
-
+		$(document).ready(function(){
+		  $.ajax({url:url, type:'post', data :  input, contentType: 'application/json', success: function(result) { 	
+			
 			if(levelname =="OA")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-				groupOne = commaSeparateNumber(result["LC2107EW"].value[25]) ;
-				groupTwo = commaSeparateNumber(result["LC2107EW"].value[26]);
-				groupThree = commaSeparateNumber(result["LC2107EW"].value[27]);
+				relAgeGeogTable(0, result);				
+				tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
+				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
+				tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
+			}			
+
+			if(levelname == "WD" || levelname =="OA")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
+				if(OA === 'E92000001' && wardCode != ""){					
+					relAgeGeogTable(0, result);										
+				}
+				else{	
+				   relAgeGeogTable(1, result);				  
+				}				
+				tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
+				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
+				tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
+			}
+
+			if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
+			{
+				if (nationalName == "England"){
+					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
+				}
+				else{
+					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
+				}
+				if(OA === 'E92000001' && wardCode != ""){					
+					relAgeGeogTable(1, result);										
+				}
+				else if(OA === 'E92000001' && wardCode == ""){				   
+					relAgeGeogTable(0, result);
+				}
+				else{
+				   relAgeGeogTable(2, result);				  
+				} 
+				tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";//<td>Not Available</td>";
+				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";//<td>Not Available</td>";
+				tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";//<td>Not Available</td>";
+			}
+
+			if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+				
+				if(OA === 'E92000001' && wardCode != ""){					
+					relAgeGeogTable(2, result);										
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+					relAgeGeogTable(1, result);
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
+					relAgeGeogTable(0, result);
+				}
+				else{
+					relAgeGeogTable(3, result);				 
+				}				
 				tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
 				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
 				tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
 			}
 
-			var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070&dm/CL_0000035=CI_0000121";
-
-			$.getJSON(URL, function(resultWard)
-					{
-
-				if(levelname == "WD" || levelname =="OA")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-					groupOne = commaSeparateNumber(resultWard["LC2107EW"].value[1]) ;
-					groupTwo = commaSeparateNumber(resultWard["LC2107EW"].value[2]) ;
-					groupThree = commaSeparateNumber(resultWard["LC2107EW"].value[3]);
-					tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
+			if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
+				if(OA === 'E92000001' && wardCode != ""){					
+				  relAgeGeogTable(3, result);										
 				}
-
-				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
-				{
-					if (nationalName == "England"){
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
-					}
-					else{
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
-					}
-					groupOne = commaSeparateNumber(result["LC2107EW"].value[17]);
-					groupTwo = commaSeparateNumber(result["LC2107EW"].value[18]);
-					groupThree = commaSeparateNumber(result["LC2107EW"].value[19]);
-					tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";//<td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";//<td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";//<td>Not Available</td>";
+				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+				  relAgeGeogTable(2, result);
 				}
-
-				if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-					groupOne = commaSeparateNumber(result["LC2107EW"].value[9]) ;
-					groupTwo = commaSeparateNumber(result["LC2107EW"].value[10]) ;
-					groupThree = commaSeparateNumber(result["LC2107EW"].value[11]);
-					tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
-					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
-					tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
+				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+				  relAgeGeogTable(1, result);
 				}
-
-				if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-					groupOne = commaSeparateNumber(result["LC2107EW"].value[1]) ;
-					groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]) ;
-					groupThree = commaSeparateNumber(result["LC2107EW"].value[3]);
-					tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
-					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
-					tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
+				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+				  relAgeGeogTable(0, result);
 				}
+				else{
+				  relAgeGeogTable(4, result);				  
+				}				
+				tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
+				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
+				tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
+			}
 
-				tableRow1 = tableRow1 + "</tr>";
-				tableRow2 = tableRow2 + "</tr>";
-				tableRow3 = tableRow3 + "</tr>";
+			tableRow1 = tableRow1 + "</tr>";
+			tableRow2 = tableRow2 + "</tr>";
+			tableRow3 = tableRow3 + "</tr>";
 
-				var tableRows = tableRow1 + tableRow2 + tableRow3;								
-				completeTable(tableHead, tableBody, tableRows, tableType); 		
-				var end = new Date().getTime();
-				var time = end - start;
-				console.log('Execution time: ' + time/1000);
-					});				
-
-
-				});	
+			var tableRows = tableRow1 + tableRow2 + tableRow3;								
+			completeTable(tableHead, tableBody, tableRows, tableType); 		
+			var end = new Date().getTime();
+			var time = end - start;
+			console.log('Execution time: ' + time/1000);
+		  }});
+		  
+		  function relAgeGeogTable(val, result) {
+		     groupOne = commaSeparateNumber(result[val].t_All_cat_Sex_Age_0_to_15_Christian);
+		  	 groupTwo = commaSeparateNumber(result[val].t_All_cat_Sex_Age_16_to_24_Christian);
+			 groupThree = commaSeparateNumber(result[val].t_All_cat_Sex_Age_25_to_34_Christian);
+			 return groupOne, groupTwo, groupThree;	
+		  }	
+		  
+	   });	
 	}
 
 	if (tableType == "relSexGeog")
 	{
 		var start = new Date().getTime();
 		tableHead = "<table><span class='tabletitle'>Religion by sex and geography (2011)</span><thead><tr><th data-priority='persist'></th><th data-priority='persist'></th>";
-		tableBody = "<tbody>";
-
-		//tableHead = tableHead + "<th data-priority='persist'>"+levelname+"<br>("+areaname+")</th>";
+		tableBody = "<tbody>";		
 
 		tableRow1 = "<tr><th style='border-top:1px solid black;' rowspan='2'><font size='2'>Christian</font></th><td>Male</td>"
-			tableRow2 = "<tr><td>Female</td>"
-				tableRow3 = "<tr><th style='border-top:1px solid black;' rowspan='2'><font size='2'>Muslim</font></th><td>Male</td>"
-					tableRow4 = "<tr><td>Female</td>"
+		tableRow2 = "<tr><td>Female</td>"
+		tableRow3 = "<tr><th style='border-top:1px solid black;' rowspan='2'><font size='2'>Muslim</font></th><td>Male</td>"
+		tableRow4 = "<tr><td>Female</td>"
+			
+		var inputAreas, input, url;
+		inputAreas   = '\"'+ OA + '\", \"' + wardCode + '\", \"' + laCode + '\",  \"' + regionCode + '\",  \"' + nationalCode + '\"';
+				
+		url   = 'http://onsdatarp-glassfishtest.rhcloud.com/datarp-web/rs/nessdatarp/getdatatable';
+		input = '{ "table":"religion", "areas":['+ inputAreas+ '] }';			
 
-						var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070,CI_0000074&dm/CL_0000035=CI_0000071,CI_0000070&dm/CL_0000163=CI_0001887";
+		$(document).ready(function(){
+		  $.ajax({url:url, type:'post', data :  input, contentType: 'application/json', success: function(result) { 
 		
-		$.getJSON(URL, function(result)
-				{
-
 			if(levelname =="OA")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-				groupOne = commaSeparateNumber(result["LC2107EW"].value[12]) ;
-				groupTwo = commaSeparateNumber(result["LC2107EW"].value[14]) ;
-				groupThree = commaSeparateNumber(result["LC2107EW"].value[13]);
-				groupFour = commaSeparateNumber(result["LC2107EW"].value[15]);
+				relSexGeogTable(0, result);				
+				tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
+				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
+				tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
+				tableRow4 = tableRow4 + "<td>"+groupFour+"</td>";
+			}			
+	
+			if(levelname == "WD" || levelname =="OA")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
+				if(OA === 'E92000001' && wardCode != ""){					
+					relSexGeogTable(0, result);										
+				}
+				else{	
+				   relSexGeogTable(1, result);				  
+				}				
+				tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
+				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
+				tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
+				tableRow4 = tableRow4 + "<td>"+groupFour+"</td><td>Not Available</td>";
+			}
+	
+			if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
+			{
+				if (nationalName == "England"){
+					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
+				}
+				else{
+					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
+				}
+				if(OA === 'E92000001' && wardCode != ""){					
+					relSexGeogTable(1, result);										
+				}
+				else if(OA === 'E92000001' && wardCode == ""){				   
+					relSexGeogTable(0, result);
+				}
+				else{
+				   relSexGeogTable(2, result);				  
+				}				
+				tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";//<td>Not Available</td>";
+				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";//<td>Not Available</td>";
+				tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";//<td>Not Available</td>";
+				tableRow4 = tableRow4 + "<td>"+groupFour+"</td>";//<td>Not Available</td>";
+			}
+	
+			if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+				if(OA === 'E92000001' && wardCode != ""){					
+					relSexGeogTable(2, result);										
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+					relSexGeogTable(1, result);
+				}
+				else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
+					relSexGeogTable(0, result);
+				}
+				else{
+					relSexGeogTable(3, result);				 
+				}					
 				tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
 				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
 				tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
 				tableRow4 = tableRow4 + "<td>"+groupFour+"</td>";
 			}
-
-			var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC2107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false&dm/CL_0000006=CI_0000070,CI_0000074&dm/CL_0000035=CI_0000071,CI_0000070&dm/CL_0000163=CI_0001887";
-
-			$.getJSON(URL, function(resultWard)
-					{
-
-				if(levelname == "WD" || levelname =="OA")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-					groupOne = commaSeparateNumber(resultWard["LC2107EW"].value[0]) ;
-					groupTwo = commaSeparateNumber(resultWard["LC2107EW"].value[2]) ;
-					groupThree = commaSeparateNumber(resultWard["LC2107EW"].value[1]);
-					groupFour = commaSeparateNumber(resultWard["LC2107EW"].value[3]);
-					tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
-					tableRow4 = tableRow4 + "<td>"+groupFour+"</td><td>Not Available</td>";
+	
+			if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
+			{
+				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
+				if(OA === 'E92000001' && wardCode != ""){					
+				   relSexGeogTable(3, result);										
 				}
-
-				if(levelname == "LAD" || levelname == "WD" || levelname =="OA")
-				{
-					if (nationalName == "England"){
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
-					}
-					else{
-						tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
-					}
-					groupOne = commaSeparateNumber(result["LC2107EW"].value[8]) ;
-					groupTwo = commaSeparateNumber(result["LC2107EW"].value[10]) ;
-					groupThree = commaSeparateNumber(result["LC2107EW"].value[9]);
-					groupFour = commaSeparateNumber(result["LC2107EW"].value[11]);
-					tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";//<td>Not Available</td>";
-					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";//<td>Not Available</td>";
-					tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";//<td>Not Available</td>";
-					tableRow4 = tableRow4 + "<td>"+groupFour+"</td>";//<td>Not Available</td>";
+				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+				   relSexGeogTable(2, result);
 				}
-
-				if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-					groupOne = commaSeparateNumber(result["LC2107EW"].value[4]) ;
-					groupTwo = commaSeparateNumber(result["LC2107EW"].value[6]);
-					groupThree = commaSeparateNumber(result["LC2107EW"].value[5]);
-					groupFour = commaSeparateNumber(result["LC2107EW"].value[7]);
-					tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
-					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
-					tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
-					tableRow4 = tableRow4 + "<td>"+groupFour+"</td>";
+				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+				   relSexGeogTable(1, result);
 				}
-
-				if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
-				{
-					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-					groupOne = commaSeparateNumber(result["LC2107EW"].value[0]) ;
-					groupTwo = commaSeparateNumber(result["LC2107EW"].value[2]) ;
-					groupThree = commaSeparateNumber(result["LC2107EW"].value[1]);
-					groupFour = commaSeparateNumber(result["LC2107EW"].value[3]);
-					tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
-					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
-					tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
-					tableRow4 = tableRow4 + "<td>"+groupFour+"</td>";
-				}			
-				
-				tableRow1 = tableRow1 + "</tr>";
-				tableRow2 = tableRow2 + "</tr>";
-				tableRow3 = tableRow3 + "</tr>";
-				tableRow4 = tableRow4 + "</tr>";
-
-				var tableRows = tableRow1 + tableRow2 + tableRow3 + tableRow4;								
-				completeTable(tableHead, tableBody, tableRows, tableType); 			
-				var end = new Date().getTime();
-				var time = end - start;
-				console.log('Execution time: ' + time/1000);
-					});	
-		});	
-	}	
+				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+				   relSexGeogTable(0, result);
+				}
+				else{
+				   relSexGeogTable(4, result);				  
+				}				
+				tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
+				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
+				tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
+				tableRow4 = tableRow4 + "<td>"+groupFour+"</td>";
+			}			
+			
+			tableRow1 = tableRow1 + "</tr>";
+			tableRow2 = tableRow2 + "</tr>";
+			tableRow3 = tableRow3 + "</tr>";
+			tableRow4 = tableRow4 + "</tr>";
+	
+			var tableRows = tableRow1 + tableRow2 + tableRow3 + tableRow4;								
+			completeTable(tableHead, tableBody, tableRows, tableType); 			
+			var end = new Date().getTime();
+			var time = end - start;
+			console.log('Execution time: ' + time/1000);
+	   }});	
+		  
+	   function relSexGeogTable(val, result) {
+	      groupOne = commaSeparateNumber(result[val].males_T_All_cat_Age_Christian);
+		  groupTwo = commaSeparateNumber(result[val].females_T_All_cat_Age_Christian);
+		  groupThree = commaSeparateNumber(result[val].males_T_All_cat_Age_Muslim);
+		  groupFour = commaSeparateNumber(result[val].females_T_All_cat_Age_Muslim);
+		  return groupOne, groupTwo, groupThree, groupFour;	
+	   }
+	   
+	});	
+   }	
 	
 	if (tableType == "ecoActiv")
 	{
