@@ -33,6 +33,12 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 		tableRow3 = "<tr><td>Females</td>"
 			
 		var inputAreas, input, url;
+		// need to reset regionCode to national welsh code this is to prevent data being returned unnecessary
+		// as region code is being set to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
+		if (nationalName == "Wales"){
+			regionCode = "W92000004";
+		}
+		
 		inputAreas   = '\"'+ OA + '\", \"' + wardCode + '\", \"' + laCode + '\",  \"' + regionCode + '\",  \"' + nationalCode + '\"';
 						
 		url   = 'http://onsdatarp-glassfishtest.rhcloud.com/datarp-web/rs/nessdatarp/getdatatable';
@@ -53,7 +59,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			if(levelname == "WD" || levelname =="OA")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-				if(OA === 'E92000001' && wardCode != ""){					
+				if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){					
 					popSexGeogTable(0, result);										
 				}
 				else {
@@ -74,10 +80,10 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 				}
 				
-				if(OA === 'E92000001' && wardCode != ""){					
+				if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){					
 					popSexGeogTable(1, result);										
 				}
-				else if(OA === 'E92000001' && wardCode == ""){				   
+				else if((OA === 'E92000001' || OA === 'W92000004') && wardCode == ""){				   
 					popSexGeogTable(0, result);
 				}
 				else{
@@ -90,47 +96,69 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			}
 
 			if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
-			{
-				tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+			{	
+				if (nationalName == "England"){
+					
+					tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+					
+					if(OA === 'E92000001' && wardCode != ""){					
+						popSexGeogTable(2, result);										
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+						popSexGeogTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
+						popSexGeogTable(0, result);
+					}
+					else{						
+						popSexGeogTable(3, result);
+					}
+					
+					tableRow1 = tableRow1 + "<td>"+all+"</td>";
+					tableRow2 = tableRow2 + "<td>"+male+"</td>";
+					tableRow3 = tableRow3 + "<td>"+female+"</td>";	
+				}
 				
-				if(OA === 'E92000001' && wardCode != ""){					
-					popSexGeogTable(2, result);										
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
-					popSexGeogTable(1, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
-					popSexGeogTable(0, result);
-				}
-				else{
-					popSexGeogTable(3, result);				 
-				}
-				
-				tableRow1 = tableRow1 + "<td>"+all+"</td>";
-				tableRow2 = tableRow2 + "<td>"+male+"</td>";
-				tableRow3 = tableRow3 + "<td>"+female+"</td>";
 			}
 
 			if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
 				
-				if(OA === 'E92000001' && wardCode != ""){					
-					popSexGeogTable(3, result);										
+				if (nationalName == "England"){
+					if(OA === 'E92000001' && wardCode != ""){					
+						popSexGeogTable(3, result);										
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+						popSexGeogTable(2, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+						popSexGeogTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+						popSexGeogTable(0, result);
+					}
+					else{
+						popSexGeogTable(4, result);				  
+					}
 				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
-					popSexGeogTable(2, result);
+				else {
+					if(OA === 'W92000004' && wardCode != ""){					
+						popSexGeogTable(2, result);										
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode != ""){				   
+						popSexGeogTable(2, result);
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+						popSexGeogTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+						popSexGeogTable(0, result);
+					}
+					else{
+						popSexGeogTable(3, result);				  
+					}
 				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
-					popSexGeogTable(1, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
-					popSexGeogTable(0, result);
-				}
-				else{
-					popSexGeogTable(4, result);				  
-				}
-				
 				tableRow1 = tableRow1 + "<td>"+all+"</td>";
 				tableRow2 = tableRow2 + "<td>"+male+"</td>";
 				tableRow3 = tableRow3 + "<td>"+female+"</td>";
@@ -171,6 +199,12 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 		tableRow5 = "<tr><td>4</td>";
      
 		var inputAreas, input, url;
+		
+		// need to reset regionCode to national welsh code this is to prevent data being returned unnecessary
+		// as region code is being set to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
+		if (nationalName == "Wales"){
+			regionCode = "W92000004";
+		}
 		inputAreas   = '\"'+ OA + '\", \"' + wardCode + '\", \"' + laCode + '\",  \"' + regionCode + '\",  \"' + nationalCode + '\"';
 						
 		url   = 'http://onsdatarp-glassfishtest.rhcloud.com/datarp-web/rs/nessdatarp/getdatatable';
@@ -194,7 +228,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			{
 				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
 				
-				if(OA === 'E92000001' && wardCode != ""){					
+				if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){						
 					ageGeogTable(0, result);										
 				}
 				else {
@@ -217,10 +251,10 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 				}
 				
-				if(OA === 'E92000001' && wardCode != ""){					
+				if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){					
 					ageGeogTable(1, result);										
 				}
-				else if(OA === 'E92000001' && wardCode == ""){				   
+				else if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){				   
 					ageGeogTable(0, result);
 				}
 				else{
@@ -235,48 +269,73 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			}
 
 			if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
-			{
-				tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+			{				
+				if (nationalName == "England"){					
+					tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+					
+					if(OA === 'E92000001' && wardCode != ""){					
+						ageGeogTable(2, result);										
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+						ageGeogTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
+						ageGeogTable(0, result);
+					}
+					else{
+						// not welsh - no region
+						if(OA === 'E92000001') {
+						  ageGeogTable(3, result);
+						}  
+					}
+					
+					tableRow1 = tableRow1 + "<td>"+under1+"</td>";
+					tableRow2 = tableRow2 + "<td>"+one+"</td>";
+					tableRow3 = tableRow3 + "<td>"+two+"</td>";
+					tableRow4 = tableRow4 + "<td>"+three+"</td>";
+					tableRow5 = tableRow5 + "<td>"+four+"</td>";
+				}
 				
-				if(OA === 'E92000001' && wardCode != ""){					
-					ageGeogTable(2, result);										
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
-					ageGeogTable(1, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
-					ageGeogTable(0, result);
-				}
-				else{
-					ageGeogTable(3, result);				 
-				}
-				
-				tableRow1 = tableRow1 + "<td>"+under1+"</td>";
-				tableRow2 = tableRow2 + "<td>"+one+"</td>";
-				tableRow3 = tableRow3 + "<td>"+two+"</td>";
-				tableRow4 = tableRow4 + "<td>"+three+"</td>";
-				tableRow5 = tableRow5 + "<td>"+four+"</td>";
 			}
 
 			if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
-			{
+			{	
 				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
 				
-				if(OA === 'E92000001' && wardCode != ""){					
-					ageGeogTable(3, result);										
+				if (nationalName == "England"){
+					if(OA === 'E92000001' && wardCode != ""){					
+						ageGeogTable(3, result);										
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+						ageGeogTable(2, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+						ageGeogTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+						ageGeogTable(0, result);
+					}
+					else{
+						ageGeogTable(4, result);				  
+					}	
 				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
-					ageGeogTable(2, result);
+				else {
+					if(OA === 'W92000004' && wardCode != ""){					
+						ageGeogTable(2, result);										
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode != ""){				   
+						ageGeogTable(2, result);
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+						ageGeogTable(1, result);
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+						ageGeogTable(0, result);
+					}
+					else{
+						ageGeogTable(3, result);				  
+					}	
 				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
-					ageGeogTable(1, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
-					ageGeogTable(0, result);
-				}
-				else{
-					ageGeogTable(4, result);				  
-				}	
 				
 				tableRow1 = tableRow1 + "<td>"+under1+"</td>";
 				tableRow2 = tableRow2 + "<td>"+one+"</td>";
@@ -321,6 +380,13 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 		tableRow1 = "<tr><td>2013</td>";
 		
 		var inputAreas, input, url;
+		
+		// need to reset regionCode to national welsh code this is to prevent data being returned unnecessary
+		// as region code is being set to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
+		if (nationalName == "Wales"){
+			regionCode = "W92000004";
+		}
+		
 		inputAreas   = '\"'+ OA + '\", \"' + wardCode + '\", \"' + laCode + '\",  \"' + regionCode + '\",  \"' + nationalCode + '\"';
 						
 		url   = 'http://onsdatarp-glassfishtest.rhcloud.com/datarp-web/rs/nessdatarp/getdatatable';
@@ -340,7 +406,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			{
 				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
 				
-				if(OA === 'E92000001' && wardCode != ""){					
+				if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){						
 					popTimeTable(0, result);										
 				}
 				else {
@@ -359,10 +425,10 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 				}
 				
-				if(OA === 'E92000001' && wardCode != ""){					
+				if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){					
 					popTimeTable(1, result);										
 				}
-				else if(OA === 'E92000001' && wardCode == ""){				   
+				else if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){				   
 					popTimeTable(0, result);
 				}
 				else{
@@ -374,42 +440,67 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 
 			if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
 			{
-				tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+				if (nationalName == "England"){
+					
+					tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
+					
+					if(OA === 'E92000001' && wardCode != ""){					
+						popTimeTable(2, result);										
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+						popTimeTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
+						popTimeTable(0, result);
+					}
+					else{
+						// not welsh - no region
+						if(OA === 'E92000001') {
+						  popTimeTable(3, result);
+						}  
+					}
+					tableRow1 = tableRow1 + "<td>"+all+"</td>";
+				}
 				
-				if(OA === 'E92000001' && wardCode != ""){					
-					popTimeTable(2, result);										
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
-					popTimeTable(1, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
-					popTimeTable(0, result);
-				}
-				else{
-					popTimeTable(3, result);				 
-				}
-				
-				tableRow1 = tableRow1 + "<td>"+all+"</td>";
 			}
 
 			if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
 				
-				if(OA === 'E92000001' && wardCode != ""){					
-					popTimeTable(3, result);										
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
-					popTimeTable(2, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
-					popTimeTable(1, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
-					popTimeTable(0, result);
-				}
-				else{
-					popTimeTable(4, result);				  
+				if (nationalName == "England"){
+					if(OA === 'E92000001' && wardCode != ""){					
+						popTimeTable(3, result);										
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+						popTimeTable(2, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+						popTimeTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+						popTimeTable(0, result);
+					}
+					else{
+						popTimeTable(4, result);				  
+					}
+				}	
+				else {
+					if(OA === 'W92000004' && wardCode != ""){					
+						popTimeTable(2, result);										
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode != ""){				   
+						popTimeTable(2, result);
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+						popTimeTable(1, result);
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+						popTimeTable(0, result);
+					}
+					else{
+						popTimeTable(3, result);				  
+					}	
 				}
 				
 				tableRow1 = tableRow1 + "<td>"+all+"</td>";
@@ -443,6 +534,13 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 		tableRow3 = "<tr><td>Muslim</td>"
 		
 		var inputAreas, input, url;
+		
+		// need to reset regionCode to national welsh code this is to prevent data being returned unnecessary
+		// as region code is being set to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
+		if (nationalName == "Wales"){
+			regionCode = "W92000004";
+		}
+		
 		inputAreas   = '\"'+ OA + '\", \"' + wardCode + '\", \"' + laCode + '\",  \"' + regionCode + '\",  \"' + nationalCode + '\"';
 						
 		url   = 'http://onsdatarp-glassfishtest.rhcloud.com/datarp-web/rs/nessdatarp/getdatatable';
@@ -463,7 +561,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			if(levelname == "WD" || levelname =="OA")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-				if(OA === 'E92000001' && wardCode != ""){					
+				if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){						
 					relGeogTable(0, result);										
 				}
 				else{
@@ -483,10 +581,10 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				else{
 					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 				}
-				if(OA === 'E92000001' && wardCode != ""){					
+				if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){					
 					relGeogTable(1, result);										
 				}
-				else if(OA === 'E92000001' && wardCode == ""){				   
+				else if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){				   
 				    relGeogTable(0, result);
 				}
 				else{
@@ -502,42 +600,65 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			{
 				
 				tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-				if(OA === 'E92000001' && wardCode != ""){					
-					relGeogTable(2, result);										
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
-				    relGeogTable(1, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
-				    relGeogTable(0, result);
-				}
-				else{
-				  relGeogTable(3, result);				 
-				}
-											    
-				tableRow1   = tableRow1 + "<td>"+all+"</td>";				
-				tableRow2   = tableRow2 + "<td>"+christian+"</td>";				
-				tableRow3   = tableRow3 + "<td>"+muslim+"</td>";
+				if (nationalName == "England"){
+					if(OA === 'E92000001' && wardCode != ""){					
+						relGeogTable(2, result);										
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+					    relGeogTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
+					    relGeogTable(0, result);
+					}
+					else{
+						// not welsh - no region
+						if(OA === 'E92000001') {
+					      relGeogTable(3, result);
+						}  
+					}
+					tableRow1   = tableRow1 + "<td>"+all+"</td>";				
+					tableRow2   = tableRow2 + "<td>"+christian+"</td>";				
+					tableRow3   = tableRow3 + "<td>"+muslim+"</td>";
+				}				
 			}
 
 			if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 			{				
 				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-				if(OA === 'E92000001' && wardCode != ""){					
-					relGeogTable(3, result);										
+				if (nationalName == "England"){
+					if(OA === 'E92000001' && wardCode != ""){					
+						relGeogTable(3, result);										
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+					    relGeogTable(2, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+					    relGeogTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+					    relGeogTable(0, result);
+					}
+					else{
+					  relGeogTable(4, result);				  
+					}
 				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
-				    relGeogTable(2, result);
+				else {
+					if(OA === 'W92000004' && wardCode != ""){					
+						relGeogTable(2, result);										
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode != ""){				   
+						relGeogTable(2, result);
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+						relGeogTable(1, result);
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+						relGeogTable(0, result);
+					}
+					else{
+						relGeogTable(3, result);				  
+					}	
 				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
-				    relGeogTable(1, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
-				    relGeogTable(0, result);
-				}
-				else{
-				  relGeogTable(4, result);				  
-				}			
 				
 				tableRow1   = tableRow1 + "<td>"+all+"</td>";
 				tableRow2   = tableRow2 + "<td>"+christian+"</td>";
@@ -576,6 +697,13 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 		tableRow3 = "<tr><td>25-34</td>"
 		
 		var inputAreas, input, url;
+		
+		// need to reset regionCode to national welsh code this is to prevent data being returned unnecessary
+		// as region code is being set to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
+		if (nationalName == "Wales"){
+			regionCode = "W92000004";
+		}
+		
 		inputAreas   = '\"'+ OA + '\", \"' + wardCode + '\", \"' + laCode + '\",  \"' + regionCode + '\",  \"' + nationalCode + '\"';
 				
 		url   = 'http://onsdatarp-glassfishtest.rhcloud.com/datarp-web/rs/nessdatarp/getdatatable';
@@ -596,7 +724,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			if(levelname == "WD" || levelname =="OA")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-				if(OA === 'E92000001' && wardCode != ""){					
+				if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){						
 					relAgeGeogTable(0, result);										
 				}
 				else{	
@@ -615,10 +743,10 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				else{
 					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 				}
-				if(OA === 'E92000001' && wardCode != ""){					
+				if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){					
 					relAgeGeogTable(1, result);										
 				}
-				else if(OA === 'E92000001' && wardCode == ""){				   
+				else if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){				   
 					relAgeGeogTable(0, result);
 				}
 				else{
@@ -632,19 +760,23 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-				
-				if(OA === 'E92000001' && wardCode != ""){					
-					relAgeGeogTable(2, result);										
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
-					relAgeGeogTable(1, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
-					relAgeGeogTable(0, result);
-				}
-				else{
-					relAgeGeogTable(3, result);				 
-				}				
+				if (nationalName == "England"){
+					if(OA === 'E92000001' && wardCode != ""){					
+						relAgeGeogTable(2, result);										
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+						relAgeGeogTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
+						relAgeGeogTable(0, result);
+					}
+					else{
+						// not welsh - no region
+						if(OA === 'E92000001') {
+						  relAgeGeogTable(3, result);	
+						}  
+					}
+				}	
 				tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
 				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
 				tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
@@ -653,21 +785,41 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-				if(OA === 'E92000001' && wardCode != ""){					
-				  relAgeGeogTable(3, result);										
+				if (nationalName == "England"){
+					if(OA === 'E92000001' && wardCode != ""){					
+					  relAgeGeogTable(3, result);										
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+					  relAgeGeogTable(2, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+					  relAgeGeogTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+					  relAgeGeogTable(0, result);
+					}
+					else{
+					  relAgeGeogTable(4, result);				  
+					}
 				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
-				  relAgeGeogTable(2, result);
+				else {
+					if(OA === 'W92000004' && wardCode != ""){					
+						relAgeGeogTable(2, result);										
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode != ""){				   
+						relAgeGeogTable(2, result);
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+						relAgeGeogTable(1, result);
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+						relAgeGeogTable(0, result);
+					}
+					else{
+						relAgeGeogTable(3, result);				  
+					}	
 				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
-				  relAgeGeogTable(1, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
-				  relAgeGeogTable(0, result);
-				}
-				else{
-				  relAgeGeogTable(4, result);				  
-				}				
+				
 				tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
 				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
 				tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
@@ -706,6 +858,13 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 		tableRow4 = "<tr><td>Female</td>"
 			
 		var inputAreas, input, url;
+		
+		// need to reset regionCode to national welsh code this is to prevent data being returned unnecessary
+		// as region code is being set to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
+		if (nationalName == "Wales"){
+			regionCode = "W92000004";
+		}
+		
 		inputAreas   = '\"'+ OA + '\", \"' + wardCode + '\", \"' + laCode + '\",  \"' + regionCode + '\",  \"' + nationalCode + '\"';
 				
 		url   = 'http://onsdatarp-glassfishtest.rhcloud.com/datarp-web/rs/nessdatarp/getdatatable';
@@ -727,7 +886,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			if(levelname == "WD" || levelname =="OA")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
-				if(OA === 'E92000001' && wardCode != ""){					
+				if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){						
 					relSexGeogTable(0, result);										
 				}
 				else{	
@@ -747,10 +906,10 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				else{
 					tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Local<br>health<br>board<br>("+healthName+")</th>";
 				}
-				if(OA === 'E92000001' && wardCode != ""){					
+				if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){					
 					relSexGeogTable(1, result);										
 				}
-				else if(OA === 'E92000001' && wardCode == ""){				   
+				else if((OA === 'E92000001' || OA === 'W92000004') && wardCode != ""){				   
 					relSexGeogTable(0, result);
 				}
 				else{
@@ -765,18 +924,24 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			if((levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA") && nationalName == "England")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-				if(OA === 'E92000001' && wardCode != ""){					
-					relSexGeogTable(2, result);										
+				if (nationalName == "England"){
+					if(OA === 'E92000001' && wardCode != ""){					
+						relSexGeogTable(2, result);										
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+						relSexGeogTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
+						relSexGeogTable(0, result);
+					}
+					else{
+						// not welsh - no region
+						if(OA === 'E92000001') {
+						  relSexGeogTable(3, result);
+						}  
+					}
 				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
-					relSexGeogTable(1, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == ""){				    
-					relSexGeogTable(0, result);
-				}
-				else{
-					relSexGeogTable(3, result);				 
-				}					
+				
 				tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
 				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
 				tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
@@ -786,21 +951,41 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 			if(levelname == "CTRY" || levelname == "GOR" || levelname == "LAD" || levelname == "WD" || levelname =="OA")
 			{
 				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-				if(OA === 'E92000001' && wardCode != ""){					
-				   relSexGeogTable(3, result);										
+				if (nationalName == "England"){
+					if(OA === 'E92000001' && wardCode != ""){					
+					   relSexGeogTable(3, result);										
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
+					   relSexGeogTable(2, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+					   relSexGeogTable(1, result);
+					}
+					else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+					   relSexGeogTable(0, result);
+					}
+					else{
+					   relSexGeogTable(4, result);				  
+					}
 				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode != ""){				   
-				   relSexGeogTable(2, result);
+				else {
+					if(OA === 'W92000004' && wardCode != ""){					
+						relSexGeogTable(2, result);										
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode != ""){				   
+						relSexGeogTable(2, result);
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
+						relSexGeogTable(1, result);
+					}
+					else if(OA === 'W92000004' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
+						relSexGeogTable(0, result);
+					}
+					else{
+						relSexGeogTable(3, result);				  
+					}	
 				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode !== 'E92000001'){				   
-				   relSexGeogTable(1, result);
-				}
-				else if(OA === 'E92000001' && wardCode == "" && laCode == "" && regionCode === 'E92000001'){				   
-				   relSexGeogTable(0, result);
-				}
-				else{
-				   relSexGeogTable(4, result);				  
-				}				
+				
 				tableRow1 = tableRow1 + "<td>"+groupOne+"</td>";
 				tableRow2 = tableRow2 + "<td>"+groupTwo+"</td>";
 				tableRow3 = tableRow3 + "<td>"+groupThree+"</td>";
