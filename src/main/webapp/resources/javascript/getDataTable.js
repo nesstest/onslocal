@@ -51,10 +51,16 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				val = 0;
 			}
 			else {
-				tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-				popSexGeogTable(0, result);
-				popSexGeogRow(all, male, female)
-				val = 1;
+				if(levelname == "LAD" || levelname == "WD" || levelname == "GOR" || levelname == "CTRY") {
+					val = 0;
+				}
+				else{
+					tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
+					popSexGeogTable(0, result);
+					popSexGeogRow(all, male, female)
+				    val = 1;
+				} 					
+				
 			}
 			if (wardCode != "") {
 				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
@@ -163,10 +169,15 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					val = 0;
 				}
 				else {
-					tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-					ageGeogTable(0, result);
-					ageGeogRow(under1, one, two, three, four);
-					val = 1;
+					if(levelname == "LAD" || levelname == "WD" || levelname == "GOR" || levelname == "CTRY") {
+						val = 0;
+					}
+					else{
+						tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
+						ageGeogTable(0, result);
+						ageGeogRow(under1, one, two, three, four);
+					    val = 1;
+					} 
 				}
 				if (wardCode != "") {
 					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
@@ -282,10 +293,16 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					val = 0;
 				}
 				else {
-					tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-					popTimeTable(0, result);
-					popTimeRow(all);
-					val = 1;
+					
+					if(levelname == "LAD" || levelname == "WD" || levelname == "GOR" || levelname == "CTRY") {
+						val = 0;
+					}
+					else{
+						tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
+						popTimeTable(0, result);
+						popTimeRow(all);
+					    val = 1;
+					} 
 				}
 				if (wardCode != "") {
 					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
@@ -387,10 +404,16 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					val = 0;
 				}
 				else {
-					tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-					relGeogTable(0, result);
-					relGeogRow(all, christian, muslim)
-					val = 1;
+					
+					if(levelname == "LAD" || levelname == "WD" || levelname == "GOR" || levelname == "CTRY") {
+						val = 0;
+					}
+					else{
+						tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
+						relGeogTable(0, result);
+						relGeogRow(all, christian, muslim);
+					    val = 1;
+					} 
 				}
 				if (wardCode != "") {
 					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
@@ -499,10 +522,16 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					val = 0;
 				}
 				else {
-					tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-					relAgeGeogTable(0, result);	
-					relAgeGeogRow(groupOne, groupTwo, groupThree)
-					val = 1;
+					
+					if(levelname == "LAD" || levelname == "WD" || levelname == "GOR" || levelname == "CTRY") {
+						val = 0;
+					}
+					else{
+						tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
+						relAgeGeogTable(0, result);	
+						relAgeGeogRow(groupOne, groupTwo, groupThree);
+					    val = 1;
+					} 
 				}
 				if (wardCode != "") {
 					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
@@ -612,10 +641,16 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					val = 0;
 				}
 				else {
-					tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
-					relSexGeogTable(0, result);
-					relSexGeogRow(groupOne, groupTwo, groupThree, groupFour);
-					val = 1;
+					if(levelname == "LAD" || levelname == "WD" || levelname == "GOR" || levelname == "CTRY") {
+						val = 0;
+					}
+					else{
+						tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
+						relSexGeogTable(0, result);
+						relSexGeogRow(groupOne, groupTwo, groupThree, groupFour);
+					    val = 1;
+					} 					
+					
 				}
 				if (wardCode != "") {
 					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
@@ -632,8 +667,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				    }  
 				    relSexGeogTable(val, result);	
 				    relSexGeogRow(groupOne, groupTwo, groupThree, groupFour)
-				}
-				
+				}			
 				
 				if (nationalName == "England"){
 					if (regionCode !== 'E92000001') {
