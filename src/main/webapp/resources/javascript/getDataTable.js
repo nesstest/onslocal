@@ -8,7 +8,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 
 
 	if(levelname == null)
-	{levelname = "OA"}
+	{levelname = "OA";}
 
 	var geogParam;
 	var tableHead;
@@ -19,18 +19,21 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 	var tableRow4;
 	var tableRow5;
 	var tableRow6;
-
+    var start;
+    var inputAreas, input, url;
+    var URL;
+    
+    
 	//start to create table
 	if (tableType == "popSexGeog")
 	{
-		var start = new Date().getTime();
+		start = new Date().getTime();
 		tableHead = "<table><span class='tabletitle'>Population by sex and geography (2013)</span><thead><tr><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
-		tableRow1 = "<tr><td>Total</td>"
-		tableRow2 = "<tr><td>Males</td>"
-		tableRow3 = "<tr><td>Females</td>"
-			
-		var inputAreas, input, url;
+		tableRow1 = "<tr><td>Total</td>";
+		tableRow2 = "<tr><td>Males</td>";
+		tableRow3 = "<tr><td>Females</td>";			
+		
 		// need to reset regionCode to national welsh code this is to prevent data being returned unnecessary
 		// as region code is being set to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
 		if (nationalName == "Wales"){
@@ -57,56 +60,56 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				else{
 					tableHead = tableHead + "<th data-priority='persist'>Output Area<br>("+OA+")</th>";
 					popSexGeogTable(0, result);
-					popSexGeogRow(all, male, female)
+					popSexGeogRow(all, male, female);
 				    val = 1;
 				} 					
 				
 			}
-			if (wardCode != "") {
+			if (wardCode !== "") {
 				tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
 				popSexGeogTable(val, result);
 				tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
 				tableRow2 = tableRow2 + "<td>"+male+"</td><td>Not Available</td>";
 				tableRow3 = tableRow3 + "<td>"+female+"</td><td>Not Available</td>";
 			}
-			if (laCode != "") {
+			if (laCode !== "") {
 			    tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
-			    if (wardCode != "") {
+			    if (wardCode !== "") {
 			      val = val + 1;
 			    }  
 				popSexGeogTable(val, result);	
-				popSexGeogRow(all, male, female)
+				popSexGeogRow(all, male, female);
 			}			
 			if (nationalName == "England"){
 				if (regionCode !== 'E92000001') {
 					tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-					if (wardCode != "" || laCode != "" ) {
+					if (wardCode !== "" || laCode !== "" ) {
 					  val = val + 1;
 					}  
 					popSexGeogTable(val, result);
-					popSexGeogRow(all, male, female)
+					popSexGeogRow(all, male, female);
 				
 					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
 					val = val + 1;
 					popSexGeogTable(val, result);
-					popSexGeogRow(all, male, female)
+					popSexGeogRow(all, male, female);
 				}
 				else{
 					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-					if (wardCode != "" || laCode != "" ) {
+					if (wardCode !== "" || laCode !== "" ) {
 						  val = val + 1;
 					}  
 					popSexGeogTable(val, result);
-					popSexGeogRow(all, male, female)
+					popSexGeogRow(all, male, female);
 				}
 			}
 			else{					
 				tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-				if (wardCode != "" || laCode != "" ) {
+				if (wardCode !== "" || laCode !== "" ) {
 					  val = val + 1;
 				}  
 				popSexGeogTable(val, result);
-				popSexGeogRow(all, male, female)
+				popSexGeogRow(all, male, female);
 			}
 
 			tableRow1 = tableRow1 + "</tr>";
@@ -139,7 +142,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 	if (tableType == "ageGeog")
 	{	
 		
-		var start = new Date().getTime();
+		start = new Date().getTime();
 		tableHead = "<table><span class='tabletitle'>Age by geography (2013)</span><thead><tr><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
 		tableRow1 = "<tr><td>Under 1</td>";
@@ -147,8 +150,6 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 		tableRow3 = "<tr><td>2</td>";
 		tableRow4 = "<tr><td>3</td>";
 		tableRow5 = "<tr><td>4</td>";
-     
-		var inputAreas, input, url;
 		
 		// need to reset regionCode to national welsh code this is to prevent data being returned unnecessary
 		// as region code is being set to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
@@ -179,7 +180,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					    val = 1;
 					} 
 				}
-				if (wardCode != "") {
+				if (wardCode !== "") {
 					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
 					ageGeogTable(val, result);
 					tableRow1 = tableRow1 + "<td>"+under1+"</td><td>Not Available</td>";
@@ -188,44 +189,44 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableRow4 = tableRow4 + "<td>"+three+"</td><td>Not Available</td>";
 					tableRow5 = tableRow5 + "<td>"+four+"</td><td>Not Available</td>";
 				}
-				if (laCode != "") {
+				if (laCode !== "") {
 				    tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
-				    if (wardCode != "") {
+				    if (wardCode !== "") {
 				      val = val + 1;
 				    }  
 				    ageGeogTable(val, result);	
-				    ageGeogRow(under1, one, two, three, four)
+				    ageGeogRow(under1, one, two, three, four);
 				}	
 				
 				if (nationalName == "England"){
 					if (regionCode !== 'E92000001') {
 						tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-						if (wardCode != "" || laCode != "" ) {
+						if (wardCode !== "" || laCode !== "" ) {
 						  val = val + 1;
 						}  
 						ageGeogTable(val, result);
-						ageGeogRow(under1, one, two, three, four)					
+						ageGeogRow(under1, one, two, three, four);					
 						tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
 						val = val + 1;
 						ageGeogTable(val, result);
-						ageGeogRow(under1, one, two, three, four)
+						ageGeogRow(under1, one, two, three, four);
 					}
 					else{
 						tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-						if (wardCode != "" || laCode != "" ) {
+						if (wardCode !== "" || laCode !== "" ) {
 							  val = val + 1;
 						}  
 						ageGeogTable(val, result);
-						ageGeogRow(under1, one, two, three, four)
+						ageGeogRow(under1, one, two, three, four);
 					}
 				}
 				else{					
 					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-					if (wardCode != "" || laCode != "" ) {
+					if (wardCode !== "" || laCode !== "" ) {
 						  val = val + 1;
 					}  
 					ageGeogTable(val, result);
-					ageGeogRow(under1, one, two, three, four)
+					ageGeogRow(under1, one, two, three, four);
 				}
 				
 				tableRow1 = tableRow1 + "</tr>";
@@ -264,14 +265,12 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 
 	if (tableType == "popTime")
 	{
-		var start = new Date().getTime();
+		start = new Date().getTime();
 
 		tableHead = "<table><span class='tabletitle'>Population over time (time series, 2013)</span><thead><tr><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
 
 		tableRow1 = "<tr><td>2013</td>";
-		
-		var inputAreas, input, url;
 		
 		// need to reset regionCode to national welsh code this is to prevent data being returned unnecessary
 		// as region code is being set to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
@@ -304,14 +303,14 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					    val = 1;
 					} 
 				}
-				if (wardCode != "") {
+				if (wardCode !== "") {
 					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
 					popTimeTable(val, result);
 					tableRow1 = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
 				}
-				if (laCode != "") {
+				if (laCode !== "") {
 				    tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
-				    if (wardCode != "") {
+				    if (wardCode !== "") {
 				      val = val + 1;
 				    }  
 				    popTimeTable(val, result);	
@@ -321,7 +320,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				if (nationalName == "England"){
 					if (regionCode !== 'E92000001') {
 						tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-						if (wardCode != "" || laCode != "" ) {
+						if (wardCode !== "" || laCode !== "" ) {
 						  val = val + 1;
 						}  
 						popTimeTable(val, result);
@@ -334,7 +333,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					}
 					else{
 						tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-						if (wardCode != "" || laCode != "" ) {
+						if (wardCode !== "" || laCode !== "" ) {
 							  val = val + 1;
 						}  
 						popTimeTable(val, result);
@@ -343,7 +342,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				}
 				else{					
 					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-					if (wardCode != "" || laCode != "" ) {
+					if (wardCode !== "" || laCode !== "" ) {
 						  val = val + 1;
 					}  
 					popTimeTable(val, result);
@@ -373,15 +372,13 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 
 	if (tableType == "relGeog")
 	{
-		var start = new Date().getTime();
+		start = new Date().getTime();
 
 		tableHead = "<table><span class='tabletitle'>Religion by geography (2011)</span><thead><tr><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
-		tableRow1 = "<tr><td>Total</td>"
-		tableRow2 = "<tr><td>Christian</td>"
-		tableRow3 = "<tr><td>Muslim</td>"
-		
-		var inputAreas, input, url;
+		tableRow1 = "<tr><td>Total</td>";
+		tableRow2 = "<tr><td>Christian</td>";
+		tableRow3 = "<tr><td>Muslim</td>";
 		
 		// need to reset regionCode to national welsh code this is to prevent data being returned unnecessary
 		// as region code is being set to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
@@ -415,52 +412,52 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					    val = 1;
 					} 
 				}
-				if (wardCode != "") {
+				if (wardCode !== "") {
 					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
 					relGeogTable(val, result);
 					tableRow1   = tableRow1 + "<td>"+all+"</td><td>Not Available</td>";
 					tableRow2   = tableRow2 + "<td>"+christian+"</td><td>Not Available</td>";
 					tableRow3   = tableRow3 + "<td>"+muslim+"</td><td>Not Available</td>";
 				}
-				if (laCode != "") {
+				if (laCode !== "") {
 				    tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
-				    if (wardCode != "") {
+				    if (wardCode !== "") {
 				      val = val + 1;
 				    }  
 				    relGeogTable(val, result);	
-				    relGeogRow(all, christian, muslim)
+				    relGeogRow(all, christian, muslim);
 				}	
 				
 				if (nationalName == "England"){
 					if (regionCode !== 'E92000001') {
 						tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-						if (wardCode != "" || laCode != "" ) {
+						if (wardCode !== "" || laCode !== "" ) {
 						  val = val + 1;
 						}  
 						relGeogTable(val, result);
-						relGeogRow(all, christian, muslim)
+						relGeogRow(all, christian, muslim);
 					
 						tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
 						val = val + 1;
 						relGeogTable(val, result);
-						relGeogRow(all, christian, muslim)
+						relGeogRow(all, christian, muslim);
 					}
 					else{
 						tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-						if (wardCode != "" || laCode != "" ) {
+						if (wardCode !== "" || laCode !== "" ) {
 							  val = val + 1;
 						}  
 						relGeogTable(val, result);
-						relGeogRow(all, christian, muslim)
+						relGeogRow(all, christian, muslim);
 					}
 				}
 				else{					
 					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-					if (wardCode != "" || laCode != "" ) {
+					if (wardCode !== "" || laCode !== "" ) {
 						  val = val + 1;
 					}  
 					relGeogTable(val, result);
-					relGeogRow(all, christian, muslim)
+					relGeogRow(all, christian, muslim);
 				}
 
 				tableRow1 = tableRow1 + "</tr>";
@@ -491,16 +488,14 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 
 	if (tableType == "relAgeGeog")
 	{
-		var start = new Date().getTime();
+		start = new Date().getTime();
 
 		tableHead = "<table><span class='tabletitle'>Religion by age and geography (2011)</span><thead><tr><th data-priority='persist'></th><th data-priority='persist'></th>";
 		tableBody = "<tbody>";	
 
-		tableRow1 = "<tr><th style='border-top:1px solid black;' rowspan='3'><font size='2'>Christian</font></th><td>0-15</td>"
-		tableRow2 = "<tr><td>16-24</td>"
-		tableRow3 = "<tr><td>25-34</td>"
-		
-		var inputAreas, input, url;
+		tableRow1 = "<tr><th style='border-top:1px solid black;' rowspan='3'><font size='2'>Christian</font></th><td>0-15</td>";
+		tableRow2 = "<tr><td>16-24</td>";
+		tableRow3 = "<tr><td>25-34</td>";
 		
 		// need to reset regionCode to national welsh code this is to prevent data being returned unnecessary
 		// as region code is being set to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
@@ -533,52 +528,52 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					    val = 1;
 					} 
 				}
-				if (wardCode != "") {
+				if (wardCode !== "") {
 					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
 					relAgeGeogTable(val, result);
 					tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
 					tableRow2 = tableRow2 + "<td>"+groupTwo+"</td><td>Not Available</td>";
 					tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
 				}
-				if (laCode != "") {
+				if (laCode !== "") {
 				    tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
-				    if (wardCode != "") {
+				    if (wardCode !== "") {
 				      val = val + 1;
 				    }  
 				    relAgeGeogTable(val, result);	
-				    relAgeGeogRow(groupOne, groupTwo, groupThree)
+				    relAgeGeogRow(groupOne, groupTwo, groupThree);
 				}	
 				
 				if (nationalName == "England"){
 					if (regionCode !== 'E92000001') {
 						tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-						if (wardCode != "" || laCode != "" ) {
+						if (wardCode !== "" || laCode !== "" ) {
 						  val = val + 1;
 						}  
 						relAgeGeogTable(val, result);
-						relAgeGeogRow(groupOne, groupTwo, groupThree)
+						relAgeGeogRow(groupOne, groupTwo, groupThree);
 					
 						tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
 						val = val + 1;
 						relAgeGeogTable(val, result);
-						relAgeGeogRow(groupOne, groupTwo, groupThree)
+						relAgeGeogRow(groupOne, groupTwo, groupThree);
 					}
 					else{
 						tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-						if (wardCode != "" || laCode != "" ) {
+						if (wardCode !== "" || laCode !== "" ) {
 							  val = val + 1;
 						}  
 						relAgeGeogTable(val, result);
-						relAgeGeogRow(groupOne, groupTwo, groupThree)
+						relAgeGeogRow(groupOne, groupTwo, groupThree);
 					}
 				}
 				else{					
 					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-					if (wardCode != "" || laCode != "" ) {
+					if (wardCode !== "" || laCode !== "" ) {
 						  val = val + 1;
 					}  
 					relAgeGeogTable(val, result);
-					relAgeGeogRow(groupOne, groupTwo, groupThree)
+					relAgeGeogRow(groupOne, groupTwo, groupThree);
 				}				
 
 				tableRow1 = tableRow1 + "</tr>";
@@ -610,16 +605,14 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 
 	if (tableType == "relSexGeog")
 	{
-		var start = new Date().getTime();
+		start = new Date().getTime();
 		tableHead = "<table><span class='tabletitle'>Religion by sex and geography (2011)</span><thead><tr><th data-priority='persist'></th><th data-priority='persist'></th>";
 		tableBody = "<tbody>";		
 
-		tableRow1 = "<tr><th style='border-top:1px solid black;' rowspan='2'><font size='2'>Christian</font></th><td>Male</td>"
-		tableRow2 = "<tr><td>Female</td>"
-		tableRow3 = "<tr><th style='border-top:1px solid black;' rowspan='2'><font size='2'>Muslim</font></th><td>Male</td>"
-		tableRow4 = "<tr><td>Female</td>"
-			
-		var inputAreas, input, url;
+		tableRow1 = "<tr><th style='border-top:1px solid black;' rowspan='2'><font size='2'>Christian</font></th><td>Male</td>";
+		tableRow2 = "<tr><td>Female</td>";
+		tableRow3 = "<tr><th style='border-top:1px solid black;' rowspan='2'><font size='2'>Muslim</font></th><td>Male</td>";
+		tableRow4 = "<tr><td>Female</td>";
 		
 		// need to reset regionCode to national welsh code this is to prevent data being returned unnecessary
 		// as region code is being set to a valid region (NORTH EAST in this case) to stop WDA call failing - data will not be used in table! 
@@ -652,7 +645,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					} 					
 					
 				}
-				if (wardCode != "") {
+				if (wardCode !== "") {
 					tableHead = tableHead + "<th data-priority='persist'>Ward<br>("+wardName+")</th><th data-priority='persist'>Westminster<br>parliamentary<br>constituency<br>("+parliconName+")</th>";
 					relSexGeogTable(val, result);
 					tableRow1 = tableRow1 + "<td>"+groupOne+"</td><td>Not Available</td>";
@@ -660,45 +653,45 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 					tableRow3 = tableRow3 + "<td>"+groupThree+"</td><td>Not Available</td>";
 					tableRow4 = tableRow4 + "<td>"+groupFour+"</td><td>Not Available</td>";
 				}
-				if (laCode != "") {
+				if (laCode !== "") {
 				    tableHead = tableHead + "<th data-priority='persist'>Local<br>authority<br>("+laName+")</th>";//<th data-priority='persist'>Clinical<br>commissioning<br>group<br>("+healthName+")</th>";
-				    if (wardCode != "") {
+				    if (wardCode !== "") {
 				      val = val + 1;
 				    }  
 				    relSexGeogTable(val, result);	
-				    relSexGeogRow(groupOne, groupTwo, groupThree, groupFour)
+				    relSexGeogRow(groupOne, groupTwo, groupThree, groupFour);
 				}			
 				
 				if (nationalName == "England"){
 					if (regionCode !== 'E92000001') {
 						tableHead = tableHead + "<th data-priority='persist'>Region<br>("+regionName+")</th>";
-						if (wardCode != "" || laCode != "" ) {
+						if (wardCode !== "" || laCode !== "" ) {
 						  val = val + 1;
 						}  
 						relSexGeogTable(val, result);
-						relSexGeogRow(groupOne, groupTwo, groupThree, groupFour)
+						relSexGeogRow(groupOne, groupTwo, groupThree, groupFour);
 					
 						tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
 						val = val + 1;
 						relSexGeogTable(val, result);
-						relSexGeogRow(groupOne, groupTwo, groupThree, groupFour)
+						relSexGeogRow(groupOne, groupTwo, groupThree, groupFour);
 					}
 					else{
 						tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-						if (wardCode != "" || laCode != "" ) {
+						if (wardCode !== "" || laCode !== "" ) {
 							  val = val + 1;
 						}  
 						relSexGeogTable(val, result);
-						relSexGeogRow(groupOne, groupTwo, groupThree, groupFour)
+						relSexGeogRow(groupOne, groupTwo, groupThree, groupFour);
 					}
 				}
 				else{					
 					tableHead = tableHead + "<th data-priority='persist'>National<br>("+nationalName+")</th>";
-					if (wardCode != "" || laCode != "" ) {
+					if (wardCode !== "" || laCode !== "" ) {
 						  val = val + 1;
 					}  
 					relSexGeogTable(val, result);
-					relSexGeogRow(groupOne, groupTwo, groupThree, groupFour)
+					relSexGeogRow(groupOne, groupTwo, groupThree, groupFour);
 				}
 			
 				tableRow1 = tableRow1 + "</tr>";
@@ -733,20 +726,20 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 	
 	if (tableType == "ecoActiv")
 	{
-		var start = new Date().getTime();		
+		start = new Date().getTime();		
 		var groupOne, groupTwo, groupThree, groupFour, groupFive, groupSix;
 		
 		tableHead = "<table><span class='tabletitle'>Economic activity by sex by age (2011)</span><thead><tr><th data-priority='persist'></th><th data-priority='persist'></th>";
 		tableBody = "<tbody>";
 		
-		tableRow1 = "<tr><th style='border-top:1px solid black;' rowspan='6'><font size='2'>Age 16 and over</font></th><td>Economic activity</td>"
-			tableRow2 = "<tr><td>Total</td>"
-				tableRow3 = "<tr><td>Employment Total</td>"
-					tableRow4 = "<tr><td>Employee Total</td>"
-						tableRow5 = "<tr><td>Employee Full-time</td>"
-							tableRow6 = "<tr><td>Employee Part-time</td>"
+		tableRow1 = "<tr><th style='border-top:1px solid black;' rowspan='6'><font size='2'>Age 16 and over</font></th><td>Economic activity</td>";
+			tableRow2 = "<tr><td>Total</td>";
+				tableRow3 = "<tr><td>Employment Total</td>";
+					tableRow4 = "<tr><td>Employee Total</td>";
+						tableRow5 = "<tr><td>Employee Full-time</td>";
+							tableRow6 = "<tr><td>Employee Part-time</td>";
 
-						var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC6107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121,&dm/CL_0000160=CI_0001945&dm/CL_0000407=CI_0002882,CI_0002896,CI_0002897,CI_0002898,CI_0002899,CI_0002900";
+						URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC6107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121,&dm/CL_0000160=CI_0001945&dm/CL_0000407=CI_0002882,CI_0002896,CI_0002897,CI_0002898,CI_0002899,CI_0002900";
 				
 		  $.getJSON(URL, function(result){
 
@@ -767,7 +760,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				tableRow6  = tableRow6 + "<td>"+groupSix+"</td>";
 			}
 
-			var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC6107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121,&dm/CL_0000160=CI_0001945&dm/CL_0000407=CI_0002882,CI_0002896,CI_0002897,CI_0002898,CI_0002899,CI_0002900";
+			URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC6107EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false&dm/CL_0000035=CI_0000121,&dm/CL_0000160=CI_0001945&dm/CL_0000407=CI_0002882,CI_0002896,CI_0002897,CI_0002898,CI_0002899,CI_0002900";
            			
 			$.getJSON(URL, function(resultWard){
 
@@ -863,20 +856,20 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 	
 	if (tableType == "ecoIndustry")
 	{
-		var start = new Date().getTime();		
+		start = new Date().getTime();		
 		var all, agriculture, mining, manufacturing, electricty, water;
 
 		tableHead = "<table><span class='tabletitle'>Industry (2011)</span><thead><tr><th data-priority='persist'></th>";		
 		
 		tableBody = "<tbody>";
-		tableRow1 = "<tr><td>Industry</td>"
-		tableRow2 = "<tr><td>Agriculture forestry and fishing</td>"
-		tableRow3 = "<tr><td>Mining and quarrying</td>"
-		tableRow4 = "<tr><td>Manufacturing</td>"
-		tableRow5 = "<tr><td>Electricity gas steam and air conditioning supply</td>"
-		tableRow6 = "<tr><td>Water supply; sewerage waste management and remediation activities</td>"	
+		tableRow1 = "<tr><td>Industry</td>";
+		tableRow2 = "<tr><td>Agriculture forestry and fishing</td>";
+		tableRow3 = "<tr><td>Mining and quarrying</td>";
+		tableRow4 = "<tr><td>Manufacturing</td>";
+		tableRow5 = "<tr><td>Electricity gas steam and air conditioning supply</td>";
+		tableRow6 = "<tr><td>Water supply; sewerage waste management and remediation activities</td>";	
  
-		var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/KS605EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000897=CI_0015330,CI_0015331,CI_0015332,CI_0015333,CI_0015334,CI_0015335";
+		URL  = "http://data.ons.gov.uk/ons/api/data/dataset/KS605EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000897=CI_0015330,CI_0015331,CI_0015332,CI_0015333,CI_0015334,CI_0015335";
 		
 		$.getJSON(URL, function(result){
 
@@ -897,7 +890,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				tableRow6 = tableRow6 + "<td>"+water+"</td>";
 			}
 
-			var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/KS605EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false&dm/CL_0000897=CI_0015330,CI_0015331,CI_0015332,CI_0015333,CI_0015334,CI_0015335";
+			URL  = "http://data.ons.gov.uk/ons/api/data/dataset/KS605EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false&dm/CL_0000897=CI_0015330,CI_0015331,CI_0015332,CI_0015333,CI_0015334,CI_0015335";
 
 			$.getJSON(URL, function(resultWard){
 
@@ -992,19 +985,19 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 	
 	if (tableType == "ecoOccupation")
 	{
-		var start = new Date().getTime();		
+		start = new Date().getTime();		
 		
 		tableHead = "<table><span class='tabletitle'>Occupation by sex (2011)</span><thead><tr><th data-priority='persist'></th><th data-priority='persist'></th>";
 		tableBody = "<tbody>";		
 
-		tableRow1 = "<tr><th style='border-top:1px solid black;' rowspan='3'><font size='2'>Occupation</font></th><td>Total</td>"
-			tableRow2 = "<tr><td>Males</td>"
-				tableRow3 = "<tr><td>Females</td>"
-				  tableRow4 = "<tr><th style='border-top:1px solid black;' rowspan='3'><font size='2'>Managers, directors and senior officials</font></th><td>Total</td>"
-					tableRow5 = "<tr><td>Males</td>"
-						tableRow6 = "<tr><td>Females</td>"
+		tableRow1 = "<tr><th style='border-top:1px solid black;' rowspan='3'><font size='2'>Occupation</font></th><td>Total</td>";
+			tableRow2 = "<tr><td>Males</td>";
+				tableRow3 = "<tr><td>Females</td>";
+				  tableRow4 = "<tr><th style='border-top:1px solid black;' rowspan='3'><font size='2'>Managers, directors and senior officials</font></th><td>Total</td>";
+					tableRow5 = "<tr><td>Males</td>";
+						tableRow6 = "<tr><td>Females</td>";
 
-			var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC6120EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000190=CI_0001980,CI_0000071";
+			URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC6120EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false&dm/CL_0000190=CI_0001980,CI_0000071";
 		
 		    $.getJSON(URL, function(result){
 
@@ -1025,7 +1018,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 				tableRow6 = tableRow6 + "<td>"+groupSix+"</td>";
 			}
 
-			var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC6120EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false&dm/CL_0000190=CI_0001980,CI_0000071";
+			URL  = "http://data.ons.gov.uk/ons/api/data/dataset/LC6120EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false&dm/CL_0000190=CI_0001980,CI_0000071";
 
 			$.getJSON(URL, function(resultWard){
 
@@ -1120,7 +1113,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 	
     if (tableType == "housingHeating")
     {
-           var start = new Date().getTime();          
+           start = new Date().getTime();          
            var all, no_ch, gas_ch, gas_ch, electric_ch, oil_ch, solid_ch;
            
            tableHead = "<table><span class='tabletitle'>Central Heating by geography (2011)</span><thead><tr><th data-priority='persist'></th>";
@@ -1132,7 +1125,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
            tableRow5 = "<tr><td>Oil central heating</td>"
            tableRow6 = "<tr><td>Solid fuel (for example wood, coal) central heating</td>"
     
-           var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/QS415EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false";
+           URL  = "http://data.ons.gov.uk/ons/api/data/dataset/QS415EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false";
     
            $.getJSON(URL, function(result)
            {
@@ -1153,7 +1146,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
                         tableRow6   = tableRow6 + "<td>"+solid_ch+"</td>";
                   }
                   
-               var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/QS415EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false";
+               URL  = "http://data.ons.gov.uk/ons/api/data/dataset/QS415EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false";
     
                   $.getJSON(URL, function(resultWard)
                   {
@@ -1249,7 +1242,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
    
     if (tableType == "housingBedroom")
     {
-           var start = new Date().getTime();          
+           start = new Date().getTime();          
            var all, up_to_pt5, over_pt5_to_1, over_1_to_1pt5, over_1pt5;   
                   
            tableHead = "<table><span class='tabletitle'>Persons per bedroom</span><thead><tr><th data-priority='persist'></th>";
@@ -1259,7 +1252,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
            tableRow3 = "<tr><td>Over 0.5 and up to 1.0 persons per bedroom</td>"
            tableRow4 = "<tr><td>Over 1.0 and up to 1.5 persons per bedroom</td>"
            tableRow5 = "<tr><td>Over 1.5 persons per bedroom</td>"   
-           var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/QS414EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false";
+           URL  = "http://data.ons.gov.uk/ons/api/data/dataset/QS414EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false";
     
            $.getJSON(URL, function(result)
            {
@@ -1278,7 +1271,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
                         tableRow5           = tableRow5 + "<td>"+over_1pt5+"</td>";
                   }
                   
-               var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/QS414EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false";
+               URL  = "http://data.ons.gov.uk/ons/api/data/dataset/QS414EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false";
     
                   $.getJSON(URL, function(resultWard)
                   {
@@ -1364,18 +1357,18 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
 
     if (tableType == "housingCar")
     {
-           var start = new Date().getTime();          
+           start = new Date().getTime();          
            var all, No_cars, car_1, car_2, car_3, car_4;  
            
            tableHead = "<table><span class='tabletitle'>Car or van availability</span><thead><tr><th data-priority='persist'></th>";
            tableBody = "<tbody>";
-           tableRow1 = "<tr><td>Total</td>"
-           tableRow2 = "<tr><td>No cars or vans in household</td>"
-           tableRow3 = "<tr><td>1 car or van in household</td>"
-           tableRow4 = "<tr><td>2 cars or vans in household</td>"
-           tableRow5 = "<tr><td>3 cars or vans in household</td>"    
-           tableRow6 = "<tr><td>4 or more cars or vans in household</td>"       
-           var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/KS404EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false";
+           tableRow1 = "<tr><td>Total</td>";
+           tableRow2 = "<tr><td>No cars or vans in household</td>";
+           tableRow3 = "<tr><td>1 car or van in household</td>";
+           tableRow4 = "<tr><td>2 cars or vans in household</td>";
+           tableRow5 = "<tr><td>3 cars or vans in household</td>";    
+           tableRow6 = "<tr><td>4 or more cars or vans in household</td>";       
+           URL  = "http://data.ons.gov.uk/ons/api/data/dataset/KS404EW.json?context=Census&apikey=l4iaoeZCum&geog=2011STATH&dm/2011STATH="+OA+","+laCode+","+regionCode+","+nationalCode+"&jsontype=json-stat&totals=false";
     
            $.getJSON(URL, function(result)
            {
@@ -1396,7 +1389,7 @@ function getData(OA,laCode,laName,parliconCode,parliconName,wardCode,wardName,re
                         tableRow6           = tableRow6 + "<td>"+car_4+"</td>";
                   }
                   
-               var URL  = "http://data.ons.gov.uk/ons/api/data/dataset/KS404EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false";
+               URL  = "http://data.ons.gov.uk/ons/api/data/dataset/KS404EW.json?context=Census&apikey=l4iaoeZCum&geog=2011WARDH&dm/2011WARDH="+wardCode+"&jsontype=json-stat&totals=false";
     
                   $.getJSON(URL, function(resultWard)
                   {
