@@ -68,7 +68,8 @@ function getDatasetDetail(dsFamilyId, dataset,subject,startDate,endDate) {
 			  json = x2js.xml_str2json(data);			 
 			  var obj = json.GetDatasetDetailResponseElement.DatasetDetail;
 			  var optionalMetaData = obj.OptionalMetaData;
-			  getVariables(dsFamilyId, startDate, endDate); 
+			  getVariables(dsFamilyId, startDate, endDate);
+			  //$('ul.nav-secondary__list').empty();
 			  
 			  showHide();			
 			  $('#results').append('<ul class="list--neutral margin-top--half">' +
@@ -83,7 +84,7 @@ function getDatasetDetail(dsFamilyId, dataset,subject,startDate,endDate) {
 							        '<p class=" margin-right-lg--5">'+ optionalMetaData + '</p>' +
 							   '</div>' +  
 						       '<div class="js-show-hide__content  show-hide show-hide--light margin-right-lg--5">' +
-						       '<div id="varList" class="nav-secondary__list">' +
+						       '<div class="nav-secondary__list">' +
 							      '<p class="margin-left--half flush-bottom flush-top"><strong>Dimensions:-</strong></p>' +
 							      '<p class="margin-left--half flush-bottom flush-top ">Religion:</p>' +
 					              '<ul class="nav-secondary__list margin-left--half">'); 	
@@ -215,7 +216,9 @@ function findDatasets(searchtext){
 			   
     		 for(var m=0;m<variableCnt;m++){
     			// $( "li " ).appendTo( "#results" );
-    			  $('#varList').append('<li class="inline">' + obj.VarFamily[m].Name + '</li>'); 
+    			  $('ul.nav-secondary__list').append('<li>' + obj.VarFamily[m].Name + '</li>');
+    			  
+    			  
     		 }
     		 
     		 
