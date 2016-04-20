@@ -34,7 +34,7 @@ function validateUrl() {
  * Accept specified characters found legally in placenames ie colons, hyphens etc..
  */
 function checkURL(key,value) {
-	var urlregex               = /^[a-zA-Zâ0-9-\''\s\\&\\'\\:\\/\\(\\)\\!\\,\\+\\.\\%]+$/;
+	var urlregex               = /^[a-zA-Zï¿½0-9-\''\s\\&\\'\\:\\/\\(\\)\\!\\,\\+\\.\\%]+$/;
 	
 	// checking if a string is blank, null or undefined  
 	if((/^\s*$/).test(key) || (/^\s*$/).test(value) ) {return (true);} 
@@ -55,6 +55,7 @@ function checkURL(key,value) {
 function getDatasetDetail(dsFamilyId, dataset,subject,startDate,endDate) {
    var url = "";
    var dsName = dataset;
+   var varList;
    $.ajax({
 		type	: "POST",
 		url		: "http://neighbourhood.statistics.gov.uk/NDE2/Disco/GetDatasetDetail?DSFamilyId="+ dsFamilyId,
@@ -68,29 +69,8 @@ function getDatasetDetail(dsFamilyId, dataset,subject,startDate,endDate) {
 			  json = x2js.xml_str2json(data);			 
 			  var obj = json.GetDatasetDetailResponseElement.DatasetDetail;
 			  var optionalMetaData = obj.OptionalMetaData;
-			  getVariables(dsFamilyId, startDate, endDate);
-			  //$('ul.nav-secondary__list').empty();
+			  getVariables(dsFamilyId, startDate, endDate, dsName, optionalMetaData);
 			  
-			  showHide();			
-			  $('#results').append('<ul class="list--neutral margin-top--half">' +
-				 	'<li class="col-wrap background--mercury flush-col padding-top--2 padding-bottom--4 padding-left--1 " >' +							
-					   '<div class="js-show-hide">' +
-						   '<div class="show-hide show-hide--light">' +	
-							   '<div class="js-show-hide__title margin-right-lg--5">' + 									
-							        '<button class="js-show-hide__button" type="button" aria-expanded="false" aria-controls="collapsible-0">' +
-								        '<a aria-expanded="false" aria-controls="collapsible-0" href="localDatasetDetail.html?">'  + dsName + 											  
-										'</a>' +
-							        '</button>' +
-							        '<p class=" margin-right-lg--5">'+ optionalMetaData + '</p>' +
-							   '</div>' +  
-						       '<div class="js-show-hide__content  show-hide show-hide--light margin-right-lg--5">' +
-						       '<div class="nav-secondary__list">' +
-							      '<p class="margin-left--half flush-bottom flush-top"><strong>Dimensions:-</strong></p>' +
-							      '<p class="margin-left--half flush-bottom flush-top ">Religion:</p>' +
-					              '<ul class="nav-secondary__list margin-left--half">'); 	
-			              			
-					             
-			showHide();
 		  }	  
 	    }  
     });      
@@ -190,7 +170,7 @@ function findDatasets(searchtext){
  /**
   * Give me a list of variables for the specified dataset between the specified start and end dates.
   */ 
- function getVariables(dsFamilyId, startDate, endDate) {
+ function getVariables(dsFamilyId, startDate, endDate, dsName, optionalMetaData) {
 	 var url = "";
      var dsFamilyId, startDate, endDate, obj;
 	 $.ajax({
@@ -212,16 +192,34 @@ function findDatasets(searchtext){
 		    //  '<p class="margin-left--half flush-bottom flush-top ">Religion:</p>' +
             //  '<ul class="nav-secondary__list margin-left--half">');
 			  
+			  
 			 
-			   
+			 var variableItem = '<ul class="nav-secondary__list">';
     		 for(var m=0;m<variableCnt;m++){
+    			 variableItem += '<li class="inline">' + obj.VarFamily[m].Name + '</li>';
+    			 
     			// $( "li " ).appendTo( "#results" );
-    			  $('ul.nav-secondary__list').append('<li>' + obj.VarFamily[m].Name + '</li>');
-    			  
-    			  
+    			// $('ul.nav-secondary__list').append('<li class="inline">' + obj.VarFamily[m].Name + '</li>');
     		 }
-    		 
-    		 
+    		 variableItem += '</ul></div></div></div></div></li></ul>';
+    		 showHide();
+    		 var results = '<ul class="list--neutral margin-top--half">';
+			  results +=        '<li class="col-wrap background--mercury flush-col padding-top--2 padding-bottom--4 padding-left--1 " >';
+			  results +=        '<div class="js-show-hide">';
+			  results +=        '<div class="show-hide show-hide--light">';
+			  results +=        '<div class="js-show-hide__title margin-right-lg--5">';				  
+			  results +=        '<button class="js-show-hide__button" type="button" aria-expanded="false" aria-controls="collapsible-0">';
+			  results +=        '<a aria-expanded="false" aria-controls="collapsible-0" href="localDatasetDetail.html?">'  + dsName + '</a>';	
+			  results +=        '</button>';
+			  results +=        '<p class=" margin-right-lg--5">'+ optionalMetaData + '</p>';						 
+			  results +=        '</div>';
+			  results +=        '<div class="js-show-hide__content  show-hide show-hide--light margin-right-lg--5">';
+			  results +=        '<div class="nav-secondary__list">';
+			  results +=        '<p class="margin-left--half flush-bottom flush-top"><strong>Dimensions:-</strong></p>';				   									
+			  results +=        '<p class="margin-left--half flush-bottom flush-top ">Religion:</p>';							    
+			  results +=        variableItem;
+			  $('#results').append(results);   
+			  showHide();
     		  
 		  }	// if(data != "")
 		} 
