@@ -201,7 +201,7 @@ function findDatasets(searchtext){
     			// $( "li " ).appendTo( "#results" );
     			// $('ul.nav-secondary__list').append('<li class="inline">' + obj.VarFamily[m].Name + '</li>');
     		 }
-    		 variableItem += '</ul></div></div></div></div></li></ul>';
+    		 
     		 showHide();
     		 var results = '<ul class="list--neutral margin-top--half">';
 			  results +=        '<li class="col-wrap background--mercury flush-col padding-top--2 padding-bottom--4 padding-left--1 " >';
@@ -218,6 +218,7 @@ function findDatasets(searchtext){
 			  results +=        '<p class="margin-left--half flush-bottom flush-top"><strong>Dimensions:-</strong></p>';				   									
 			  results +=        '<p class="margin-left--half flush-bottom flush-top ">Religion:</p>';							    
 			  results +=        variableItem;
+			  results +=        '</ul></div></div></div></div></li></ul>';
 			  $('#results').append(results);   
 			  showHide();
     		  
