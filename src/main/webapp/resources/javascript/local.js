@@ -2,7 +2,6 @@
 
 validateUrl();
 
-
 /**
  * Gets parameters off the url
  */
@@ -187,18 +186,11 @@ function findDatasets(searchtext){
 			  
 			  var variableCnt = JSON.stringify(json.GetVariablesResponseElement.VarFamilies.VarFamily.length);
 			  var obj = json.GetVariablesResponseElement.VarFamilies;
-			
-			 // $('#varList').append('<p class="margin-left--half flush-bottom flush-top"><strong>Dimensions:-</strong></p>' +
-		    //  '<p class="margin-left--half flush-bottom flush-top ">Religion:</p>' +
-            //  '<ul class="nav-secondary__list margin-left--half">');
-			  
-			  
 			 
-			 var variableItem = '<ul class="nav-secondary__list">';
+			 var variableItem = '<ul class="nav-secondary__list margin-left--half">';
     		 for(var m=0;m<variableCnt;m++){
-    			 variableItem += '<li class="inline">' + obj.VarFamily[m].Name + '</li>';
-    			 
-    			// $( "li " ).appendTo( "#results" );
+    			 variableItem += '<li class="padding-left--none inline">' + obj.VarFamily[m].Name + ", " + '</li>';
+    			
     			// $('ul.nav-secondary__list').append('<li class="inline">' + obj.VarFamily[m].Name + '</li>');
     		 }
     		 
@@ -215,10 +207,27 @@ function findDatasets(searchtext){
 			  results +=        '</div>';
 			  results +=        '<div class="js-show-hide__content  show-hide show-hide--light margin-right-lg--5">';
 			  results +=        '<div class="nav-secondary__list">';
-			  results +=        '<p class="margin-left--half flush-bottom flush-top"><strong>Dimensions:-</strong></p>';				   									
-			  results +=        '<p class="margin-left--half flush-bottom flush-top ">Religion:</p>';							    
+			  results +=        '<p class="margin-left--half flush-bottom flush-top"><strong>Dimensions</strong></p>';				   									
+			  results +=        '<p class="margin-left--half flush-bottom flush-top">Religion:</p>';							    
 			  results +=        variableItem;
-			  results +=        '</ul></div></div></div></div></li></ul>';
+			  results +=        '</ul>';
+			  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Geographies covered</strong></p>'; 
+			  results +=        '<ul class="nav-secondary__list margin-left--half">';
+			  results +=	    '<li class="padding-left--none inline">Output Area,</li>';
+			  results +=	    '<li class="padding-left--none inline">Lower Super Output Area,</li>';
+			  results +=	    '<li class="padding-left--none inline">Electoral Ward,</li>';
+			  results +=	    '<li class="padding-left--none inline">Middle Layer Super Output Area,</li>';
+			  results +=	    '<li class="padding-left--none inline">Non-metropolitan District</li>';
+			  results +=        '</ul>';
+			  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Dates covered</strong></p>';
+			  results +=        '<p class="margin-left--half flush-bottom flush-top ">Output Area, Lower Layer etc...</p>';
+			  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Dates covered</strong></p>';
+			  results +=        '<p class="margin-left--half flush-bottom flush-top ">2011, 2001</p>';
+			  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Source</strong></p>';
+			  results +=        '<p class="margin-left--half flush-bottom flush-top ">2011 Census</p>';
+			  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Themes</strong></p>';
+			  results +=        '<p class="margin-left--half flush-bottom flush-top ">Cultural Identity</p>';
+			  results +=        '</div></div></div></div></li></ul>';
 			  $('#results').append(results);   
 			  showHide();
     		  
