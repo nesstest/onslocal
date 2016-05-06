@@ -80,83 +80,70 @@ function getDatasetDetail(dsFamilyId, dataset,subject,startDate,endDate) {
  */ 
 function findDatasets(searchtext){	
 	 var url = "";
-	 var dataset, dsFamilyId, metadataText, obj, subject;
+	 var dataset, dsId, metadata, obj;
 	 var matchingCount  = 0;
-	 var dsRelFamcnt    = 0;
-	 var dsMatFamcnt    = 0;
 		    
 	 $.ajax({
-		type	: "POST",
-		url		: "http://neighbourhood.statistics.gov.uk/NDE2/Disco/FindDatasets?Metadata=" + searchtext,
-		dataType: "text",
+		type	: "GET",
+		url     : "http://ec2-52-25-128-99.us-west-2.compute.amazonaws.com/local-data-web/rs/local-data/keywordsearch?searchTerm=" + searchtext,
+		dataType: "JSON",
 		data	: {"url" : url},
 		success : function(data)
 		{
 		  if(data != "")
 	      {
-			  x2js = new X2JS();
-			  json = x2js.xml_str2json(data);
+			  var matchingCount = (data.data_resources.length);
 				  
-			  var SubjectMatchingDSFcnt = JSON.stringify(json.FindDatasetsResponseElement.SubjectsWithMatchingDSFamilies.SubjectWithMatchingDSFamilies.length);	      
+			  for(var i=0;i<matchingCount;i++){
 				  
-			  for(var i=0;i<SubjectMatchingDSFcnt;i++){
-						    
-			    obj = json.FindDatasetsResponseElement.SubjectsWithMatchingDSFamilies.SubjectWithMatchingDSFamilies[i];
-			    subject = obj.Subject.Name; 		   		    
-						    
-			    if(obj.RelatedDSFamilies != "")
-			    {			    	
-			    	if (obj.RelatedDSFamilies.DSFamily instanceof Array) {
-		    	    // data is an array
-					    	     
-	        		  dsRelFamcnt   = JSON.stringify(obj.RelatedDSFamilies.DSFamily.length) ;
-		    		  for(var j=0;j<dsRelFamcnt;j++){
-		   			     matchingCount = parseInt( matchingCount) + 1;
-			        	 dataset       = obj.RelatedDSFamilies.DSFamily[j].Name;
-			        	 dsFamilyId    = obj.RelatedDSFamilies.DSFamily[j].DSFamilyId; 
-			        	 startDate     = obj.RelatedDSFamilies.DSFamily[j].DateRange.StartDate.slice(0,10);
-			        	 endDate       = obj.RelatedDSFamilies.DSFamily[j].DateRange.EndDate.slice(0,10);
-				         // get dataset details 
-			        	 getDatasetDetail(dsFamilyId, dataset,subject,startDate,endDate); 			        	
-				       }
-					} else {
-						  // it is not an array
-						  matchingCount = parseInt(matchingCount) + 1;
-						  dataset       = obj.RelatedDSFamilies.DSFamily.Name;
-						  dsFamilyId    = obj.RelatedDSFamilies.DSFamily.DSFamilyId;
-				          startDate     = obj.RelatedDSFamilies.DSFamily.DateRange.StartDate.slice(0,10);
-				          endDate       = obj.RelatedDSFamilies.DSFamily.DateRange.EndDate.slice(0,10);
-						  // get dataset details
-				          getDatasetDetail(dsFamilyId, dataset,subject,startDate,endDate);				        
-						}
-				 }
-				 if(obj.MatchingDSFamilies != "")
-				 {
-				   	if (obj.MatchingDSFamilies.DSFamily instanceof Array) {
-				  	 // data is an array
-				     dsMatFamcnt = JSON.stringify(obj.MatchingDSFamilies.DSFamily.length);
-					 for(var k=0;k<dsMatFamcnt;k++){
-					   	 matchingCount = parseInt(matchingCount) + 1;
-					   	 dataset       = obj.MatchingDSFamilies.DSFamily[k].Name;					     
-					   	 dsFamilyId    = obj.MatchingDSFamilies.DSFamily[k].DSFamilyId;
-					   	 startDate     = obj.MatchingDSFamilies.DSFamily[k].DateRange.StartDate.slice(0,10);
-			        	 endDate       = obj.MatchingDSFamilies.DSFamily[k].DateRange.EndDate.slice(0,10);
-			        	 getDatasetDetail(dsFamilyId, dataset,subject,startDate,endDate);			        	
-					  }	
-				   	} else{
-					   	 // it is not an array
-					   	 matchingCount = parseInt(matchingCount) + 1;
-					   	 dsMatFamcnt   = JSON.stringify(obj.MatchingDSFamilies.DSFamily.length);
-					     dataset       = obj.MatchingDSFamilies.DSFamily;	
-					     dsFamilyId    = obj.MatchingDSFamilies.DSFamily.DSFamilyId;
-					     startDate     = obj.MatchingDSFamilies.DSFamily.DateRange.StartDate.slice(0,10);
-				         endDate       = obj.MatchingDSFamilies.DSFamily.DateRange.EndDate.slice(0,10);
-					     // get dataset details
-				         getDatasetDetail(dsFamilyId, dataset,subject,startDate,endDate);				        
-				    }     
-				 }
+				 obj = data.data_resources[i];	
+			    
+				 dataset   = obj.title;
+				 dsId      = obj.data_resource; 
+				 metadata  = obj.metadata;
+				 
+				
+				 showHide();
+				 var variableItem = '<ul class="nav-secondary__list margin-left--half"><li class="padding-left--none inline">variables etc</li>';
+	    		 var results = '<ul class="list--neutral margin-top--half">';
+				  results +=        '<li class="col-wrap background--mercury flush-col padding-top--2 padding-bottom--4 padding-left--1 " >';
+				  results +=        '<div class="js-show-hide">';
+				  results +=        '<div class="show-hide show-hide--light">';
+				  results +=        '<div class="js-show-hide__title margin-right-lg--5">';				  
+				  results +=        '<button class="js-show-hide__button" type="button" aria-expanded="false" aria-controls="collapsible-0">';
+				  results +=        '<a aria-expanded="false" aria-controls="collapsible-0" href="localDatasetDetail.html?">'  + dataset + '</a>';	
+				  results +=        '</button>';
+				  results +=        '<p class=" margin-right-lg--5">'+ metadata + '</p>';						 
+				  results +=        '</div>';
+				  results +=        '<div class="js-show-hide__content  show-hide show-hide--light margin-right-lg--5">';
+				  results +=        '<div class="nav-secondary__list">';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top"><strong>Dimensions</strong></p>';				   									
+				  results +=        '<p class="margin-left--half flush-bottom flush-top">Religion:</p>';							    
+				  results +=        variableItem;
+				  results +=        '</ul>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Geographies covered</strong></p>'; 
+				  results +=        '<ul class="nav-secondary__list margin-left--half">';
+				  results +=	    '<li class="padding-left--none inline">Output Area,</li>';
+				  results +=	    '<li class="padding-left--none inline">Lower Super Output Area,</li>';
+				  results +=	    '<li class="padding-left--none inline">Electoral Ward,</li>';
+				  results +=	    '<li class="padding-left--none inline">Middle Layer Super Output Area,</li>';
+				  results +=	    '<li class="padding-left--none inline">Non-metropolitan District</li>';
+				  results +=        '</ul>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Dates covered</strong></p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top ">Output Area, Lower Layer etc...</p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Dates covered</strong></p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top ">2011, 2001</p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Source</strong></p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top ">2011 Census</p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Themes</strong></p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top ">Cultural Identity</p>';
+				  results +=        '</div></div></div></div></li></ul>';
+				  $('#results').append(results);   
+				  showHide();
+		         //  **** To do require dataset details ie. variable & dates  ****			        	
+				 
 					
-				} // for(var i=0;i<SubjectMatchingDSFcnt;i++){
+				} // for(var i=0;i<matchingCount;i++){
 			  
 			 }	// if(data != "")
 		 
