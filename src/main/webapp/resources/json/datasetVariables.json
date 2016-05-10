@@ -1,0 +1,68 @@
+{
+	"data_variable": {
+		"geographic_area_id": "1000259",
+		"variables": [
+			{
+				"variable_id": "61001",
+				"variable_name": "Property Sales by Dwelling Type|All Types",
+				"value_domain": "Count",
+				"unit_type": "Dwelling",
+				"value": "1,861"
+			}, {
+				"variable_id": "61002",
+				"variable_name": "Median House Price by Dwelling Type|All Types",
+				"value_domain": "GBP",
+				"unit_type": "Dwelling",
+				"value": "212,500"
+			}, {
+				"variable_id": "61003",
+				"variable_name": "Property Sales by Dwelling Type|Detached",
+				"value_domain": "Count",
+				"unit_type": "Dwelling",
+				"value": "611"
+			}, {
+				"variable_id": "61004",
+				"variable_name": "Median House Price by Dwelling Type|Detached",
+				"value_domain": "GBP",
+				"unit_type": "Dwelling",
+				"value": "295,500"
+			}, {
+				"variable_id": "61005",
+				"variable_name": "Property Sales by Dwelling Type|Semi-detached",
+				"value_domain": "Count",
+				"unit_type": "Dwelling",
+				"value": "598"
+			}, {
+				"variable_id": "61006",
+				"variable_name": "Median House Price by Dwelling Type|Semi-detached",
+				"value_domain": "GBP",
+				"unit_type": "Dwelling",
+				"value": "203,750"
+			}, {
+				"variable_id": "61007",
+				"variable_name": "Property Sales by Dwelling Type|Terraced",
+				"value_domain": "Count",
+				"unit_type": "Dwelling",
+				"value": "443"
+			}, {
+				"variable_id": "61008",
+				"variable_name": "Median House Price by Dwelling Type|Terraced",
+				"value_domain": "GBP",
+				"unit_type": "Dwelling",
+				"value": "176,500"
+			}, {
+				"variable_id": "61009",
+				"variable_name": "Property Sales by Dwelling Type|Flats/Maisonettes",
+				"value_domain": "Count",
+				"unit_type": "Dwelling",
+				"value": "209"
+			}, {
+				"variable_id": "61010",
+				"variable_name": "Median House Price by Dwelling Type|Flats/Maisonettes",
+				"value_domain": "GBP",
+				"unit_type": "Dwelling",
+				"value": "123,000"
+			}
+		]
+	}
+}
