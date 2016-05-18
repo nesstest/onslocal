@@ -1,17 +1,21 @@
 function dataTable(extCode, geographicLevelType, dataResource, timePeriod){
-	
+	 alert("dataresource" + dataResource);
+	  alert("timePeriod" + timePeriod);
   var name,value,tabledata;
   var url = "";
-	
+  
   $.ajax({
 	type	: "GET",
 	url     : "http://ec2-52-25-128-99.us-west-2.compute.amazonaws.com/local-data-web/rs/local-data/data?dataResource=" + dataResource + "&extCode=" + extCode + "&geographicLevelType=" + geographicLevelType + "&timePeriod=" + timePeriod,
 	dataType: "JSON",
 	data	: {"url" : url},
 	success : function(data){  
-    var matchingCount = (data.variables.length);    
+    var matchingCount = (data.variables.length); 
+    if(matchingCount > 10){
+    	matchingCount = 10;
+    }	
     var tabledata = [];
-    for(var i=0;i<matchingCount;i++){
+    for(var i=0;i<matchingCount;i++){     
       obj           = data.variables[i];    
       id            = obj.variable_id; 
       areaname      = obj.name;
