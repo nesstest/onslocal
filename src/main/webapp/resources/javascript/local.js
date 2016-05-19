@@ -72,7 +72,6 @@ function decodeName(name) {
  * Validates the url parameters
  */
 function validateUrl() {
-	alert("in here = " + window.location.href);
     var vars = {};	 
     var invalidCnt = 0;  
     parts = decodeURI(window.location.href).replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -125,7 +124,6 @@ function validateUrl() {
 	    }	
 	}
 	else{ // invalid param on url
-		alert("else error boc");
 		  // load default home page with error message
 		$(document).ready(function(){
 		//	redErrorbox();	
@@ -192,7 +190,6 @@ function getPostcodeDetails(postcode,search){
 function  OA_pcode_details(postcode) {	
 	//var levelname;
 	//levelname = $.getUrlVar('levelname');	
-	alert("in oa = " +postcode);
 	var OA; 
 	var doterm;
 	
@@ -206,7 +203,6 @@ function  OA_pcode_details(postcode) {
         }
 		else
 		{	
-			alert("else");
 			// set to la extcode as no data on table at oa level
 		    //OA               = result.features[0].attributes.oa11cd;
 			OA               = result.features[0].attributes.lauacd;

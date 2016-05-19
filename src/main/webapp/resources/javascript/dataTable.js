@@ -1,5 +1,4 @@
 function dataTable(extCode, geographicLevelType, dataResource, timePeriod){
-alert("in datatable")	;
   var name,value,tabledata;
   var url = "";
   
