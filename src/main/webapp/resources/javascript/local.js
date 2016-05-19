@@ -1,7 +1,3 @@
-// used in url param validation// valid url - continue
-
-validateUrl();
-
 /**
  * Gets parameters off the url
  */
@@ -13,10 +9,70 @@ function getUrlParams() {
     return vars;
 }
 
+$.extend({
+	  getUrlVars: function(){
+	    var vars = [], hash;
+	    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+	    hashes = decodeURI(window.location.href).replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+	        vars[key] = value;
+	    });
+	    
+	    for(var i = 0; i < hashes.length; i++)
+	    {
+	      hash = hashes[i].split('=');
+	      vars.push(hash[0]);
+	      vars[hash[0]] = hash[1];
+	    }
+	    return vars; 
+	  },
+	  getUrlVar: function(name){		  
+	    return $.getUrlVars()[name];
+	  }	  
+});
+
+//Read a user input postcode and strip of plus signs,
+//convert to uppercase and reformat if necessary
+function  postcode_reformat(postcode) {
+	// strip + sign from postcode string & convert to uppercase
+	postcode                     = postcode.replace(/\+/g, '');    	
+	var regExp1                  = /^([a-zA-Z]){1}([0-9][0-9]|[0-9]|[a-zA-Z][0-9][a-zA-Z]|[a-zA-Z][0-9][0-9]|[a-zA-Z][0-9]){1}([ ])([0-9][a-zA-z][a-zA-z]){1}$/;
+	
+	if(regExp1.test(postcode) === false)	
+	{	 
+		   var regExp2              = /^([A-Z]{1,2}[\dA-Z]{1,2})[ ]?(\d[A-Z]{2})$/i; // case insensitive 
+	
+		   var tempPostCode         = postcode.match(regExp2);
+		   try {
+			   var reformatPostcode     = tempPostCode[1] + " " + tempPostCode[2];
+			   return reformatPostcode.toUpperCase();
+	     } 
+	     
+		    catch ( e ) {
+				postcode = "error";
+				return postcode;
+		    }
+		  
+	}
+	else {
+		 // postcode formatted correctly
+		 return postcode.toUpperCase();
+	}	    	
+}
+
+function encodeName(name) {
+	var encodetxt = encodeURIComponent(name);
+	return encodetxt;
+}
+function decodeName(name) {
+	var decodetxt = decodeURIComponent(name);
+	return decodetxt;
+}
+
 /**
  * Validates the url parameters
  */
 function validateUrl() {
+	alert("in here = " + window.location.href);
     var vars = {};	 
     var invalidCnt = 0;  
     parts = decodeURI(window.location.href).replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -25,9 +81,156 @@ function validateUrl() {
     		invalidCnt = invalidCnt + 1;
     	}	    	
     });
-    
-    return vars;
+   
+   	// valid url - continue
+	if (invalidCnt === 0){
+		searchtext               = $.getUrlVar('q');
+	    if (searchtext == null || searchtext.length == 0 || typeof searchtext === 'undefined') {
+	    	// load default home page
+	    	$(document).ready(function(){
+		    	//homePageBoxes(searchtext);				
+			});
+	    }
+	    else{
+	    	searchtext =  decodeName(searchtext);
+	    	
+	    	// Check to see if the search string contains a number.
+	        // If it does, it may be a postcode.-
+	    	if(/\d/.test(searchtext)) 
+			{
+	    		searchtext = postcode_reformat(searchtext);
+		    	if(searchtext === 'error')
+		    	{
+		    		// load default home page with error message
+		    		$(document).ready(function(){
+		    		//	redErrorbox();
+		    		});  
+		    	}
+		    	else{		    		
+				    getPostcodeDetails(searchtext,"postcode");
+				    $(document).ready(function(){					
+				 //   	homePageBoxes(searchtext);
+						
+					});
+		    	}
+		    } //if($postcode =  /\d/)
+		    // name search
+		    else {			    		
+	    		
+		    	getPostcodeDetails(searchtext,"name")
+				  $(document).ready(function(){					
+				 //    homePageBoxes(searchtext);
+				});  
+		    }
+	    }	
+	}
+	else{ // invalid param on url
+		alert("else error boc");
+		  // load default home page with error message
+		$(document).ready(function(){
+		//	redErrorbox();	
+		});  
+	}
 }
+
+function getPostcodeDetails(postcode,search){	
+	
+    if (postcode == null || postcode.length == 0 || typeof postcode === 'undefined') {
+    	
+    	// --------------- to do -----------------------------
+		// 
+		// ----------------------------------------------------
+    }
+	else {	
+		// ----------------------------------------------------
+		// check to see if postcode details are required
+		// ----------------------------------------------------
+		 
+		
+		if (typeof $.getUrlVar('pcSearch') === 'undefined' ) {
+			if(search === 'postcode'){
+				OA_pcode_details(postcode);
+			}
+			if(search === 'name' && $.getUrlVar('levelname') === 'WARD'){
+				WD_areaDetails(search);
+			}
+			if(search === 'name' && $.getUrlVar('levelname') === 'LA'){
+				LA_areaDetails(search);
+			} 
+			if(search === 'name' && $.getUrlVar('levelname') === 'REGION'){
+				GOR_areaDetails(search);
+			}
+			if(search === 'name' && $.getUrlVar('levelname') === 'COUNTRY'){
+				CTRY_areaDetails(search);
+			}
+		}
+		else{		    
+			if($.getUrlVar('levelname') === 'OA' ) {
+				  OA_areaDetails(postcode);
+			}
+			if($.getUrlVar('levelname') === 'WARD' ) {
+			  WD_areaDetails(postcode);
+			}
+			
+			if($.getUrlVar('levelname') === 'LA' ) {
+			  LA_areaDetails(postcode);
+			}
+			
+			if($.getUrlVar('levelname') === 'REGION' ) {
+			  GOR_areaDetails(postcode);
+			}
+			
+			if($.getUrlVar('levelname') === 'COUNTRY' ) {
+			  CTRY_areaDetails(postcode);
+			}
+		}	
+	}	 
+}
+
+//populate area details
+//OA details
+function  OA_pcode_details(postcode) {	
+	//var levelname;
+	//levelname = $.getUrlVar('levelname');	
+	alert("in oa = " +postcode);
+	var OA; 
+	var doterm;
+	
+	// get layer info for postcode
+	var pcUrl     = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/" + postcode;
+	$(document).ready(function(){
+	  $.getJSON(pcUrl, function(result) {
+		if (result.features && result.features.length === 0) {
+         // do stuff when no features were found
+		//	redErrorbox(); 
+        }
+		else
+		{	
+			alert("else");
+			// set to la extcode as no data on table at oa level
+		    //OA               = result.features[0].attributes.oa11cd;
+			OA               = result.features[0].attributes.lauacd;
+	        doterm           = result.features[0].attributes.doterm; 	
+	                
+	        // check to see if postcode not obsolete (doterm === null valid)
+	        if(doterm === "") { 
+    	        //dataTable(extCode, levelname, dataresource, timeid)
+                dataTable(OA, "LA", "UKBD01", "102")
+			    	      			       
+	       }  // check to see if postcode not obsolete (doterm === null valid)
+	       else {
+	    	 //  redErrorbox(); 
+	       }// postcode obsolete 
+		} // if (result.features && result.features.length === 0)      
+	})//pcUrl
+	//.error(function() {  
+	//		redErrorbox(); 
+	//	});
+
+	});//ready	  
+} //OA_pcode_details function
+
+
 
 /**
  * Accept specified characters found legally in placenames ie colons, hyphens etc..
