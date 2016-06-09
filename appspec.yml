@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: src/main/webapp/localIndex.html
+  - source: src/main/webapp/
     destination: /var/www/html/
 hooks:
   BeforeInstall:
