@@ -26,13 +26,25 @@
               <link rel="stylesheet" type="text/css" href="/assets/css/ie-9.css">
         <![endif]-->
 <!--[if gt IE 9]><!-->
-
+<link href="resources/css/local.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
 <link rel="stylesheet" href="https://onsdigital.github.io/ons-pattern-library-starter/sixteens/css/main.css">
+
 <script src="resources/javascript/babbage.js" type="text/javascript"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="resources/javascript/2json.js" type="text/javascript"></script>
 <script src="resources/javascript/local.js" type="text/javascript"></script>
-
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="resources/javascript/dataTable.js" type="text/javascript"></script>
+<script src="resources/javascript/tabulator.js" type="text/javascript"></script>
+<script type="text/javascript">  
+   placenameSearch();
+</script>
+<script> 
+$( document ).ready(function() {
+	datasetDetail($.getUrlVar('q'),$.getUrlVar('dsId'));	
+}); 
+</script>		
 </head>
 <body>
 <header>
@@ -68,55 +80,49 @@
             <ol class="breadcrumb__list">
 			  <li class="breadcrumb__item">
                 <a class="breadcrumb__link" href="localIndex.html?">Home</a>
-              </li>
-			  <li class="breadcrumb__item">
-			   <a class="breadcrumb__link" href="#">Employment and labour market</a>
-			  </li>
-			  <li class="breadcrumb__item">
-			   <a class="breadcrumb__link" href="#">People in work</a>
-			  </li>
-			  <li class="breadcrumb__item">
-			   <a class="breadcrumb__link" href="#">Labour productivity</a>
-			  </li>
-			  <li class="breadcrumb__item">Sectional Unit Labour Costs</li>
+              </li>			  
            </ol>
         </nav>
-        <h1 class="page-intro__title margin-bottom-sm--4 margin-bottom-md--4"><span class="page-intro__type">Dataset:</span>Religion by sex by age</h1>
+        <h1 id="title" class="page-intro__title margin-bottom-sm--4 margin-bottom-md--4"><span class="page-intro__type">Dataset:</span></h1>
     </div>
   </div>
 </div>
 <div class="meta-wrap">
   <div class="wrapper">
    <div class="col-wrap">
-     <p class="col col--md-12 col--lg-15 meta__item">
+     <p class="col col--md-12 col--lg-13 meta__item">
        <img class="meta__image" src="D:/git/onslocal-js/src/main/webapp/resources/img/national-statistics.png" alt="National Statistics logo"/>
        <span>Contact: </span><br/><a href="mailto:someone@ons.gsi.gov.uk" data-ga-event data-ga-event-category="mailto" data-ga-event-label="someone@ons.gsi.gov.uk">A Person</a>
      </p>
-     <p class="col col--md-12 col--lg-15 meta__item">
+     <p class="col col--md-12 col--lg-11 meta__item">
        <span>Release date: </span><br/>7 April 2016<br/>
      </p>
-     <p class="col col--md-12 col--lg-15 meta__item">
+     <p class="col col--md-12 col--lg-11 meta__item">
       <span>Next release: </span><br/>8 July 2016
      </p>
-     <p class="col col--md-12 col--lg-15 meta__item">
-       <span>Dataset ID: </span>LPRODSULC
+     <p id="datasetId" class="col col--md-12 col--lg-11 meta__item">      
         <a href="#" class="tooltip-npl" title="This series ID is a unique random identifier for this individual time series. The digits themselves do not have any specific meaning">what is this? </a>
-     </p>
+     </p>    
+	 <p class="col col--md-12 col--lg-11 meta__item">
+	  <span>Download dataset:</span><br/>
+       <button class=" btn btn--primary btn--small btn--thin"><a style="color:white;text-decoration:none;" href="http://data.statistics.gov.uk/ons/datasets/xls/XLS_UKBD01_2013WARDH_5_EN.zip">
+		 Download as XLS</a>
+	  </button>		 	   
+     </p>     	 	    
    </div>
   </div>
  </div>
 </div>
 <div style="height:95px;" class="search search--results-page print--hide" id="searchBar">
 	<div class="wrapper">
-		<form class="col-wrap search__form" action="localDatasetTable.html">			
+		<form id="form" class="col-wrap search__form" action="localDatasetTable.html">			
 			<label class="font-size--16 block" for="nav-search">Specify either a place, postcode or GIS code to view data</label>
 			<input type="search" autocomplete="off" class="search__input search__input--results-page col col--md-29 col--lg-29" id="nav-search" name="q" value="">
 			<button type="submit" class="search__button search__button--results-page col--md-3 col--lg-3" id="nav-search-submit">
 				<span class="visuallyhidden">Search</span>
 				<span class="icon icon-search--light"></span>
-			</button>			
+			</button>
 		</form>
-		
 	</div>
 </div>
 </header>
@@ -131,39 +137,7 @@
         <li class="col-wrap background--mercury flush-col padding-top--2 padding-bottom--4 padding-left--1 list--inline">
          <div class="col col--lg-55">
            <div class="box__content">
-		     <p>This dataset provides 2011 estimates that classify usual residents of England and Wales by religion, by sex and by age. The estimates are as at census day 27 March 2011.</p>
-		     <p class="flush"><strong>Dimensions</strong></p>
-		     <p class="flush list--inline">Religion:</p>
-		     <ul class="list--neutral list--inline margin-top--half">	
-       		   <li class="padding-left--none ">Christian,</li>
-       		   <li class="padding-left--none ">Buddhist</li>
-            </ul><br/>
-            <p class="flush list--inline">Age:</p>
-              <ul class="list--neutral list--inline margin-top--half">	
-       		   <li class="padding-left--none ">0 to 4,</li>
-       		   <li class="padding-left--none ">5 to 7</li>
-             </ul><br/>
-            <p class="list--inline">Sex:</p>
-              <ul class="list--neutral list--inline margin-top--half">	
-       		   <li class="padding-left--none ">Male,</li>
-       		   <li class="padding-left--none ">Female</li>
-             </ul>
-            <p class="flush-bottom flush-top "><strong>Geographies covered</strong></p>
-               <ul class="list--neutral list--inline margin-top--half ">
-                <li class="padding-left--none">Output Area,</li>
-                <li class="padding-left--none">Lower Super Output Area,</li>
-                <li class="padding-left--none">Electoral Ward,</li>
-                <li class="padding-left--none">Middle Layer Super Output Area,</li>
-                <li class="padding-left--none">Non-metropolitan District</li>
-               </ul>								                				              
-             <p class="flush"><strong>Dates covered</strong></p>
-             <p class="flush">Output Area, Lower Layer etc...</p>
-             <p class="flush"><strong>Dates covered</strong></p>
-             <p class="flush">2011, 2001</p>
-             <p class="flush"><strong>Source</strong></p>
-             <p class="flush">2011 Census</p>
-             <p class="flush"><strong>Themes</strong></p>
-             <p class="flush">Cultural Identity</p>  		  				              	
+		    <div id="results"></div>			              	
            </div>
           </div>          
         </li>

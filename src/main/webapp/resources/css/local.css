@@ -1,0 +1,48 @@
+html,body {
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+}
+
+#map {
+	padding: 0;
+}
+
+#innerDIV {
+	position: absolute;
+	z-index: 1;
+	top: 375px;
+	left: 25px;
+	width: 300px;
+}
+
+#outerDIV {
+	position: relative;
+}
+
+#HomeButton {
+	position: absolute;
+	top: 250px;
+	left: 14px;
+	z-index: 50;
+}
+
+.ui-autocomplete {
+	z-index: 150;
+	 position: relative;
+     max-height: 200px;
+     max-width: 100%;
+     width: 25%;
+     display: block;	          
+     /* vertical scrollbar */
+     overflow-y: auto;
+     /* horizontal scrollbar */
+     overflow-x: hidden;
+}
+.btn--primary:disabled {
+     font-family: "open-sans-n7", "open-sans", sans-serif;
+     color: #fff;
+     opacity:1.13;
+     background: #909090 ;
+} 

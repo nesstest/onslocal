@@ -12433,8 +12433,7 @@ $(function() {
     }
 });
 
-function loadNewResults(url, focus) {
-	alert("did i put stuff in here");
+function loadNewResults(url, focus) {	
     var results = ".results",
         resultsText = ".search-page__results-text",
         paginationContainer = "#js-pagination-container",

@@ -34,20 +34,12 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="resources/javascript/local.js" type="text/javascript"></script>
-<script>validateUrl();</script>
 
 <script src="resources/javascript/dataTable.js" type="text/javascript"></script>
 <style type="text/css">
-  .tg  {border-collapse:collapse;border-spacing:0;}
-  .tg td{font-family:Helvetica, sans-serif;font-size:14px;padding:10px 5px;border-style:none;border-width:none;overflow:hidden;word-break:normal;}
-  .tg th{font-family:Helvetica, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:none;border-width:none;overflow:hidden;word-break:normal;}
-  .tg .tg-baqh{text-align:center;vertical-align:top}
-  .tg .tg-lqy6{text-align:right;vertical-align:top;}
-  .tg .tg-le8v{background-color:#EAEAEA;vertical-align:top;text-align:right;}
-  .tg .tg-yw4l{vertical-align:top}
-  th.tg-sort-header::-moz-selection { background:transparent; }th.tg-sort-header::selection      { background:transparent; }th.tg-sort-header { cursor:pointer; }table th.tg-sort-header:after {  content:'';  float:right;  margin-top:7px;  border-width:none;  border-style:none;  border-color:none transparent;  visibility:hidden;  }table th.tg-sort-header:hover:after {  visibility:visible;  }table th.tg-sort-desc:after,table th.tg-sort-asc:after,table th.tg-sort-asc:hover:after {  visibility:visible;  opacity:0.4;  }table th.tg-sort-desc:after {  border-bottom:none;  border-width:4px 4px 0;  }
- .zigzag {
+  .zigzag {
   position: relative;
   width: 100%;
 }
@@ -80,7 +72,12 @@
 </style>
 
 </head>
-<body>
+<body onload="validateUrl()">
+<script> 
+$( document ).ready(function() {
+	$.getUrlVar('dsId');	
+}); 
+</script>	
 <header>
 <nav>
 	<div class="wrapper">
@@ -117,8 +114,8 @@
 			<div class="col-wrap print-hidden">
 				<div class="col">
 					<div class="col col--md-25 col--lg-36">
-						<h2 aria-live="polite" class="search-page__results-text ">
-						<span class="stand-out-text"><strong>Dataset: A000001:Religion by sex by age</strong></span> [<a>change dataset</a>]
+						<h2 id="datasetId" aria-live="polite" class="search-page__results-text ">
+						
 						</h2>
 					</div>	
 				</div>
@@ -137,35 +134,8 @@
 					   </p>
 					 </div>
 					 <div class="background--mercury border-top--iron-md  padding-right-sm--1 padding-right-md--1 padding-bottom-sm--2 padding-bottom-md--2 padding-left-sm--1 margin-left-md--1 padding-left-md--1 js-mobile-filters__contents">
-					   <div class="filters js-filters">
-						  <h4 class="filters__title">Dimensions</h4>
-							<fieldset class="filters__fieldset">                              
-                               <div class="js-checkbox-container">
-                                  <ul class="list--neutral margin-top--0 margin-bottom--0">
-                                    <li class="filters__item">
-                                      <div class="filters__field">
-                                        <input id="checkbox-dataset" class="js-auto-submit__input" type="checkbox" name="filter" value="datasets">
-											<label for="checkbox-dataset">Age</label><br/>
-										<input id="checkbox-dataset" class="js-auto-submit__input" type="checkbox" name="filter" value="datasets">	
-											<label for="checkbox-dataset">Sex</label>
-									  </div>
-									</li>
-								  </ul>
-							   </div>
-							</fieldset>
+					   <div class="filters js-filters">						  
 						    <input class="sort__input" type="hidden" name="q" value="">
-							<div class="border-top--iron-md"></div> 
-							<h4 class="filters__title">Data view</h4>
-							<ul class="list--neutral margin-top--0 margin-bottom--1 ">
-							  <li class="filters__item"><a>Show as percentages</a></li>
-							</ul>							
-							<div class="border-top--iron-md"></div> 
-							<h4 class="filters__title">Dates</h4>
-							<ul class="list--neutral margin-top--0 margin-bottom--1 inline-block">
-							  <li class="filters__item inline"><a>All</a></li>
-							  <li class="filters__item inline"><a>2011</a></li>
-							  <li class="filters__item inline"><a>2001</a></li>							  
-							</ul>   
 							<div class="border-top--iron-md"></div> 
 							<h4 class="filters__title">Change geography</h4>
 							<ul class="list--neutral margin-top--0 margin-bottom--1">
@@ -218,7 +188,33 @@
                 </button>       			    		    
 			</div>
 				
-	        <div class="page-content  margin-bottom margin-top  padding-right--1 padding-bottom-sm--4 col col--md-36 col--lg-45 margin-left-md--1">	       
+	        <div class="page-content  margin-bottom margin-top  padding-right--1 padding-bottom-sm--4 col col--md-36 col--lg-45 margin-left-md--1">	
+	          <fieldset>
+			    <legend>Filter Parameters</legend>
+			
+			     <label>Field: </label>
+			       <select id="filter-field">
+				     <option></option>
+				     <option value="variable_name">variable</option>
+				     <option value="value">count</option>				
+			       </select>
+
+			    <label>Type:</label>
+			      <select id="filter-type">
+				    <option value="=">=</option>
+				    <option value="<">&lt;</option>
+				    <option value="<=">&lt;=</option>
+				    <option value=">">&gt;</option>
+				    <option value=">=">&gt;=</option>
+				    <option value="!=">!=</option>
+				    <option value="like">like</option>
+			     </select>
+
+			     <label>Value: </label><input style="padding-left:2px; border: 1px solid lightgrey;" id="filter-value" type="text" placeholder="value to filter">
+
+			     <input id="filter-clear" class="btn btn--primary btn--small btn--thin" type="button" value="Clear Filter" style="margin-left:40px;">
+		    </fieldset>
+		    <br>
 	         <div id="datatable"></div>
 	         <div id="myDiv" class="container2 zigzag"></div> 	        		  
 			</div>
