@@ -1,9 +1,9 @@
-function dataTable(extCode, geographicLevelType, dataResource, timePeriod, postcode){
- var name,value,tabledata,dataResource;
+function dataTable(extCode, geographicLevelType, dataResource, timePeriod, postcode, Wdcode, LAcode, WPCcode, GORcode, Ctrycode){
+ var name,value,tabledata,dataResource,Wdcode, LAcode, WPCcode, GORcode, Ctrycode;
 
 //$('#title').append(dataset);
  $('#datasetId').append(' <span class="stand-out-text"><strong>Dataset:' +  dataResource + ':Dataset title</strong></span> [<a href="localIndex.html?">change dataset</a>]');
- var areas = getAvailableAreaLevelTypes(dataResource);
+getAvailableAreaLevelTypes(dataResource);
  
  var url = "";
  $.ajax({
@@ -18,8 +18,8 @@ function dataTable(extCode, geographicLevelType, dataResource, timePeriod, postc
         }
         else{        
             var matchingCount = (data.variables.length); 
-            if(matchingCount > 10){
-                matchingCount = 10;
+           if(matchingCount >50){
+                matchingCount = 50;
             }    
             var tabledata = [];
             var column = [];           	
@@ -64,6 +64,9 @@ function table(tabledata, postcode){
 	tooltips:false,
 	movableCols: true,
 	movableRows: true,
+	//progressiveRender:true,
+	//progressiveRenderSize:20, 
+	//progressiveRenderMargin:50,
 	//groupBy:function(tabledata){
 	//    return tabledata.areaname;
 	//},
@@ -107,35 +110,33 @@ function updateFilter(){
 		
 	$("#datatable").tabulator("setFilter", filter, $("#filter-type").val(), $("#filter-value").val());
 }
-function getAvailableAreaLevelTypes(dataResource){
-	 var url = "";	
-	 	 	
-	 $.ajax({
-		type	: "GET",
-		url     : "http://ec2-52-25-128-99.us-west-2.compute.amazonaws.com/local-data-web/rs/local-data/geolevels?dataResource=" + dataResource,				 
-		dataType: "JSON",
-		data	: {"url" : url},
-		success : function(data)
-		{
-		  if(data != "")
-		  {	 			  
-			  //alert("areas" + data.geographic_level_type);
-			  //var a = data.geographic_level_type;
-			  //var b = a.split( ',' );
-			  var area = [];
-			  var a = data.geographic_level_type;
-			 //  $.each(a, function(index, a) {
-			//	    a.split(",")[0];
-				  //area[index] = a;
-				   
-				  
-			//	   alert("fff" +  a);
-			 //  });
-
-			 
-
-			  return data.geographic_level_type;	
-		  }			
-		}  
-	 })	
+function getAvailableAreaLevelTypes(dataResource, Wdcode, LAcode, WPCcode, GORcode, Ctrycode){
+    var url = "";  
+    
+    $.ajax({
+       type    : "GET",
+       url     : "http://ec2-52-25-128-99.us-west-2.compute.amazonaws.com/local-data-web/rs/local-data/geolevels?dataResource=" + dataResource,                 
+       dataType: "JSON",
+       data    : {"url" : url},
+       success : function(data)
+       {
+         if(data != "")
+         {                
+        	 var matchingCount = (data.geographic_level_types.length); 
+	         var areas = [];
+	         var areadesc = [];	         
+	         for(var i=0;i<matchingCount;i++){     
+	           obj           = data.geographic_level_types[i];    
+	           arealist      = obj.geographic_level_type;
+	           areaDescList  = obj.metadata;
+	           areadesc.push(areaDescList);      
+	           areas.push(arealist);
+             }
+	          $.each(areadesc, function(index, areadesc) {
+	        	areadesc.split(",")[0];                 
+	            $('#geographies').append('<li style="font-size:13px; "class="filters__item"><a href="area=' + areadesc + '">' + areadesc + '</a></li>');        
+	         });
+          } 
+        }  
+    });
 }

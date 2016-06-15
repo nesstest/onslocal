@@ -193,13 +193,16 @@ function  OA_pcode_details(postcode, dsId, timeId) {
 			// set to la extcode as no data on table at oa level
 		    OA               = result.features[0].attributes.oa11cd;			
 	        doterm           = result.features[0].attributes.doterm; 	
+	        Wdcode           = result.features[0].attributes.wardcd;
+	        LAcode           = result.features[0].attributes.lauacd;
+	        WPCcode          = result.features[0].attributes.pconcd;
+	        GORcode          = result.features[0].attributes.gorcd;
+	        Ctrycode         = result.features[0].attributes.ctrycd;	        
 	                
 	        // check to see if postcode not obsolete (doterm === null valid)
-	        if(doterm === "") {	        	 
-    	        //dataTable(extCode, levelname, dataresource, timeid)
-                dataTable(OA, "OA", dsId , timeId, postcode);
-			    	      			       
-	       }  // check to see if postcode not obsolete (doterm === null valid)
+	        if(doterm === "") {	
+                dataTable(OA, "OA", dsId , timeId, postcode, Wdcode, LAcode, WPCcode, GORcode, Ctrycode);			    	      			       
+	       }  
 	       else {
 	    	 //  redErrorbox(); 
 	       }// postcode obsolete 
@@ -242,6 +245,7 @@ function checkURL(key,value) {
  */ 
 function getAreaLevelTypes(dataset, dsId, metadata, taxonomy,time ,searchtext,page){
 	 var url = "";	
+	 var arealist;
 	 	 	
 	 $.ajax({
 		type	: "GET",
@@ -249,8 +253,16 @@ function getAreaLevelTypes(dataset, dsId, metadata, taxonomy,time ,searchtext,pa
 		dataType: "JSON",
 		data	: {"url" : url},
 		success : function(data)
-		{
-			  if(data != "")
+		{			
+			 var matchingCount = (data.geographic_level_types.length); 
+	         var areas = [];	        
+	         for(var i=0;i<matchingCount;i++){     
+	           obj           = data.geographic_level_types[i];    
+	           arealist      = obj.geographic_level_type; 	              
+	           areas.push(arealist);  	          
+	         }  
+			
+			if(data != "")
 		      {				 
 				 if(page == "list"){
 					 showHide();	
@@ -268,7 +280,7 @@ function getAreaLevelTypes(dataset, dsId, metadata, taxonomy,time ,searchtext,pa
 					  results +=        '<div class="nav-secondary__list">';					 
 					  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Geographies covered</strong></p>'; 
 					  results +=        '<ul class="nav-secondary__list margin-left--half">';
-					  results +=	    '<li class="padding-left--none inline">'+ data.geographic_level_type +'</li>';
+					  results +=	    '<li class="padding-left--none inline">'+ areas +'</li>';
 					  results +=        '</ul>';
 					  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Dates covered</strong></p>';
 					  results +=        '<p class="margin-left--half flush-bottom flush-top ">2011, 2001</p>';
@@ -288,7 +300,7 @@ function getAreaLevelTypes(dataset, dsId, metadata, taxonomy,time ,searchtext,pa
 					 
 					 var results =  '<p class="flush-bottom flush-top "><strong>Geographies covered</strong></p>';
 					 results += '<ul class="list--neutral list--inline margin-top--half ">';
-					 results += '<li class="padding-left--none">' + data.geographic_level_type +'</li>';					 
+					 results += '<li class="padding-left--none">' + areas +'</li>';					 
 					 results += '</ul>';
 					 results += '<p class="flush"><strong>Dates covered</strong></p>';
 					 results += '<p class="flush">2011, 2001</p>';
@@ -414,6 +426,7 @@ function gettimeId(dataset, dsId, metadata, taxonomy, searchtext){
 			    	}
 			    	if (ui.item.type === "Local Authority"){
 			    		levelname = "LA";
+			    		alert("in la");
 			    	}
 			    	if (ui.item.type === "Region"){
 			    		levelname = "REGION";
