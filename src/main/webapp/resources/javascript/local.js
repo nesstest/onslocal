@@ -425,8 +425,7 @@ function gettimeId(dataset, dsId, metadata, taxonomy, searchtext){
 			    		levelname = "WARD";
 			    	}
 			    	if (ui.item.type === "Local Authority"){
-			    		levelname = "LA";
-			    		alert("in la");
+			    		levelname = "LA";			    	
 			    	}
 			    	if (ui.item.type === "Region"){
 			    		levelname = "REGION";
