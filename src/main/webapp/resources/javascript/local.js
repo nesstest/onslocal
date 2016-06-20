@@ -178,7 +178,8 @@ function getSearchDetails(postcode,search){
  */
 function  OA_pcode_details(postcode, dsId, timeId) {	
 	var OA; 
-	var doterm;	
+	var doterm,Wdcode,LAcode,WPCcode,GORcode,ctrycode;	
+	levelname = "OA"
 	
 	var pcUrl     = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/" + postcode;	
 	
@@ -193,7 +194,7 @@ function  OA_pcode_details(postcode, dsId, timeId) {
 			// set to la extcode as no data on table at oa level
 		    OA               = result.features[0].attributes.oa11cd;			
 	        doterm           = result.features[0].attributes.doterm; 	
-	        Wdcode           = result.features[0].attributes.wardcd;
+	        Wdcode           = result.features[0].attributes.wardcd;	       
 	        LAcode           = result.features[0].attributes.lauacd;
 	        WPCcode          = result.features[0].attributes.pconcd;
 	        GORcode          = result.features[0].attributes.gorcd;
@@ -201,7 +202,7 @@ function  OA_pcode_details(postcode, dsId, timeId) {
 	                
 	        // check to see if postcode not obsolete (doterm === null valid)
 	        if(doterm === "") {	
-                dataTable(OA, "OA", dsId , timeId, postcode, Wdcode, LAcode, WPCcode, GORcode, Ctrycode);			    	      			       
+                dataTable(OA, levelname, dsId , timeId, postcode, Wdcode, LAcode, WPCcode, GORcode, Ctrycode);			    	      			       
 	       }  
 	       else {
 	    	 //  redErrorbox(); 
@@ -258,8 +259,8 @@ function getAreaLevelTypes(dataset, dsId, metadata, taxonomy,time ,searchtext,pa
 	         var areas = [];	        
 	         for(var i=0;i<matchingCount;i++){     
 	           obj           = data.geographic_level_types[i];    
-	           arealist      = obj.geographic_level_type; 	              
-	           areas.push(arealist);  	          
+	           arealist      = obj.metadata; 	              
+	           areas.push(" " + arealist);  	          
 	         }  
 			
 			if(data != "")
@@ -280,7 +281,7 @@ function getAreaLevelTypes(dataset, dsId, metadata, taxonomy,time ,searchtext,pa
 					  results +=        '<div class="nav-secondary__list">';					 
 					  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Geographies covered</strong></p>'; 
 					  results +=        '<ul class="nav-secondary__list margin-left--half">';
-					  results +=	    '<li class="padding-left--none inline">'+ areas +'</li>';
+					  results +=	    '<li class="padding-left--none inline">'+ areas + '</li>';
 					  results +=        '</ul>';
 					  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Dates covered</strong></p>';
 					  results +=        '<p class="margin-left--half flush-bottom flush-top ">2011, 2001</p>';
@@ -482,7 +483,7 @@ function gettimeId(dataset, dsId, metadata, taxonomy, searchtext){
 	              $('#nav-search-submit').prop('disabled', false);	              
 	          }
 		   });		  
-           
+          		 	
            $("#form").submit( function(eventObj) {
         	 $('<input />').attr('type', 'hidden')
         	    .attr('name', "timeId")
@@ -491,7 +492,11 @@ function gettimeId(dataset, dsId, metadata, taxonomy, searchtext){
         	 $('<input />').attr('type', 'hidden')
     	          .attr('name', "dsId")
     	          .attr('value', dsId)        	          
-    	          .appendTo('#form');        	     
+    	          .appendTo('#form');  
+        	 $('<input />').attr('type', 'hidden')
+	          .attr('name', "levelname")
+	          .attr('value', "OA")        	          
+	          .appendTo('#form');        	   
         	      return true;
         	 });
 		});	
@@ -591,9 +596,27 @@ function getConceptSystem(dsId){
 	 }) //$.ajax({
 }
 
+function getDownload(dsId){	
+	
+	 var url = "";
+	 var dsId;	
+	 
+	 $.ajax({
+		type	: "GET",
+		url     : "http://ec2-52-25-128-99.us-west-2.compute.amazonaws.com/local-data-web/rs/local-data/presentation?dataResource=" + dsId,
+		dataType: "JSON",
+		data	: {"url" : url},
+		success : function(data)
+		{
+		  if(data != ""){				 
+			$('#downloadXLS').append('<a style="color:white;text-decoration:none;" href="' + data.presentations[0].download_url + '"> Download as XLS</a>');	
+		  }				
+	    }	
+    }); 
+}
+
 function removeLastComma(str){        
     var n=str.lastIndexOf(",");
     var a=str.substring(0,n) 
     return a;
 }
-

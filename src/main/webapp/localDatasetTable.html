@@ -76,6 +76,7 @@
 <script> 
 $( document ).ready(function() {
 	$.getUrlVar('dsId');	
+	getDownload($.getUrlVar('dsId'));
 }); 
 </script>	
 <header>
@@ -114,8 +115,7 @@ $( document ).ready(function() {
 			<div class="col-wrap print-hidden">
 				<div class="col">
 					<div class="col col--md-25 col--lg-36">
-						<h2 id="datasetId" aria-live="polite" class="search-page__results-text ">
-						
+						<h2 id="datasetId" aria-live="polite" class="search-page__results-text ">						
 						</h2>
 					</div>	
 				</div>
@@ -128,10 +128,7 @@ $( document ).ready(function() {
                  <div class="col col--md-10 col--lg-14 margin-bottom">
 				   <div class="margin-bottom-md--2 flush-col js-mobile-filters">
 					 <div class="background--gallery border border-top--iron-md border-bottom--iron-md border-right--iron-md padding-left--1  col col--md-10 col--lg-14 margin-left-md--1 ">					  
-					   <h4 class="filters__title">You can customise the data table in any of the following ways</h4>
-					   <p>Selected filters <br/>
-					     London Boroughs [<a>Remove</a>]
-					   </p>
+					   <h4 id="selectedArea" class="filters__title">You can customise the data table in any of the following ways</h4>					   
 					 </div>
 					 <div class="background--mercury border-top--iron-md  padding-right-sm--1 padding-right-md--1 padding-bottom-sm--2 padding-bottom-md--2 padding-left-sm--1 margin-left-md--1 padding-left-md--1 js-mobile-filters__contents">
 					   <div class="filters js-filters">						  
@@ -165,8 +162,7 @@ $( document ).ready(function() {
 			    <button class="margin-top-lg--2 margin-left-lg--16 btn btn--primary btn--small btn--thin"><a style="color:white;text-decoration:none;" href="http://data.statistics.gov.uk/ons/datasets/csv/CSV_UKBD01_2013WARDH_5_EN.zip">
 			        Download as CSV</a>
 			    </button>				
-			    <button class="margin-top-lg--2 margin-left-lg--1  btn btn--primary btn--small btn--thin"><a style="color:white;text-decoration:none;" href="http://data.statistics.gov.uk/ons/datasets/xls/XLS_UKBD01_2013WARDH_5_EN.zip">
-			        Download as XLS</a>
+			    <button id="downloadXLS" class="margin-top-lg--2 margin-left-lg--1  btn btn--primary btn--small btn--thin">
 			    </button>
 			    <button id="reset" class="margin-top-lg--2 margin-left-lg--1  btn btn--primary btn--small btn--thin">
 			        Reset the table

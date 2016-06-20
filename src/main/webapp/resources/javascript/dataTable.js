@@ -1,9 +1,10 @@
 function dataTable(extCode, geographicLevelType, dataResource, timePeriod, postcode, Wdcode, LAcode, WPCcode, GORcode, Ctrycode){
- var name,value,tabledata,dataResource,Wdcode, LAcode, WPCcode, GORcode, Ctrycode;
+ var tabledata,dataResource,extcode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode,timePeriod; 
+ 
+var timePeriod= $.getUrlVar('timeId');
 
-//$('#title').append(dataset);
- $('#datasetId').append(' <span class="stand-out-text"><strong>Dataset:' +  dataResource + ':Dataset title</strong></span> [<a href="localIndex.html?">change dataset</a>]');
-getAvailableAreaLevelTypes(dataResource);
+getTitle(dataResource);
+getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode,timePeriod,geographicLevelType);
  
  var url = "";
  $.ajax({
@@ -51,11 +52,13 @@ function table(tabledata, postcode){
 		 column = ({title:areaname, field:"value", sorter:"number", align:"left", width:"auto", formatter:function(value, data, cell, row, options){
 			return parseFloat(value).toLocaleString();			
 		}});
+  	 $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + areaname + ' [<a>Remove</a>]</p>'); 		 
 	}
 	else{
 		 column = ({title:postcode + "  " + "(Output area " + areaname + ")", field:"value", sorter:"number", align:"left", width:"auto", formatter:function(value, data, cell, row, options){
 			return parseFloat(value).toLocaleString();			
 		}});
+	  $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + "(Output area " + areaname + ")" + ' [<a>Remove</a>]</p>');	 
 	}
 	
   $("#datatable").tabulator({
@@ -110,8 +113,8 @@ function updateFilter(){
 		
 	$("#datatable").tabulator("setFilter", filter, $("#filter-type").val(), $("#filter-value").val());
 }
-function getAvailableAreaLevelTypes(dataResource, Wdcode, LAcode, WPCcode, GORcode, Ctrycode){
-    var url = "";  
+function getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode, timePeriod, geographicLevelType){
+    var url = "";     
     
     $.ajax({
        type    : "GET",
@@ -131,12 +134,31 @@ function getAvailableAreaLevelTypes(dataResource, Wdcode, LAcode, WPCcode, GORco
 	           areaDescList  = obj.metadata;
 	           areadesc.push(areaDescList);      
 	           areas.push(arealist);
-             }
+             }	        
 	          $.each(areadesc, function(index, areadesc) {
 	        	areadesc.split(",")[0];                 
-	            $('#geographies').append('<li style="font-size:13px; "class="filters__item"><a href="area=' + areadesc + '">' + areadesc + '</a></li>');        
+	           // $('#geographies').append('<li style="font-size:13px; "class="filters__item"><a onclick="return dataTable();" href="localDatasetTable.html?area=' + areadesc + '&timeId=' + timePeriod + '">' + areadesc + '</a></li>');
+	        	$('#geographies').append('<li style="font-size:13px; "class="filters__item"><a>' + areadesc + '</a></li>');        
 	         });
-          } 
+	      } 
         }  
+    });
+}
+
+function getTitle(dataResource){
+    var url = "";  
+    
+    $.ajax({
+       type    : "GET",
+       url     : "http://ec2-52-25-128-99.us-west-2.compute.amazonaws.com/local-data-web/rs/local-data/dataresourcetitle?dataResource=" + dataResource,                 
+       dataType: "JSON",
+       data    : {"url" : url},
+       success : function(data)
+       {
+         if(data != "")
+         {
+        	 $('#datasetId').append(' <span class="stand-out-text"><strong>Dataset:' +  dataResource + ':' + data.title + '</strong></span> [<a href="localIndex.html?">change dataset</a>]');
+         } 
+       }  
     });
 }

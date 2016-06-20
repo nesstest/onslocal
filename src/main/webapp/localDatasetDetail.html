@@ -42,7 +42,8 @@
 </script>
 <script> 
 $( document ).ready(function() {
-	datasetDetail($.getUrlVar('q'),$.getUrlVar('dsId'));	
+	datasetDetail($.getUrlVar('q'),$.getUrlVar('dsId'));
+	getDownload($.getUrlVar('dsId'));
 }); 
 </script>		
 </head>
@@ -105,8 +106,7 @@ $( document ).ready(function() {
      </p>    
 	 <p class="col col--md-12 col--lg-11 meta__item">
 	  <span>Download dataset:</span><br/>
-       <button class=" btn btn--primary btn--small btn--thin"><a style="color:white;text-decoration:none;" href="http://data.statistics.gov.uk/ons/datasets/xls/XLS_UKBD01_2013WARDH_5_EN.zip">
-		 Download as XLS</a>
+       <button id="downloadXLS" class=" btn btn--primary btn--small btn--thin">
 	  </button>		 	   
      </p>     	 	    
    </div>
