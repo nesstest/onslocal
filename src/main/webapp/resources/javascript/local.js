@@ -222,7 +222,7 @@ function  OA_pcode_details(postcode, dsId, timeId) {
  * Accept specified characters found legally in placenames ie colons, hyphens etc..
  */
 function checkURL(key,value) {
-	var urlregex               = /^[a-zA-Z�0-9-\''\s\\&\\'\\:\\/\\(\\)\\!\\,\\+\\.\\%]+$/;
+	var urlregex               = /^[a-zA-Zï¿½0-9-\''\s\\&\\'\\:\\/\\(\\)\\!\\,\\+\\.\\%]+$/;
 	
 	// checking if a string is blank, null or undefined  
 	if((/^\s*$/).test(key) || (/^\s*$/).test(value) ) {return (true);} 
@@ -237,6 +237,7 @@ function checkURL(key,value) {
 	}	
 } 
 
+
 /**
  * Gets the area level types for a given dataset
  * and writes to results 
@@ -244,9 +245,11 @@ function checkURL(key,value) {
  * @Param the dataset id
  * @Param the metadata 
  */ 
-function getAreaLevelTypes(dataset, dsId, metadata, taxonomy,time ,searchtext,page){
+function getAreaLevelTypes(dataset, dsId, metadata, taxonomy,time, searchtext, page){
 	 var url = "";	
 	 var arealist;
+	 
+	 //var meta = getMetadata(dsId);	
 	 	 	
 	 $.ajax({
 		type	: "GET",
@@ -260,64 +263,11 @@ function getAreaLevelTypes(dataset, dsId, metadata, taxonomy,time ,searchtext,pa
 	         for(var i=0;i<matchingCount;i++){     
 	           obj           = data.geographic_level_types[i];    
 	           arealist      = obj.metadata; 	              
-	           areas.push(" " + arealist);  	          
-	         }  
-			
-			if(data != "")
-		      {				 
-				 if(page == "list"){
-					 showHide();	
-		    		  var results = '<ul class="list--neutral margin-top--half">';
-					  results +=        '<li class="col-wrap background--mercury flush-col padding-top--2 padding-bottom--4 padding-left--1 " >';
-					  results +=        '<div class="js-show-hide">';
-					  results +=        '<div class="show-hide show-hide--light">';   
-					  results +=        '<div class="js-show-hide__title margin-right-lg--5">';				  
-					  results +=        '<button class="js-show-hide__button" type="button" aria-expanded="false" aria-controls="collapsible-0">';
-					  results +=        '<a aria-expanded="false" aria-controls="collapsible-0" href="localDatasetDetail.html?q=' + searchtext + '&dsId=' + dsId + '&timeId=' + time + '">'  + 'Dataset: ' + dsId +': ' + dataset + '</a>';	
-					  results +=        '</button>';
-					  results +=        '<p class=" margin-right-lg--5">'+ metadata + '</p>';						 
-					  results +=        '</div>';
-					  results +=        '<div class="js-show-hide__content  show-hide show-hide--light margin-right-lg--5">';
-					  results +=        '<div class="nav-secondary__list">';					 
-					  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Geographies covered</strong></p>'; 
-					  results +=        '<ul class="nav-secondary__list margin-left--half">';
-					  results +=	    '<li class="padding-left--none inline">'+ areas + '</li>';
-					  results +=        '</ul>';
-					  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Dates covered</strong></p>';
-					  results +=        '<p class="margin-left--half flush-bottom flush-top ">2011, 2001</p>';
-					  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Source</strong></p>';
-					  results +=        '<p class="margin-left--half flush-bottom flush-top ">2011 Census</p>';
-					  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Themes</strong></p>';
-					  results +=        '<p class="margin-left--half flush-bottom flush-top ">' + taxonomy + '</p>';
-					  results +=        '</div></div></div></div></li></ul>';					  
-					  					 
-					  $('#results').append(results);   
-					  showHide();
-				  }
-				 else{
-					 var metadataText = '<p>' + metadata + '</p>';
-					 $('#results').append(metadataText);
-					 getConceptSystem(dsId);				 
-					 
-					 var results =  '<p class="flush-bottom flush-top "><strong>Geographies covered</strong></p>';
-					 results += '<ul class="list--neutral list--inline margin-top--half ">';
-					 results += '<li class="padding-left--none">' + areas +'</li>';					 
-					 results += '</ul>';
-					 results += '<p class="flush"><strong>Dates covered</strong></p>';
-					 results += '<p class="flush">2011, 2001</p>';
-					 results += '<p class="flush"><strong>Source</strong></p>';
-					 results += '<p class="flush">2011 Census</p>';
-					 results += '<p class="flush"><strong>Themes</strong></p>';
-					 results += '<p class="flush">' + taxonomy + '</p>';			         
-			         $('#results').append(results);  
-			         $('#datasetId').append('<span >Dataset ID: </span>' + dsId);
-			         $('#title').append(dataset);
-				 }
-		         //  **** To do require dataset details ie. variable & dates  ****	
-				  
-			  }	// if(data != "")
+	           areas.push(" " + arealist); 	           
+	         } 
+	         getMetadata(dataset, dsId, metadata, taxonomy,time, searchtext, page,areas);			
 		}  
-	 })	
+	 });	
 }
 
 /**
@@ -469,7 +419,7 @@ function gettimeId(dataset, dsId, metadata, taxonomy, searchtext){
 		$(function(){		
 		   $('#nav-search').keyup(function(){	
            var $th = $(this);
-           $th.val($th.val().replace(/[^.\\:\\&\\,\\(\\)\\!\\/\\''a-zA-Zâ0-9\-\ ]/g,
+           $th.val($th.val().replace(/[^.\\:\\&\\,\\(\\)\\!\\/\\''a-zA-ZÃ¢0-9\-\ ]/g,
          		  
            function (str) {
               alert('Special characters not allowed');
@@ -507,7 +457,7 @@ function gettimeId(dataset, dsId, metadata, taxonomy, searchtext){
   * @Param the searchtext
   * @Param the dsId
   */ 
- function datasetDetail(searchtext,dsId){	
+ function datasetDetail(searchtext,dsId){
 	 
 	 var url = "";
 	 var dataset, dsId, metadata, obj;
@@ -534,7 +484,6 @@ function gettimeId(dataset, dsId, metadata, taxonomy, searchtext){
 						 dsId      = obj.data_resource; 
 						 metadata  = obj.metadata;
 						 taxonomy  = obj.taxonomies;
-						
 					 
 						 // get geographies covered for dataset							
 						 getAreaLevelTypes(dataset,dsId,metadata,taxonomy,page);						
@@ -542,7 +491,7 @@ function gettimeId(dataset, dsId, metadata, taxonomy, searchtext){
 				} // for(var i=0;i<matchingCount;i++){
 			 }	// if(data != "")
 		   }	
-	 }) //$.ajax({
+	 }); //$.ajax({
  }
  
  /**
@@ -596,6 +545,11 @@ function getConceptSystem(dsId){
 	 }) //$.ajax({
 }
 
+/**
+ * Get the Download url details for
+ * the specified dataset
+ * @Param the dsId
+ */ 
 function getDownload(dsId){	
 	
 	 var url = "";
@@ -613,6 +567,92 @@ function getDownload(dsId){
 		  }				
 	    }	
     }); 
+}
+
+function getMetadata(dataset, dsId, metadata, taxonomy,time, searchtext, page, areas){	
+	
+	 var url = "";
+	 var dataset, dsId, metadata, obj;
+	 var matchingCount = 0;	
+		    
+	 $.ajax({
+		type	: "GET",
+		url     : "http://ec2-52-25-128-99.us-west-2.compute.amazonaws.com/local-data-web/rs/local-data/metadata?dataResource=" + dsId,
+		dataType: "JSON",
+		data	: {"url" : url},
+		success : function(data)
+		{
+		  			  
+		  var matchingCount = (data.dimensional_data_sets.length);
+		 				  
+		  for(var i=0;i<matchingCount;i++){
+			  
+			 obj = data.dimensional_data_sets[i];		    
+			
+			   source          = obj.source;
+			   releaseDate     = obj.release_date;
+			   nextReleaseDate = obj.next_release;
+			   contact         = obj.contact;
+				
+		  } // for(var i=0;i<matchingCount;i++){			  
+			
+		  if(data != "")
+	      {				 
+			 if(page == "list"){
+				 showHide();	
+	    		  var results = '<ul class="list--neutral margin-top--half">';
+				  results +=        '<li class="col-wrap background--mercury flush-col padding-top--2 padding-bottom--4 padding-left--1 " >';
+				  results +=        '<div class="js-show-hide">';
+				  results +=        '<div class="show-hide show-hide--light">';   
+				  results +=        '<div class="js-show-hide__title margin-right-lg--5">';				  
+				  results +=        '<button class="js-show-hide__button" type="button" aria-expanded="false" aria-controls="collapsible-0">';
+				  results +=        '<a aria-expanded="false" aria-controls="collapsible-0" href="localDatasetDetail.html?q=' + searchtext + '&dsId=' + dsId + '&timeId=' + time + '">'  + 'Dataset: ' + dsId +': ' + dataset + '</a>';	
+				  results +=        '</button>';
+				  results +=        '<p class=" margin-right-lg--5">'+ metadata + '</p>';						 
+				  results +=        '</div>';
+				  results +=        '<div class="js-show-hide__content  show-hide show-hide--light margin-right-lg--5">';
+				  results +=        '<div class="nav-secondary__list">';					 
+				  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Geographies covered</strong></p>'; 
+				  results +=        '<ul class="nav-secondary__list margin-left--half">';
+				  results +=	    '<li class="padding-left--none inline">'+ areas + '</li>';
+				  results +=        '</ul>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Dates covered</strong></p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top ">Release date:' + releaseDate + '&nbsp;&nbsp;&nbsp; Next release date: ' + nextReleaseDate + '</p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Source</strong></p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top ">' + source + '</p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Themes</strong></p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top ">' + taxonomy + '</p>';
+				  results +=        '</div></div></div></div></li></ul>';					  
+				  					 
+				  $('#results').append(results);   
+				  showHide();
+			  }
+			 else{
+				 var metadataText = '<p>' + metadata + '</p>';
+				 $('#results').append(metadataText);
+				 getConceptSystem(dsId);				 
+				 
+				 var results =  '<p class="flush-bottom flush-top "><strong>Geographies covered</strong></p>';
+				 results += '<ul class="list--neutral list--inline margin-top--half ">';
+				 results += '<li class="padding-left--none">' + areas +'</li>';					 
+				 results += '</ul>';
+				 results += '<p class="flush"><strong>Dates covered</strong></p>';
+				 results += '<p class="flush">Release date: ' + releaseDate + '&nbsp;&nbsp;&nbsp; Next release date: ' + nextReleaseDate + '</p>';
+				 results += '<p class="flush"><strong>Source</strong></p>';
+				 results += '<p class="flush">' + source + '</p>';
+				 results += '<p class="flush"><strong>Themes</strong></p>';
+				 results += '<p class="flush">' + taxonomy + '</p>';			         
+		         $('#results').append(results);  
+		         $('#datasetId').append('<span >Dataset ID: </span>' + dsId);
+		         $('#title').append(dataset);
+		         $('#releaseDate').append('<span>Release date: </span><br/>' + releaseDate + '<br/>');
+		         $('#nextRelease').append('<span>Next release: </span><br/>' + nextReleaseDate);
+		         $('#contact').append('<img class="meta__image" src="D:/git/onslocal-js/src/main/webapp/resources/img/national-statistics.png" alt="National Statistics logo"/>' + 
+		           '<span>Contact: </span><br/><a href="mailto:someone@ons.gsi.gov.uk" data-ga-event data-ga-event-category="mailto" data-ga-event-label="someone@ons.gsi.gov.uk">' + contact + '</a>');		         
+			 } 
+		  }	// if(data != "") 
+	    }	
+	 }); //$.ajax({
 }
 
 function removeLastComma(str){        
