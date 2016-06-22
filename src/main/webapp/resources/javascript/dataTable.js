@@ -1,7 +1,7 @@
 function dataTable(extCode, geographicLevelType, dataResource, timePeriod, postcode, Wdcode, LAcode, WPCcode, GORcode, Ctrycode){
  var tabledata,dataResource,extcode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode,timePeriod; 
  
-var timePeriod= $.getUrlVar('timeId');
+//var timePeriod= $.getUrlVar('timeId');
 
 getTitle(dataResource);
 getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode,timePeriod,geographicLevelType);
@@ -19,7 +19,7 @@ getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcod
         }
         else{        
             var matchingCount = (data.variables.length); 
-           if(matchingCount >50){
+            if(matchingCount >50){
                 matchingCount = 50;
             }    
             var tabledata = [];
@@ -66,7 +66,7 @@ function table(tabledata, postcode){
 	fitColumns:true,
 	tooltips:false,
 	movableCols: true,
-	movableRows: true,
+	movableRows: true,	
 	//progressiveRender:true,
 	//progressiveRenderSize:20, 
 	//progressiveRenderMargin:50,
@@ -83,7 +83,11 @@ function table(tabledata, postcode){
 	$("#filter-value").val("");
 	$("#datatable").tabulator("clearFilter");
   });
-		  
+	
+  $("#selectedArea").click(function(){	  
+	  $("#datatable").tabulator("toggleCol","value") ////toggle the visibility of the "value" column	  
+  });
+  
   $("#datatable").tabulator("setData", tabledata);
   
   $("#clear").click(function(){
@@ -113,6 +117,7 @@ function updateFilter(){
 		
 	$("#datatable").tabulator("setFilter", filter, $("#filter-type").val(), $("#filter-value").val());
 }
+
 function getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode, timePeriod, geographicLevelType){
     var url = "";     
     
@@ -160,5 +165,10 @@ function getTitle(dataResource){
         	 $('#datasetId').append(' <span class="stand-out-text"><strong>Dataset:' +  dataResource + ':' + data.title + '</strong></span> [<a href="localIndex.html?">change dataset</a>]');
          } 
        }  
-    });
+   });
 }
+
+//function reply_click()
+//{
+//    $('#datatable').tableExport({type:'excel',escape:'false'});
+//}
