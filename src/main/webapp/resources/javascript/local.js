@@ -604,10 +604,10 @@ function getMetadata(dataset, dsId, metadata, taxonomy,time, searchtext, page, a
 				  results +=        '<li class="col-wrap background--mercury flush-col padding-top--2 padding-bottom--4 padding-left--1 " >';
 				  results +=        '<div class="js-show-hide">';
 				  results +=        '<div class="show-hide show-hide--light">';   
-				  results +=        '<div class="js-show-hide__title margin-right-lg--5">';				  
-				  results +=        '<button class="js-show-hide__button" type="button" aria-expanded="false" aria-controls="collapsible-0">';
-				  results +=        '<a aria-expanded="false" aria-controls="collapsible-0" href="localDatasetDetail.html?q=' + searchtext + '&dsId=' + dsId + '&timeId=' + time + '">'  + 'Dataset: ' + dsId +': ' + dataset + '</a>';	
+				  results +=        '<div class="js-show-hide__title margin-right-lg--5" style="position: relative;">';				  
+				  results +=        '<button style="width: 100px; position: absolute; right: 0px; top:0px; height: auto;" class="js-show-hide__button" type="button" aria-expanded="false" aria-controls="collapsible-0">';
 				  results +=        '</button>';
+				  results +=        '<div class=" margin-right-lg--5"><a aria-expanded="false" aria-controls="collapsible-0" href="localDatasetDetail.html?q=' + searchtext + '&dsId=' + dsId + '&timeId=' + time + '">'  + 'Dataset: ' + dsId +': ' + dataset + '</a></div>';	
 				  results +=        '<p class=" margin-right-lg--5">'+ metadata + '</p>';						 
 				  results +=        '</div>';
 				  results +=        '<div class="js-show-hide__content  show-hide show-hide--light margin-right-lg--5">';
@@ -647,7 +647,7 @@ function getMetadata(dataset, dsId, metadata, taxonomy,time, searchtext, page, a
 		         $('#title').append(dataset);
 		         $('#releaseDate').append('<span>Release date: </span><br/>' + releaseDate + '<br/>');
 		         $('#nextRelease').append('<span>Next release: </span><br/>' + nextReleaseDate);
-		         $('#contact').append('<img class="meta__image" src="D:/git/onslocal-js/src/main/webapp/resources/img/national-statistics.png" alt="National Statistics logo"/>' + 
+		         $('#contact').append('<img class="meta__image" src="resources/img/national-statistics.png" alt="National Statistics logo"/>' + 
 		           '<span>Contact: </span><br/><a href="mailto:someone@ons.gsi.gov.uk" data-ga-event data-ga-event-category="mailto" data-ga-event-label="someone@ons.gsi.gov.uk">' + contact + '</a>');		         
 			 } 
 		  }	// if(data != "") 
