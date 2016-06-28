@@ -32,7 +32,7 @@ getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcod
               value_domain  = obj.value_domain; 
               unit_type     = obj.unit_type;
               variable_name = obj.variable_name; 
-              value = parseFloat(value).toLocaleString();
+              //value = parseFloat(value).toLocaleString();
               tabledata.push({value,areaname,variable_name});          
              // {id:1, name:"Billy Bob", age:"12", gender:"male", height:1, col:"red", dob:"", cheese:1},
               //column.push({title:variable_name, field:"value", width:"auto", sorter:"number", align:"left",  formatter:function(value, data, cell, row, options){
