@@ -583,18 +583,22 @@ function getMetadata(dataset, dsId, metadata, taxonomy,time, searchtext, page, a
 		success : function(data)
 		{
 		  			  
-		  var matchingCount = (data.dimensional_data_sets.length);
+	//	  var matchingCount = (data.dimensional_data_sets.length);
 		 				  
-		  for(var i=0;i<matchingCount;i++){
+	//	  for(var i=0;i<matchingCount;i++){
 			  
-			 obj = data.dimensional_data_sets[i];		    
-			
-			   source          = obj.source;
-			   releaseDate     = obj.release_date;
-			   nextReleaseDate = obj.next_release;
-			   contact         = obj.contact;
+	//		 obj = data.dimensional_data_sets[i];		    
+		
+	//		   source          = obj.source;
+	//		   releaseDate     = obj.release_date;
+	//		   nextReleaseDate = obj.next_release;
+	//		   contact         = obj.contact;
+			   source          = data.source;
+			   releaseDate     = data.release_date;
+			   nextReleaseDate = data.next_release;
+			   contact         = data.contact;			   
 				
-		  } // for(var i=0;i<matchingCount;i++){			  
+	//	  } // for(var i=0;i<matchingCount;i++){			  
 			
 		  if(data != "")
 	      {				 
@@ -617,7 +621,7 @@ function getMetadata(dataset, dsId, metadata, taxonomy,time, searchtext, page, a
 				  results +=	    '<li class="padding-left--none inline">'+ areas + '</li>';
 				  results +=        '</ul>';
 				  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Dates covered</strong></p>';
-				  results +=        '<p class="margin-left--half flush-bottom flush-top ">Release date:' + releaseDate + '&nbsp;&nbsp;&nbsp; Next release date: ' + nextReleaseDate + '</p>';
+				  results +=        '<p class="margin-left--half flush-bottom flush-top ">Release date: ' + releaseDate + '&nbsp;&nbsp;&nbsp; Next release date: ' + nextReleaseDate + '</p>';
 				  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Source</strong></p>';
 				  results +=        '<p class="margin-left--half flush-bottom flush-top ">' + source + '</p>';
 				  results +=        '<p class="margin-left--half flush-bottom flush-top "><strong>Themes</strong></p>';
