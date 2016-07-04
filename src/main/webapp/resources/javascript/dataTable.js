@@ -75,6 +75,8 @@ function table(tabledata, postcode){
 	tooltips:false,
 	movableCols: true,
 	movableRows: true,	
+	sortBy:'variable_name', 
+    sortDir:'asc',
 	//progressiveRender:true,
 	//progressiveRenderSize:20, 
 	//progressiveRenderMargin:50,
