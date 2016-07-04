@@ -32,20 +32,15 @@ getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcod
             var tabledata = [];
             var column = [];           	
             for(var i=0;i<matchingCount;i++){     
-              obj           = data.variables[i];    
-              id            = obj.variable_id; 
-              areaname      = obj.name;
-              value         = obj.value; 
-              value_domain  = obj.value_domain; 
-              unit_type     = obj.unit_type;
-              variable_name = obj.variable_name; 
-              // value = parseFloat(value).toLocaleString();
-              tabledata.push({value:value,areaname:areaname,variable_name:variable_name});          
-             // {id:1, name:"Billy Bob", age:"12", gender:"male", height:1, col:"red", dob:"", cheese:1},
-              //column.push({title:variable_name, field:"value", width:"auto", sorter:"number", align:"left",  formatter:function(value, data, cell, row, options){
-      		//	return parseFloat(value).toLocaleString();			
-             // }});              
-            }  
+                obj           = data.variables[i];    
+                id            = obj.variable_id; 
+                areaname      = obj.name;
+                value         = obj.value               
+                unit_type     = 
+                variable_name = obj.variable_name + " " + "(" + obj.unit_type  + "," + obj.value_domain + ")";   
+                value = parseFloat(value).toLocaleString();              
+                tabledata.push({value:value,areaname:areaname,variable_name:variable_name});              
+              } 
             table(tabledata,postcode);
         }
       }
@@ -56,18 +51,15 @@ getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcod
 function table(tabledata, postcode){
 	//placename search
 	var column;
+
 	if(postcode == null || postcode.length == 0 || typeof postcode === 'undefined'){
-		 column = ({title:areaname, field:"value", sorter:"number", align:"left", width:"auto", formatter:function(value, data, cell, row, options){
-			return parseFloat(value).toLocaleString();			
-		}});
-  	 $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + areaname + ' [<a>Remove</a>]</p>'); 		 
-	}
-	else{
-		 column = ({title:postcode + "  " + "(Output area " + areaname + ")", field:"value", sorter:"number", align:"left", width:"auto", formatter:function(value, data, cell, row, options){
-			return parseFloat(value).toLocaleString();			
-		}});
-	  $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + "(Output area " + areaname + ")" + ' [<a>Remove</a>]</p>');	 
-	}
+	         column = ({title:areaname, field:"value", sorter:"number", align:"left", width:"auto"});
+	      $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + areaname + ' [<a>Remove</a>]</p>');          
+	    }
+	    else{
+	         column = ({title:postcode + "  " + "(Output area " + areaname + ")", field:"value", sorter:"number", align:"left", width:"auto"});
+	      $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + "(Output area " + areaname + ")" + ' [<a>Remove</a>]</p>');     
+	    }
 	
   $("#datatable").tabulator({
 	height:"auto",
