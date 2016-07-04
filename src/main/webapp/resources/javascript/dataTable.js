@@ -7,6 +7,13 @@ getTitle(dataResource);
 getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode,timePeriod,geographicLevelType);
  
  var url = "";
+ var datap  = $.getUrlVar('data');
+ if (datap == "json") {
+     url    = "http://ec2-52-25-128-99.us-west-2.compute.amazonaws.com/local-data-web/rs/local-data/data?dataResource=" + dataResource + "&extCode=" + extCode + "&geographicLevelType=" + geographicLevelType + "&timePeriod=" + timePeriod;
+     window.location.replace(url);
+ }
+ else
+ {
  $.ajax({
     type    : "GET",
     url     : "http://ec2-52-25-128-99.us-west-2.compute.amazonaws.com/local-data-web/rs/local-data/data?dataResource=" + dataResource + "&extCode=" + extCode + "&geographicLevelType=" + geographicLevelType + "&timePeriod=" + timePeriod,
@@ -42,7 +49,8 @@ getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcod
             table(tabledata,postcode);
         }
       }
- }); 
+ });
+ }
 }
 
 function table(tabledata, postcode){
