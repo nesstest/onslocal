@@ -106,21 +106,6 @@ function table(tabledata, postcode){
   $(window).resize(function(){
  	$("#datatable").tabulator("redraw");
   }); 
-  
-  $("#filter-field, #filter-type").change(updateFilter);
-  
-  $("#filter-value").keyup(updateFilter);
- 
-}
-
-function updateFilter(){
-	
-	$("#filter-type").prop("disabled", false);
-	$("#filter-value").prop("disabled", false);
-	
-	var filter = $("#filter-field").val();
-		
-	$("#datatable").tabulator("setFilter", filter, $("#filter-type").val(), $("#filter-value").val());
 }
 
 function getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode, timePeriod, geographicLevelType){
