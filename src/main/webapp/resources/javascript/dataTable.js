@@ -67,7 +67,7 @@ function table(tabledata, postcode){
   $("#datatable").tabulator({
 	height:"auto",
 	fitColumns:true,
-	tooltips:false,
+	tooltips:true,
 	movableCols: true,
 	movableRows: true,	
     sortBy:'variable_name', 
