@@ -79,15 +79,8 @@ function table(tabledata, postcode){
 	//    return tabledata.areaname;
 	//},
 	columns:[		
-	{title:"Variable", field:"variable_name", width:"auto", sorter:"string"}, column],		
-  });
-  
-  $("#filter-clear").click(function(){
-	$("#filter-field").val("");
-	$("#filter-type").val("=");
-	$("#filter-value").val("");
-	$("#datatable").tabulator("clearFilter");
-  });
+	{title:"", field:"variable_name", width:"auto", sorter:"alphanum"}, column],		
+  }); 
 	
   $("#selectedArea").click(function(){	  
 	  $("#datatable").tabulator("toggleCol","value") ////toggle the visibility of the "value" column	  
