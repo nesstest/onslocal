@@ -1,7 +1,7 @@
 function dataTable(extCode, geographicLevelType, dataResource, timePeriod, postcode, Wdcode, LAcode, WPCcode, GORcode, Ctrycode){
- var tabledata,dataResource,extcode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode,timePeriod; 
+ var tabledata,dataResource,extCode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode,timePeriod; 
  
-//var timePeriod= $.getUrlVar('timeId');
+//var timePeriod= $.getUrlVar('timeId'); 
 
 getTitle(dataResource);
 getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode,timePeriod,geographicLevelType);
@@ -32,34 +32,37 @@ getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcod
             var tabledata = [];
             var column = [];           	
             for(var i=0;i<matchingCount;i++){     
-                obj           = data.variables[i];    
-                id            = obj.variable_id; 
-                areaname      = obj.name;
-                value         = obj.value               
-                unit_type     = 
-                variable_name = obj.variable_name + " " + "(" + obj.unit_type  + "," + obj.value_domain + ")";   
-                value = parseFloat(value).toLocaleString();              
-                tabledata.push({value:value,areaname:areaname,variable_name:variable_name});              
+              obj           = data.variables[i];    
+              id            = obj.variable_id; 
+              areaname      = obj.name;
+              value         = obj.value;
+              variable_name = obj.variable_name + " " + "(" + obj.unit_type  + "," + obj.value_domain + ")"; 
+              if(!value){
+            	 value = ".."; 
               } 
+              else{
+            	  value = parseFloat(value).toLocaleString(); 
+              }                           
+              tabledata.push({value:value,areaname:areaname,variable_name:variable_name});              
+            }  
             table(tabledata,postcode);
         }
       }
- });
+   });
  }
 }
 
 function table(tabledata, postcode){
 	//placename search
 	var column;
-
 	if(postcode == null || postcode.length == 0 || typeof postcode === 'undefined'){
-	         column = ({title:areaname, field:"value", sorter:"number", align:"left", width:"auto"});
-	      $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + areaname + ' [<a>Remove</a>]</p>');          
-	    }
-	    else{
-	         column = ({title:postcode + "  " + "(Output area " + areaname + ")", field:"value", sorter:"number", align:"left", width:"auto"});
-	      $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + "(Output area " + areaname + ")" + ' [<a>Remove</a>]</p>');     
-	    }
+		 column = ({title:areaname, field:"value", sorter:"number", align:"left", width:"auto"});
+  	 $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + areaname + ' [<a>Remove</a>]</p>'); 		 
+	}
+	else{
+		 column = ({title:postcode + "  " + "(Output area " + areaname + ")", field:"value", sorter:"number", align:"left", width:"auto"});
+	  $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + "(Output area " + areaname + ")" + ' [<a>Remove</a>]</p>');	 
+	}
 	
   $("#datatable").tabulator({
 	height:"auto",
@@ -67,8 +70,8 @@ function table(tabledata, postcode){
 	tooltips:false,
 	movableCols: true,
 	movableRows: true,	
-	sortBy:'variable_name', 
-    sortDir:'asc',
+    sortBy:'variable_name', 
+	sortDir:'asc',
 	//progressiveRender:true,
 	//progressiveRenderSize:20, 
 	//progressiveRenderMargin:50,
