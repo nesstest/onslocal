@@ -151,7 +151,8 @@ $( document ).ready(function() {
 			    <button class="margin-top-lg--2 margin-left-lg--1 margin-right-lg--1 btn btn--primary-disabled btn--small btn--thin">
 			        Map
 			    </button>	
-			    <button class="margin-top-lg--2 margin-left-lg--16 btn btn--primary btn--small btn--thin"><a style="color:white;text-decoration:none;" href="http://data.statistics.gov.uk/ons/datasets/csv/CSV_UKBD01_2013WARDH_5_EN.zip">
+			    <button id="viewJSON" class="margin-top-lg--2 margin-left-lg--8 btn btn--primary btn--small btn--thin"></button>
+			    <button class="margin-top-lg--2 margin-left-lg--1 btn btn--primary btn--small btn--thin"><a style="color:white;text-decoration:none;" href="http://data.statistics.gov.uk/ons/datasets/csv/CSV_UKBD01_2013WARDH_5_EN.zip">
 			        Download as CSV</a>
 			    </button>				
 			    <button id="downloadXLS" class="margin-top-lg--2 margin-left-lg--1  btn btn--primary btn--small btn--thin">
@@ -165,8 +166,9 @@ $( document ).ready(function() {
 			</div>
 				
 	        <div class="page-content  margin-bottom margin-top  padding-right--1 padding-bottom-sm--4 col col--md-36 col--lg-45 margin-left-md--1">	         
-		      <div id="datatable"></div>
-	          <!--div id="myDiv" class="container2 zigzag"></div--> 	        		  
+    			<div id="count-limit-message"></div>
+    			<div id="datatable"></div>
+    			<!--div id="myDiv" class="container2 zigzag"></div--> 	        		  
 			</div>
 	     </div>
 	  </div>

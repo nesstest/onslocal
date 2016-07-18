@@ -567,6 +567,9 @@ function getDownload(dsId){
 		  }				
 	    }	
     }); 
+	 
+	 $('#viewJSON').append('<a style="color:white;text-decoration:none;" href="' + window.location.href + '&data=json">View JSON</a>');	
+
 }
 
 function getMetadata(dataset, dsId, metadata, taxonomy,time, searchtext, page, areas){	
