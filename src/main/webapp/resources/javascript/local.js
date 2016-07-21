@@ -151,7 +151,7 @@ function validateUrl() {
 var timeId    = $.getUrlVar('timeId');
 var dsId      = $.getUrlVar('dsId');
 var areacode  = $.getUrlVar('areacode');   
-var levelname = $.getUrlVar('levelname');   
+var levelname = $.getUrlVar('levelname'); 
 
 /**
  * Gets area details
@@ -172,51 +172,23 @@ function getSearchDetails(postcode,search){
 	}	
 }
 
+
 /**
  * Gets OA details for area
  * @param String postcode
  */
-function  OA_pcode_details(postcode, dsId, timeId) {	
-	var OA; 
-	var doterm,Wdcode,LAcode,WPCcode,GORcode,ctrycode;	
-	levelname = "OA"
+function  OA_pcode_details(postcode, dsId, timeId) {
 	
-	var pcUrl     = "http://onsdatav3-glassfishtest.rhcloud.com/data-web/rs/nessdata/getpostcode/" + postcode;	
-	
-	$(document).ready(function(){
-	  $.getJSON(pcUrl, function(result) {
-		if (result.features && result.features.length === 0) {
-         // do stuff when no features were found
-		//	redErrorbox(); 
-        }
-		else
-		{	
-			// set to la extcode as no data on table at oa level
-		    OA               = result.features[0].attributes.oa11cd;			
-	        doterm           = result.features[0].attributes.doterm; 	
-	        Wdcode           = result.features[0].attributes.wardcd;	       
-	        LAcode           = result.features[0].attributes.lauacd;
-	        WPCcode          = result.features[0].attributes.pconcd;
-	        GORcode          = result.features[0].attributes.gorcd;
-	        Ctrycode         = result.features[0].attributes.ctrycd;	        
-	                
-	        // check to see if postcode not obsolete (doterm === null valid)
-	        if(doterm === "") {	
-                dataTable(OA, levelname, dsId , timeId, postcode, Wdcode, LAcode, WPCcode, GORcode, Ctrycode);			    	      			       
-	       }  
-	       else {
-	    	 //  redErrorbox(); 
-	       }// postcode obsolete 
-		} // if (result.features && result.features.length === 0)      
-	})//pcUrl
-	//.error(function() {  
-	//		redErrorbox(); 
-	//	});
-
-	});//ready	  
-} //OA_pcode_details function
-
-
+	 var pcUrl = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?text=" + postcode + "&outFields=*&bbox=%20-5.4188710000000002,49.865400000000001,%201.7641,55.813870000000001&sourceCountry=GBR&outSR=27700&f=json&maxLocations=6";
+	    
+     $(document).ready(function(){		
+		   $.getJSON(pcUrl, function(response){    	  
+	   	xc = response.locations[0].feature.geometry.x;
+	    yc = response.locations[0].feature.geometry.y;	 
+	    getDatasetLevelType(postcode,dsId,timeId,xc,yc);	
+      });
+    });
+ } 
 
 /**
  * Accept specified characters found legally in placenames ie colons, hyphens etc..
@@ -661,6 +633,64 @@ function getMetadata(dataset, dsId, metadata, taxonomy,time, searchtext, page, a
 	    }	
 	 }); //$.ajax({
 }
+
+var rankedareas = ["OA", "LSOA", "WARD", "MSOA", "NUTS3", "NUTS2", "NUTS1", "NUTS0", "WPC", "LA", "COUNTY", "REGION", "COUNTRY", "EW", "GB", "UK"];
+var layervals    = ["oa", "lsoa", "WD_2013_GB_BGC", "msoa", "nuts3", "nuts2", "nuts1", "NUTS0_2015_GB_BSC", "pcon", "LAD_2013_GB_BSC", "LMCTYUA","Regions_December_2014_Generalised_Clipped_Boundaries_in_Great_Britain","CTRY_2015_EW_BSC","NAT","GB","UK"];
+
+function getDatasetLevelType(postcode,dsId,timeId,xc,yc){
+   var url = "";
+   var arealist;
+   $.support.cors = true; // this is required for IE
+    $.ajax({
+          type   : "GET",
+          url     : "http://ec2-52-25-128-99.us-west-2.compute.amazonaws.com/local-data-web/rs/local-data/geolevels?dataResource=" + dsId,
+          dataType: "JSON",
+          data   : {"url" : url},
+          success : function(data)
+          {
+           var matchingCount = (data.geographic_level_types.length);
+           var areas = [];
+            for(var i=0;i<matchingCount;i++){
+              obj           = data.geographic_level_types[i];
+              arealist      = obj.geographic_level_type;
+              areas.push(arealist);
+            }
+           
+            var leveltype = "UK";            
+            var areaCount = rankedareas.length;                   
+            for(var j=0;j<areaCount;j++){
+              leveltype = rankedareas[j];
+              layer     = layervals[j];
+              if (areas.indexOf(leveltype) > -1)
+              {
+                     break;
+               }
+            }   
+            
+           getExtCode(postcode,dsId,timeId,xc,yc,layer, leveltype);	
+          },
+          fail:function(jqXHR, textStatus, errorThrown) {
+                 alert("failed");
+          }
+    });
+}
+
+
+function getExtCode(postcode,dsId,timeId,xc,yc,layer,levelType){		
+	
+	var URL = "http://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/" + layer + "/FeatureServer/0/query?returnGeometry=false&outFields=*&geometryPrecision=0&f=json&geometry=" +
+	xc + "," + yc + "&geometryType=esriGeometryPoint&inSR=27700";	
+	
+    $.getJSON(URL)
+    .done(function(response) { 		
+   	  var codefield = response.fields[1].name;
+	  var namefield = codefield.substring(0, codefield.length - 2) + "NM";
+   	  var ecode = response.features[0].attributes[codefield];
+   	  var ename = response.features[0].attributes[namefield];   
+   	 dataTable(ecode, levelType, dsId , timeId, postcode);	
+  })   
+}
+
 
 function removeLastComma(str){        
     var n=str.lastIndexOf(",");

@@ -1,10 +1,10 @@
-function dataTable(extCode, geographicLevelType, dataResource, timePeriod, postcode, Wdcode, LAcode, WPCcode, GORcode, Ctrycode){
- var tabledata,dataResource,extCode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode,timePeriod; 
+function dataTable(extCode, geographicLevelType, dataResource, timePeriod, postcode){
+ var tabledata,dataResource,extCode;
  
 //var timePeriod= $.getUrlVar('timeId'); 
 
 getTitle(dataResource);
-getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode,timePeriod,geographicLevelType);
+getAvailableAreaLevelTypes(dataResource, extCode,timePeriod,geographicLevelType);
  
  var url = "";
  var datap  = $.getUrlVar('data');
@@ -28,7 +28,6 @@ getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcod
             var matchingCount = (data.variables.length); 
             if(matchingCount >50){
                 matchingCount = 50;
-           	 	$('#count-limit-message').append('Table has been limited to 50 data rows.');	
             }    
             var tabledata = [];
             var column = [];           	
@@ -61,8 +60,8 @@ function table(tabledata, postcode){
   	 $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + areaname + ' [<a>Remove</a>]</p>'); 		 
 	}
 	else{
-		 column = ({title:postcode + "  " + "(Output area " + areaname + ")", field:"value", sorter:"number", align:"left", width:"auto"});
-	  $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + "(Output area " + areaname + ")" + ' [<a>Remove</a>]</p>');	 
+		 column = ({title:postcode + "  " + "(" + areaname + ")", field:"value", sorter:"number", align:"left", width:"auto"});
+	  $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + "(" + areaname + ")" + ' [<a>Remove</a>]</p>');	 
 	}
 	
   $("#datatable").tabulator({
@@ -102,7 +101,7 @@ function table(tabledata, postcode){
   }); 
 }
 
-function getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcode, GORcode, Ctrycode, timePeriod, geographicLevelType){
+function getAvailableAreaLevelTypes(dataResource, extCode, timePeriod, geographicLevelType){
     var url = "";     
     
     $.ajax({
@@ -121,14 +120,14 @@ function getAvailableAreaLevelTypes(dataResource, extCode,Wdcode, LAcode, WPCcod
 	           obj           = data.geographic_level_types[i];    
 	           arealist      = obj.geographic_level_type;
 	           areaDescList  = obj.metadata;
-	           areadesc.push(areaDescList);      
-	           areas.push(arealist);
+	           areadesc.push(areaDescList);	           
+	           areas.push(arealist);	      
              }	        
-	          $.each(areadesc, function(index, areadesc) {
-	        	areadesc.split(",")[0];                 
-	           // $('#geographies').append('<li style="font-size:13px; "class="filters__item"><a onclick="return dataTable();" href="localDatasetTable.html?area=' + areadesc + '&timeId=' + timePeriod + '">' + areadesc + '</a></li>');
-	        	$('#geographies').append('<li style="font-size:13px; "class="filters__item"><a>' + areadesc + '</a></li>');        
-	         });
+	    
+	          $.each(areadesc, function(index, areadesc) { 	        	 
+	          // $('#geographies').append('<li style="font-size:13px; "class="filters__item"><a onclick="return dataTable();" href="localDatasetTable.html?area=' + areadesc + '&leveltype' + areas + '&timeId=' + timePeriod + '">' + areadesc + '</a></li>');
+	        $('#geographies').append('<li style="font-size:13px; "class="filters__item"><a>' + areadesc + '</a></li>');        
+	        });	          
 	      } 
         }  
     });
