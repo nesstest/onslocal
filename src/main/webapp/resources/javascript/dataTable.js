@@ -61,7 +61,7 @@ function table(tabledata, postcode){
 	}
 	else{
 		 column = ({title:postcode + "  " + "(" + areaname + ")", field:"value", sorter:"number", align:"left", width:"auto"});
-	  $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + "(" + areaname + ")" + ' [<a>Remove</a>]</p>');	 
+	  $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + "(" + areaname + ")" + '<br/> [<a>Remove</a>]</p>');	 
 	}
 	
   $("#datatable").tabulator({
@@ -125,7 +125,7 @@ function getAvailableAreaLevelTypes(dataResource, extCode, timePeriod, geographi
              }	        
 	    
 	          $.each(areadesc, function(index, areadesc) { 	        	 
-	          // $('#geographies').append('<li style="font-size:13px; "class="filters__item"><a onclick="return dataTable();" href="localDatasetTable.html?area=' + areadesc + '&leveltype' + areas + '&timeId=' + timePeriod + '">' + areadesc + '</a></li>');
+	        //   $('#geographies').append('<li style="font-size:13px; "class="filters__item"><a onclick="return dataTable();" href="localDatasetTable.html?area=' + areadesc + '&leveltype' + areas + '&timeId=' + timePeriod + '">' + areadesc + '</a></li>');
 	        $('#geographies').append('<li style="font-size:13px; "class="filters__item"><a>' + areadesc + '</a></li>');        
 	        });	          
 	      } 

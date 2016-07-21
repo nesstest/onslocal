@@ -414,11 +414,7 @@ function gettimeId(dataset, dsId, metadata, taxonomy, searchtext){
         	 $('<input />').attr('type', 'hidden')
     	          .attr('name', "dsId")
     	          .attr('value', dsId)        	          
-    	          .appendTo('#form');  
-        	 $('<input />').attr('type', 'hidden')
-	          .attr('name', "levelname")
-	          .attr('value', "OA")        	          
-	          .appendTo('#form');        	   
+    	          .appendTo('#form');          	
         	      return true;
         	 });
 		});	
