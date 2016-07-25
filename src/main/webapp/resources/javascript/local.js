@@ -631,7 +631,7 @@ function getMetadata(dataset, dsId, metadata, taxonomy,time, searchtext, page, a
 }
 
 var rankedareas = ["OA", "LSOA", "WARD", "MSOA", "NUTS3", "NUTS2", "NUTS1", "NUTS0", "WPC", "LA", "COUNTY", "REGION", "COUNTRY", "EW", "GB", "UK"];
-var layervals    = ["oa", "lsoa", "WD_2013_GB_BGC", "msoa", "nuts3", "nuts2", "nuts1", "NUTS0_2015_GB_BSC", "pcon", "LAD_2013_GB_BSC", "LMCTYUA","Regions_December_2014_Generalised_Clipped_Boundaries_in_Great_Britain","CTRY_2015_EW_BSC","NAT","GB","UK"];
+var layervals    = ["oa", "lsoa", "WD_2013_GB_BGC", "msoa", "NUTS3_2015_GB_BGC", "NUTS2_2015_GB_BGC", "NUTS1_2015_GB_BGC", "NUTS0_2015_GB_BSC", "pcon", "LAD_2013_GB_BSC", "LMCTYUA","Regions_December_2014_Generalised_Clipped_Boundaries_in_Great_Britain","CTRY_2015_EW_BSC","NAT","GB","UK"];
 
 function getDatasetLevelType(postcode,dsId,timeId,xc,yc){
    var url = "";
@@ -672,7 +672,7 @@ function getDatasetLevelType(postcode,dsId,timeId,xc,yc){
 }
 
 
-function getExtCode(postcode,dsId,timeId,xc,yc,layer,levelType){		
+function getExtCode(postcode,dsId,timeId,xc,yc,layer,levelType){
 	
 	var URL = "http://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/" + layer + "/FeatureServer/0/query?returnGeometry=false&outFields=*&geometryPrecision=0&f=json&geometry=" +
 	xc + "," + yc + "&geometryType=esriGeometryPoint&inSR=27700";	
@@ -682,8 +682,9 @@ function getExtCode(postcode,dsId,timeId,xc,yc,layer,levelType){
    	  var codefield = response.fields[1].name;
 	  var namefield = codefield.substring(0, codefield.length - 2) + "NM";
    	  var ecode = response.features[0].attributes[codefield];
-   	  var ename = response.features[0].attributes[namefield];   
-   	 dataTable(ecode, levelType, dsId , timeId, postcode);	
+   	  var ename = response.features[0].attributes[namefield];     	  
+   	 
+   	 dataTable(ecode, levelType, dsId , timeId, postcode, xc,yc);	
   })   
 }
 
