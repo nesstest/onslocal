@@ -27,6 +27,9 @@ getAvailableAreaLevelTypes(dataResource, extCode,timePeriod,geographicLevelType,
             var matchingCount = (data.variables.length); 
             if(matchingCount >50){
                 matchingCount = 50;
+               
+           	 	$('#count-limit-message').append('Table has been limited to 50 data rows.');	
+
             }    
             var tabledata = [];                 	
             for(var i=0;i<matchingCount;i++){     
