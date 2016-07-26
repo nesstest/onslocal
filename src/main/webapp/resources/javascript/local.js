@@ -522,6 +522,10 @@ function getDownload(dsId){
 	
 	 var url = "";
 	 var dsId;	
+
+	 $('#downloadOptions').append('<a class="margin-top-lg--2 margin-left-lg--8 btn btn--primary btn--small btn--thin" style="color:white;text-decoration:none;" href="' + window.location.href + '&data=json">View JSON</a>');	
+	 $('#downloadOptions').append('<a class="margin-top-lg--2 margin-left-lg--1 btn btn--primary btn--small btn--thin" style="color:white;text-decoration:none;" href="http://data.statistics.gov.uk/ons/datasets/csv/CSV_UKBD01_2013WARDH_5_EN.zip">Download as CSV</a>');
+
 	 
 	 $.ajax({
 		type	: "GET",
@@ -531,12 +535,12 @@ function getDownload(dsId){
 		success : function(data)
 		{
 		  if(data != ""){				 
-			$('#downloadXLS').append('<a style="color:white;text-decoration:none;" href="' + data.presentations[0].download_url + '"> Download as XLS</a>');	
+			$('#downloadOptions').append('<a class="margin-top-lg--2 margin-left-lg--1 btn btn--primary btn--small btn--thin" style="color:white;text-decoration:none;" href="' + data.presentations[0].download_url + '"> Download as XLS</a>');	
+			$('#downloadXLS').append('<a class="btn btn--primary btn--small btn--thin" style="color:white;text-decoration:none;" href="' + data.presentations[0].download_url + '"> Download as XLS</a>');	
 		  }				
 	    }	
-    }); 
+   }); 
 	 
-	 $('#viewJSON').append('<a style="color:white;text-decoration:none;" href="' + window.location.href + '&data=json">View JSON</a>');	
 
 }
 

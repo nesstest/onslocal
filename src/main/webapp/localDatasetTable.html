@@ -144,18 +144,11 @@ $( document ).ready(function() {
 			</form>		     
 	        <!-- Small thin buttons -->
 			<div class="btn-group">
-			    <button class="margin-top-lg--2 margin-left-lg--1 btn btn--primary btn--small btn--thin">
-			        Table
-			    </button>				
-			    <button class="margin-top-lg--2 margin-left-lg--1 margin-right-lg--1 btn btn--primary-disabled btn--small btn--thin" disabled>
-			        Map
-			    </button>	
-			    <button id="viewJSON" class="margin-top-lg--2 margin-left-lg--8 btn btn--primary btn--small btn--thin"></button>
-			    <button class="margin-top-lg--2 margin-left-lg--1 btn btn--primary btn--small btn--thin"><a style="color:white;text-decoration:none;" href="http://data.statistics.gov.uk/ons/datasets/csv/CSV_UKBD01_2013WARDH_5_EN.zip">
-			        Download as CSV</a>
-			    </button>				
-			    <button id="downloadXLS" class="margin-top-lg--2 margin-left-lg--1  btn btn--primary btn--small btn--thin">
-			    </button>
+				<div id="viewOptions">
+				    <button class="margin-top-lg--2 margin-left-lg--1 btn btn--primary btn--small btn--thin">Table</button>				
+				    <button class="margin-top-lg--2 margin-left-lg--1 margin-right-lg--1 btn btn--primary-disabled btn--small btn--thin" disabled>Map</button>
+			    </div>
+			    <div id="downloadOptions"></div>
 			    <button id="reset" class="margin-top-lg--2 margin-left-lg--1  btn btn--primary btn--small btn--thin">
 			        Reset the table
 			    </button>
