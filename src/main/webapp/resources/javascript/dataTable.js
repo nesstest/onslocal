@@ -57,11 +57,11 @@ function table(tabledata, postcode){
 	var column;
 	if(postcode == null || postcode.length == 0 || typeof postcode === 'undefined'){
 		 column = ({title:areaname, field:"value", sorter:"number", align:"left", width:"auto"});
-  	 $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + areaname + ' [<a style="cursor:pointer;" >Remove</a>]</p>'); 		 
+  	 $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + areaname + '</p>'); 		 
 	}
 	else{		
 		 column = ({title:postcode + "  " + "(" + areaname + ")", field:"value", sorter:"number", align:"left", width:"auto"});
-	  $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + '<br/>' +  "(" + areaname + ")" + '<br/> [<a style="cursor:pointer;" >Remove</a>]</p>');	 
+	  $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + '<br/>' +  "(" + areaname + ")" + '</p>');	 
 	}
 	
 	$(".tabulator-col[data-index='1']").text(postcode + "  " + "(" + areaname + ")");
@@ -91,9 +91,9 @@ function table(tabledata, postcode){
     $("#datatable").tabulator("setData", tabledata);
   }); 
   
-  $("#selectedArea").click(function(){	  
-	  $("#datatable").tabulator("toggleCol","value") ////toggle the visibility of the "value" column	  
-  });
+  //$("#selectedArea").click(function(){	  
+//	  $("#datatable").tabulator("toggleCol","value") ////toggle the visibility of the "value" column	  
+ // });
 
 }
 
@@ -114,13 +114,20 @@ function getAvailableAreaLevelTypes(dataResource, extCode,timePeriod,geographicL
 	         var areadesc = [];	
 	         var layers = [];
 	         for(var i=0;i<matchingCount;i++){     
-	           obj           = data.geographic_level_types[i];    
-	           arealist      = obj.geographic_level_type;
-	           areaDescList  = obj.metadata;
+	           obj           = data.geographic_level_types[i]; 	          
+	           arealist      = obj.geographic_level_type; 
+	           areaDescList  = obj.metadata;	           
 	           layersList    = obj.layers;
-	           layers.push(layersList); 
-	           areadesc.push(areaDescList);	           
-	           areas.push(arealist);	      
+	           layers.push(layersList);	
+	           areadesc.push(areaDescList);
+	           // Check for Welsh area remove 'Region'
+	           if(extCode.charAt(0) == "W"){	        	  
+	        	   if (areadesc[i] === "Region") {
+	                   // Remove array item at current index	        		 
+	        		   areadesc.splice(i, 1);	
+	        	   }
+	           }	                   
+	           areas.push(arealist);	
              } 	
 	         
             var areaCount = areadesc.length;                   
