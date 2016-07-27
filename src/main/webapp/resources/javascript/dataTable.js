@@ -47,24 +47,24 @@ getAvailableAreaLevelTypes(dataResource, extCode,timePeriod,geographicLevelType,
               tabledata.push({value:value,areaname:areaname,variable_name:variable_name});  
               
             }  
-            table(tabledata,postcode);
+            table(tabledata,postcode, geographicLevelType);
         }
       }
    });
  }
 }
 
-function table(tabledata, postcode){	
+function table(tabledata, postcode, geographicLevelType){	
 		
 	//placename search
 	var column;
 	if(postcode == null || postcode.length == 0 || typeof postcode === 'undefined'){
 		 column = ({title:areaname, field:"value", sorter:"number", align:"left", width:"auto"});
-  	 $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + areaname + '</p>'); 		 
+ 	 $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + areaname + " " +  "(" + geographicLevelType + ")" + '</p>'); 		 
 	}
 	else{		
 		 column = ({title:postcode + "  " + "(" + areaname + ")", field:"value", sorter:"number", align:"left", width:"auto"});
-	  $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + '<br/>' +  "(" + areaname + ")" + '</p>');	 
+	  $('#selectedArea').append('<p><strong>Selected area</strong><br/>' + postcode + "  " + '<br/>' +  areaname + " " + "(" + geographicLevelType +  ")" + '</p>');	 
 	}
 	
 	$(".tabulator-col[data-index='1']").text(postcode + "  " + "(" + areaname + ")");
