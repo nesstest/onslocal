@@ -20,8 +20,19 @@ getAvailableAreaLevelTypes(dataResource, extCode,timePeriod,geographicLevelType,
     data    : {"url" : url},
     success : function(data){ 
         if(data.error){
-             //redErrorbox();
-        	alert("No Data for area Level");
+             //redErrorbox();        	
+        	 $( function() {
+        	    $( "#dialog-message" ).dialog({
+        	      modal: true, 
+        	      buttons: {
+        	        Ok: function() {
+        	         $( this ).dialog( "close" );
+        	        }
+        	      }
+        	    });
+        	    $("#dialog-message").append('<p>No data available for your chosen area, use your browser back button to choose another area.</p>');
+        	  });        	  
+        	//alert("No Data for area Level");
         }
         else{        
             var matchingCount = (data.variables.length); 
