@@ -94,9 +94,9 @@ function OA_areaDetails(postcode){
    
    $(document).ready(function(){	   
 
-	   details = OA + "|" + "WD11CD" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
+	   details = OA + "|" + "WD11CD" + "|" + "oa" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
 	        	 WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + "|" + health + "|" + 
-	   			 parliCon_extcode + "|" + health_extcode + "|"  + childarealist + "|" + "" + "|" + "OA11CD" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + childname;	    
+	   			 parliCon_extcode + "|" + health_extcode + "|"  + childarealist + "|" + "" + "|" + "OA11CD" + "|" + "oa" + "|" + childname;	    
 	   
 	   $("#Tabs").toggle(); 
 	   
@@ -196,10 +196,10 @@ function WD_areaDetails(search){
 					    		    childname        = ""; 
 					    		    markerEnvelope   = "000000" + ":" + "000000";
 				    		   					    		   					    		    
-					    		    details = WD + "|" + "WD11NM" + "|" + "WD/WD_DEC_2011_EW_BGC" + "|" + markerEnvelope + "|" + "WD" + "|" + "WD11CD" + "|" +
+					    		    details = WD + "|" + "WD11NM" + "|" + "wards" + "|" + markerEnvelope + "|" + "WD" + "|" + "WD11CD" + "|" +
 						            WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + "|" + health + "|" + 
 						            parliCon_extcode + "|" + health_extcode + "|"  + 
-						            childarealist + "|" + "" + "|" + "OA11CD" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + childname;	
+						            childarealist + "|" + "" + "|" + "OA11CD" + "|" + "oa" + "|" + childname;	
 					    		    
 					    		    $("#Tabs").toggle(); //display tabs for data content	    
 									
@@ -263,10 +263,10 @@ function WD_areaDetails(search){
 						   parliCon_extcode	= $.getUrlVar('pc');
 						   health_extcode 	= "";$.getUrlVar('hc');
 						   
-						   details = WD + "|" + "WD11NM" + "|" + "WD/WD_DEC_2011_EW_BGC" + "|" + markerEnvelope + "|" + "WD" + "|" + "WD11CD" + "|" +
+						   details = WD + "|" + "WD11NM" + "|" + "wards" + "|" + markerEnvelope + "|" + "WD" + "|" + "WD11CD" + "|" +
 				           WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + "|" + health + "|" + 
 				           parliCon_extcode + "|" + health_extcode + "|"  + 
-				           childarealist + "|" + "" + "|" + "OA11CD" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + childname;	 
+				           childarealist + "|" + "" + "|" + "OA11CD" + "|" + "oa" + "|" + childname;	 
 						   
 						   $("#Tabs").toggle(); //display tabs for data content	    
 							
@@ -382,10 +382,10 @@ function LA_areaDetails(search){
 	  		      childname        = ""; 
 	  		      markerEnvelope   = "000000" + ":" + "000000";
 		    
-	              details = LA + "|" + "LAD11NM" + "|" + "LAD/LAD_DEC_2011_GB_BGC" + "|" + markerEnvelope + "|" + "LAD" + "|" + "LAD11CD" + "|" +
+	              details = LA + "|" + "LAD11NM" + "|" + "lads" + "|" + markerEnvelope + "|" + "LAD" + "|" + "LAD11CD" + "|" +
 	    	          "" + "|" + LA + "|" + GOR + "|" + CTRY + "|" + ""  + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + "|" + 
 		              health + "|" + parliCon_extcode + "|" + health_extcode  + "|" +
-		              childarealist + "|" + "WD11NM" + "|" + "WD11CD" + "|" + "WD/WD_DEC_2011_EW_BGC" + "|" + childname;
+		              childarealist + "|" + "WD11NM" + "|" + "WD11CD" + "|" + "wards" + "|" + childname;
 	    	
 	    	     $("#Tabs").toggle(); //display tabs for data content    	
 			
@@ -438,10 +438,10 @@ function LA_areaDetails(search){
     	   parliCon_extcode	= $.getUrlVar('pc');
     	   health_extcode 	= "";//$.getUrlVar('hc');
 		   
-		   details = LA + "|" + "LAD11NM" + "|" + "LAD/LAD_DEC_2011_GB_BGC" + "|" + markerEnvelope + "|" + "LAD" + "|" + "LAD11CD" + "|" +
+		   details = LA + "|" + "LAD11NM" + "|" + "lads" + "|" + markerEnvelope + "|" + "LAD" + "|" + "LAD11CD" + "|" +
 	          "" + "|" + LA + "|" + GOR + "|" + CTRY + "|" + ""  + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + "|" + 
               health + "|" + parliCon_extcode + "|" + health_extcode  + "|" +
-              childarealist + "|" + "WD11NM" + "|" + "WD11CD" + "|" + "WD/WD_DEC_2011_EW_BGC" + "|" + childname;
+              childarealist + "|" + "WD11NM" + "|" + "WD11CD" + "|" + "wards" + "|" + childname;
 		   
 		   $("#Tabs").toggle(); //display tabs for data content	    
 			
@@ -559,10 +559,10 @@ function GOR_areaDetails(search){
 			    		    childname        = ""; 
 			    		    markerEnvelope   = "000000" + ":" + "000000";		    		     
 			    		   					    		    
-			    		    details = GOR + "|" + "GOR10NM" + "|" + "GOR/GOR_DEC_2010_EN_BGC" + "|" + markerEnvelope + "|" + "GOR" + "|" + "GOR10CD" + "|" +
+			    		    details = GOR + "|" + "GOR10NM" + "|" + "regions" + "|" + markerEnvelope + "|" + "GOR" + "|" + "GOR10CD" + "|" +
 			                          "" + "|" + "" + "|" + GOR + "|" + CTRY + "|" + ""  + "|" + "" + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + 
 			                          "|" + health + "|" + parliCon_extcode + "|" + health_extcode + "|" +
-			                          childarealist + "|" + "LAD11NM" + "|" + "LAD11CD" + "|" + "LAD/LAD_DEC_2011_GB_BGC" + "|" + childname;	
+			                          childarealist + "|" + "LAD11NM" + "|" + "LAD11CD" + "|" + "lads" + "|" + childname;	
 			    		    
 			    		    $("#Tabs").toggle(); //display tabs for data content	    
 							
@@ -627,10 +627,10 @@ function GOR_areaDetails(search){
 		    parliCon_extcode = $.getUrlVar('pc');
 		    health_extcode 	 = "";//$.getUrlVar('hc');
 		   
-		    details = GOR + "|" + "GOR10NM" + "|" + "GOR/GOR_DEC_2010_EN_BGC" + "|" + markerEnvelope + "|" + "GOR" + "|" + "GOR10CD" + "|" +
+		    details = GOR + "|" + "GOR10NM" + "|" + "regions" + "|" + markerEnvelope + "|" + "GOR" + "|" + "GOR10CD" + "|" +
               "" + "|" + "" + "|" + GOR + "|" + CTRY + "|" + ""  + "|" + "" + "|" + GOR_extcode + "|" + CTRY_extcode + "|" + parliCon + 
               "|" + health + "|" + parliCon_extcode + "|" + health_extcode + "|" +
-              childarealist + "|" + "LAD11NM" + "|" + "LAD11CD" + "|" + "LAD/LAD_DEC_2011_GB_BGC" + "|" + childname;	
+              childarealist + "|" + "LAD11NM" + "|" + "LAD11CD" + "|" + "lads" + "|" + childname;	
 		   
 		    $("#Tabs").toggle(); //display tabs for data content	    
 			
@@ -737,16 +737,16 @@ function CTRY_areaDetails(search,postcode){
 	       // get the children and parent details for the selected area(extcode)
 		   childarealist = res1.children;	
 		   
-		   details = CTRY + "|" + "CTRY11NM" + "|" + "CTRY/CTRY_DEC_2011_GB_BGC" + "|" + markerEnvelope + "|" + "CTRY" + "|" + "CTRY11CD" + "|" +
+		   details = CTRY + "|" + "CTRY11NM" + "|" + "Country" + "|" + markerEnvelope + "|" + "CTRY" + "|" + "CTRY11CD" + "|" +
                      "" + "|" + "" + "|" + "" + "|" + CTRY + "|" + ""  + "|" + "" + "|" + ""  + "|" + CTRY_extcode + "|" +
                      parliCon + "|" + health + "|"  + parliCon_extcode + "|" + health_extcode + "|" +
                      childarealist;
 				
 		   if(CTRY === "Wales"){			   
-			 details = details +  "|" + "LAD11NM" + "|" + "LAD11CD" + "|" + "LAD/LAD_DEC_2011_GB_BGC" + "|" + childname; 
+			 details = details +  "|" + "LAD11NM" + "|" + "LAD11CD" + "|" + "lads" + "|" + childname; 
 		  }
 		  else{
-			 details = details +  "|" + "GOR10NM" + "|" + "GOR10CD" + "|" + "GOR/GOR_DEC_2010_EN_BGC" + "|" + childname;
+			 details = details +  "|" + "GOR10NM" + "|" + "GOR10CD" + "|" + "regions" + "|" + childname;
 		  }	    	
 		
 		  $("#Tabs").toggle(); //display tabs for data content
@@ -838,12 +838,12 @@ function  OA_pcode_details(postcode) {
 	        			
 									      										
 					    if(CTRY === "Wales"){
-						   details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
+						   details = OA + "|" + "" + "|" + "oa" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
 						 		     WD + "|" + LA + "|" + GOR + "|" + CTRY  + "|" + WD_extcode + "|" + LA_extcode + "|" +  ""  + "|" + CTRY_extcode + "|" +
 						 		     parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	
 					    }
 					    else{
-						  details = OA + "|" + "" + "|" + "OA/OA_2011_EW_BGC_V2" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
+						  details = OA + "|" + "" + "|" + "oa" + "|" + markerEnvelope + "|" + "OA" + "|" + "OA11CD" + "|" +
 								    WD + "|" + LA + "|" + GOR + "|" + CTRY + "|" + WD_extcode + "|" + LA_extcode + "|" + GOR_extcode + "|" + CTRY_extcode + "|" +
 								    parliCon + "|" + health + "|" + parliCon_extcode + "|" + health_extcode;	 	              
 					    }

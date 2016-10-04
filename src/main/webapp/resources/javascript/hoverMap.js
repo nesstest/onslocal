@@ -169,7 +169,8 @@ function hoverMap(details, postcode, envelope){
 		}	
 
 		var labelField = areacode; 
-		var featureLayer = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/FeatureServer/0", { 							
+		
+		var featureLayer = new FeatureLayer("http://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/"+arealayername+"/FeatureServer/0", { 							
 			mode: FeatureLayer.SNAPSHOT, 
 			outFields: [labelField]
 		});
@@ -177,14 +178,14 @@ function hoverMap(details, postcode, envelope){
 
 		if (childlevelname === "OA") {
 			// OA child details
-			featureChildLayer1 = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+childlayername+"/FeatureServer/0", { 				
+			featureChildLayer1 = new FeatureLayer("http://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/"+childlayername+"/FeatureServer/0", { 				
 				mode: FeatureLayer.SNAPSHOT, 
 				outFields: [childcode]					
 			});						
 		}
 		else {
 			// all  other levels of  child details
-			featureChildLayer1 = new FeatureLayer("https://mapping.statistics.gov.uk/arcgis/rest/services/"+childlayername+"/FeatureServer/0", { 				
+			featureChildLayer1 = new FeatureLayer("http://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/"+childlayername+"/FeatureServer/0", { 				
 				mode: FeatureLayer.SNAPSHOT, 
 				outFields: [childcode, childareaname]					
 			});		

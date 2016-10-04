@@ -158,9 +158,12 @@ function highlightMap(details, postcode, envelope){
 
 		var selSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
 				new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-						new Color([0,0,0]),2),new Color([229,78,22, 0.45]));		   
+						new Color([0,0,0]),2),new Color([229,78,22, 0.45]));
+		
+		 
 
-		var dynamicLayer = "https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/featureServer/0";
+		//var dynamicLayer = "https://mapping.statistics.gov.uk/arcgis/rest/services/"+arealayername+"/featureServer/0";
+		var dynamicLayer = "http://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/services/"+arealayername+"/FeatureServer/0";		 
         var featureLayer;
              
 		if (levelname === "OA") {
@@ -461,7 +464,7 @@ function highlightMap(details, postcode, envelope){
 					regionText + 
 					'<br> - Country (<a style="color: light blue;" href="index.html?nav-search='+ postcode + '&amp;levelname=CTRY' + urlParams1 + '">'+  ctryName + '</a>)</div>' + 
 					'</div>' +
-			'</article></div>');		     		 
+			'</article></div>');				
 		}	       
 
 		// set orange info box OA details for an OA area
